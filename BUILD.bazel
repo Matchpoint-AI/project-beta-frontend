@@ -1,0 +1,248 @@
+load("@aspect_bazel_lib//lib:copy_to_directory.bzl", "copy_to_directory")
+load("@aspect_rules_js//js:defs.bzl", "js_library", "js_run_binary", "js_run_devserver")
+load("@aspect_rules_ts//ts:defs.bzl", "ts_config")
+load("@npm//:defs.bzl", "npm_link_all_packages")
+load("@npm//frontend:tsconfig-to-swcconfig/package_json.bzl", tsconfig_to_swcconfig = "bin")
+load("@npm//frontend:vite/package_json.bzl", vite_bin = "bin")
+load("@rules_oci//oci:defs.bzl", "oci_image", "oci_push")
+load("@rules_pkg//:pkg.bzl", "pkg_tar")
+
+# gazelle:js_collect_all
+
+# gazelle:js_package_file package.json :node_modules
+# gazelle:js_root
+
+RUNTIME_DEPS = [
+    "index.html",
+    "package.json",
+    "postcss.config.js",
+    "tailwind.config.js",
+    ":node_modules/@emotion/react",
+    ":node_modules/@emotion/styled",
+    ":node_modules/autoprefixer",
+    ":node_modules/css-loader",
+    ":node_modules/flowbite-react",
+    ":node_modules/framer-motion",
+    ":node_modules/next",
+    ":node_modules/postcss",
+    ":node_modules/postcss-import",
+    ":node_modules/postcss-loader",
+    ":node_modules/rc-steps",
+    ":node_modules/react",
+    ":node_modules/react-colorful",
+    ":node_modules/react-datepicker",
+    ":node_modules/react-dom",
+    ":node_modules/react-hook-form",
+    ":node_modules/react-icons",
+    ":node_modules/react-player",
+    ":node_modules/react-router-dom",
+    ":node_modules/react-tailwindcss-datepicker",
+    ":node_modules/tailwindcss",
+    ":node_modules/vite",
+    ":node_modules/vite-plugin-svgr",
+    ":node_modules/web-vitals",
+    ":node_modules/dayjs",
+    ":node_modules/universal-cookie",
+    ":node_modules/@mui/x-date-pickers",
+    ":node_modules/@mui/icons-material",
+    ":node_modules/@mui/joy",
+    ":node_modules/mui-chips-input",
+    ":node_modules/@mui/material",
+    ":node_modules/color-convert",
+    ":node_modules/react-big-calendar",
+    ":node_modules/jszip",
+    ":node_modules/file-saver",
+    ":node_modules/moment",
+    ":node_modules/pdfjs-dist",
+    ":node_modules/vite-plugin-posthog",
+    ":node_modules/is-url",
+    ":node_modules/jspdf",
+    ":node_modules/docx",
+    ":node_modules/emoji-regex",
+    ":node_modules/axios",
+    ":node_modules/moment-timezone",
+    ":node_modules/posthog-js",
+    ":node_modules/react-error-boundary",
+    ":node_modules/react-json-view",
+    ":node_modules/protobufjs",
+    ":node_modules/@bazel/runfiles",
+    "//frontend/src:assets",
+    "//frontend/src",  # Source files for Vite (without ts_project)
+    "//frontend/public",
+    ":node_modules/firebase",
+]
+
+platform(
+    name = "linux_amd64",
+    constraint_values = [
+        "@platforms//os:linux",
+        "@platforms//cpu:x86_64",
+    ],
+)
+
+npm_link_all_packages(name = "node_modules")
+
+js_library(
+    name = "eslintrc",
+    srcs = [".eslintrc.cjs"],
+    visibility = ["//:__subpackages__"],
+    deps = [
+        ":node_modules/@typescript-eslint/eslint-plugin",
+        ":node_modules/@typescript-eslint/parser",
+        ":node_modules/eslint-config-react-app",
+        ":node_modules/eslint-plugin-react",
+    ],
+)
+
+ts_config(
+    name = "tsconfig",
+    src = "tsconfig.json",
+    visibility = ["//visibility:public"],
+)
+
+# exports_files([".swcrc"])
+tsconfig_to_swcconfig.t2s(
+    name = "swcrc",
+    srcs = ["tsconfig.json"],
+    args = [
+        "--filename",
+        "$(location tsconfig.json)",
+    ],
+    stdout = ".swcrc",
+    visibility = ["//frontend:__subpackages__"],
+)
+
+js_library(
+    name = "package_json",
+    srcs = ["package.json"],
+    visibility = ["//visibility:public"],
+    deps = [":node_modules/eslint-config-react-app"],
+)
+
+js_library(
+    name = "vite.config",
+    srcs = ["vite.config.js"],
+    data = [
+        ":node_modules/@vitejs/plugin-react",
+        ":node_modules/vite-plugin-svgr",
+        "//:node_modules/vitest",
+    ],
+    visibility = ["//frontend:__subpackages__"],
+)
+
+js_library(
+    name = "vite_config_test_js",
+    srcs = ["vite.config.test.js"],
+    visibility = ["//frontend/src:__pkg__"],
+)
+
+js_library(
+    name = "vitest_config_js",
+    srcs = ["vitest.config.js"],
+    visibility = ["//frontend/src:__pkg__"],
+)
+
+vite_bin.vite_binary(
+    name = "vite",
+    chdir = package_name(),
+    data = ["vite.config"],
+)
+
+# Fast developer round-trip under ibazel
+js_run_devserver(
+    name = "start",
+    args = [
+        ".",
+        "--port",
+        "8080",
+    ],
+    data = RUNTIME_DEPS,
+    tool = ":vite",
+)
+
+# Create production release artifacts
+js_run_binary(
+    name = "build",
+    srcs = RUNTIME_DEPS,
+    args = ["build"],
+    mnemonic = "ViteBuild",
+    out_dirs = ["dist"],
+    silent_on_success = False,
+    tool = ":vite",
+    use_default_shell_env = True,
+)
+
+vite_bin.vite_binary(
+    name = "preview",
+    args = [
+        "preview",
+        "--port",
+        "8080",
+    ],
+    chdir = package_name(),
+    data = [":build"],
+)
+
+# Custom rule to copy files
+copy_to_directory(
+    name = "prepare_nginx_html",
+    srcs = [":build"],
+    out = "html",
+    include_srcs_patterns = ["dist/**"],
+    replace_prefixes = {
+        "dist": "",
+    },
+)
+
+# Custom rule to copy nginx config
+copy_to_directory(
+    name = "prepare_nginx_conf",
+    srcs = [
+        "mime.types",
+        "nginx.conf",
+    ],
+    out = "conf",
+)
+
+# pkg_tar rule to create the tarball
+pkg_tar(
+    name = "static_tar",
+    srcs = [
+        ":prepare_nginx_conf",
+        ":prepare_nginx_html",
+    ],
+    package_dir = "/usr/share/nginx",
+)
+
+oci_image(
+    name = "frontend_image",
+    base = "@nginx_debian_unpriviledged",
+    cmd = [
+        "nginx",
+        "-c",
+        "/usr/share/nginx/conf/nginx.conf",
+        "-g",
+        "daemon off;",
+    ],
+    tars = [
+        ":static_tar",
+    ],
+)
+
+oci_push(
+    name = "push_frontend_image",
+    image = ":frontend_image",
+    remote_tags = ["latest"],
+    repository = "gcr.io/project-beta-407300/frontend",
+)
+
+# gazelle:exclude .next
+# gazelle:exclude **/node_modules
+# gazelle:exclude .eslintrc.json
+# gazelle:exclude tsconfig.json
+
+# gazelle:js_package_file package.json :node_modules
+# gazelle:js_collect_barrels
+# gazelle:js_web_asset .json,.css,.scss,.svg,.ico,.html
+# gazelle:js_collect_all_assets
+# gazelle:js_root

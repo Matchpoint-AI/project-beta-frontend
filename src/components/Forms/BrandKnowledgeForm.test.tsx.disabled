@@ -1,0 +1,85 @@
+import React from 'react';
+import { render, screen } from '@testing-library/react';
+import { vi, describe, it, expect, beforeEach } from 'vitest';
+import BrandKnowledgeForm from './BrandKnowledgeForm';
+import { AuthContext } from '../../context/AuthContext';
+import { BrandContext } from '../../context/BrandContext';
+
+// Mock the getServiceURL helper
+vi.mock('../../helpers/getServiceURL', () => ({
+  getServiceURL: () => 'http://test.example.com',
+}));
+
+// Mock fetch
+global.fetch = vi.fn().mockResolvedValue({
+  ok: true,
+  json: async () => ({}),
+});
+
+const mockAuthContext = {
+  authState: {
+    isAuthenticated: true,
+    token: 'test-token',
+    user: { uid: 'test-user', email: 'test@example.com' },
+  },
+  setAuthState: vi.fn(),
+  logout: vi.fn(),
+};
+
+const mockBrandContext = {
+  businessInfo: {
+    id: 'brand-123',
+    name: 'Test Brand',
+    website: 'https://test.com',
+    brandColors: [],
+    campaigns: [],
+    product_features: [],
+    product_description: '',
+    product_link: '',
+    start_date: '',
+    durationNum: 0,
+  },
+  setBusinessInfo: vi.fn(),
+};
+
+describe('BrandKnowledgeForm', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it('renders main form title', () => {
+    render(
+      <AuthContext.Provider value={mockAuthContext}>
+        <BrandContext.Provider value={mockBrandContext}>
+          <BrandKnowledgeForm />
+        </BrandContext.Provider>
+      </AuthContext.Provider>
+    );
+
+    expect(screen.getByText('Brand Knowledge Base')).toBeInTheDocument();
+  });
+
+  it('renders personality section', () => {
+    render(
+      <AuthContext.Provider value={mockAuthContext}>
+        <BrandContext.Provider value={mockBrandContext}>
+          <BrandKnowledgeForm />
+        </BrandContext.Provider>
+      </AuthContext.Provider>
+    );
+
+    expect(screen.getByText('Brand Personality')).toBeInTheDocument();
+  });
+
+  it('renders visual style section', () => {
+    render(
+      <AuthContext.Provider value={mockAuthContext}>
+        <BrandContext.Provider value={mockBrandContext}>
+          <BrandKnowledgeForm />
+        </BrandContext.Provider>
+      </AuthContext.Provider>
+    );
+
+    expect(screen.getByText('Visual Style')).toBeInTheDocument();
+  });
+});

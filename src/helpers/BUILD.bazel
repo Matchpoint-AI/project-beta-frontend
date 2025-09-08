@@ -1,0 +1,15 @@
+load("@aspect_rules_js//js:defs.bzl", "js_library")
+
+js_library(
+    name = "helper_files",
+    srcs = glob(
+        [
+            "*.tsx",
+            "*.ts",
+        ],
+        allow_empty = True,
+    ),
+    visibility = ["//frontend:__subpackages__"],
+)
+
+# Test files are included in the main test target via glob patterns

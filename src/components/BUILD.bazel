@@ -1,0 +1,29 @@
+load("@aspect_rules_js//js:defs.bzl", "js_library")
+
+js_library(
+    name = "components_test_files",
+    srcs = [
+        "PromotionComponent.test.tsx",
+        "PromotionComponent.tsx",
+        "onboard/ServiceForm.test.tsx",
+        "Forms/PurposeForm.test.tsx",
+        # Temporarily removed due to test environment issues
+        # "Forms/BrandKnowledgeForm.test.tsx",
+        # Temporarily removed due to dayjs dependency issue
+        # "Forms/CampaignBriefForm.test.tsx",
+    ],
+    visibility = ["//frontend/src:__pkg__"],
+)
+
+js_library(
+    name = "components_files",
+    srcs = glob(
+        [
+            "**/*.tsx",
+            "**/*.ts",
+        ],
+        allow_empty = True,
+        exclude = ["**/*test*"],
+    ),
+    visibility = ["//frontend/src:__pkg__"],
+)

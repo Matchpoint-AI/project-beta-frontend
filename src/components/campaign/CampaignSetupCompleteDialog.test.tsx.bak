@@ -1,0 +1,434 @@
+import React from 'react';
+import { render, screen, waitFor } from '@testing-library/react';
+import { vi, describe, it, expect, beforeEach } from 'vitest';
+import CampaignSetupCompleteDialog from './CampaignSetupCompleteDialog';
+import { BrandContext } from '../../context/BrandContext';
+import { CampaignContext } from '../../context/CampaignContext';
+import { useAuth } from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
+
+// Mock dependencies
+vi.mock('../../context/AuthContext');
+vi.mock('react-router-dom');
+vi.mock('../../helpers/getServiceURL', () => ({
+  getServiceURL: (service: string) => `https://mock-${service}-service.com`,
+}));
+vi.mock('../../helpers/handleNavigate', () => ({
+  default: vi.fn(),
+}));
+
+// Mock posthog
+global.posthog = {
+  __loaded: true,
+  capture: vi.fn(),
+};
+
+const mockNavigate = vi.fn();
+const mockSetCurrentStep = vi.fn();
+
+describe('CampaignSetupCompleteDialog', () => {
+  const mockProfile = {
+    id: 'test-user-id',
+    token: 'test-token',
+  };
+
+  const mockBusinessInfo = {
+    name: 'Test Business',
+    industry: 'Technology',
+    vertical: 'SaaS',
+    locations: ['Office', 'Remote'],
+  };
+
+  const mockCampaignInfo = {
+    name: 'Test Campaign',
+    campaign_id: 'test-campaign-id',
+    product: 'Test Product',
+    audienceRace: ['All'],
+    audienceInterests: ['Technology'],
+    productDescription: 'A great product',
+    purpose: 'Make customers aware/excited',
+    audienceEmotion: ['Happy', 'Excited'],
+    product_features: ['Feature 1', 'Feature 2'],
+    purposeAbout: 'About the purpose',
+    audienceGender: ['All'],
+    audienceAgeRange: ['25-34'],
+    startDate: '01/01/24',
+    duration: '4 weeks',
+    postingFrequency: 'Daily',
+    deliveryDay: 'Monday',
+    durationNum: 4,
+    frequency: 3,
+    summary: 'Campaign summary',
+    campaign_type: 'awareness',
+  };
+
+  const renderWithProviders = (campaignInfo = mockCampaignInfo, businessInfo = mockBusinessInfo) => {
+    (useAuth as any).mockReturnValue({ profile: mockProfile });
+    (useNavigate as any).mockReturnValue(mockNavigate);
+
+    return render(
+      <BrandContext.Provider value={{ businessInfo, setBusinessInfo: vi.fn() }}>
+        <CampaignContext.Provider value={{ campaignInfo, setCampaignInfo: vi.fn() }}>
+          <CampaignSetupCompleteDialog 
+            setCurrentStep={mockSetCurrentStep} 
+            open={true} 
+          />
+        </CampaignContext.Provider>
+      </BrandContext.Provider>
+    );
+  };
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+    global.fetch = vi.fn();
+  });
+
+  describe('Default Values Handling', () => {
+    it('should use default values when campaign fields are undefined', async () => {
+      const minimalCampaignInfo = {
+        name: 'Minimal Campaign',
+      };
+
+      (global.fetch as any).mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ success: true }),
+      });
+
+      renderWithProviders(minimalCampaignInfo);
+
+      await waitFor(() => {
+        expect(global.fetch).toHaveBeenCalledWith(
+          expect.any(String),
+          expect.objectContaining({
+            body: expect.stringContaining('"product_features":[]'),
+          })
+        );
+      });
+
+      const fetchCall = (global.fetch as any).mock.calls[0];
+      const requestBody = JSON.parse(fetchCall[1].body);
+      const campaignData = requestBody.entity_data.campaign_data.campaign_variables;
+
+      // Verify all default values
+      expect(campaignData.name).toBe('Minimal Campaign');
+      expect(campaignData.product_service).toBe('');
+      expect(campaignData.audience_ethnicity).toEqual([]);
+      expect(campaignData.audience_interests).toEqual([]);
+      expect(campaignData.product_service_description).toBe('');
+      expect(campaignData.purpose_topic).toBe('Make customers aware/excited');
+      expect(campaignData.emotion).toEqual([]);
+      expect(campaignData.key_feature).toEqual([]);
+      expect(campaignData.purpose).toBe('');
+      expect(campaignData.audience_gender).toEqual([]);
+      expect(campaignData.audience_age).toEqual([]);
+      expect(campaignData.start_date).toBeDefined();
+      expect(campaignData.duration).toBe('2 weeks');
+      expect(campaignData.postingFrequency).toBe('Daily');
+      expect(campaignData.deliveryDay).toBe('Monday');
+      expect(campaignData.durationNum).toBe(2);
+      expect(campaignData.frequency).toBe(3);
+      expect(campaignData.summary).toBe('');
+    });
+
+    it('should handle completely empty campaign info', async () => {
+      (global.fetch as any).mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ success: true }),
+      });
+
+      renderWithProviders({});
+
+      await waitFor(() => {
+        expect(global.fetch).toHaveBeenCalled();
+      });
+
+      const fetchCall = (global.fetch as any).mock.calls[0];
+      const requestBody = JSON.parse(fetchCall[1].body);
+      const campaignData = requestBody.entity_data.campaign_data.campaign_variables;
+
+      expect(campaignData.name).toBe('Untitled Campaign');
+      expect(campaignData.key_feature).toEqual([]);
+    });
+  });
+
+  describe('Error Handling', () => {
+    it('should display error message when API call fails', async () => {
+      (global.fetch as any).mockResolvedValueOnce({
+        ok: false,
+        json: async () => ({ detail: 'Invalid campaign data' }),
+      });
+
+      renderWithProviders();
+
+      await waitFor(() => {
+        expect(screen.getByRole('alert')).toBeInTheDocument();
+        expect(screen.getByText('Invalid campaign data')).toBeInTheDocument();
+      });
+    });
+
+    it('should display generic error when API returns non-JSON error', async () => {
+      (global.fetch as any).mockResolvedValueOnce({
+        ok: false,
+        json: async () => {
+          throw new Error('Not JSON');
+        },
+      });
+
+      renderWithProviders();
+
+      await waitFor(() => {
+        expect(screen.getByRole('alert')).toBeInTheDocument();
+        expect(screen.getByText('Failed to create campaign')).toBeInTheDocument();
+      });
+    });
+
+    it('should handle network errors gracefully', async () => {
+      (global.fetch as any).mockRejectedValueOnce(new Error('Network error'));
+
+      renderWithProviders();
+
+      await waitFor(() => {
+        const alert = screen.getByRole('alert');
+        expect(alert).toBeInTheDocument();
+        expect(alert).toHaveTextContent('Failed to create campaign. Please check your campaign details and try again.');
+      });
+    });
+
+    it('should log error to console when request fails', async () => {
+      const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+      (global.fetch as any).mockRejectedValueOnce(new Error('Network error'));
+
+      renderWithProviders();
+
+      await waitFor(() => {
+        expect(consoleSpy).toHaveBeenCalledWith('Error posting data:', expect.any(Error));
+      });
+
+      consoleSpy.mockRestore();
+    });
+  });
+
+  describe('Success Flow', () => {
+    it('should call content generation API after successful campaign creation', async () => {
+      (global.fetch as any)
+        .mockResolvedValueOnce({
+          ok: true,
+          json: async () => ({ success: true }),
+        })
+        .mockResolvedValueOnce({
+          ok: true,
+          json: async () => ({ success: true }),
+        });
+
+      renderWithProviders();
+
+      // Wait for the initial campaign creation API call
+      await waitFor(() => {
+        expect(global.fetch).toHaveBeenCalledWith(
+          expect.stringContaining('/api/v1/'),
+          expect.any(Object)
+        );
+      });
+
+      // Wait for the content generation API call (happens after 5 second delay)
+      await waitFor(() => {
+        expect(global.fetch).toHaveBeenCalledTimes(2);
+        const contentGenCall = (global.fetch as any).mock.calls[1];
+        expect(contentGenCall[0]).toContain('/api/v1/contentgen/generate');
+        expect(contentGenCall[0]).toContain('campaign_id=test-campaign-id');
+      }, { timeout: 8000 });
+    });
+
+    it('should track campaign creation in posthog', async () => {
+      (global.fetch as any).mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ success: true }),
+      });
+
+      renderWithProviders();
+
+      await waitFor(() => {
+        expect(posthog.capture).toHaveBeenCalledWith('Campaign Created', {
+          distinct_id: 'test-user-id',
+          campaign_id: 'test-campaign-id',
+        });
+      });
+    });
+
+    it('should generate new campaign ID if not provided', async () => {
+      const campaignInfoWithoutId = { ...mockCampaignInfo };
+      delete campaignInfoWithoutId.campaign_id;
+
+      (global.fetch as any).mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ success: true }),
+      });
+
+      renderWithProviders(campaignInfoWithoutId);
+
+      await waitFor(() => {
+        expect(global.fetch).toHaveBeenCalled();
+      });
+
+      const fetchCall = (global.fetch as any).mock.calls[0];
+      const requestBody = JSON.parse(fetchCall[1].body);
+      
+      // Should have generated a UUID
+      expect(requestBody.entity_data.campaign_id).toBeDefined();
+      expect(requestBody.entity_data.campaign_id).toHaveLength(36); // UUID length
+    });
+  });
+
+  describe('Content Generation Retry Logic', () => {
+    it('should retry content generation up to 3 times on 404', async () => {
+      (global.fetch as any)
+        .mockResolvedValueOnce({
+          ok: true,
+          json: async () => ({ success: true }),
+        })
+        .mockResolvedValueOnce({ ok: false, status: 404 })
+        .mockResolvedValueOnce({ ok: false, status: 404 })
+        .mockResolvedValueOnce({ ok: true });
+
+      renderWithProviders();
+
+      await waitFor(() => {
+        expect(global.fetch).toHaveBeenCalledTimes(4); // 1 campaign creation + 3 content gen attempts
+      }, { timeout: 20000 });
+    });
+
+    it('should log retry attempts for content generation', async () => {
+      const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+      
+      (global.fetch as any)
+        .mockResolvedValueOnce({
+          ok: true,
+          json: async () => ({ success: true }),
+        })
+        .mockResolvedValueOnce({ ok: false, status: 404 })
+        .mockResolvedValueOnce({ ok: true });
+
+      renderWithProviders();
+
+      await waitFor(() => {
+        expect(consoleSpy).toHaveBeenCalledWith('Data posted successfully:', expect.any(Object));
+      });
+
+      await waitFor(() => {
+        expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining('Campaign not found, waiting...'));
+      }, { timeout: 8000 });
+
+      consoleSpy.mockRestore();
+    });
+  });
+
+  describe('UI Elements', () => {
+    it('should render success dialog with correct title', () => {
+      (global.fetch as any).mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ success: true }),
+      });
+
+      renderWithProviders();
+
+      expect(screen.getByText('Campaign Setup Complete!')).toBeInTheDocument();
+    });
+
+    it('should not show error alert when there is no error', () => {
+      (global.fetch as any).mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ success: true }),
+      });
+
+      renderWithProviders();
+
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+    });
+
+    it('should show error alert when error state is set', async () => {
+      (global.fetch as any).mockResolvedValueOnce({
+        ok: false,
+        json: async () => ({ detail: 'Test error message' }),
+      });
+
+      renderWithProviders();
+
+      await waitFor(() => {
+        const alert = screen.getByRole('alert');
+        expect(alert).toBeInTheDocument();
+        expect(alert).toHaveClass('bg-red-100', 'border-red-400', 'text-red-700');
+      });
+    });
+  });
+
+  describe('Date Formatting', () => {
+    it('should format date correctly for API payload', async () => {
+      const mockDate = new Date('2024-01-15T10:30:45');
+      vi.spyOn(global, 'Date').mockImplementation(() => mockDate as any);
+
+      (global.fetch as any).mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ success: true }),
+      });
+
+      renderWithProviders();
+
+      await waitFor(() => {
+        expect(global.fetch).toHaveBeenCalled();
+      });
+
+      const fetchCall = (global.fetch as any).mock.calls[0];
+      const requestBody = JSON.parse(fetchCall[1].body);
+      
+      expect(requestBody.entity_data.timestamp).toBe('01/15/2024, 10:30:45');
+    });
+  });
+
+  describe('Campaign Status', () => {
+    it('should set status to Inactive for future start dates', async () => {
+      const futureCampaignInfo = {
+        ...mockCampaignInfo,
+        startDate: '12/31/2099',
+      };
+
+      (global.fetch as any).mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ success: true }),
+      });
+
+      renderWithProviders(futureCampaignInfo);
+
+      await waitFor(() => {
+        expect(global.fetch).toHaveBeenCalled();
+      });
+
+      const fetchCall = (global.fetch as any).mock.calls[0];
+      const requestBody = JSON.parse(fetchCall[1].body);
+      
+      expect(requestBody.entity_data.status).toBe('Inactive');
+    });
+
+    it('should set status to Active for past start dates', async () => {
+      const pastCampaignInfo = {
+        ...mockCampaignInfo,
+        startDate: '01/01/2020',
+      };
+
+      (global.fetch as any).mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ success: true }),
+      });
+
+      renderWithProviders(pastCampaignInfo);
+
+      await waitFor(() => {
+        expect(global.fetch).toHaveBeenCalled();
+      });
+
+      const fetchCall = (global.fetch as any).mock.calls[0];
+      const requestBody = JSON.parse(fetchCall[1].body);
+      
+      expect(requestBody.entity_data.status).toBe('Active');
+    });
+  });
+});

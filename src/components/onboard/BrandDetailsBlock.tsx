@@ -1,0 +1,110 @@
+import React, { useState, useContext, useEffect } from 'react';
+import { BrandContext } from '../../context/BrandContext';
+import EditBlock from '../shared/EditBlock';
+import ChipComponent from '../ChipComponent';
+import { Chip } from '../../helpers/convertToChips';
+import BrandDetailsEditBlock from '../BrandDetailsEditBlock';
+import ReportProblemOutlinedIcon from '@mui/icons-material/ReportProblemOutlined';
+import { Selectable } from '../../context/BrandContext';
+import { useLocation, useNavigate } from 'react-router-dom';
+
+interface BrandDetailsBlockProps {
+  category: 'mission' | 'persona' | 'values' | 'toneAndVoice';
+}
+
+export default function BrandDetailsBlock({ category }: BrandDetailsBlockProps) {
+  const { businessInfo, setBusinessInfo } = useContext(BrandContext);
+  // const isMounted = useRef(false);
+  const [edit, setEdit] = useState(false);
+  const [error, setError] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const description = {
+    mission: 'The goal you want to achieve as a company',
+    values: 'The core beliefs that guide your interactions with customers',
+    persona: 'The characteristics that identify who you are and how you behave',
+    toneAndVoice: 'How your business speaks and verbally expresses its personality',
+  };
+
+  const handleChipClose = (chipIndex: number) => {
+    const newChips = Array.from((businessInfo[category] as Selectable[]) ?? []);
+    newChips.splice(chipIndex, 1);
+    setBusinessInfo({ ...businessInfo, [category]: newChips });
+    if (newChips.length === 0) setError(true);
+  };
+
+  const handleChipSelect = (chipIndex: number) => {
+    const newChips = Array.from((businessInfo[category] as Selectable[]) ?? []) as Chip[];
+    newChips[chipIndex].selected = !newChips[chipIndex].selected;
+    setBusinessInfo({ ...businessInfo, [category]: newChips });
+    const selectedTags = newChips.filter((c) => c.selected);
+    if (selectedTags.length === 0) setError(true);
+    else setError(false);
+  };
+
+  const chips =
+    Array.isArray(businessInfo[category]) && typeof businessInfo[category][0] === 'object'
+      ? (businessInfo[category] as Chip[])
+      : [];
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const isEdit = params.get('edit') === 'true';
+    const isTarget = location.hash === `#${category}`;
+
+    if (isEdit && isTarget) {
+      const target = document.getElementById(`${category}`);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
+      setEdit(true);
+
+      const newUrl = location.pathname;
+      navigate(newUrl, { replace: true });
+    }
+  }, [location, navigate]);
+
+  return (
+    <div
+      id={category}
+      style={{ backgroundColor: error ? '#FDE8E8' : '#F0F5FF' }}
+      className="p-[20px] rounded-lg mt-7"
+    >
+      <div className="flex items-center">
+        <h3 className="text-[#111928] font-semibold leading-6 capitalize">
+          {category === 'toneAndVoice' ? 'Tone of Voice' : category}
+        </h3>
+        {error && (
+          <span className="flex items-start gap-1 ml-3">
+            <ReportProblemOutlinedIcon sx={{ color: '#F05252', fontSize: '18px' }} />
+            <span className="text-sm text-[#F05252] font-medium">Select at least one tag</span>
+          </span>
+        )}
+        <EditBlock disabled={edit} onClick={() => setEdit(true)} className="ml-auto" />
+      </div>
+      <p className="text-[#111928] font-medium text-xs mb-5">{description[category]}</p>
+      {!edit && (
+        <div>
+          {chips.map((chip, index) => (
+            <ChipComponent
+              key={`${category}-${chip.id ?? index}`}
+              label={chip.label}
+              index={chip.id ?? index}
+              selected={chip.selected}
+              onClose={handleChipClose}
+              onSelect={handleChipSelect}
+            />
+          ))}
+        </div>
+      )}
+      {edit && (
+        <BrandDetailsEditBlock
+          initValues={chips}
+          category={category}
+          closeEdit={() => setEdit(false)}
+        />
+      )}
+    </div>
+  );
+}

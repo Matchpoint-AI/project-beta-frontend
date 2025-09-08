@@ -1,0 +1,22 @@
+load("@aspect_rules_js//js:defs.bzl", "js_library")
+
+js_library(
+    name = "dashboard_test_files",
+    srcs = [
+        "CampaignsList.test.tsx",
+        "CampaignsList.tsx",
+    ],
+    visibility = ["//frontend/src:__pkg__"],
+)
+
+js_library(
+    name = "dashboard_files",
+    srcs = glob(
+        [
+            "**/*.tsx",
+            "**/*.ts",
+        ],
+        allow_empty = True,
+    ),
+    visibility = ["//frontend/src:__pkg__"],
+)

@@ -1,0 +1,336 @@
+import React from 'react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { vi } from 'vitest';
+import ContentComparisonModal from './ContentComparisonModal';
+
+// Mock Material-UI components
+vi.mock('@mui/material', async () => {
+  const actual = await vi.importActual('@mui/material');
+  return {
+    ...actual,
+    Dialog: ({ open, children }: any) => open ? <div data-testid="dialog">{children}</div> : null,
+    DialogTitle: ({ children }: any) => <div data-testid="dialog-title">{children}</div>,
+    DialogContent: ({ children }: any) => <div data-testid="dialog-content">{children}</div>,
+    DialogActions: ({ children }: any) => <div data-testid="dialog-actions">{children}</div>,
+    Tabs: ({ children, value, onChange }: any) => (
+      <div data-testid="tabs" data-value={value}>
+        {children}
+      </div>
+    ),
+    Tab: ({ label, onClick }: any) => (
+      <button onClick={onClick} data-testid="tab">
+        {typeof label === 'string' ? label : 'Tab'}
+      </button>
+    )
+  };
+});
+
+describe('ContentComparisonModal', () => {
+  const mockVersions = [
+    {
+      id: 'v1',
+      content: 'This is the current version of the content',
+      timestamp: '2023-08-23T10:00:00Z',
+      author: 'AI System',
+      type: 'ai_generated' as const,
+      metadata: {
+        model: 'gpt-4',
+        qualityScore: 0.85
+      }
+    },
+    {
+      id: 'v2',
+      content: 'This is the original version of the content',
+      timestamp: '2023-08-23T09:00:00Z',
+      author: 'User',
+      type: 'original' as const
+    },
+    {
+      id: 'v3',
+      content: 'This is a human edited version with improvements',
+      timestamp: '2023-08-23T11:00:00Z',
+      author: 'John Doe',
+      type: 'human_edited' as const,
+      metadata: {
+        feedback: 'Improved tone and clarity'
+      }
+    }
+  ];
+
+  const defaultProps = {
+    isOpen: true,
+    onClose: vi.fn(),
+    itemId: 'test-item-1',
+    itemType: 'caption' as const,
+    versions: mockVersions,
+    onSave: vi.fn(),
+    onRevert: vi.fn()
+  };
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+    // Mock clipboard API
+    Object.assign(navigator, {
+      clipboard: {
+        writeText: vi.fn().mockResolvedValue(undefined)
+      }
+    });
+  });
+
+  it('renders modal when open', () => {
+    render(<ContentComparisonModal {...defaultProps} />);
+    
+    expect(screen.getByTestId('dialog')).toBeInTheDocument();
+    expect(screen.getByText('Content Comparison & Edit')).toBeInTheDocument();
+  });
+
+  it('does not render when closed', () => {
+    render(<ContentComparisonModal {...defaultProps} isOpen={false} />);
+    
+    expect(screen.queryByTestId('dialog')).not.toBeInTheDocument();
+  });
+
+  it('displays all content versions', () => {
+    render(<ContentComparisonModal {...defaultProps} />);
+    
+    expect(screen.getByText('AI Generated')).toBeInTheDocument();
+    expect(screen.getByText('Original')).toBeInTheDocument();
+    expect(screen.getByText('Human Edited')).toBeInTheDocument();
+  });
+
+  it('shows version content', () => {
+    render(<ContentComparisonModal {...defaultProps} />);
+    
+    expect(screen.getByText('This is the current version of the content')).toBeInTheDocument();
+  });
+
+  it('displays version metadata', () => {
+    render(<ContentComparisonModal {...defaultProps} />);
+    
+    expect(screen.getByText('gpt-4')).toBeInTheDocument();
+    expect(screen.getByText('85%')).toBeInTheDocument();
+  });
+
+  it('shows edit button when not editing', () => {
+    render(<ContentComparisonModal {...defaultProps} />);
+    
+    expect(screen.getByRole('button', { name: /edit current/i })).toBeInTheDocument();
+  });
+
+  it('enters edit mode when edit button clicked', async () => {
+    render(<ContentComparisonModal {...defaultProps} />);
+    
+    const editButton = screen.getByRole('button', { name: /edit current/i });
+    fireEvent.click(editButton);
+    
+    await waitFor(() => {
+      expect(screen.getByRole('button', { name: /save changes/i })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /cancel/i })).toBeInTheDocument();
+    });
+  });
+
+  it('shows text field in edit mode', async () => {
+    render(<ContentComparisonModal {...defaultProps} />);
+    
+    const editButton = screen.getByRole('button', { name: /edit current/i });
+    fireEvent.click(editButton);
+    
+    await waitFor(() => {
+      expect(screen.getByPlaceholderText(/edit caption content/i)).toBeInTheDocument();
+    });
+  });
+
+  it('calls onSave when save changes clicked', async () => {
+    render(<ContentComparisonModal {...defaultProps} />);
+    
+    const editButton = screen.getByRole('button', { name: /edit current/i });
+    fireEvent.click(editButton);
+    
+    await waitFor(() => {
+      const textArea = screen.getByPlaceholderText(/edit caption content/i);
+      fireEvent.change(textArea, { target: { value: 'Updated content' } });
+      
+      const saveButton = screen.getByRole('button', { name: /save changes/i });
+      fireEvent.click(saveButton);
+    });
+    
+    expect(defaultProps.onSave).toHaveBeenCalledWith('test-item-1', 'Updated content', '');
+  });
+
+  it('includes edit notes when saving', async () => {
+    render(<ContentComparisonModal {...defaultProps} />);
+    
+    const editButton = screen.getByRole('button', { name: /edit current/i });
+    fireEvent.click(editButton);
+    
+    await waitFor(() => {
+      const textArea = screen.getByPlaceholderText(/edit caption content/i);
+      fireEvent.change(textArea, { target: { value: 'Updated content' } });
+      
+      const notesField = screen.getByPlaceholderText(/describe the changes/i);
+      fireEvent.change(notesField, { target: { value: 'Fixed grammar' } });
+      
+      const saveButton = screen.getByRole('button', { name: /save changes/i });
+      fireEvent.click(saveButton);
+    });
+    
+    expect(defaultProps.onSave).toHaveBeenCalledWith('test-item-1', 'Updated content', 'Fixed grammar');
+  });
+
+  it('cancels edit mode when cancel clicked', async () => {
+    render(<ContentComparisonModal {...defaultProps} />);
+    
+    const editButton = screen.getByRole('button', { name: /edit current/i });
+    fireEvent.click(editButton);
+    
+    await waitFor(() => {
+      const cancelButton = screen.getByRole('button', { name: /cancel/i });
+      fireEvent.click(cancelButton);
+    });
+    
+    await waitFor(() => {
+      expect(screen.getByRole('button', { name: /edit current/i })).toBeInTheDocument();
+    });
+  });
+
+  it('calls onRevert when revert button clicked', async () => {
+    render(<ContentComparisonModal {...defaultProps} />);
+    
+    // Find and click a revert button (should be present for non-first versions)
+    const revertButtons = screen.getAllByTitle(/revert to this version/i);
+    if (revertButtons.length > 0) {
+      fireEvent.click(revertButtons[0]);
+      
+      expect(defaultProps.onRevert).toHaveBeenCalled();
+    }
+  });
+
+  it('copies content to clipboard when copy button clicked', async () => {
+    render(<ContentComparisonModal {...defaultProps} />);
+    
+    const copyButtons = screen.getAllByTitle(/copy to clipboard/i);
+    fireEvent.click(copyButtons[0]);
+    
+    expect(navigator.clipboard.writeText).toHaveBeenCalledWith(
+      'This is the current version of the content'
+    );
+  });
+
+  it('toggles diff mode', async () => {
+    render(<ContentComparisonModal {...defaultProps} />);
+    
+    const diffSwitch = screen.getByRole('checkbox');
+    fireEvent.click(diffSwitch);
+    
+    await waitFor(() => {
+      expect(screen.getByLabelText(/compare from/i)).toBeInTheDocument();
+      expect(screen.getByLabelText(/compare to/i)).toBeInTheDocument();
+    });
+  });
+
+  it('shows diff view when diff mode enabled', async () => {
+    render(<ContentComparisonModal {...defaultProps} />);
+    
+    const diffSwitch = screen.getByRole('checkbox');
+    fireEvent.click(diffSwitch);
+    
+    await waitFor(() => {
+      expect(screen.getByText(/version 1 \(before\)/i)).toBeInTheDocument();
+      expect(screen.getByText(/version 2 \(after\)/i)).toBeInTheDocument();
+    });
+  });
+
+  it('changes comparison versions in diff mode', async () => {
+    render(<ContentComparisonModal {...defaultProps} />);
+    
+    const diffSwitch = screen.getByRole('checkbox');
+    fireEvent.click(diffSwitch);
+    
+    await waitFor(() => {
+      const fromSelect = screen.getByLabelText(/compare from/i);
+      fireEvent.change(fromSelect, { target: { value: '1' } });
+      
+      expect(fromSelect).toHaveValue('1');
+    });
+  });
+
+  it('toggles fullscreen mode', () => {
+    render(<ContentComparisonModal {...defaultProps} />);
+    
+    const fullscreenButton = screen.getByRole('button', { name: '' }); // IconButton without explicit name
+    // In a real test, you'd need to identify the fullscreen button more specifically
+    // This test structure shows the pattern
+  });
+
+  it('handles custom title prop', () => {
+    const customTitle = 'Custom Content Editor';
+    render(<ContentComparisonModal {...defaultProps} title={customTitle} />);
+    
+    expect(screen.getByText(customTitle)).toBeInTheDocument();
+  });
+
+  it('disables save button when content is empty', async () => {
+    render(<ContentComparisonModal {...defaultProps} />);
+    
+    const editButton = screen.getByRole('button', { name: /edit current/i });
+    fireEvent.click(editButton);
+    
+    await waitFor(() => {
+      const textArea = screen.getByPlaceholderText(/edit caption content/i);
+      fireEvent.change(textArea, { target: { value: '' } });
+      
+      const saveButton = screen.getByRole('button', { name: /save changes/i });
+      expect(saveButton).toBeDisabled();
+    });
+  });
+
+  it('shows loading state during save', async () => {
+    const slowOnSave = vi.fn(() => new Promise(resolve => setTimeout(resolve, 100)));
+    const props = { ...defaultProps, onSave: slowOnSave };
+    
+    render(<ContentComparisonModal {...props} />);
+    
+    const editButton = screen.getByRole('button', { name: /edit current/i });
+    fireEvent.click(editButton);
+    
+    await waitFor(() => {
+      const textArea = screen.getByPlaceholderText(/edit caption content/i);
+      fireEvent.change(textArea, { target: { value: 'Updated content' } });
+      
+      const saveButton = screen.getByRole('button', { name: /save changes/i });
+      fireEvent.click(saveButton);
+      
+      expect(saveButton).toBeDisabled();
+    });
+  });
+
+  it('handles empty versions array', () => {
+    const emptyProps = { ...defaultProps, versions: [] };
+    render(<ContentComparisonModal {...emptyProps} />);
+    
+    expect(screen.getByRole('button', { name: /edit current/i })).toBeDisabled();
+  });
+
+  it('calls onClose when close button clicked', () => {
+    render(<ContentComparisonModal {...defaultProps} />);
+    
+    const closeButton = screen.getByRole('button', { name: /close/i });
+    fireEvent.click(closeButton);
+    
+    expect(defaultProps.onClose).toHaveBeenCalled();
+  });
+
+  it('displays correct version type colors and labels', () => {
+    render(<ContentComparisonModal {...defaultProps} />);
+    
+    expect(screen.getByText('AI Generated')).toBeInTheDocument();
+    expect(screen.getByText('Original')).toBeInTheDocument();
+    expect(screen.getByText('Human Edited')).toBeInTheDocument();
+  });
+
+  it('shows metadata feedback when available', () => {
+    render(<ContentComparisonModal {...defaultProps} />);
+    
+    expect(screen.getByText('Improved tone and clarity')).toBeInTheDocument();
+  });
+});

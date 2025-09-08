@@ -1,0 +1,15 @@
+load("@aspect_rules_js//js:defs.bzl", "js_library")
+load("//frontend:defs.bzl", "ASSET_PATTERNS")
+
+js_library(
+    name = "public",
+    srcs = glob(
+        ASSET_PATTERNS,
+        allow_empty = True,
+    ) + [
+        "manifest.json",
+        "robots.txt",
+        "zip_codes.json",
+    ],
+    visibility = ["//visibility:public"],
+)

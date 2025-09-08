@@ -1,0 +1,764 @@
+import React from 'react';
+import { render, screen, fireEvent, waitFor, within, act } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
+import BrandKnowledgeForm from './BrandKnowledgeForm';
+import { AuthContext } from '../../context/AuthContext';
+import { BrandContext } from '../../context/BrandContext';
+
+// Mock the getServiceURL helper
+vi.mock('../../helpers/getServiceURL', () => ({
+  getServiceURL: (service: string) => `http://test-${service}.example.com`,
+}));
+
+// Mock fetch globally
+const mockFetch = vi.fn();
+global.fetch = mockFetch;
+
+const mockAuthContext = {
+  authState: {
+    isAuthenticated: true,
+    token: 'test-token-123',
+    user: {
+      uid: 'test-user-123',
+      email: 'test@example.com',
+    },
+  },
+  setAuthState: vi.fn(),
+  logout: vi.fn(),
+};
+
+const mockBrandContext = {
+  businessInfo: {
+    id: 'brand-123',
+    name: 'Test Brand',
+    website: 'https://testbrand.com',
+    brandColors: ['#FF0000', '#00FF00'],
+    campaigns: [
+      {
+        campaign_id: 'campaign-1',
+        status: 'active',
+        campaign_data: {
+          campaign_variables: {
+            durationNum: 4,
+            start_date: '2024-01-01',
+          },
+        },
+      },
+      {
+        campaign_id: 'campaign-2',
+        status: 'active',
+        campaign_data: {
+          campaign_variables: {
+            durationNum: 2,
+            start_date: '2024-02-01',
+          },
+        },
+      },
+    ],
+    product_features: [],
+    product_description: '',
+    product_link: '',
+    start_date: '',
+    durationNum: 0,
+  },
+  setBusinessInfo: vi.fn(),
+};
+
+const renderWithContext = (
+  component: React.ReactElement,
+  options?: {
+    authContext?: any;
+    brandContext?: any;
+  }
+) => {
+  const authValue = options?.authContext || mockAuthContext;
+  const brandValue = options?.brandContext || mockBrandContext;
+
+  return render(
+    <AuthContext.Provider value={authValue}>
+      <BrandContext.Provider value={brandValue}>
+        {component}
+      </BrandContext.Provider>
+    </AuthContext.Provider>
+  );
+};
+
+describe('BrandKnowledgeForm', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    mockFetch.mockClear();
+    // Mock successful fetch response by default
+    mockFetch.mockResolvedValue({
+      ok: true,
+      status: 200,
+      json: async () => ({ brand_knowledge: null }),
+    });
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it('renders the form with all sections', async () => {
+    await act(async () => {
+      renderWithContext(<BrandKnowledgeForm />);
+    });
+    
+    expect(screen.getByText('Brand Knowledge Base')).toBeInTheDocument();
+    expect(screen.getByText('Brand Personality')).toBeInTheDocument();
+    expect(screen.getByText('Visual Style')).toBeInTheDocument();
+    expect(screen.getByText('Products')).toBeInTheDocument();
+    expect(screen.getByText('Scenes & Guardrails')).toBeInTheDocument();
+  });
+
+  it('loads existing brand knowledge on mount', async () => {
+    const mockExistingData = {
+      brand_knowledge: {
+        brand_id: 'brand-123',
+        brand_name: 'Test Brand',
+        personality: {
+          traits: ['premium', 'innovative'],
+          tone: { formality: 'formal', humor: 'neutral' },
+          voice_attributes: ['authoritative', 'knowledgeable'],
+        },
+        visual_style: {
+          color_palette: ['#FF0000'],
+          style_tags: ['modern', 'clean'],
+          photography_style: 'lifestyle',
+          composition_preferences: ['minimalist'],
+        },
+        products: [],
+        approved_scenes: ['product-hero'],
+        avoid_list: ['competitors'],
+        guardrails: {},
+      },
+    };
+
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      status: 200,
+      json: async () => mockExistingData,
+    });
+
+    await act(async () => {
+      renderWithContext(<BrandKnowledgeForm />);
+    });
+
+    await waitFor(() => {
+      expect(mockFetch).toHaveBeenCalledWith(
+        'http://test-content_generation.example.com/api/v1/brand-knowledge/by-brand/brand-123',
+        {
+          headers: {
+            Authorization: 'Bearer test-token-123',
+          },
+        }
+      );
+    });
+  });
+
+  describe('Brand Personality Section', () => {
+    it('allows adding and removing personality traits', async () => {
+      await act(async () => {
+        renderWithContext(<BrandKnowledgeForm />);
+      });
+      
+      // Click on a personality trait chip
+      const premiumChip = screen.getByText('premium');
+      fireEvent.click(premiumChip);
+      
+      // Verify it's selected (appears twice - once in selection and once in selected)
+      await waitFor(() => {
+        const premiumChips = screen.getAllByText('premium');
+        expect(premiumChips.length).toBeGreaterThan(1);
+      });
+      
+      // Remove the trait
+      const selectedChips = screen.getAllByText('premium');
+      const deleteButton = selectedChips[selectedChips.length - 1].closest('[role="button"]')?.querySelector('svg');
+      if (deleteButton) {
+        fireEvent.click(deleteButton.parentElement!);
+      }
+    });
+
+    it('allows setting brand tone', async () => {
+      await act(async () => {
+        renderWithContext(<BrandKnowledgeForm />);
+      });
+      
+      // Find and click the formality select
+      const formalitySelect = screen.getByLabelText('Formality');
+      fireEvent.mouseDown(formalitySelect);
+      
+      // Select "Formal" option
+      const formalOption = await screen.findByText('Formal');
+      fireEvent.click(formalOption);
+      
+      // Verify the selection
+      await waitFor(() => {
+        expect(formalitySelect).toHaveTextContent('Formal');
+      });
+    });
+
+    it('allows adding voice attributes', async () => {
+      await act(async () => {
+        renderWithContext(<BrandKnowledgeForm />);
+      });
+      
+      const input = screen.getByPlaceholderText('Add voice attribute');
+      const addButtons = screen.getAllByText('Add');
+      const addButton = addButtons.find(btn => btn.closest('div')?.querySelector('input[placeholder="Add voice attribute"]'));
+      
+      // Type a voice attribute
+      await userEvent.type(input, 'professional');
+      if (addButton) {
+        fireEvent.click(addButton);
+      }
+      
+      // Verify it was added
+      await waitFor(() => {
+        expect(screen.getByText('professional')).toBeInTheDocument();
+      });
+    });
+  });
+
+  describe('Visual Style Section', () => {
+    it('toggles visual style section', async () => {
+      renderWithContext(<BrandKnowledgeForm />);
+      
+      // Find the visual style section header
+      const visualStyleHeader = screen.getByText('Visual Style').closest('div');
+      const toggleButton = visualStyleHeader?.querySelector('button[type="button"]');
+      
+      // Click to expand
+      if (toggleButton) {
+        fireEvent.click(toggleButton);
+      }
+      
+      // Check that style tags are visible
+      await waitFor(() => {
+        expect(screen.getByText('Style Tags')).toBeInTheDocument();
+      });
+    });
+
+    it('allows selecting style tags', async () => {
+      renderWithContext(<BrandKnowledgeForm />);
+      
+      // Expand visual style section
+      const visualStyleHeader = screen.getByText('Visual Style').closest('div');
+      const toggleButton = visualStyleHeader?.querySelector('button[type="button"]');
+      if (toggleButton) {
+        fireEvent.click(toggleButton);
+      }
+      
+      // Click on a style tag
+      await waitFor(() => {
+        const modernTag = screen.getByText('modern');
+        fireEvent.click(modernTag);
+      });
+    });
+
+    it('allows adding colors via color input', async () => {
+      renderWithContext(<BrandKnowledgeForm />);
+      
+      // Expand visual style section
+      const visualStyleHeader = screen.getByText('Visual Style').closest('div');
+      const toggleButton = visualStyleHeader?.querySelector('button[type="button"]');
+      if (toggleButton) {
+        fireEvent.click(toggleButton);
+      }
+      
+      await waitFor(() => {
+        const colorInput = screen.getByDisplayValue('#000000');
+        fireEvent.change(colorInput, { target: { value: '#ff0000' } });
+        
+        const addColorButton = screen.getByText('Add Color');
+        fireEvent.click(addColorButton);
+      });
+    });
+
+    it('allows selecting photography style', async () => {
+      renderWithContext(<BrandKnowledgeForm />);
+      
+      // Expand visual style section
+      const visualStyleHeader = screen.getByText('Visual Style').closest('div');
+      const toggleButton = visualStyleHeader?.querySelector('button[type="button"]');
+      if (toggleButton) {
+        fireEvent.click(toggleButton);
+      }
+      
+      // Find and click photography style select
+      await waitFor(() => {
+        const photographySelect = screen.getByLabelText('Photography Style');
+        fireEvent.mouseDown(photographySelect);
+      });
+      
+      // Select an option
+      const lifestyleOption = await screen.findByText('Lifestyle');
+      fireEvent.click(lifestyleOption);
+    });
+
+    it('allows adding composition preferences', async () => {
+      renderWithContext(<BrandKnowledgeForm />);
+      
+      // Expand visual style section
+      const visualStyleHeader = screen.getByText('Visual Style').closest('div');
+      const toggleButton = visualStyleHeader?.querySelector('button[type="button"]');
+      if (toggleButton) {
+        fireEvent.click(toggleButton);
+      }
+      
+      await waitFor(async () => {
+        const input = screen.getByPlaceholderText('Add composition preference');
+        await userEvent.type(input, 'rule of thirds');
+        fireEvent.keyPress(input, { key: 'Enter', code: 'Enter', charCode: 13 });
+      });
+    });
+  });
+
+  describe('Products Section', () => {
+    it('allows adding and removing products', async () => {
+      renderWithContext(<BrandKnowledgeForm />);
+      
+      // Expand products section
+      const productsHeader = screen.getByText('Products').closest('div');
+      const addProductButton = within(productsHeader!).getByText('Add Product');
+      
+      // Add a product
+      fireEvent.click(addProductButton);
+      
+      // Toggle the section to see the product form
+      const toggleButton = productsHeader?.querySelector('button[type="button"]:last-child');
+      if (toggleButton) {
+        fireEvent.click(toggleButton);
+      }
+      
+      // Verify product form appears
+      await waitFor(() => {
+        expect(screen.getByText('Product 1')).toBeInTheDocument();
+      });
+      
+      // Fill in product details
+      const productNameInput = screen.getByLabelText('Product Name');
+      await userEvent.type(productNameInput, 'Test Product');
+      
+      // Remove the product
+      const deleteButton = screen.getByText('Product 1').closest('div')?.querySelector('button[type="button"]');
+      if (deleteButton) {
+        fireEvent.click(deleteButton);
+      }
+    });
+
+    it('allows editing product details', async () => {
+      renderWithContext(<BrandKnowledgeForm />);
+      
+      // Add and expand products
+      const productsHeader = screen.getByText('Products').closest('div');
+      const addProductButton = within(productsHeader!).getByText('Add Product');
+      fireEvent.click(addProductButton);
+      
+      const toggleButton = productsHeader?.querySelector('button[type="button"]:last-child');
+      if (toggleButton) {
+        fireEvent.click(toggleButton);
+      }
+      
+      // Fill in product fields
+      await waitFor(async () => {
+        const nameInput = screen.getByLabelText('Product Name');
+        const genericInput = screen.getByLabelText('Generic Term');
+        const usageInput = screen.getByLabelText('Usage Context');
+        
+        await userEvent.type(nameInput, 'Premium Widget');
+        await userEvent.type(genericInput, 'widget');
+        await userEvent.type(usageInput, 'daily use');
+      });
+    });
+  });
+
+  describe('Scenes & Guardrails Section', () => {
+    it('allows adding approved scenes', async () => {
+      renderWithContext(<BrandKnowledgeForm />);
+      
+      // Expand scenes section
+      const scenesHeader = screen.getByText('Scenes & Guardrails').closest('div');
+      const toggleButton = scenesHeader?.querySelector('button[type="button"]');
+      if (toggleButton) {
+        fireEvent.click(toggleButton);
+      }
+      
+      // Add an approved scene
+      await waitFor(async () => {
+        const input = screen.getByPlaceholderText('Add approved scene type');
+        await userEvent.type(input, 'outdoor lifestyle');
+        fireEvent.keyPress(input, { key: 'Enter', code: 'Enter', charCode: 13 });
+      });
+      
+      // Verify it was added
+      await waitFor(() => {
+        expect(screen.getByText('outdoor lifestyle')).toBeInTheDocument();
+      });
+    });
+
+    it('allows adding items to avoid list', async () => {
+      renderWithContext(<BrandKnowledgeForm />);
+      
+      // Expand scenes section
+      const scenesHeader = screen.getByText('Scenes & Guardrails').closest('div');
+      const toggleButton = scenesHeader?.querySelector('button[type="button"]');
+      if (toggleButton) {
+        fireEvent.click(toggleButton);
+      }
+      
+      // Add an item to avoid
+      await waitFor(async () => {
+        const input = screen.getByPlaceholderText('Add item to avoid');
+        await userEvent.type(input, 'competitors');
+        fireEvent.keyPress(input, { key: 'Enter', code: 'Enter', charCode: 13 });
+      });
+      
+      // Verify it was added
+      await waitFor(() => {
+        expect(screen.getByText('competitors')).toBeInTheDocument();
+      });
+    });
+  });
+
+  describe('Campaign Extraction', () => {
+    it('shows extract from campaigns button when campaigns exist', () => {
+      renderWithContext(<BrandKnowledgeForm />);
+      
+      expect(screen.getByText('Extract from Existing Campaigns')).toBeInTheDocument();
+    });
+
+    it('hides extract button when no campaigns exist', () => {
+      const noCampaignContext = {
+        ...mockBrandContext,
+        businessInfo: {
+          ...mockBrandContext.businessInfo,
+          campaigns: [],
+        },
+      };
+      
+      renderWithContext(<BrandKnowledgeForm />, { brandContext: noCampaignContext });
+      
+      expect(screen.queryByText('Extract from Existing Campaigns')).not.toBeInTheDocument();
+    });
+
+    it('extracts brand knowledge from campaigns', async () => {
+      const mockExtractedData = {
+        success: true,
+        brand_knowledge: {
+          brand_id: 'brand-123',
+          brand_name: 'Extracted Brand',
+          personality: {
+            traits: ['innovative', 'bold'],
+            tone: { formality: 'casual' },
+            voice_attributes: ['friendly'],
+          },
+          visual_style: {
+            color_palette: ['#0000FF'],
+            style_tags: ['modern'],
+            photography_style: 'lifestyle',
+            composition_preferences: [],
+          },
+          products: [],
+          approved_scenes: [],
+          avoid_list: [],
+          guardrails: {},
+        },
+        message: 'Successfully extracted',
+      };
+
+      (global.fetch as any).mockResolvedValueOnce({
+        ok: true,
+        json: async () => mockExtractedData,
+      });
+
+      renderWithContext(<BrandKnowledgeForm />);
+      
+      const extractButton = screen.getByText('Extract from Existing Campaigns');
+      fireEvent.click(extractButton);
+      
+      await waitFor(() => {
+        expect(global.fetch).toHaveBeenCalledWith(
+          'http://test-content_generation.example.com/api/v1/brand-knowledge/extract-from-campaigns',
+          expect.objectContaining({
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: 'Bearer test-token-123',
+            },
+            body: JSON.stringify({ campaign_ids: ['campaign-1', 'campaign-2'] }),
+          })
+        );
+      });
+      
+      // Check for success message
+      await waitFor(() => {
+        expect(screen.getByText('Brand knowledge saved successfully!')).toBeInTheDocument();
+      });
+    });
+
+    it('handles extraction failure', async () => {
+      (global.fetch as any).mockResolvedValueOnce({
+        ok: false,
+        json: async () => ({ detail: 'Extraction failed' }),
+      });
+
+      renderWithContext(<BrandKnowledgeForm />);
+      
+      const extractButton = screen.getByText('Extract from Existing Campaigns');
+      fireEvent.click(extractButton);
+      
+      await waitFor(() => {
+        expect(screen.getByText('Failed to extract brand knowledge')).toBeInTheDocument();
+      });
+    });
+  });
+
+  describe('Form Submission', () => {
+    it('validates required fields before saving', async () => {
+      renderWithContext(<BrandKnowledgeForm />);
+      
+      // Clear brand name to trigger validation
+      const brandContextWithoutName = {
+        ...mockBrandContext,
+        businessInfo: {
+          ...mockBrandContext.businessInfo,
+          name: '',
+        },
+      };
+      
+      renderWithContext(<BrandKnowledgeForm />, { brandContext: brandContextWithoutName });
+      
+      const saveButton = screen.getByText('Save Draft');
+      fireEvent.click(saveButton);
+      
+      await waitFor(() => {
+        expect(screen.getByText('Brand name is required')).toBeInTheDocument();
+      });
+    });
+
+    it('saves brand knowledge successfully', async () => {
+      const mockSaveResponse = {
+        id: 'kb-123',
+        message: 'Saved successfully',
+      };
+
+      (global.fetch as any).mockResolvedValueOnce({
+        ok: true,
+        json: async () => mockSaveResponse,
+      });
+
+      const onSave = vi.fn();
+      renderWithContext(<BrandKnowledgeForm onSave={onSave} />);
+      
+      // Add a personality trait (required field)
+      const innovativeChip = screen.getByText('innovative');
+      fireEvent.click(innovativeChip);
+      
+      // Click save
+      const saveButton = screen.getByText('Save Draft');
+      fireEvent.click(saveButton);
+      
+      await waitFor(() => {
+        expect(global.fetch).toHaveBeenCalledWith(
+          'http://test-content_generation.example.com/api/v1/brand-knowledge',
+          expect.objectContaining({
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: 'Bearer test-token-123',
+            },
+          })
+        );
+      });
+      
+      // Check that onSave was called
+      await waitFor(() => {
+        expect(onSave).toHaveBeenCalled();
+      });
+    });
+
+    it('handles save failure', async () => {
+      (global.fetch as any).mockResolvedValueOnce({
+        ok: false,
+        json: async () => ({ detail: 'Save failed' }),
+      });
+
+      renderWithContext(<BrandKnowledgeForm />);
+      
+      // Add a personality trait
+      const premiumChip = screen.getByText('premium');
+      fireEvent.click(premiumChip);
+      
+      const saveButton = screen.getByText('Save Draft');
+      fireEvent.click(saveButton);
+      
+      await waitFor(() => {
+        expect(screen.getByText('Save failed')).toBeInTheDocument();
+      });
+    });
+
+    it('updates existing brand knowledge', async () => {
+      const existingData = {
+        brand_id: 'brand-123',
+        brand_name: 'Test Brand',
+        personality: {
+          traits: ['premium'],
+          tone: { formality: 'formal' },
+          voice_attributes: [],
+        },
+        visual_style: {
+          color_palette: [],
+          style_tags: [],
+          photography_style: '',
+          composition_preferences: [],
+        },
+        products: [],
+        approved_scenes: [],
+        avoid_list: [],
+        guardrails: {},
+      };
+
+      (global.fetch as any).mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ id: 'kb-123', message: 'Updated' }),
+      });
+
+      renderWithContext(<BrandKnowledgeForm existingData={existingData} />);
+      
+      const saveButton = screen.getByText('Save Draft');
+      fireEvent.click(saveButton);
+      
+      await waitFor(() => {
+        expect(global.fetch).toHaveBeenCalledWith(
+          'http://test-content_generation.example.com/api/v1/brand-knowledge/brand-123',
+          expect.objectContaining({
+            method: 'PUT',
+          })
+        );
+      });
+    });
+  });
+
+  describe('Navigation', () => {
+    it('calls handleNext when Save & Continue is clicked', async () => {
+      const handleNext = vi.fn();
+      
+      (global.fetch as any).mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ id: 'kb-123' }),
+      });
+
+      renderWithContext(<BrandKnowledgeForm handleNext={handleNext} />);
+      
+      // Add required personality trait
+      const premiumChip = screen.getByText('premium');
+      fireEvent.click(premiumChip);
+      
+      const continueButton = screen.getByText('Save & Continue');
+      fireEvent.click(continueButton);
+      
+      await waitFor(() => {
+        expect(handleNext).toHaveBeenCalled();
+      }, { timeout: 3000 });
+    });
+
+    it('calls handleBack when back button is clicked', () => {
+      const handleBack = vi.fn();
+      renderWithContext(<BrandKnowledgeForm handleBack={handleBack} />);
+      
+      const backButton = screen.getByRole('button', { name: /back/i });
+      fireEvent.click(backButton);
+      
+      expect(handleBack).toHaveBeenCalled();
+    });
+  });
+
+  describe('Error Handling', () => {
+    it('displays and dismisses error messages', async () => {
+      renderWithContext(<BrandKnowledgeForm />);
+      
+      // Trigger an error by saving without required fields
+      const saveButton = screen.getByText('Save Draft');
+      fireEvent.click(saveButton);
+      
+      await waitFor(() => {
+        const errorMessage = screen.getByText('At least one personality trait is required');
+        expect(errorMessage).toBeInTheDocument();
+        
+        // Find and click the close button on the alert
+        const alert = errorMessage.closest('[role="alert"]');
+        const closeButton = alert?.querySelector('button[aria-label="Close"]');
+        if (closeButton) {
+          fireEvent.click(closeButton);
+        }
+      });
+      
+      // Error should be dismissed
+      await waitFor(() => {
+        expect(screen.queryByText('At least one personality trait is required')).not.toBeInTheDocument();
+      });
+    });
+  });
+
+  describe('Loading States', () => {
+    it('shows loading spinner during data fetch', async () => {
+      // Mock a slow response
+      (global.fetch as any).mockImplementation(() => 
+        new Promise(resolve => {
+          setTimeout(() => {
+            resolve({
+              ok: true,
+              json: async () => ({ brand_knowledge: null }),
+            });
+          }, 100);
+        })
+      );
+
+      renderWithContext(<BrandKnowledgeForm />);
+      
+      // Initially should show loading
+      expect(screen.getByRole('progressbar')).toBeInTheDocument();
+      
+      // Wait for loading to complete
+      await waitFor(() => {
+        expect(screen.queryByRole('progressbar')).not.toBeInTheDocument();
+      });
+    });
+
+    it('disables buttons during save operation', async () => {
+      (global.fetch as any).mockImplementation(() =>
+        new Promise(resolve => {
+          setTimeout(() => {
+            resolve({
+              ok: true,
+              json: async () => ({ id: 'kb-123' }),
+            });
+          }, 100);
+        })
+      );
+
+      renderWithContext(<BrandKnowledgeForm handleNext={vi.fn()} />);
+      
+      // Add required trait
+      const premiumChip = screen.getByText('premium');
+      fireEvent.click(premiumChip);
+      
+      const saveButton = screen.getByText('Save Draft');
+      const continueButton = screen.getByText('Save & Continue');
+      
+      fireEvent.click(saveButton);
+      
+      // Buttons should be disabled during save
+      expect(saveButton).toBeDisabled();
+      expect(continueButton).toBeDisabled();
+      
+      // Wait for save to complete
+      await waitFor(() => {
+        expect(saveButton).not.toBeDisabled();
+      });
+    });
+  });
+});

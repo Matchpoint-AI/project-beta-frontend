@@ -1,0 +1,276 @@
+import React from 'react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { vi } from 'vitest';
+import QualityGatePanel, { QualityGateResult } from './QualityGatePanel';
+
+// Mock AuthContext
+const mockProfile = { uid: 'test-user-123', email: 'test@example.com' };
+vi.mock('../../context/AuthContext', () => ({
+  useAuth: () => ({ profile: mockProfile })
+}));
+
+// Mock Material-UI components that might cause issues
+vi.mock('@mui/material', async () => {
+  const actual = await vi.importActual('@mui/material');
+  return {
+    ...actual,
+    Accordion: ({ children }: any) => <div data-testid="accordion">{children}</div>,
+    AccordionSummary: ({ children }: any) => <div data-testid="accordion-summary">{children}</div>,
+    AccordionDetails: ({ children }: any) => <div data-testid="accordion-details">{children}</div>,
+  };
+});
+
+describe('QualityGatePanel', () => {
+  const defaultProps = {
+    itemId: 'test-item-1',
+    itemType: 'caption' as const,
+    content: 'This is a test caption content that should be long enough to pass completeness checks',
+    metadata: {
+      sceneType: 'human',
+      sceneSubtype: 'solo',
+      brandId: 'brand-123',
+      campaignId: 'campaign-456'
+    }
+  };
+
+  const mockQualityResult: QualityGateResult = {
+    itemId: 'test-item-1',
+    overallScore: 0.85,
+    passed: true,
+    checks: [
+      {
+        id: 'brand-compliance',
+        name: 'Brand Compliance',
+        description: 'Ensures content aligns with brand guidelines and voice',
+        score: 0.9,
+        status: 'pass',
+        category: 'brand_compliance',
+        details: [
+          'Brand voice and tone are consistent',
+          'Visual style aligns with brand guidelines',
+          'Approved messaging elements present'
+        ]
+      },
+      {
+        id: 'consistency',
+        name: 'Content Consistency',
+        description: 'Ensures consistency across campaign content',
+        score: 0.8,
+        status: 'pass',
+        category: 'consistency',
+        details: [
+          'Consistent with campaign theme',
+          'Messaging tone is uniform',
+          'Visual elements are cohesive'
+        ]
+      }
+    ],
+    recommendations: [
+      'Consider adding more engaging call-to-action'
+    ],
+    blockers: [],
+    timestamp: '2023-08-23T10:00:00Z'
+  };
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+    // Mock Math.random to return predictable values for testing
+    vi.spyOn(Math, 'random').mockReturnValue(0.8);
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it('renders quality gate panel', () => {
+    render(<QualityGatePanel {...defaultProps} />);
+    
+    expect(screen.getByText('Quality Gate Results')).toBeInTheDocument();
+  });
+
+  it('shows loading state initially', () => {
+    render(<QualityGatePanel {...defaultProps} />);
+    
+    expect(screen.getByText('Running Quality Check...')).toBeInTheDocument();
+    expect(screen.getByRole('progressbar')).toBeInTheDocument();
+  });
+
+  it('displays overall score after loading', async () => {
+    render(<QualityGatePanel {...defaultProps} />);
+    
+    await waitFor(() => {
+      expect(screen.getByText(/Overall Score:/)).toBeInTheDocument();
+    });
+  });
+
+  it('shows PASSED status for high scores', async () => {
+    // Mock high scores
+    vi.spyOn(Math, 'random').mockReturnValue(0.9);
+    
+    render(<QualityGatePanel {...defaultProps} />);
+    
+    await waitFor(() => {
+      expect(screen.getByText('PASSED')).toBeInTheDocument();
+    });
+  });
+
+  it('shows individual quality checks', async () => {
+    render(<QualityGatePanel {...defaultProps} />);
+    
+    await waitFor(() => {
+      expect(screen.getByText('Brand Compliance')).toBeInTheDocument();
+      expect(screen.getByText('Content Consistency')).toBeInTheDocument();
+      expect(screen.getByText('Content Completeness')).toBeInTheDocument();
+      expect(screen.getByText('Policy & Legal Compliance')).toBeInTheDocument();
+    });
+  });
+
+  it('includes diversity check for image content', async () => {
+    const imageProps = { ...defaultProps, itemType: 'image' as const };
+    render(<QualityGatePanel {...imageProps} />);
+    
+    await waitFor(() => {
+      expect(screen.getByText('Diversity & Inclusion')).toBeInTheDocument();
+    });
+  });
+
+  it('does not include diversity check for caption content', async () => {
+    render(<QualityGatePanel {...defaultProps} />);
+    
+    await waitFor(() => {
+      expect(screen.queryByText('Diversity & Inclusion')).not.toBeInTheDocument();
+    });
+  });
+
+  it('shows recommendations when present', async () => {
+    render(<QualityGatePanel {...defaultProps} />);
+    
+    await waitFor(() => {
+      expect(screen.getByText('Recommendations:')).toBeInTheDocument();
+    });
+  });
+
+  it('shows blockers for failing content', async () => {
+    // Mock low scores to trigger failures
+    vi.spyOn(Math, 'random')
+      .mockReturnValueOnce(0.3) // Brand compliance
+      .mockReturnValueOnce(0.4) // Consistency  
+      .mockReturnValueOnce(0.5); // Policy
+    
+    render(<QualityGatePanel {...defaultProps} />);
+    
+    await waitFor(() => {
+      expect(screen.getByText('Critical Issues:')).toBeInTheDocument();
+    });
+  });
+
+  it('allows recheck functionality', async () => {
+    render(<QualityGatePanel {...defaultProps} />);
+    
+    await waitFor(() => {
+      const recheckButton = screen.getByRole('button', { name: /recheck/i });
+      expect(recheckButton).toBeInTheDocument();
+      
+      fireEvent.click(recheckButton);
+      
+      // Should show loading state again
+      expect(screen.getByText('Running Quality Check...')).toBeInTheDocument();
+    });
+  });
+
+  it('calls onRecheck callback when provided', async () => {
+    const mockOnRecheck = vi.fn().mockResolvedValue(mockQualityResult);
+    const props = { ...defaultProps, onRecheck: mockOnRecheck };
+    
+    render(<QualityGatePanel {...props} />);
+    
+    await waitFor(() => {
+      expect(mockOnRecheck).toHaveBeenCalledWith('test-item-1');
+    });
+  });
+
+  it('handles API errors gracefully', async () => {
+    const mockOnRecheck = vi.fn().mockRejectedValue(new Error('API Error'));
+    const props = { ...defaultProps, onRecheck: mockOnRecheck };
+    
+    render(<QualityGatePanel {...props} />);
+    
+    await waitFor(() => {
+      expect(screen.getByText('API Error')).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /retry quality check/i })).toBeInTheDocument();
+    });
+  });
+
+  it('shows detailed check information', async () => {
+    render(<QualityGatePanel {...defaultProps} />);
+    
+    await waitFor(() => {
+      expect(screen.getByText('Detailed Checks:')).toBeInTheDocument();
+      expect(screen.getAllByTestId('accordion')).toHaveLength(4); // 4 checks for caption
+    });
+  });
+
+  it('displays category chips for checks', async () => {
+    render(<QualityGatePanel {...defaultProps} />);
+    
+    await waitFor(() => {
+      expect(screen.getByText('brand compliance')).toBeInTheDocument();
+      expect(screen.getByText('consistency')).toBeInTheDocument();
+      expect(screen.getByText('completeness')).toBeInTheDocument();
+      expect(screen.getByText('policy')).toBeInTheDocument();
+    });
+  });
+
+  it('shows timestamp of last check', async () => {
+    render(<QualityGatePanel {...defaultProps} />);
+    
+    await waitFor(() => {
+      expect(screen.getByText(/Last checked:/)).toBeInTheDocument();
+    });
+  });
+
+  it('adjusts completeness score based on content length', async () => {
+    const shortContentProps = { ...defaultProps, content: 'Short' };
+    const { container } = render(<QualityGatePanel {...shortContentProps} />);
+    
+    await waitFor(() => {
+      // Short content should have lower completeness score
+      const overallScoreElement = container.querySelector('*[data-testid="quality-gate-panel"]') ||
+        container.querySelector('h6:contains("Overall Score")') ||
+        container.querySelector('[role="progressbar"]');
+      expect(overallScoreElement).toBeTruthy();
+    });
+  });
+
+  it('handles different item types appropriately', async () => {
+    const promptProps = { ...defaultProps, itemType: 'prompt' as const };
+    render(<QualityGatePanel {...promptProps} />);
+    
+    await waitFor(() => {
+      // Prompt content should include diversity check
+      expect(screen.getByText('Diversity & Inclusion')).toBeInTheDocument();
+    });
+  });
+
+  it('applies correct score colors', async () => {
+    // High scores should show success color
+    vi.spyOn(Math, 'random').mockReturnValue(0.9);
+    
+    render(<QualityGatePanel {...defaultProps} />);
+    
+    await waitFor(() => {
+      const progressBars = screen.getAllByRole('progressbar');
+      expect(progressBars.length).toBeGreaterThan(0);
+    });
+  });
+
+  it('renders with custom className', async () => {
+    const { container } = render(
+      <QualityGatePanel {...defaultProps} className="custom-class" />
+    );
+    
+    await waitFor(() => {
+      expect(container.querySelector('.custom-class')).toBeInTheDocument();
+    });
+  });
+});

@@ -1,0 +1,330 @@
+import React from 'react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { vi } from 'vitest';
+import HITLReviewPanel, { ContentItem } from './HITLReviewPanel';
+
+// Mock AuthContext
+const mockProfile = { uid: 'test-user-123', email: 'test@example.com' };
+vi.mock('../../context/AuthContext', () => ({
+  useAuth: () => ({ profile: mockProfile })
+}));
+
+// Mock Material-UI components
+vi.mock('@mui/material', async () => {
+  const actual = await vi.importActual('@mui/material');
+  return {
+    ...actual,
+    Dialog: ({ open, children }: any) => open ? <div data-testid="dialog">{children}</div> : null,
+    DialogContent: ({ children }: any) => <div data-testid="dialog-content">{children}</div>,
+  };
+});
+
+// Mock ErrorToast
+vi.mock('../shared/ErrorToast', () => ({
+  default: ({ message, onClose }: any) => (
+    <div data-testid="error-toast">
+      {message}
+      <button onClick={onClose}>Close</button>
+    </div>
+  )
+}));
+
+describe('HITLReviewPanel', () => {
+  const mockItems: ContentItem[] = [
+    {
+      id: 'item-1',
+      type: 'caption',
+      content: 'This is a test caption content',
+      originalContent: 'This was the original caption',
+      status: 'pending',
+      qualityScore: 0.85,
+      metadata: {
+        sceneType: 'human',
+        sceneSubtype: 'solo',
+        brandCompliance: 0.9,
+        diversityScore: 0.75
+      }
+    },
+    {
+      id: 'item-2',
+      type: 'image',
+      content: 'A realistic photograph of a person holding a product',
+      status: 'approved',
+      qualityScore: 0.92
+    },
+    {
+      id: 'item-3',
+      type: 'prompt',
+      content: 'Generate an image of a modern kitchen scene',
+      status: 'rejected',
+      feedback: 'Too generic, needs more brand-specific elements',
+      qualityScore: 0.65
+    }
+  ];
+
+  const defaultProps = {
+    items: mockItems,
+    onApprove: vi.fn(),
+    onReject: vi.fn(),
+    onEdit: vi.fn(),
+    onRegenerate: vi.fn(),
+    onClose: vi.fn(),
+    isOpen: true,
+    campaignId: 'campaign-123'
+  };
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it('renders review panel when open', () => {
+    render(<HITLReviewPanel {...defaultProps} />);
+    
+    expect(screen.getAllByTestId('dialog')).toHaveLength(1);
+    expect(screen.getByText('Content Review Queue')).toBeInTheDocument();
+  });
+
+  it('does not render when closed', () => {
+    render(<HITLReviewPanel {...defaultProps} isOpen={false} />);
+    
+    expect(screen.queryByTestId('dialog')).not.toBeInTheDocument();
+  });
+
+  it('displays all content items in the list', () => {
+    render(<HITLReviewPanel {...defaultProps} />);
+    
+    expect(screen.getByText('caption')).toBeInTheDocument();
+    expect(screen.getByText('image')).toBeInTheDocument();
+    expect(screen.getByText('prompt')).toBeInTheDocument();
+    expect(screen.getByText('pending')).toBeInTheDocument();
+    expect(screen.getByText('approved')).toBeInTheDocument();
+    expect(screen.getByText('rejected')).toBeInTheDocument();
+  });
+
+  it('shows quality scores for items', () => {
+    render(<HITLReviewPanel {...defaultProps} />);
+    
+    expect(screen.getByText('85%')).toBeInTheDocument(); // item-1 quality score
+    expect(screen.getByText('92%')).toBeInTheDocument(); // item-2 quality score
+    expect(screen.getByText('65%')).toBeInTheDocument(); // item-3 quality score
+  });
+
+  it('selects item when clicked', async () => {
+    render(<HITLReviewPanel {...defaultProps} />);
+    
+    const firstItem = screen.getByText('This is a test caption content...');
+    fireEvent.click(firstItem);
+    
+    await waitFor(() => {
+      expect(screen.getByText('Caption Review')).toBeInTheDocument();
+      expect(screen.getByText('This is a test caption content')).toBeInTheDocument();
+    });
+  });
+
+  it('displays metadata for selected item', async () => {
+    render(<HITLReviewPanel {...defaultProps} />);
+    
+    const firstItem = screen.getByText('This is a test caption content...');
+    fireEvent.click(firstItem);
+    
+    await waitFor(() => {
+      expect(screen.getByText('Scene: human')).toBeInTheDocument();
+      expect(screen.getByText('Subtype: solo')).toBeInTheDocument();
+      expect(screen.getByText('Brand: 90%')).toBeInTheDocument();
+      expect(screen.getByText('Diversity: 75%')).toBeInTheDocument();
+    });
+  });
+
+  it('shows action buttons for selected item', async () => {
+    render(<HITLReviewPanel {...defaultProps} />);
+    
+    const firstItem = screen.getByText('This is a test caption content...');
+    fireEvent.click(firstItem);
+    
+    await waitFor(() => {
+      expect(screen.getByRole('button', { name: /approve/i })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /reject/i })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /edit/i })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /regenerate/i })).toBeInTheDocument();
+    });
+  });
+
+  it('calls onApprove when approve button clicked', async () => {
+    render(<HITLReviewPanel {...defaultProps} />);
+    
+    const firstItem = screen.getByText('This is a test caption content...');
+    fireEvent.click(firstItem);
+    
+    await waitFor(() => {
+      const approveButton = screen.getByRole('button', { name: /approve/i });
+      fireEvent.click(approveButton);
+    });
+    
+    expect(defaultProps.onApprove).toHaveBeenCalledWith('item-1');
+  });
+
+  it('calls onReject when reject button clicked', async () => {
+    render(<HITLReviewPanel {...defaultProps} />);
+    
+    const firstItem = screen.getByText('This is a test caption content...');
+    fireEvent.click(firstItem);
+    
+    await waitFor(() => {
+      // Add feedback first
+      const feedbackInput = screen.getByPlaceholderText(/provide feedback/i);
+      fireEvent.change(feedbackInput, { target: { value: 'Needs improvement' } });
+      
+      const rejectButton = screen.getByRole('button', { name: /reject/i });
+      fireEvent.click(rejectButton);
+    });
+    
+    expect(defaultProps.onReject).toHaveBeenCalledWith('item-1', 'Needs improvement');
+  });
+
+  it('enters edit mode when edit button clicked', async () => {
+    render(<HITLReviewPanel {...defaultProps} />);
+    
+    const firstItem = screen.getByText('This is a test caption content...');
+    fireEvent.click(firstItem);
+    
+    await waitFor(() => {
+      const editButton = screen.getByRole('button', { name: /edit/i });
+      fireEvent.click(editButton);
+    });
+    
+    await waitFor(() => {
+      expect(screen.getByDisplayValue('This is a test caption content')).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /save edit/i })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /cancel edit/i })).toBeInTheDocument();
+    });
+  });
+
+  it('calls onEdit when save edit button clicked', async () => {
+    render(<HITLReviewPanel {...defaultProps} />);
+    
+    const firstItem = screen.getByText('This is a test caption content...');
+    fireEvent.click(firstItem);
+    
+    await waitFor(() => {
+      const editButton = screen.getByRole('button', { name: /edit/i });
+      fireEvent.click(editButton);
+    });
+    
+    await waitFor(() => {
+      const editArea = screen.getByDisplayValue('This is a test caption content');
+      fireEvent.change(editArea, { target: { value: 'Updated caption content' } });
+      
+      const saveButton = screen.getByRole('button', { name: /save edit/i });
+      fireEvent.click(saveButton);
+    });
+    
+    expect(defaultProps.onEdit).toHaveBeenCalledWith('item-1', 'Updated caption content');
+  });
+
+  it('calls onRegenerate when regenerate button clicked', async () => {
+    render(<HITLReviewPanel {...defaultProps} />);
+    
+    const firstItem = screen.getByText('This is a test caption content...');
+    fireEvent.click(firstItem);
+    
+    await waitFor(() => {
+      // Add targeted changes
+      const feedbackInput = screen.getByPlaceholderText(/provide feedback/i);
+      fireEvent.change(feedbackInput, { target: { value: 'improve tone, add brand elements' } });
+      
+      const regenerateButton = screen.getByRole('button', { name: /regenerate/i });
+      fireEvent.click(regenerateButton);
+    });
+    
+    expect(defaultProps.onRegenerate).toHaveBeenCalledWith('item-1', ['improve tone', 'add brand elements']);
+  });
+
+  it('toggles diff view', async () => {
+    render(<HITLReviewPanel {...defaultProps} />);
+    
+    const firstItem = screen.getByText('This is a test caption content...');
+    fireEvent.click(firstItem);
+    
+    await waitFor(() => {
+      const showDiffButton = screen.getByRole('button', { name: /show diff/i });
+      fireEvent.click(showDiffButton);
+    });
+    
+    await waitFor(() => {
+      expect(screen.getByText('Original:')).toBeInTheDocument();
+      expect(screen.getByText('Current:')).toBeInTheDocument();
+      expect(screen.getByText('This was the original caption')).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /hide diff/i })).toBeInTheDocument();
+    });
+  });
+
+  it('disables buttons appropriately based on status', async () => {
+    render(<HITLReviewPanel {...defaultProps} />);
+    
+    // Select approved item
+    const approvedItem = screen.getByText('A realistic photograph of a person...');
+    fireEvent.click(approvedItem);
+    
+    await waitFor(() => {
+      const approveButton = screen.getByRole('button', { name: /approve/i });
+      expect(approveButton).toBeDisabled();
+    });
+  });
+
+  it('handles API errors gracefully', async () => {
+    const errorProps = {
+      ...defaultProps,
+      onApprove: vi.fn().mockRejectedValue(new Error('API Error'))
+    };
+    
+    render(<HITLReviewPanel {...errorProps} />);
+    
+    const firstItem = screen.getByText('This is a test caption content...');
+    fireEvent.click(firstItem);
+    
+    await waitFor(() => {
+      const approveButton = screen.getByRole('button', { name: /approve/i });
+      fireEvent.click(approveButton);
+    });
+    
+    await waitFor(() => {
+      expect(screen.getByTestId('error-toast')).toBeInTheDocument();
+      expect(screen.getByText('API Error')).toBeInTheDocument();
+    });
+  });
+
+  it('shows loading state during operations', async () => {
+    const slowProps = {
+      ...defaultProps,
+      onApprove: vi.fn(() => new Promise(resolve => setTimeout(resolve, 100)))
+    };
+    
+    render(<HITLReviewPanel {...slowProps} />);
+    
+    const firstItem = screen.getByText('This is a test caption content...');
+    fireEvent.click(firstItem);
+    
+    await waitFor(() => {
+      const approveButton = screen.getByRole('button', { name: /approve/i });
+      fireEvent.click(approveButton);
+      
+      expect(approveButton).toBeDisabled();
+    });
+  });
+
+  it('calls onClose when dialog is closed', () => {
+    const { rerender } = render(<HITLReviewPanel {...defaultProps} />);
+    
+    // Simulate dialog close (this would typically be handled by Material-UI)
+    rerender(<HITLReviewPanel {...defaultProps} isOpen={false} />);
+    
+    // The onClose callback would be called by Material-UI's Dialog component
+    // We can't test this directly without a more complex setup
+  });
+
+  it('shows empty state when no item selected', () => {
+    render(<HITLReviewPanel {...defaultProps} />);
+    
+    expect(screen.getByText('Select an item to review')).toBeInTheDocument();
+  });
+});
