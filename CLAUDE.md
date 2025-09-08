@@ -87,3 +87,100 @@ The semantic versioning workflow is defined in `.github/workflows/set-version.ya
 - **Build System**: npm
 - **CI/CD**: GitHub Actions
 - **Versioning**: Automated semantic versioning on main branch
+
+## Project Structure Guidelines
+
+### Testing Approach
+
+This project follows a **test collocation** approach for better maintainability:
+
+- **Test files are placed in the same directory as the component or module they are testing**
+- **Naming Convention**: Test files use `.test.ts` or `.test.tsx` suffix (e.g., `MyComponent.tsx` → `MyComponent.test.tsx`)
+- **Benefits**: Easy to locate tests, encourages keeping tests up-to-date, cleaner relative imports
+
+### Recommended Project Structure
+
+For scalability and maintainability, this project should follow a **feature-based structure**:
+
+```
+src/
+├── app/                    # App-level configuration
+│   ├── App.tsx
+│   ├── App.css
+│   ├── AppRoutes.tsx
+│   └── index.tsx
+├── features/              # Feature-based organization
+│   ├── auth/
+│   │   ├── components/    # Feature-specific components
+│   │   ├── context/       # Feature-specific context
+│   │   ├── hooks/         # Feature-specific hooks
+│   │   ├── api/           # Feature-specific API calls
+│   │   ├── utils/         # Feature-specific utilities
+│   │   └── pages/         # Feature pages/routes
+│   ├── campaign/
+│   │   ├── components/
+│   │   ├── context/
+│   │   ├── hooks/
+│   │   ├── api/
+│   │   ├── utils/
+│   │   └── pages/
+│   ├── dashboard/
+│   │   └── ...
+│   └── [other-features]/
+├── shared/                # Shared across features
+│   ├── components/
+│   │   ├── ui/           # Generic UI components
+│   │   ├── buttons/      # Reusable buttons
+│   │   ├── inputs/       # Reusable inputs
+│   │   ├── layout/       # Layout components
+│   │   └── feedback/     # Feedback components
+│   ├── hooks/            # Shared hooks
+│   └── utils/            # Shared utilities
+├── api/                  # Global API configuration
+├── types/                # Global TypeScript types
+├── lib/                  # External library configurations
+└── pages/                # Standalone pages (privacy, terms, etc.)
+```
+
+### Structure Principles
+
+1. **Feature Isolation**: Each feature is self-contained with its own components, hooks, and logic
+2. **Clear Boundaries**: Shared components are clearly separated from feature-specific ones
+3. **Scalability**: Easy to add new features without cluttering existing directories
+4. **Maintainability**: Related files are co-located for easier debugging and development
+5. **Test Collocation**: Tests remain next to their components within each feature
+
+### Feature Folder Contents
+
+Each feature folder should contain:
+- `components/` - UI components specific to this feature
+- `hooks/` - Custom hooks for this feature
+- `api/` - API calls and data fetching logic
+- `utils/` - Helper functions and utilities
+- `context/` - React context providers if needed
+- `pages/` - Route components for this feature
+- `types/` - TypeScript types specific to this feature (optional)
+
+### Import Guidelines
+
+- Use absolute imports from `src/` for cleaner import statements
+- Create barrel exports (`index.ts`) in feature folders for clean public APIs
+- Avoid circular dependencies between features
+- Shared components should not import from features
+
+### When to Create a New Feature
+
+Create a new feature folder when:
+- You have a distinct business domain or user flow
+- The functionality requires multiple components and supporting files
+- The code is cohesive and changes together
+- It represents a clear boundary in your application
+
+### Migration Strategy
+
+When restructuring existing code:
+1. Start with one feature at a time
+2. Update all import statements
+3. Run tests to ensure nothing breaks
+4. Update any documentation
+5. Consider adding path aliases in TypeScript config
