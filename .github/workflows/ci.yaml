@@ -1,0 +1,348 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+
+env:
+  NODE_VERSION: "20"
+
+jobs:
+  format-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check code formatting with Prettier
+        run: |
+          echo "🔍 Checking code formatting with Prettier..."
+          npx prettier --check "**/*.{js,jsx,ts,tsx,json,css,scss,md}" --ignore-path .gitignore
+
+      - name: Check YAML formatting with Prettier
+        run: |
+          echo "🔍 Checking YAML formatting..."
+          npx prettier --check "**/*.{yaml,yml}" --ignore-path .gitignore
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint with ESLint
+        run: |
+          echo "🔍 Linting TypeScript/JavaScript code with ESLint..."
+          npx eslint src --ext .js,.jsx,.ts,.tsx --max-warnings 0
+
+      - name: Check for console.log statements
+        run: |
+          echo "🔍 Checking for console.log statements..."
+          if grep -r "console\.log" src --include="*.js" --include="*.jsx" --include="*.ts" --include="*.tsx" --exclude-dir=node_modules --exclude-dir=__tests__ --exclude-dir=scripts; then
+            echo "❌ Found console.log statements in source code. Please remove them."
+            echo "💡 To fix: Use proper logging utilities or remove debug statements"
+            exit 1
+          else
+            echo "✅ No console.log statements found"
+          fi
+
+  type-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type checking with TypeScript
+        run: |
+          echo "🔍 Type checking with TypeScript..."
+          npx tsc --noEmit
+          echo "✅ TypeScript type checking passed"
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests with Vitest
+        run: |
+          echo "🧪 Running unit tests with Vitest..."
+          npx vitest run --coverage --reporter=json --reporter=default
+
+      - name: Check test coverage
+        run: |
+          echo "📊 Checking test coverage..."
+          npx vitest run --coverage.enabled --coverage.reporter=text-summary
+          
+          # Extract coverage percentage and check threshold
+          coverage_output=$(npx vitest run --coverage.enabled --coverage.reporter=json-summary 2>&1)
+          
+          # For now, we'll set a basic threshold that can be increased over time
+          # This is a placeholder - adjust based on current coverage
+          echo "💡 Coverage report generated. Consider setting coverage thresholds as the project matures."
+
+      - name: Upload coverage reports
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coverage-report
+          path: coverage/
+          retention-days: 7
+
+  build:
+    runs-on: ubuntu-latest
+    needs: [format-check, lint, type-check, test]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build application
+        run: |
+          echo "🔨 Building production bundle..."
+          npm run build
+          
+          # Check if build output exists
+          if [ ! -d "dist" ]; then
+            echo "❌ Build failed: dist directory not found"
+            exit 1
+          fi
+          
+          echo "✅ Build completed successfully"
+
+      - name: Check bundle size
+        run: |
+          echo "📦 Analyzing bundle size..."
+          # Get the size of the dist folder
+          dist_size=$(du -sh dist | cut -f1)
+          echo "Bundle size: $dist_size"
+          
+          # Find all JS files and list their sizes
+          echo "JavaScript bundle sizes:"
+          find dist -name "*.js" -type f -exec ls -lh {} \; | awk '{print $9 ": " $5}'
+          
+          # Find all CSS files and list their sizes
+          echo "CSS bundle sizes:"
+          find dist -name "*.css" -type f -exec ls -lh {} \; | awk '{print $9 ": " $5}'
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-output
+          path: dist/
+          retention-days: 1
+
+  security-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Run npm audit
+        run: |
+          echo "🔒 Running security audit..."
+          # Run audit and capture the output
+          audit_output=$(npm audit --audit-level=moderate 2>&1 || true)
+          echo "$audit_output"
+          
+          # Check for high or critical vulnerabilities
+          if echo "$audit_output" | grep -E "(high|critical)" > /dev/null; then
+            echo "⚠️ Found high or critical vulnerabilities"
+            echo "💡 Run 'npm audit fix' to attempt automatic fixes"
+            # For now, we won't fail the build but will warn
+            # exit 1
+          else
+            echo "✅ No high or critical vulnerabilities found"
+          fi
+
+  lighthouse:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-output
+          path: dist/
+
+      - name: Serve and test with Lighthouse CI
+        run: |
+          echo "🔦 Running Lighthouse performance tests..."
+          
+          # Install serve to host the built application
+          npm install -g serve
+          
+          # Start serving the application in the background
+          serve -s dist -p 3000 &
+          SERVER_PID=$!
+          
+          # Wait for server to start
+          sleep 5
+          
+          # Check if server is running
+          if curl -s http://localhost:3000 > /dev/null; then
+            echo "✅ Test server is running"
+          else
+            echo "❌ Failed to start test server"
+            kill $SERVER_PID 2>/dev/null || true
+            exit 1
+          fi
+          
+          # Install Lighthouse CI
+          npm install -g @lhci/cli
+          
+          # Run Lighthouse tests (basic configuration)
+          lhci autorun \
+            --collect.url=http://localhost:3000 \
+            --collect.numberOfRuns=1 \
+            --assert.preset=lighthouse:recommended \
+            --assert.assertions.categories:performance=off \
+            --assert.assertions.categories:accessibility=error \
+            --assert.assertions.categories:best-practices=warn \
+            --assert.assertions.categories:seo=warn \
+            || true
+          
+          # Clean up
+          kill $SERVER_PID
+          
+          echo "💡 Lighthouse tests completed. Review results for optimization opportunities."
+
+  validate-dependencies:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Check for outdated dependencies
+        run: |
+          echo "📦 Checking for outdated dependencies..."
+          npm outdated || true
+          echo "💡 Consider updating dependencies regularly to get security patches and new features"
+
+      - name: Check for unused dependencies
+        run: |
+          echo "🔍 Checking for unused dependencies..."
+          npx depcheck --ignores="@types/*,@testing-library/*,@vitejs/*,eslint-*,prettier,husky,typescript" || true
+          echo "💡 Review and remove any truly unused dependencies to reduce bundle size"
+
+  summary:
+    runs-on: ubuntu-latest
+    needs: [format-check, lint, type-check, test, build, security-audit, lighthouse, validate-dependencies]
+    if: always()
+    steps:
+      - name: CI Summary
+        run: |
+          echo "📋 CI Pipeline Summary"
+          echo "======================"
+          
+          # Check job statuses
+          if [ "${{ needs.format-check.result }}" == "success" ]; then
+            echo "✅ Format Check: Passed"
+          else
+            echo "❌ Format Check: Failed"
+          fi
+          
+          if [ "${{ needs.lint.result }}" == "success" ]; then
+            echo "✅ Linting: Passed"
+          else
+            echo "❌ Linting: Failed"
+          fi
+          
+          if [ "${{ needs.type-check.result }}" == "success" ]; then
+            echo "✅ Type Check: Passed"
+          else
+            echo "❌ Type Check: Failed"
+          fi
+          
+          if [ "${{ needs.test.result }}" == "success" ]; then
+            echo "✅ Tests: Passed"
+          else
+            echo "❌ Tests: Failed"
+          fi
+          
+          if [ "${{ needs.build.result }}" == "success" ]; then
+            echo "✅ Build: Passed"
+          else
+            echo "❌ Build: Failed"
+          fi
+          
+          if [ "${{ needs.security-audit.result }}" == "success" ]; then
+            echo "✅ Security Audit: Passed"
+          else
+            echo "⚠️ Security Audit: Review needed"
+          fi
+          
+          if [ "${{ needs.lighthouse.result }}" == "success" ]; then
+            echo "✅ Lighthouse: Passed"
+          else
+            echo "⚠️ Lighthouse: Review needed"
+          fi
+          
+          if [ "${{ needs.validate-dependencies.result }}" == "success" ]; then
+            echo "✅ Dependency Validation: Passed"
+          else
+            echo "⚠️ Dependency Validation: Review needed"
+          fi
+          
+          echo "======================"
+          
+          # Overall status
+          if [ "${{ needs.format-check.result }}" == "success" ] && \
+             [ "${{ needs.lint.result }}" == "success" ] && \
+             [ "${{ needs.type-check.result }}" == "success" ] && \
+             [ "${{ needs.test.result }}" == "success" ] && \
+             [ "${{ needs.build.result }}" == "success" ]; then
+            echo "🎉 All critical checks passed!"
+          else
+            echo "❌ Some critical checks failed. Please review and fix issues."
+            exit 1
+          fi

@@ -1,0 +1,33 @@
+# Dependencies
+node_modules/
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+
+# Build outputs
+dist/
+build/
+coverage/
+*.log
+
+# Generated files
+*.min.js
+*.min.css
+
+# Bazel
+bazel-*
+
+# IDE
+.vscode/
+.idea/
+
+# Git
+.git/
+.gitignore
+
+# Documentation that might have special formatting
+CHANGELOG.md
+
+# Any vendor or third-party code
+vendor/
+public/vendor/
