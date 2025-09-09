@@ -8,7 +8,6 @@ export default async function fetchPrompts(token: string) {
       },
    });
 
-   console.log("data", response);
    if (!response.ok) return null;
    const data = await response.json();
 

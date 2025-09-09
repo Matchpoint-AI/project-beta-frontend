@@ -41,7 +41,6 @@ export default function Integrations() {
       })
          .then((response) => response.json())
          .then((data: { response: string }) => {
-            console.log(data); // {"response": "all good"}
          })
          .catch((error: unknown) => console.error("Error:", error));
    }, [profile]);
@@ -130,7 +129,6 @@ function Unconnected({ onConnect }: { onConnect: () => void }) {
       try {
          const token = await openAuthPopup(authUrl);
          if (token) {
-            console.log("Authentication Successful, Token:", token);
             onConnect();
             // Save token or trigger next steps
          }

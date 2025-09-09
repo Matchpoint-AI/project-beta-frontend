@@ -63,9 +63,7 @@ const ContentOverlay = ({
   };
 
   const handleApprove = async () => {
-    console.log('imageIndex === ', imageIndex);
     const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    console.log('timeZone === ', userTimezone);
     const validTimezone = validateTimezone(userTimezone) ? userTimezone : 'UTC';
     setLoading(true);
     const payload = {
@@ -86,7 +84,6 @@ const ContentOverlay = ({
         {},
       ),
     };
-    console.log('approve posts === ', payload);
     try {
       const response = await fetch(endpointUrl + `/api/v1/contentgen/approve`, {
         method: 'POST',

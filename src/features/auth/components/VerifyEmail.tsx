@@ -24,14 +24,12 @@ export default function VerifyEmail({ setOpen }: VerifyEmailProps) {
    const navigate = useNavigate();
    const cookies = new Cookies();
 
-   console.log(auth);
 
    const handleVerifyEmail = async () => {
       try {
          await applyActionCode(auth!, code!);
          setVerified(true);
       } catch (e) {
-         console.log(e);
          setError(true);
       }
       setLoading(false);

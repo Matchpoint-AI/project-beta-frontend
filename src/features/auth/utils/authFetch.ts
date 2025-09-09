@@ -89,10 +89,6 @@ export const authFetch = async (
   
   // Log the request for debugging (only in development)
   if (process.env.NODE_ENV === 'development') {
-    console.log(`[AuthFetch] ${fetchOptions.method || 'GET'} ${url}`, {
-      hasAuth: !!token && !skipAuth,
-      headers: Object.fromEntries(headers.entries()),
-    });
   }
   
   // Make the fetch request with auth headers
@@ -103,7 +99,6 @@ export const authFetch = async (
   
   // Log response status for debugging
   if (process.env.NODE_ENV === 'development') {
-    console.log(`[AuthFetch] Response: ${response.status} ${response.statusText}`);
     if (response.status === 401) {
       console.error('[AuthFetch] 401 Unauthorized - Token may be invalid or missing');
     }

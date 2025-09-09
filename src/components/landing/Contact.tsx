@@ -4,19 +4,15 @@ import LandingInput from "../shared/Inputs/LandingInput";
 const Contact = () => {
    // TODO functionality of saving data and sending email
    const userName = () => {
-      console.log("saving user name");
    };
 
    const userEmail = () => {
-      console.log("saving user email");
    };
 
    const userIndustry = () => {
-      console.log("saving user industry");
    };
 
    const handleSumbit = () => {
-      console.log("handle submit");
    };
    return (
       <div

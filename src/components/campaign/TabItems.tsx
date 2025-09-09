@@ -45,7 +45,6 @@ const TabItems: React.FC<TabItemsProps> = ({
 
          const data = await response.json();
          const { approved } = data;
-         console.log("approve === ", approved);
          setApprovePopup(approved);
          if (approved) {
             onApprove?.();

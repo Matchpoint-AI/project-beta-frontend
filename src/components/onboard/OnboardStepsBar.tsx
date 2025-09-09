@@ -24,7 +24,6 @@ export default function OnboardStepsBar({
    ];
 
    useEffect(() => {
-      console.log("steps bar");
    }, []);
 
    return (

@@ -140,7 +140,6 @@ export default function AuthForm({ login = false, setAuthError }) {
             regRes.message || 'Registration successful. Please check your email for verification.',
           );
         }
-        console.log(regRes);
         if (posthog.__loaded) {
           posthog.capture('User Signed Up', {
             email: email,

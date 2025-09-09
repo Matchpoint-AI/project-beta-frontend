@@ -111,7 +111,6 @@ const ABTestDemo: React.FC = () => {
 
   const handleSaveVariant = async (variantId: string, content: any, notes?: string) => {
     // Simulate API call
-    console.log('Saving variant:', { variantId, content, notes });
     
     // Update demo data
     setDemoData(prev => ({
@@ -125,7 +124,6 @@ const ABTestDemo: React.FC = () => {
   };
 
   const handleUpdateTrafficAllocation = async (allocations: { [variantId: string]: number }) => {
-    console.log('Updating traffic allocation:', allocations);
     
     setDemoData(prev => ({
       ...prev,
@@ -137,17 +135,14 @@ const ABTestDemo: React.FC = () => {
   };
 
   const handleStartTest = async () => {
-    console.log('Starting A/B test');
     setDemoData(prev => ({ ...prev, status: 'running' }));
   };
 
   const handlePauseTest = async () => {
-    console.log('Pausing A/B test');
     setDemoData(prev => ({ ...prev, status: 'paused' }));
   };
 
   const handleDeclareWinner = async (variantId: string) => {
-    console.log('Declaring winner:', variantId);
     
     setDemoData(prev => ({
       ...prev,
@@ -160,7 +155,6 @@ const ABTestDemo: React.FC = () => {
   };
 
   const handleCreateVariant = async (variant: Partial<typeof demoData.variants[0]>) => {
-    console.log('Creating new variant:', variant);
     
     const newVariant = {
       id: `demo-variant-${Date.now()}`,

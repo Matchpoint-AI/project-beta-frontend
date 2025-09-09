@@ -56,7 +56,6 @@ export default function ChipsEditBlock({
       setValues((old) => {
          const newArr = Array.from(old);
          const chuncked = initValues?.splice(0, 3) || [];
-         console.log(chuncked);
          newArr.splice(0, chuncked.length, ...chuncked);
          return newArr;
       });

@@ -51,7 +51,6 @@ const Dashboard = () => {
             throw new Error("Failed to fetch data");
          }
          const data = await response.json();
-         console.log("campaigns === ", data);
          setCampaigns(data);
          setBusinessInfo({ ...businessInfo, campaigns: data });
       } catch (error) {

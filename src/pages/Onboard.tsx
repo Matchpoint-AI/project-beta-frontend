@@ -23,7 +23,6 @@ const Onboard = () => {
       </h1>
     </div>
   }
-  console.log("hasbrand", profile.hasBrand)
   return (
     <div className=" min-w-full min-h-screen bg-gradient-to-b from-[#F1FDFF] to-[#F5D9FF] items-center lg:items-start md:pl-[100px] lg:pl-[100px] md:pr-[20px] lg:pr-[20px] p-4 lg:p-0">
       {profile?.hasBrand && !editSavedBrand ? (

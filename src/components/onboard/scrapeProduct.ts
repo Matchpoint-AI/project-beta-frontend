@@ -14,10 +14,8 @@ const scrapeProduct = async (
    let endpointUrl = `${getServiceURL("llm")}/api/v1/llm/fetch-content`;
    let body: Record<string, unknown> = {};
    if (url) {
-      console.log("Scraping product from URL:", url);
       body = { url, subject: "product" };
    } else if (name || description) {
-      console.log("Scraping product from name/description:", name, description);
       endpointUrl = `${getServiceURL("llm")}/api/v1/llm/fetch-content`;
       body = { name, description, subject: "product" };
    } else {
@@ -25,8 +23,6 @@ const scrapeProduct = async (
    }
 
    try {
-      console.log("Sending request to:", endpointUrl);
-      console.log("Request body:", body);
       const response = await fetch(endpointUrl, {
          method: "POST",
          headers: {
@@ -35,8 +31,6 @@ const scrapeProduct = async (
          body: JSON.stringify(body),
       });
 
-      console.log("Response status:", response.status);
-      console.log("Response headers:", response.headers);
 
       if (!response.ok) {
          const errorText = await response.text();
@@ -45,7 +39,6 @@ const scrapeProduct = async (
       }
 
       const parsedContent = await response.json();
-      console.log("Raw response from backend:", parsedContent);
 
       if (!parsedContent) {
          throw new Error("No data found in response");
@@ -62,7 +55,6 @@ const scrapeProduct = async (
             : [],
       };
 
-      console.log("Processed product data:", result);
       
       // Validate that we have at least a name
       if (!result.name || result.name.trim() === "") {

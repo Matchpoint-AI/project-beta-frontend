@@ -67,7 +67,6 @@ export default function UserProfileForm({ edit }: { edit: boolean }) {
             setTimeout(() => setRequestError(""), 2000);
          }
       } catch (error) {
-         console.log(error);
          setRequestError((error as Error).message);
       }
       setSubmiting(false);

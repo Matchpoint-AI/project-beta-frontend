@@ -95,7 +95,6 @@ const ServiceForm = ({
          (product: any) => product.name === campaignInfo.product
       );
       if (selectedProduct) {
-         console.log("Selected product:", selectedProduct);
          setProductDescription(selectedProduct.description);
          setCampaignInfo((prev: CampaignContextType["campaignInfo"]) => ({
             ...prev,
@@ -103,9 +102,6 @@ const ServiceForm = ({
          }));
       }
 
-      // Log product features
-      console.log("Current product features:", businessInfo.product_features);
-      console.log("Current key features:", businessInfo.key_features);
    }, []);
 
    // Add validation effect
@@ -153,9 +149,7 @@ const ServiceForm = ({
       setError(false);
       setScrapeSuccess(false);
       try {
-         console.log("Scraping product from URL:", productLink);
          const scrapedProduct = await scrapeProduct(productLink);
-         console.log("Scraped product data:", scrapedProduct);
 
          if (scrapedProduct && scrapedProduct.name) {
             setProductName(scrapedProduct.name);
@@ -164,10 +158,6 @@ const ServiceForm = ({
 
             // Update business info with new product features
             setBusinessInfo((prev: any) => {
-               console.log(
-                  "Updating business info with new product features:",
-                  scrapedProduct.product_features
-               );
                return {
                   ...prev,
                   product_features: scrapedProduct.product_features || [],
@@ -184,7 +174,6 @@ const ServiceForm = ({
 
             // Show success feedback
             setScrapeSuccess(true);
-            console.log("Product scraping completed successfully");
          } else {
             // Handle case where scraping succeeded but no product name was found
             console.warn("Scraping succeeded but no product name found");
@@ -212,8 +201,6 @@ const ServiceForm = ({
    };
 
    const productChangeHandler = (value: string, index: number) => {
-      console.log("Product change handler - value:", value, "index:", index);
-      console.log("Selected product:", businessInfo?.products[index - 1]);
 
       if (value !== "Add Product or Service") {
          const selectedProduct = businessInfo?.products[index - 1];
@@ -229,7 +216,6 @@ const ServiceForm = ({
             selectedProduct?.product_features ??
             selectedProduct?.key_features ??
             [];
-         console.log("Setting features from selected product:", features);
          setFeatures(features);
       } else {
          setNewProduct(true);
@@ -242,8 +228,6 @@ const ServiceForm = ({
 
    useEffect(() => {
       if (isMounted.current) return;
-      console.log("ServiceForm - Initial mount - businessInfo:", businessInfo);
-      console.log("ServiceForm - Initial mount - campaignInfo:", campaignInfo);
 
       if (campaignInfo?.product || campaignInfo?.productDescription) {
          setProductName(campaignInfo?.product ?? "");
@@ -254,16 +238,11 @@ const ServiceForm = ({
 
       // Set features from campaignInfo if available, otherwise from businessInfo
       if (campaignInfo?.product_features?.length > 0) {
-         console.log(
-            "Setting features from campaignInfo:",
-            campaignInfo.product_features
-         );
          setFeatures(campaignInfo.product_features);
       } else if (businessInfo?.products?.[0]) {
          const firstProduct = businessInfo.products[0];
          const features =
             firstProduct.product_features ?? firstProduct.key_features ?? [];
-         console.log("Setting features from first product:", features);
          setFeatures(features);
       }
 
@@ -280,10 +259,6 @@ const ServiceForm = ({
       isMounted.current = true;
    }, [businessInfo, campaignInfo]);
 
-   // Add debug logging for features changes
-   useEffect(() => {
-      console.log("ServiceForm - features updated:", features);
-   }, [features]);
 
    return (
       <>

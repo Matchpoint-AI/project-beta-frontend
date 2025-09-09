@@ -23,7 +23,6 @@ const EventWrapper = (props: { event: EventType }) => {
 
    useEffect(() => {
       const event = props?.event;
-      console.log("event === ", event);
       setDay(event?.title);
       setStatus(event?.status);
       setPosts(event?.posts);

@@ -21,10 +21,6 @@ export default function ResetPromptBtn({
    const [error, setError] = useState("");
 
    const onPromptReset = async () => {
-      console.log({
-         version,
-         target,
-      });
       setError("");
       setLoading(true);
       const endpointUrl = `${getServiceURL("content-gen")}/api/v1/app_prompts`;

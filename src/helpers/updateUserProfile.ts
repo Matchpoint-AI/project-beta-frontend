@@ -29,6 +29,5 @@ export default async function updateUserProfile(
     throw new Error(error.detail);
   }
   const data = await response.json();
-  console.log("")
   return data as ProfileUpdate;
 }

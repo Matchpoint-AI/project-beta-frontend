@@ -110,7 +110,6 @@ const CampaignContent = () => {
           setLoading(false);
           return;
         }
-        console.log('campaignData', campaignData);
         const campaign = campaignData[0];
         setCampaign(campaign);
         setTitle(
@@ -148,7 +147,6 @@ const CampaignContent = () => {
         }
 
         const contentData = await contentResponse.json();
-        console.log('contentData', contentData);
         if (contentData.length > 0) {
           const {
             total_content,
@@ -233,7 +231,6 @@ const CampaignContent = () => {
   }
 
   const navigateToCampaignView = () => {
-    console.log(campaignContent);
     const data = campaignContent?.campaign_data?.campaign_variables;
     if(data){
       setCampaignInfo((prev) => ({

@@ -32,7 +32,6 @@ export const BrandKnowledgePage: React.FC = () => {
   };
 
   const handleSave = (data: any) => {
-    console.log('Brand knowledge saved:', data);
     // Additional logic for handling saved data
   };
 

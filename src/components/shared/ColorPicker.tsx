@@ -90,7 +90,6 @@ export default function ColorPicker({
 
       if (businessObj.brandColors) businessObj.brandColors.push(hexColor);
       else businessObj.brandColors = [hexColor];
-      console.log(old, businessObj);
       return businessObj;
     });
     selectColor((old: any) => [...old, hexColor]);

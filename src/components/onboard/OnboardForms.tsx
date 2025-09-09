@@ -24,7 +24,6 @@ const Onboard = ({ edit = false }: any) => {
   const [saveAndStart, setSaveAndStart] = useState(false);
   const endpointUrl = getServiceURL('data');
 
-  console.log('brand id', businessInfo.id);
   const navigate = useNavigate();
 
   const handleBack = () => {
@@ -49,7 +48,6 @@ const Onboard = ({ edit = false }: any) => {
     });
 
   const handleNext = () => {
-    console.log('step: ', currentStep);
     setCurrentStep((step) => step + 1);
   };
 
@@ -151,7 +149,6 @@ const Onboard = ({ edit = false }: any) => {
         return response.json();
       })
       .then((data: any) => {
-        console.log('data from brand', data, data.id);
         setBusinessInfo({
           name: data?.biz_variables?.brand_name,
           website: data?.biz_variables?.brand_website,

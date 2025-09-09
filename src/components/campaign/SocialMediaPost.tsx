@@ -364,7 +364,6 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
 
       updataImage(week - 1, day, postIndex - 1, 0, null, selectedText);
     } catch (e) {
-      console.log(e);
     } finally {
       setIsLoadingText(false);
     }
