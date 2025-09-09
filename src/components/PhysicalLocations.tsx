@@ -27,7 +27,7 @@ export default function NoPhysicalLocations(props: PhysicalLocationsProps) {
   return (
     <>
       <SparklesMessage>
-        We've not detected any physical locations for your business.
+        We&apos;ve not detected any physical locations for your business.
       </SparklesMessage>
       {checkZip === true && (
         <div className="my-10">

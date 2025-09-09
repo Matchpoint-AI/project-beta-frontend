@@ -68,10 +68,10 @@ const CampaignContent = () => {
     }
 
     let pollInterval: NodeJS.Timeout | null = null;
-    let isUnmounted = false;
+    const isUnmounted = { value: false };
 
     const fetchData = async () => {
-      if (isUnmounted) return;
+      if (isUnmounted.value) return;
 
       setLoading(true);
       setError(null);
@@ -178,7 +178,7 @@ const CampaignContent = () => {
         setLoading(false);
 
         // If campaign content is loaded, clear polling
-        if (!isUnmounted && campaign && campaign.campaign_data) {
+        if (!isUnmounted.value && campaign && campaign.campaign_data) {
           if (pollInterval) {
             clearInterval(pollInterval);
             pollInterval = null;
@@ -199,7 +199,7 @@ const CampaignContent = () => {
     }
 
     // return () => {
-    //   isUnmounted = true;
+    //   isUnmounted.value = true;
     //   if (pollInterval) {
     //     clearInterval(pollInterval);
     //   }
