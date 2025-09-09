@@ -99,17 +99,21 @@ The semantic versioning workflow is defined in `.github/workflows/set-version.ya
 Before creating a pull request, ensure your code meets the following standards:
 
 1. **Code Formatting**: Run prettier to format all code
+
    ```bash
    npm run format
    ```
+
    This prevents GitHub Actions lint failures and ensures consistent code style.
 
 2. **Linting**: Check for and fix any linting issues
+
    ```bash
    npm run lint
    ```
 
 3. **Type Checking**: Ensure TypeScript types are correct
+
    ```bash
    npm run type-check
    ```
@@ -120,6 +124,7 @@ Before creating a pull request, ensure your code meets the following standards:
    ```
 
 ### Important Notes
+
 - The CI pipeline will automatically check formatting, linting, types, and tests
 - Pull requests with formatting issues will fail the `format-check` and `lint` GitHub Actions
 - Always run `npm run format` before committing to avoid CI failures

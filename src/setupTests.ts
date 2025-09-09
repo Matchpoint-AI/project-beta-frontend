@@ -1,30 +1,6 @@
 import '@testing-library/jest-dom';
 import { vi } from 'vitest';
 
-// Mock protobufjs for V2 API
-vi.mock('protobufjs', () => ({
-  Root: vi.fn().mockImplementation(() => ({
-    load: vi.fn().mockResolvedValue({}),
-    resolveAll: vi.fn(),
-    lookupType: vi.fn().mockReturnValue({
-      create: vi.fn((data) => data),
-      verify: vi.fn().mockReturnValue(null),
-      encode: vi.fn().mockReturnValue({
-        finish: vi.fn().mockReturnValue(new Uint8Array()),
-      }),
-      decode: vi.fn().mockReturnValue({}),
-      toObject: vi.fn((message) => message),
-    }),
-  })),
-}));
-
-// Mock @bazel/runfiles for V2 API
-vi.mock('@bazel/runfiles', () => ({
-  runfiles: {
-    resolveWorkspaceRelative: vi.fn((path) => path),
-  },
-}));
-
 // Mock firebase-config for V2 API hook
 vi.mock('./firebase-config', () => ({
   auth: {

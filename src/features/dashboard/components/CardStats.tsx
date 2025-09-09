@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useAuth } from '../../features/auth/context/AuthContext';
-import { getServiceURL } from '../../helpers/getServiceURL';
+import { useAuth } from '../../auth/context/AuthContext';
+import { getServiceURL } from '../../../helpers/getServiceURL';
 
 const CardStats = ({ id }: { id: string }) => {
   const { profile } = useAuth();
