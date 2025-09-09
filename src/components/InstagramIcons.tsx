@@ -1,5 +1,4 @@
-
-import React from "react";
+import React from 'react';
 const InstagramIcons = () => {
   return (
     <div className="flex flex-row justify-between items-center mt-[12px] ">

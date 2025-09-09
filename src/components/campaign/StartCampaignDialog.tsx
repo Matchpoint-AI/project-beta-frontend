@@ -1,6 +1,6 @@
-import React from "react";
-import { default as _ReactPlayer } from "react-player/lazy";
-import { ReactPlayerProps } from "react-player/types/lib";
+import React from 'react';
+import { default as _ReactPlayer } from 'react-player/lazy';
+import { ReactPlayerProps } from 'react-player/types/lib';
 const ReactPlayer = _ReactPlayer as unknown as React.FC<ReactPlayerProps>;
 
 const StartCampaignDialog = () => {

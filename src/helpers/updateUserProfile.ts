@@ -1,9 +1,9 @@
-import { getServiceURL } from "./getServiceURL";
+import { getServiceURL } from './getServiceURL';
 
 type ProfileUpdate = {
   email: string;
   name: string;
-}
+};
 
 export default async function updateUserProfile(
   token: string,
@@ -11,11 +11,11 @@ export default async function updateUserProfile(
   email: string,
   password: string
 ) {
-  const endpointUrl = `${getServiceURL("data")}/api/v1/user/update`;
+  const endpointUrl = `${getServiceURL('data')}/api/v1/user/update`;
   const response = await fetch(endpointUrl, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({
@@ -29,6 +29,6 @@ export default async function updateUserProfile(
     throw new Error(error.detail);
   }
   const data = await response.json();
-  console.log("")
+  console.log('');
   return data as ProfileUpdate;
 }

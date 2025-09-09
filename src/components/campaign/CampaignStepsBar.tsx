@@ -55,7 +55,7 @@ export default function CampaignStepsBar({
             {!campaignInfo.name || campaignInfo.name === '' ? 'campaign name' : campaignInfo.name}
           </h1>
           <p className="text-sm">
-            <span className="font-bold">Brand/Service/Product:{' '}</span>
+            <span className="font-bold">Brand/Service/Product: </span>
             {serviceDisplay} | {timingDisplay}
           </p>
           <div className="flex flex-col gap-4 my-10">

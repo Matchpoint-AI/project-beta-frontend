@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { MdEdit } from "react-icons/md";
+import React, { useState } from 'react';
+import { MdEdit } from 'react-icons/md';
 
 interface CampaignDetailsBlockProps {
   title: string;
@@ -7,24 +7,18 @@ interface CampaignDetailsBlockProps {
   review?: boolean;
 }
 
-export default function CampaignDetailsBlock({
-  title,
-  text,
-  review,
-}: CampaignDetailsBlockProps) {
+export default function CampaignDetailsBlock({ title, text, review }: CampaignDetailsBlockProps) {
   const [edit, setEdit] = useState(false);
   const [value, setValue] = useState(text);
 
   return (
     <div
       className={`p-5 mb-[14px] rounded-md w-full border border-[#D1D5DB] group flex items-center justify-between ${
-        edit ? "bg-white" : (review ? "bg-[#F6F5FF]" : "bg-[#F6F5FF] hover:bg-[#DCD7FE]")
+        edit ? 'bg-white' : review ? 'bg-[#F6F5FF]' : 'bg-[#F6F5FF] hover:bg-[#DCD7FE]'
       }`}
     >
       <div className="flex-grow pr-2">
-        <h1 className="capitalize text-[#42389D] font-medium text-lg leading-7 mb-1">
-          {title}
-        </h1>
+        <h1 className="capitalize text-[#42389D] font-medium text-lg leading-7 mb-1">{title}</h1>
         {!edit && <p className="text-sm leading-5">{value}</p>}
         {edit && (
           <textarea

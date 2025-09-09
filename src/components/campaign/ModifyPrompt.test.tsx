@@ -9,13 +9,13 @@ vi.mock('../../features/auth/context/AuthContext', () => ({
   useAuth: () => ({
     profile: {
       token: 'test-token',
-      name: 'Test User'
-    }
-  })
+      name: 'Test User',
+    },
+  }),
 }));
 
 vi.mock('../../helpers/getServiceURL', () => ({
-  getServiceURL: () => 'http://test-url'
+  getServiceURL: () => 'http://test-url',
 }));
 
 // Mock fetch
@@ -25,7 +25,7 @@ global.fetch = vi.fn();
 const consoleSpy = {
   error: vi.fn(),
   warn: vi.fn(),
-  log: vi.fn()
+  log: vi.fn(),
 };
 
 Object.assign(console, consoleSpy);
@@ -40,7 +40,7 @@ describe('ModifyPrompt', () => {
     open: true,
     setOpen: vi.fn(),
     regenerate: vi.fn(),
-    totalAllowed: 3
+    totalAllowed: 3,
   };
 
   beforeEach(() => {
@@ -50,11 +50,11 @@ describe('ModifyPrompt', () => {
   describe('splitPrompt function', () => {
     it('should handle prompts with "A realistic photograph of" prefix', () => {
       const { container } = render(<ModifyPrompt {...defaultProps} />);
-      
+
       // Access the splitPrompt function through the component's logic
       const testPrompt = 'A realistic photograph of young professionals in an office';
       const expectedFirstPart = 'young professionals in an office';
-      
+
       // The splitPrompt function is used internally, so we test its behavior
       // by checking how the component handles prompts
       expect(testPrompt.replace('A realistic photograph of', '').trim()).toBe(expectedFirstPart);
@@ -63,35 +63,37 @@ describe('ModifyPrompt', () => {
     it('should handle prompts with "A photograph of" prefix', () => {
       const testPrompt = 'A photograph of diverse individuals';
       const expectedFirstPart = 'diverse individuals';
-      
+
       expect(testPrompt.replace('A photograph of', '').trim()).toBe(expectedFirstPart);
     });
 
     it('should handle prompts with "A realistic image of" prefix', () => {
       const testPrompt = 'A realistic image of young adults';
       const expectedFirstPart = 'young adults';
-      
+
       expect(testPrompt.replace('A realistic image of', '').trim()).toBe(expectedFirstPart);
     });
 
     it('should handle prompts with "An image of" prefix', () => {
       const testPrompt = 'An image of professionals';
       const expectedFirstPart = 'professionals';
-      
+
       expect(testPrompt.replace('An image of', '').trim()).toBe(expectedFirstPart);
     });
 
     it('should handle prompts without any prefix', () => {
       const testPrompt = 'Young professionals in a modern office';
-      
+
       // Should remain unchanged
       expect(testPrompt).toBe('Young professionals in a modern office');
     });
 
     it('should handle empty prompts', () => {
       const testPrompt = '';
-      const result = testPrompt ? testPrompt.replace(/^A (realistic )?(photograph|image) of /, '').trim() : '';
-      
+      const result = testPrompt
+        ? testPrompt.replace(/^A (realistic )?(photograph|image) of /, '').trim()
+        : '';
+
       expect(result).toBe('');
     });
   });
@@ -100,7 +102,7 @@ describe('ModifyPrompt', () => {
     it('should not automatically add "A realistic photograph of" prefix', async () => {
       (global.fetch as vi.Mock).mockResolvedValueOnce({
         ok: true,
-        json: async () => ({ prompt: 'Young professionals in an office' })
+        json: async () => ({ prompt: 'Young professionals in an office' }),
       });
 
       render(<ModifyPrompt {...defaultProps} />);
@@ -119,7 +121,9 @@ describe('ModifyPrompt', () => {
     it('should handle prompts with existing content', async () => {
       (global.fetch as vi.Mock).mockResolvedValueOnce({
         ok: true,
-        json: async () => ({ prompt: 'A realistic photograph of young professionals. Additional content.' })
+        json: async () => ({
+          prompt: 'A realistic photograph of young professionals. Additional content.',
+        }),
       });
 
       render(<ModifyPrompt {...defaultProps} />);
@@ -141,11 +145,11 @@ describe('ModifyPrompt', () => {
       (global.fetch as vi.Mock)
         .mockResolvedValueOnce({
           ok: true,
-          json: async () => ({ prompt: 'Young professionals in an office' })
+          json: async () => ({ prompt: 'Young professionals in an office' }),
         })
         .mockResolvedValueOnce({
           ok: true,
-          json: async () => ({})
+          json: async () => ({}),
         });
 
       render(<ModifyPrompt {...defaultProps} />);
@@ -166,7 +170,7 @@ describe('ModifyPrompt', () => {
           'http://test-url/api/v1/image_prompt?week_num=1&day_num=1&post_num=1&content_id=test-content-id',
           expect.objectContaining({
             headers: expect.objectContaining({
-              'Authorization': 'Bearer test-token',
+              Authorization: 'Bearer test-token',
             }),
           })
         );
@@ -177,11 +181,11 @@ describe('ModifyPrompt', () => {
       (global.fetch as vi.Mock)
         .mockResolvedValueOnce({
           ok: true,
-          json: async () => ({ prompt: 'Test prompt' })
+          json: async () => ({ prompt: 'Test prompt' }),
         })
         .mockResolvedValueOnce({
           ok: false,
-          json: async () => ({ detail: 'Submission failed' })
+          json: async () => ({ detail: 'Submission failed' }),
         });
 
       render(<ModifyPrompt {...defaultProps} />);
@@ -206,11 +210,11 @@ describe('ModifyPrompt', () => {
       (global.fetch as vi.Mock)
         .mockResolvedValueOnce({
           ok: true,
-          json: async () => ({ prompt: 'Test prompt' })
+          json: async () => ({ prompt: 'Test prompt' }),
         })
         .mockResolvedValueOnce({
           ok: true,
-          json: async () => ({ remaining: 2 })
+          json: async () => ({ remaining: 2 }),
         });
 
       render(<ModifyPrompt {...defaultProps} />);
@@ -224,11 +228,11 @@ describe('ModifyPrompt', () => {
       (global.fetch as vi.Mock)
         .mockResolvedValueOnce({
           ok: true,
-          json: async () => ({ prompt: 'Test prompt' })
+          json: async () => ({ prompt: 'Test prompt' }),
         })
         .mockResolvedValueOnce({
           ok: true,
-          json: async () => ({ remaining: 0 })
+          json: async () => ({ remaining: 0 }),
         });
 
       render(<ModifyPrompt {...defaultProps} />);
@@ -246,7 +250,7 @@ describe('ModifyPrompt', () => {
     it('should have proper ARIA labels', async () => {
       (global.fetch as vi.Mock).mockResolvedValueOnce({
         ok: true,
-        json: async () => ({ prompt: 'Test prompt' })
+        json: async () => ({ prompt: 'Test prompt' }),
       });
 
       render(<ModifyPrompt {...defaultProps} />);
@@ -260,7 +264,7 @@ describe('ModifyPrompt', () => {
     it('should have proper form structure', async () => {
       (global.fetch as vi.Mock).mockResolvedValueOnce({
         ok: true,
-        json: async () => ({ prompt: 'Test prompt' })
+        json: async () => ({ prompt: 'Test prompt' }),
       });
 
       render(<ModifyPrompt {...defaultProps} />);
@@ -287,14 +291,16 @@ describe('ModifyPrompt', () => {
     it('should handle authentication errors', async () => {
       (global.fetch as vi.Mock).mockResolvedValueOnce({
         ok: false,
-        status: 401
+        status: 401,
       });
 
       render(<ModifyPrompt {...defaultProps} />);
 
       // Should handle 401 errors by redirecting to login
       await waitFor(() => {
-        expect(console.warn).toHaveBeenCalledWith('Authentication failed - token may be invalid or expired');
+        expect(console.warn).toHaveBeenCalledWith(
+          'Authentication failed - token may be invalid or expired'
+        );
       });
     });
   });

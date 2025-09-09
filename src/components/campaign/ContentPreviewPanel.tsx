@@ -18,7 +18,7 @@ import {
   Fade,
   CircularProgress,
   useTheme,
-  alpha
+  alpha,
 } from '@mui/material';
 import {
   MdFullscreen,
@@ -27,7 +27,7 @@ import {
   MdViewComfy,
   MdPhoneIphone,
   MdLaptop,
-  MdTablet
+  MdTablet,
 } from 'react-icons/md';
 import {
   FaInstagram,
@@ -35,7 +35,7 @@ import {
   FaTwitter,
   FaTiktok,
   FaLinkedinIn,
-  FaPinterestP
+  FaPinterestP,
 } from 'react-icons/fa';
 import { IoMdCheckmark } from 'react-icons/io';
 import { BiRefresh } from 'react-icons/bi';
@@ -68,44 +68,44 @@ const platformStyles = {
     icon: FaInstagram,
     color: '#E4405F',
     maxChars: 2200,
-    name: 'Instagram'
+    name: 'Instagram',
   },
   facebook: {
     icon: FaFacebookF,
     color: '#1877F2',
     maxChars: 63206,
-    name: 'Facebook'
+    name: 'Facebook',
   },
   twitter: {
     icon: FaTwitter,
     color: '#1DA1F2',
     maxChars: 280,
-    name: 'Twitter'
+    name: 'Twitter',
   },
   tiktok: {
     icon: FaTiktok,
     color: '#000000',
     maxChars: 2200,
-    name: 'TikTok'
+    name: 'TikTok',
   },
   linkedin: {
     icon: FaLinkedinIn,
     color: '#0A66C2',
     maxChars: 3000,
-    name: 'LinkedIn'
+    name: 'LinkedIn',
   },
   pinterest: {
     icon: FaPinterestP,
     color: '#E60023',
     maxChars: 500,
-    name: 'Pinterest'
-  }
+    name: 'Pinterest',
+  },
 };
 
 const deviceSizes = {
   mobile: { width: 375, height: 667, label: 'Mobile' },
   tablet: { width: 768, height: 1024, label: 'Tablet' },
-  desktop: { width: 1440, height: 900, label: 'Desktop' }
+  desktop: { width: 1440, height: 900, label: 'Desktop' },
 };
 
 const ContentPreviewPanel: React.FC<ContentPreviewPanelProps> = ({
@@ -117,7 +117,7 @@ const ContentPreviewPanel: React.FC<ContentPreviewPanelProps> = ({
   onRefresh,
   onEdit,
   qualityScore = 0,
-  engagementPrediction
+  engagementPrediction,
 }) => {
   const theme = useTheme();
   const [viewMode, setViewMode] = useState<'split' | 'preview'>('split');
@@ -131,7 +131,11 @@ const ContentPreviewPanel: React.FC<ContentPreviewPanelProps> = ({
   const platformColor = platformStyles[selectedPlatform].color;
   const maxChars = platformStyles[selectedPlatform].maxChars;
 
-  const imageUrls = Array.isArray(content.imageUrl) ? content.imageUrl : content.imageUrl ? [content.imageUrl] : [];
+  const imageUrls = Array.isArray(content.imageUrl)
+    ? content.imageUrl
+    : content.imageUrl
+      ? [content.imageUrl]
+      : [];
   const currentImage = imageUrls[selectedImageIndex] || '';
 
   const formatNumber = (num: number): string => {
@@ -169,7 +173,7 @@ const ContentPreviewPanel: React.FC<ContentPreviewPanelProps> = ({
         <AutoAwesomeOutlinedIcon sx={{ color: platformColor }} />
         Content Editor
       </Typography>
-      
+
       <Box sx={{ mb: 3 }}>
         <Typography variant="subtitle2" color="text.secondary" gutterBottom>
           Caption ({content.text.length}/{maxChars})
@@ -181,7 +185,7 @@ const ContentPreviewPanel: React.FC<ContentPreviewPanelProps> = ({
             minHeight: 120,
             bgcolor: alpha(theme.palette.background.paper, 0.5),
             cursor: onEdit ? 'pointer' : 'default',
-            '&:hover': onEdit ? { bgcolor: alpha(theme.palette.primary.main, 0.05) } : {}
+            '&:hover': onEdit ? { bgcolor: alpha(theme.palette.primary.main, 0.05) } : {},
           }}
           onClick={onEdit}
         >
@@ -221,7 +225,7 @@ const ContentPreviewPanel: React.FC<ContentPreviewPanelProps> = ({
                   height: 8,
                   borderRadius: 4,
                   bgcolor: alpha(theme.palette.divider, 0.2),
-                  overflow: 'hidden'
+                  overflow: 'hidden',
                 }}
               >
                 <Box
@@ -229,12 +233,15 @@ const ContentPreviewPanel: React.FC<ContentPreviewPanelProps> = ({
                     height: '100%',
                     width: `${qualityScore}%`,
                     bgcolor: getQualityColor(qualityScore),
-                    transition: 'width 0.5s ease-in-out'
+                    transition: 'width 0.5s ease-in-out',
                   }}
                 />
               </Box>
             </Box>
-            <Typography variant="h6" sx={{ color: getQualityColor(qualityScore), fontWeight: 'bold' }}>
+            <Typography
+              variant="h6"
+              sx={{ color: getQualityColor(qualityScore), fontWeight: 'bold' }}
+            >
               {qualityScore}%
             </Typography>
           </Box>
@@ -249,19 +256,25 @@ const ContentPreviewPanel: React.FC<ContentPreviewPanelProps> = ({
           <Grid container spacing={1}>
             <Grid item xs={4}>
               <Paper variant="outlined" sx={{ p: 1, textAlign: 'center' }}>
-                <Typography variant="caption" color="text.secondary">Likes</Typography>
+                <Typography variant="caption" color="text.secondary">
+                  Likes
+                </Typography>
                 <Typography variant="h6">{formatNumber(engagementPrediction.likes)}</Typography>
               </Paper>
             </Grid>
             <Grid item xs={4}>
               <Paper variant="outlined" sx={{ p: 1, textAlign: 'center' }}>
-                <Typography variant="caption" color="text.secondary">Shares</Typography>
+                <Typography variant="caption" color="text.secondary">
+                  Shares
+                </Typography>
                 <Typography variant="h6">{formatNumber(engagementPrediction.shares)}</Typography>
               </Paper>
             </Grid>
             <Grid item xs={4}>
               <Paper variant="outlined" sx={{ p: 1, textAlign: 'center' }}>
-                <Typography variant="caption" color="text.secondary">Comments</Typography>
+                <Typography variant="caption" color="text.secondary">
+                  Comments
+                </Typography>
                 <Typography variant="h6">{formatNumber(engagementPrediction.comments)}</Typography>
               </Paper>
             </Grid>
@@ -294,14 +307,18 @@ const ContentPreviewPanel: React.FC<ContentPreviewPanelProps> = ({
     const scale = deviceView === 'mobile' ? 0.7 : deviceView === 'tablet' ? 0.5 : 0.4;
 
     return (
-      <Box sx={{ 
-        display: 'flex', 
-        flexDirection: 'column', 
-        height: '100%',
-        bgcolor: alpha(theme.palette.background.default, 0.5)
-      }}>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          height: '100%',
+          bgcolor: alpha(theme.palette.background.default, 0.5),
+        }}
+      >
         <Box sx={{ p: 2, borderBottom: 1, borderColor: 'divider' }}>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+          <Box
+            sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}
+          >
             <Box sx={{ display: 'flex', gap: 1 }}>
               {Object.entries(platformStyles).map(([key, style]) => {
                 const Icon = style.icon;
@@ -312,7 +329,7 @@ const ContentPreviewPanel: React.FC<ContentPreviewPanelProps> = ({
                     onClick={() => setSelectedPlatform(key as typeof selectedPlatform)}
                     sx={{
                       color: selectedPlatform === key ? style.color : 'text.secondary',
-                      bgcolor: selectedPlatform === key ? alpha(style.color, 0.1) : 'transparent'
+                      bgcolor: selectedPlatform === key ? alpha(style.color, 0.1) : 'transparent',
                     }}
                   >
                     <Icon />
@@ -346,14 +363,16 @@ const ContentPreviewPanel: React.FC<ContentPreviewPanelProps> = ({
           </Box>
         </Box>
 
-        <Box sx={{ 
-          flex: 1, 
-          display: 'flex', 
-          justifyContent: 'center', 
-          alignItems: 'center',
-          p: 3,
-          overflow: 'auto'
-        }}>
+        <Box
+          sx={{
+            flex: 1,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            p: 3,
+            overflow: 'auto',
+          }}
+        >
           {isLoading ? (
             <CircularProgress />
           ) : (
@@ -367,19 +386,21 @@ const ContentPreviewPanel: React.FC<ContentPreviewPanelProps> = ({
                   borderRadius: deviceView === 'mobile' ? 4 : 2,
                   transform: `scale(${scale})`,
                   transformOrigin: 'center',
-                  bgcolor: 'background.paper'
+                  bgcolor: 'background.paper',
                 }}
               >
                 <Box sx={{ height: '100%', overflowY: 'auto' }}>
                   {/* Platform Header */}
-                  <Box sx={{ 
-                    p: 2, 
-                    display: 'flex', 
-                    alignItems: 'center', 
-                    gap: 1,
-                    borderBottom: 1,
-                    borderColor: 'divider'
-                  }}>
+                  <Box
+                    sx={{
+                      p: 2,
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 1,
+                      borderBottom: 1,
+                      borderColor: 'divider',
+                    }}
+                  >
                     <Box
                       sx={{
                         width: 32,
@@ -388,11 +409,15 @@ const ContentPreviewPanel: React.FC<ContentPreviewPanelProps> = ({
                         bgcolor: platformColor,
                         display: 'flex',
                         alignItems: 'center',
-                        justifyContent: 'center'
+                        justifyContent: 'center',
                       }}
                     >
                       {profileImage ? (
-                        <img src={profileImage} alt={brandName} style={{ width: '100%', borderRadius: '50%' }} />
+                        <img
+                          src={profileImage}
+                          alt={brandName}
+                          style={{ width: '100%', borderRadius: '50%' }}
+                        />
                       ) : (
                         <Typography variant="caption" sx={{ color: 'white', fontWeight: 'bold' }}>
                           {brandName[0]}
@@ -412,25 +437,27 @@ const ContentPreviewPanel: React.FC<ContentPreviewPanelProps> = ({
                   {/* Image */}
                   {currentImage && (
                     <Box sx={{ position: 'relative', bgcolor: 'black' }}>
-                      <img 
-                        src={currentImage} 
+                      <img
+                        src={currentImage}
                         alt="Content preview"
-                        style={{ 
-                          width: '100%', 
+                        style={{
+                          width: '100%',
                           height: 'auto',
                           maxHeight: device.height * scale * 0.6,
-                          objectFit: 'contain'
+                          objectFit: 'contain',
                         }}
                       />
                       {imageUrls.length > 1 && (
-                        <Box sx={{ 
-                          position: 'absolute', 
-                          bottom: 8, 
-                          left: '50%', 
-                          transform: 'translateX(-50%)',
-                          display: 'flex',
-                          gap: 0.5
-                        }}>
+                        <Box
+                          sx={{
+                            position: 'absolute',
+                            bottom: 8,
+                            left: '50%',
+                            transform: 'translateX(-50%)',
+                            display: 'flex',
+                            gap: 0.5,
+                          }}
+                        >
                           {imageUrls.map((_, idx) => (
                             <Box
                               key={idx}
@@ -440,7 +467,7 @@ const ContentPreviewPanel: React.FC<ContentPreviewPanelProps> = ({
                                 height: 8,
                                 borderRadius: '50%',
                                 bgcolor: idx === selectedImageIndex ? 'white' : alpha('#fff', 0.5),
-                                cursor: 'pointer'
+                                cursor: 'pointer',
                               }}
                             />
                           ))}
@@ -456,22 +483,30 @@ const ContentPreviewPanel: React.FC<ContentPreviewPanelProps> = ({
                     </Typography>
                     {content.hashtags && (
                       <Typography variant="body2" sx={{ color: platformColor }}>
-                        {content.hashtags.map(tag => `#${tag}`).join(' ')}
+                        {content.hashtags.map((tag) => `#${tag}`).join(' ')}
                       </Typography>
                     )}
                   </Box>
 
                   {/* Engagement Bar */}
-                  <Box sx={{ 
-                    p: 2, 
-                    borderTop: 1, 
-                    borderColor: 'divider',
-                    display: 'flex',
-                    justifyContent: 'space-around'
-                  }}>
-                    <Typography variant="caption" color="text.secondary">Like</Typography>
-                    <Typography variant="caption" color="text.secondary">Comment</Typography>
-                    <Typography variant="caption" color="text.secondary">Share</Typography>
+                  <Box
+                    sx={{
+                      p: 2,
+                      borderTop: 1,
+                      borderColor: 'divider',
+                      display: 'flex',
+                      justifyContent: 'space-around',
+                    }}
+                  >
+                    <Typography variant="caption" color="text.secondary">
+                      Like
+                    </Typography>
+                    <Typography variant="caption" color="text.secondary">
+                      Comment
+                    </Typography>
+                    <Typography variant="caption" color="text.secondary">
+                      Share
+                    </Typography>
                   </Box>
                 </Box>
               </Paper>
@@ -483,17 +518,22 @@ const ContentPreviewPanel: React.FC<ContentPreviewPanelProps> = ({
   };
 
   return (
-    <Card ref={containerRef} sx={{ height: isFullscreen ? '100vh' : 600, display: 'flex', flexDirection: 'column' }}>
+    <Card
+      ref={containerRef}
+      sx={{ height: isFullscreen ? '100vh' : 600, display: 'flex', flexDirection: 'column' }}
+    >
       <CardContent sx={{ p: 0, height: '100%', display: 'flex', flexDirection: 'column' }}>
-        <Box sx={{ 
-          px: 2, 
-          py: 1, 
-          borderBottom: 1, 
-          borderColor: 'divider',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center'
-        }}>
+        <Box
+          sx={{
+            px: 2,
+            py: 1,
+            borderBottom: 1,
+            borderColor: 'divider',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
           <Typography variant="h6" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <AutoAwesomeOutlinedIcon />
             Enhanced Content Preview
@@ -527,9 +567,7 @@ const ContentPreviewPanel: React.FC<ContentPreviewPanelProps> = ({
               <Box sx={{ width: '40%', borderRight: 1, borderColor: 'divider' }}>
                 {renderEditPanel()}
               </Box>
-              <Box sx={{ flex: 1 }}>
-                {renderPreview()}
-              </Box>
+              <Box sx={{ flex: 1 }}>{renderPreview()}</Box>
             </>
           ) : (
             renderPreview()

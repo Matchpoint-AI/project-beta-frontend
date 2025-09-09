@@ -17,7 +17,7 @@ import {
   FaStar as Sparkles,
   FaClock as Clock,
   FaChevronUp as ChevronUp,
-  FaChevronDown as ChevronDown
+  FaChevronDown as ChevronDown,
 } from 'react-icons/fa';
 import { CircularProgress, LinearProgress, Chip } from '@mui/material';
 import { performanceApi } from '../../api/performanceApi';
@@ -72,8 +72,8 @@ const PerformancePredictionDashboard: React.FC = () => {
     setLoading(true);
     try {
       // Simulate AI prediction calculation
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
       // Generate prediction metrics
       const mockPredictions: PredictionMetric[] = [
         {
@@ -84,7 +84,7 @@ const PerformancePredictionDashboard: React.FC = () => {
           confidence: 87,
           icon: <Heart className="w-5 h-5" />,
           color: '#EF4444',
-          trend: 'up'
+          trend: 'up',
         },
         {
           label: 'Reach',
@@ -94,7 +94,7 @@ const PerformancePredictionDashboard: React.FC = () => {
           confidence: 92,
           icon: <Users className="w-5 h-5" />,
           color: '#3B82F6',
-          trend: 'up'
+          trend: 'up',
         },
         {
           label: 'Comments',
@@ -104,7 +104,7 @@ const PerformancePredictionDashboard: React.FC = () => {
           confidence: 78,
           icon: <MessageCircle className="w-5 h-5" />,
           color: '#10B981',
-          trend: 'up'
+          trend: 'up',
         },
         {
           label: 'Shares',
@@ -114,7 +114,7 @@ const PerformancePredictionDashboard: React.FC = () => {
           confidence: 82,
           icon: <Share2 className="w-5 h-5" />,
           color: '#8B5CF6',
-          trend: 'up'
+          trend: 'up',
         },
         {
           label: 'Impressions',
@@ -124,7 +124,7 @@ const PerformancePredictionDashboard: React.FC = () => {
           confidence: 90,
           icon: <Eye className="w-5 h-5" />,
           color: '#F59E0B',
-          trend: 'up'
+          trend: 'up',
         },
         {
           label: 'Click Rate',
@@ -134,8 +134,8 @@ const PerformancePredictionDashboard: React.FC = () => {
           confidence: 75,
           icon: <Target className="w-5 h-5" />,
           color: '#EC4899',
-          trend: 'up'
-        }
+          trend: 'up',
+        },
       ];
 
       // Generate campaign predictions
@@ -151,8 +151,8 @@ const PerformancePredictionDashboard: React.FC = () => {
           recommendations: [
             'Post at 2 PM on weekdays for 35% better engagement',
             'Include user-generated content for 28% reach boost',
-            'Add trending hashtags #SummerVibes #NewCollection'
-          ]
+            'Add trending hashtags #SummerVibes #NewCollection',
+          ],
         },
         {
           campaignId: '2',
@@ -165,9 +165,9 @@ const PerformancePredictionDashboard: React.FC = () => {
           recommendations: [
             'Create 60-second video tutorials for 45% better retention',
             'Use carousel posts for product features',
-            'Schedule posts at 6 PM for working professionals'
-          ]
-        }
+            'Schedule posts at 6 PM for working professionals',
+          ],
+        },
       ];
 
       // Generate content performance predictions
@@ -177,22 +177,22 @@ const PerformancePredictionDashboard: React.FC = () => {
           currentPerformance: 75,
           predictedPerformance: 92,
           optimalTime: '7:00 PM - 9:00 PM',
-          suggestedTags: ['#Trending', '#ViralContent', '#MustWatch']
+          suggestedTags: ['#Trending', '#ViralContent', '#MustWatch'],
         },
         {
           contentType: 'Product Photos',
           currentPerformance: 68,
           predictedPerformance: 81,
           optimalTime: '12:00 PM - 2:00 PM',
-          suggestedTags: ['#ProductLaunch', '#NewArrival', '#ShopNow']
+          suggestedTags: ['#ProductLaunch', '#NewArrival', '#ShopNow'],
         },
         {
           contentType: 'User Stories',
           currentPerformance: 82,
           predictedPerformance: 89,
           optimalTime: '8:00 AM - 10:00 AM',
-          suggestedTags: ['#CustomerLove', '#RealStories', '#Testimonial']
-        }
+          suggestedTags: ['#CustomerLove', '#RealStories', '#Testimonial'],
+        },
       ];
 
       setPredictions(mockPredictions);
@@ -216,7 +216,7 @@ const PerformancePredictionDashboard: React.FC = () => {
     { label: 'Sun', actual: 82, predicted: 82 },
     { label: 'Mon*', actual: null, predicted: 88 },
     { label: 'Tue*', actual: null, predicted: 92 },
-    { label: 'Wed*', actual: null, predicted: 95 }
+    { label: 'Wed*', actual: null, predicted: 95 },
   ];
 
   const engagementDistribution = [
@@ -224,7 +224,7 @@ const PerformancePredictionDashboard: React.FC = () => {
     { label: 'Comments', value: 25, color: '#3B82F6' },
     { label: 'Shares', value: 15, color: '#10B981' },
     { label: 'Saves', value: 15, color: '#F59E0B' },
-    { label: 'Clicks', value: 10, color: '#8B5CF6' }
+    { label: 'Clicks', value: 10, color: '#8B5CF6' },
   ];
 
   const confidenceColors = (confidence: number) => {
@@ -301,9 +301,11 @@ const PerformancePredictionDashboard: React.FC = () => {
                 ) : (
                   <ChevronDown className="w-4 h-4 text-red-500" />
                 )}
-                <span className={`text-sm font-medium ${
-                  metric.trend === 'up' ? 'text-green-500' : 'text-red-500'
-                }`}>
+                <span
+                  className={`text-sm font-medium ${
+                    metric.trend === 'up' ? 'text-green-500' : 'text-red-500'
+                  }`}
+                >
                   {metric.change}%
                 </span>
               </div>
@@ -312,7 +314,9 @@ const PerformancePredictionDashboard: React.FC = () => {
               <div className="flex justify-between text-xs text-gray-500 mb-1">
                 <span>Predicted</span>
                 <span className="font-medium">
-                  {metric.predicted < 100 ? `${metric.predicted}%` : metric.predicted.toLocaleString()}
+                  {metric.predicted < 100
+                    ? `${metric.predicted}%`
+                    : metric.predicted.toLocaleString()}
                 </span>
               </div>
               <LinearProgress
@@ -322,8 +326,8 @@ const PerformancePredictionDashboard: React.FC = () => {
                 sx={{
                   backgroundColor: '#E5E7EB',
                   '& .MuiLinearProgress-bar': {
-                    backgroundColor: metric.color
-                  }
+                    backgroundColor: metric.color,
+                  },
                 }}
               />
             </div>
@@ -352,13 +356,13 @@ const PerformancePredictionDashboard: React.FC = () => {
               <div key={index} className="flex-1 flex flex-col items-center">
                 <div className="relative h-48 w-8 bg-gray-100 rounded-t">
                   {point.actual && (
-                    <div 
+                    <div
                       className="absolute bottom-0 w-full bg-blue-500 rounded-t opacity-80"
                       style={{ height: `${(point.actual / 100) * 192}px` }}
                     />
                   )}
                   {point.predicted && (
-                    <div 
+                    <div
                       className="absolute bottom-0 w-full bg-green-500 rounded-t opacity-60"
                       style={{ height: `${(point.predicted / 100) * 192}px` }}
                     />
@@ -370,7 +374,7 @@ const PerformancePredictionDashboard: React.FC = () => {
           </div>
           <div className="mt-4 p-3 bg-green-50 rounded-lg border border-green-200">
             <p className="text-sm text-green-800">
-              <strong>AI Insight:</strong> Your content performance is expected to increase by 32% 
+              <strong>AI Insight:</strong> Your content performance is expected to increase by 32%
               over the next 3 days based on current engagement patterns and seasonal trends.
             </p>
           </div>
@@ -384,15 +388,17 @@ const PerformancePredictionDashboard: React.FC = () => {
               {engagementDistribution.map((item, index) => {
                 const radius = 64;
                 const circumference = 2 * Math.PI * radius;
-                const offset = engagementDistribution.slice(0, index).reduce((acc, curr) => acc + curr.value, 0);
+                const offset = engagementDistribution
+                  .slice(0, index)
+                  .reduce((acc, curr) => acc + curr.value, 0);
                 const strokeDasharray = `${(item.value / 100) * circumference} ${circumference}`;
                 const strokeDashoffset = -((offset / 100) * circumference);
-                
+
                 return (
-                  <svg 
+                  <svg
                     key={index}
                     className="absolute inset-0 transform -rotate-90"
-                    width="128" 
+                    width="128"
                     height="128"
                   >
                     <circle
@@ -421,10 +427,7 @@ const PerformancePredictionDashboard: React.FC = () => {
             {engagementDistribution.map((item, index) => (
               <div key={index} className="flex items-center justify-between text-sm">
                 <div className="flex items-center gap-2">
-                  <div 
-                    className="w-3 h-3 rounded-full" 
-                    style={{ backgroundColor: item.color }}
-                  />
+                  <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.color }} />
                   <span className="text-gray-700">{item.label}</span>
                 </div>
                 <span className="font-medium text-gray-900">{item.value}%</span>
@@ -435,9 +438,7 @@ const PerformancePredictionDashboard: React.FC = () => {
             <p className="text-xs text-gray-600">
               <strong>Optimize for:</strong> Comments & Shares
             </p>
-            <p className="text-xs text-gray-500">
-              These metrics show highest growth potential
-            </p>
+            <p className="text-xs text-gray-500">These metrics show highest growth potential</p>
           </div>
         </div>
       </div>
@@ -461,7 +462,9 @@ const PerformancePredictionDashboard: React.FC = () => {
                         style={{ width: `${campaign.performanceScore}%` }}
                       />
                     </div>
-                    <span className="text-sm font-bold text-gray-900">{campaign.performanceScore}</span>
+                    <span className="text-sm font-bold text-gray-900">
+                      {campaign.performanceScore}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -477,7 +480,9 @@ const PerformancePredictionDashboard: React.FC = () => {
               <div className="text-center p-3 bg-blue-50 rounded-lg">
                 <Users className="w-5 h-5 text-blue-600 mx-auto mb-1" />
                 <p className="text-xs text-gray-600">Predicted Reach</p>
-                <p className="text-lg font-bold text-gray-900">{(campaign.predictedReach / 1000).toFixed(1)}K</p>
+                <p className="text-lg font-bold text-gray-900">
+                  {(campaign.predictedReach / 1000).toFixed(1)}K
+                </p>
               </div>
               <div className="text-center p-3 bg-green-50 rounded-lg">
                 <Heart className="w-5 h-5 text-green-600 mx-auto mb-1" />
@@ -511,7 +516,9 @@ const PerformancePredictionDashboard: React.FC = () => {
 
       {/* Content Performance Predictions */}
       <div className="bg-white rounded-xl border border-gray-200 p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Content Type Performance Forecast</h3>
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">
+          Content Type Performance Forecast
+        </h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {contentPerformance.map((content, index) => (
             <div key={index} className="border border-gray-200 rounded-lg p-4">
@@ -544,7 +551,10 @@ const PerformancePredictionDashboard: React.FC = () => {
                 </div>
                 <div className="flex flex-wrap gap-1">
                   {content.suggestedTags.map((tag, idx) => (
-                    <span key={idx} className="text-xs px-2 py-1 bg-gray-100 text-gray-700 rounded-full">
+                    <span
+                      key={idx}
+                      className="text-xs px-2 py-1 bg-gray-100 text-gray-700 rounded-full"
+                    >
                       {tag}
                     </span>
                   ))}
@@ -560,10 +570,13 @@ const PerformancePredictionDashboard: React.FC = () => {
         <div className="flex items-start gap-3">
           <AlertCircle className="w-5 h-5 text-purple-600 mt-0.5" />
           <div>
-            <p className="text-sm font-medium text-purple-900">Performance Optimization Opportunity</p>
+            <p className="text-sm font-medium text-purple-900">
+              Performance Optimization Opportunity
+            </p>
             <p className="text-sm text-purple-700 mt-1">
-              Based on AI analysis, posting video content on Thursday evenings could increase your 
-              engagement by up to 45%. Consider scheduling your next campaign launch for maximum impact.
+              Based on AI analysis, posting video content on Thursday evenings could increase your
+              engagement by up to 45%. Consider scheduling your next campaign launch for maximum
+              impact.
             </p>
           </div>
         </div>

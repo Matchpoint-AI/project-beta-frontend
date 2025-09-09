@@ -8,7 +8,7 @@ import ContentComparisonModal from './ContentComparisonModal';
 // Mock AuthContext
 const mockProfile = { uid: 'test-user-123', email: 'test@example.com' };
 vi.mock('../../features/auth/context/AuthContext', () => ({
-  useAuth: () => ({ profile: mockProfile })
+  useAuth: () => ({ profile: mockProfile }),
 }));
 
 // Mock ResizeObserver for Material-UI components
@@ -23,7 +23,8 @@ vi.mock('@mui/material', async () => {
   const actual = await vi.importActual('@mui/material');
   return {
     ...actual,
-    Dialog: ({ open, children }: any) => open ? <div data-testid="hitl-dialog">{children}</div> : null,
+    Dialog: ({ open, children }: any) =>
+      open ? <div data-testid="hitl-dialog">{children}</div> : null,
     DialogContent: ({ children }: any) => <div data-testid="hitl-dialog-content">{children}</div>,
     Card: ({ children }: any) => <div data-testid="hitl-card">{children}</div>,
     Accordion: ({ children }: any) => <div data-testid="hitl-accordion">{children}</div>,
@@ -33,12 +34,14 @@ vi.mock('@mui/material', async () => {
 describe('HITL Review Components', () => {
   describe('Component Rendering', () => {
     it('HITLReviewPanel renders without crashing', () => {
-      const mockItems = [{
-        id: 'test-1',
-        type: 'caption' as const,
-        content: 'Test content',
-        status: 'pending' as const
-      }];
+      const mockItems = [
+        {
+          id: 'test-1',
+          type: 'caption' as const,
+          content: 'Test content',
+          status: 'pending' as const,
+        },
+      ];
 
       const { container } = render(
         <HITLReviewPanel
@@ -51,7 +54,7 @@ describe('HITL Review Components', () => {
           isOpen={true}
         />
       );
-      
+
       expect(container).toBeTruthy();
     });
 
@@ -63,18 +66,20 @@ describe('HITL Review Components', () => {
           content="Test content for quality assessment"
         />
       );
-      
+
       expect(container).toBeTruthy();
     });
 
     it('ContentComparisonModal renders without crashing', () => {
-      const mockVersions = [{
-        id: 'v1',
-        content: 'Test content version 1',
-        timestamp: '2023-01-01T00:00:00Z',
-        author: 'Test Author',
-        type: 'original' as const
-      }];
+      const mockVersions = [
+        {
+          id: 'v1',
+          content: 'Test content version 1',
+          timestamp: '2023-01-01T00:00:00Z',
+          author: 'Test Author',
+          type: 'original' as const,
+        },
+      ];
 
       const { container } = render(
         <ContentComparisonModal
@@ -87,7 +92,7 @@ describe('HITL Review Components', () => {
           onRevert={vi.fn()}
         />
       );
-      
+
       expect(container).toBeTruthy();
     });
   });
@@ -105,19 +110,15 @@ describe('HITL Review Components', () => {
           isOpen={true}
         />
       );
-      
+
       expect(container).toBeTruthy();
     });
 
     it('QualityGatePanel handles different content types', () => {
       const { container } = render(
-        <QualityGatePanel
-          itemId="test-item-2"
-          itemType="image"
-          content="A test image prompt"
-        />
+        <QualityGatePanel itemId="test-item-2" itemType="image" content="A test image prompt" />
       );
-      
+
       expect(container).toBeTruthy();
     });
 
@@ -133,7 +134,7 @@ describe('HITL Review Components', () => {
           onRevert={vi.fn()}
         />
       );
-      
+
       expect(container).toBeTruthy();
     });
   });

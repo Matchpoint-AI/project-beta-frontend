@@ -16,13 +16,11 @@ vi.mock('./dashboard/CardStats', () => ({
 }));
 
 vi.mock('./dashboard/CampaignReviewButton', () => ({
-  default: ({ campaign }: any) => (
-    <button data-testid="review-button">Review Campaign</button>
-  ),
+  default: ({ campaign }: any) => <button data-testid="review-button">Review Campaign</button>,
 }));
 
 vi.mock('./campaign/CampaignThreadWin', () => ({
-  default: ({ open, onClose }: any) => 
+  default: ({ open, onClose }: any) =>
     open ? <div data-testid="thread-win">Thread Window</div> : null,
 }));
 

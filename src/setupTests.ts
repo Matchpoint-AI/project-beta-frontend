@@ -10,28 +10,28 @@ vi.mock('protobufjs', () => ({
       create: vi.fn((data) => data),
       verify: vi.fn().mockReturnValue(null),
       encode: vi.fn().mockReturnValue({
-        finish: vi.fn().mockReturnValue(new Uint8Array())
+        finish: vi.fn().mockReturnValue(new Uint8Array()),
       }),
       decode: vi.fn().mockReturnValue({}),
-      toObject: vi.fn((message) => message)
-    })
-  }))
+      toObject: vi.fn((message) => message),
+    }),
+  })),
 }));
 
 // Mock @bazel/runfiles for V2 API
 vi.mock('@bazel/runfiles', () => ({
   runfiles: {
-    resolveWorkspaceRelative: vi.fn((path) => path)
-  }
+    resolveWorkspaceRelative: vi.fn((path) => path),
+  },
 }));
 
 // Mock firebase-config for V2 API hook
 vi.mock('./firebase-config', () => ({
   auth: {
     currentUser: {
-      getIdToken: vi.fn().mockResolvedValue('test-token')
-    }
-  }
+      getIdToken: vi.fn().mockResolvedValue('test-token'),
+    },
+  },
 }));
 
 // Global mock for scrapeProduct
@@ -75,12 +75,12 @@ Object.defineProperty(globalThis, 'crypto', {
         }
       }
       // Fallback UUID generation
-      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-        const r = Math.random() * 16 | 0;
-        const v = c === 'x' ? r : (r & 0x3 | 0x8);
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        const r = (Math.random() * 16) | 0;
+        const v = c === 'x' ? r : (r & 0x3) | 0x8;
         return v.toString(16);
       });
-    }
+    },
   },
   configurable: true,
 });
@@ -88,18 +88,22 @@ Object.defineProperty(globalThis, 'crypto', {
 // Additional browser API mocks
 if (typeof window !== 'undefined') {
   // Mock ResizeObserver
-  window.ResizeObserver = window.ResizeObserver || class ResizeObserver {
-    observe() {}
-    unobserve() {}
-    disconnect() {}
-  };
+  window.ResizeObserver =
+    window.ResizeObserver ||
+    class ResizeObserver {
+      observe() {}
+      unobserve() {}
+      disconnect() {}
+    };
 
   // Mock IntersectionObserver
-  window.IntersectionObserver = window.IntersectionObserver || class IntersectionObserver {
-    observe() {}
-    unobserve() {}
-    disconnect() {}
-  };
+  window.IntersectionObserver =
+    window.IntersectionObserver ||
+    class IntersectionObserver {
+      observe() {}
+      unobserve() {}
+      disconnect() {}
+    };
 
   // Mock matchMedia
   Object.defineProperty(window, 'matchMedia', {

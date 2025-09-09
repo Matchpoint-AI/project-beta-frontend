@@ -82,7 +82,7 @@ export default function AuthForm({ login = false, setAuthError }) {
               >
                 Resend email
               </span>
-            </span>,
+            </span>
           );
           return;
         }
@@ -115,7 +115,7 @@ export default function AuthForm({ login = false, setAuthError }) {
           profile.plan,
           profile.role,
           profile.is_admin,
-          profile.hasBrand,
+          profile.hasBrand
         );
 
         if (posthog.__loaded) {
@@ -137,7 +137,7 @@ export default function AuthForm({ login = false, setAuthError }) {
         const regRes = await registerUser(email, name, password);
         if (regRes.success) {
           setAuthError(
-            regRes.message || 'Registration successful. Please check your email for verification.',
+            regRes.message || 'Registration successful. Please check your email for verification.'
           );
         }
         console.log(regRes);
@@ -157,7 +157,7 @@ export default function AuthForm({ login = false, setAuthError }) {
           setAuthError('Invalid username or password.');
         } else if (authError.code === 'auth/too-many-requests') {
           setAuthError(
-            'Access temporarily disabled due to too many attempts. Try again later or reset your password.',
+            'Access temporarily disabled due to too many attempts. Try again later or reset your password.'
           );
         } else {
           setAuthError('Login failed. Please retry.');

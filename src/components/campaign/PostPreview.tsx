@@ -38,8 +38,8 @@ interface PostPreviewProps {
     day: number,
     post: number,
     imageIndex: number,
-    newImage: string|null,
-    nexText: string,
+    newImage: string | null,
+    nexText: string
   ) => void;
 }
 
@@ -62,7 +62,7 @@ const PostPreview = ({
   const [openPrompt, setOpenPrompt] = useState(false);
   const [expandImage, setExpandImage] = useState(false);
   const { profile } = useAuth();
-  
+
   // DEMO-3 Enhanced Preview Features
   const [selectedPlatform, setSelectedPlatform] = useState<Platform>('instagram');
   const [deviceType, setDeviceType] = useState<DeviceType>('mobile');
@@ -158,36 +158,36 @@ const PostPreview = ({
 
   // Platform configurations for DEMO-3
   const platformConfigs = {
-    instagram: { 
-      icon: FaInstagram, 
-      color: '#E4405F', 
+    instagram: {
+      icon: FaInstagram,
+      color: '#E4405F',
       aspectRatio: 'aspect-square',
-      name: 'Instagram'
+      name: 'Instagram',
     },
-    twitter: { 
-      icon: FaTwitter, 
-      color: '#1DA1F2', 
+    twitter: {
+      icon: FaTwitter,
+      color: '#1DA1F2',
       aspectRatio: 'aspect-[16/9]',
-      name: 'Twitter'
+      name: 'Twitter',
     },
-    facebook: { 
-      icon: FaFacebook, 
-      color: '#1877F2', 
+    facebook: {
+      icon: FaFacebook,
+      color: '#1877F2',
       aspectRatio: 'aspect-[16/9]',
-      name: 'Facebook'
+      name: 'Facebook',
     },
-    linkedin: { 
-      icon: FaLinkedin, 
-      color: '#0A66C2', 
+    linkedin: {
+      icon: FaLinkedin,
+      color: '#0A66C2',
       aspectRatio: 'aspect-[16/9]',
-      name: 'LinkedIn'
+      name: 'LinkedIn',
     },
-    tiktok: { 
-      icon: FaTiktok, 
-      color: '#000000', 
+    tiktok: {
+      icon: FaTiktok,
+      color: '#000000',
       aspectRatio: 'aspect-[9/16]',
-      name: 'TikTok'
-    }
+      name: 'TikTok',
+    },
   };
 
   const currentPlatform = platformConfigs[selectedPlatform];
@@ -199,19 +199,19 @@ const PostPreview = ({
       <div className="flex items-center justify-between">
         <h1 className="font-bold text-sm text-gray-900">Post {index + 1}</h1>
         <div className="flex items-center gap-2">
-          <Chip 
-            icon={<PlatformIcon />} 
+          <Chip
+            icon={<PlatformIcon />}
             label={currentPlatform.name}
             size="small"
-            sx={{ 
-              backgroundColor: currentPlatform.color, 
+            sx={{
+              backgroundColor: currentPlatform.color,
               color: 'white',
-              '& .MuiChip-icon': { color: 'white' }
+              '& .MuiChip-icon': { color: 'white' },
             }}
           />
         </div>
       </div>
-      
+
       {/* DEMO-3 Enhanced Controls */}
       <div className="flex gap-2 mb-2">
         <FormControl size="small" sx={{ minWidth: 120 }}>
@@ -234,7 +234,7 @@ const PostPreview = ({
             })}
           </Select>
         </FormControl>
-        
+
         <FormControl size="small" sx={{ minWidth: 100 }}>
           <InputLabel>Device</InputLabel>
           <Select
@@ -247,7 +247,9 @@ const PostPreview = ({
           </Select>
         </FormControl>
       </div>
-      <div className={`flex flex-col bg-white rounded-lg border ${deviceType === 'mobile' ? 'w-full sm:w-[320px]' : 'w-full max-w-[500px]'} ${deviceType === 'mobile' ? 'aspect-[64/129]' : 'aspect-[3/2]'}`}>
+      <div
+        className={`flex flex-col bg-white rounded-lg border ${deviceType === 'mobile' ? 'w-full sm:w-[320px]' : 'w-full max-w-[500px]'} ${deviceType === 'mobile' ? 'aspect-[64/129]' : 'aspect-[3/2]'}`}
+      >
         {/* Platform-specific header */}
         {selectedPlatform === 'instagram' && (
           <div className="flex flex-row justify-between items-center px-2 w-full h-[60px]">
@@ -272,7 +274,7 @@ const PostPreview = ({
             <BsThreeDots color="#4F4F4F" size="20px" />
           </div>
         )}
-        
+
         {/* Platform-specific content area */}
         {content?.image_url === undefined ? (
           <div className={`flex items-center w-full justify-center ${currentPlatform.aspectRatio}`}>
@@ -308,15 +310,17 @@ const PostPreview = ({
               <p className="font-[457] text-xs">2,563 likes</p>
             </>
           )}
-          
+
           {selectedPlatform === 'twitter' && (
             <div className="flex items-center gap-2 py-2">
               <div className="flex flex-col gap-[1px] text-black">
-                <h1 className="font-[556] text-sm">@{brandName.toLowerCase().replace(/\s+/g, '')}</h1>
+                <h1 className="font-[556] text-sm">
+                  @{brandName.toLowerCase().replace(/\s+/g, '')}
+                </h1>
               </div>
             </div>
           )}
-          
+
           {selectedPlatform === 'facebook' && (
             <div className="flex items-center gap-2 py-2 border-b">
               <div className="flex flex-col gap-[1px] text-black">
@@ -325,7 +329,7 @@ const PostPreview = ({
               </div>
             </div>
           )}
-          
+
           {selectedPlatform === 'linkedin' && (
             <div className="flex items-center gap-2 py-2 border-b">
               <div className="flex flex-col gap-[1px] text-black">
@@ -334,7 +338,7 @@ const PostPreview = ({
               </div>
             </div>
           )}
-          
+
           {edit === true ? (
             <textarea
               ref={textareaRef}

@@ -16,14 +16,14 @@ const description = {
   persona: 'The characteristics that identify who you are and how you behave',
   toneAndVoice: 'How your business speaks and verbally expresses its personality',
   colors: 'Primary brand colors (max 2)',
-  summary: 'Brief description of your business'
+  summary: 'Brief description of your business',
 };
 
 const mergeValues = (values: any) => {
   const result = [
-    { id: 0, label: "", selected: false },
-    { id: 1, label: "", selected: false },
-    { id: 2, label: "", selected: false },
+    { id: 0, label: '', selected: false },
+    { id: 1, label: '', selected: false },
+    { id: 2, label: '', selected: false },
   ];
 
   if (values && Array.isArray(values)) {
@@ -32,7 +32,7 @@ const mergeValues = (values: any) => {
         result[idx] = {
           ...result[idx],
           label: val.label || val.name || val,
-          selected: !!val.label || !!val.name || !!val
+          selected: !!val.label || !!val.name || !!val,
         };
       }
     });
@@ -43,18 +43,17 @@ const mergeValues = (values: any) => {
 
 export default function BrandProfileEdit({ hasBrand }: any) {
   const { businessInfo } = useContext(BrandContext);
-  const [selected, setSelected] = useState("");
-  const [pMission, setMission] = useState(businessInfo.mission || "");
+  const [selected, setSelected] = useState('');
+  const [pMission, setMission] = useState(businessInfo.mission || '');
   const [pValues, setValues] = useState(() => mergeValues(businessInfo.values || []));
   const [pPersona, setPersona] = useState(() => mergeValues(businessInfo.persona || []));
   const [pTov, setTOV] = useState(() => mergeValues(businessInfo.toneAndVoice || []));
   const [pColors, setColors] = useState<string[]>(businessInfo.brandColors || []);
-  const [pSummary, setSummary] = useState(businessInfo.summary || "");
+  const [pSummary, setSummary] = useState(businessInfo.summary || '');
   const [isSaving, setIsSaving] = useState(false);
 
-  const endpointUrl = getServiceURL("data");
+  const endpointUrl = getServiceURL('data');
   const { profile } = useAuth();
-
 
   const handleSave = async () => {
     try {
@@ -63,7 +62,7 @@ export default function BrandProfileEdit({ hasBrand }: any) {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${profile.token}`
+          Authorization: `Bearer ${profile.token}`,
         },
         body: JSON.stringify({
           mission: pMission,
@@ -71,8 +70,8 @@ export default function BrandProfileEdit({ hasBrand }: any) {
           persona: pPersona,
           toneAndVoice: pTov,
           colors: pColors,
-          summary: pSummary
-        })
+          summary: pSummary,
+        }),
       });
 
       if (!response.ok) {
@@ -87,22 +86,22 @@ export default function BrandProfileEdit({ hasBrand }: any) {
         setPersona(mergeValues(result.updatedFields.persona));
         setTOV(mergeValues(result.updatedFields.toneAndVoice));
         setColors(result.updatedFields.colors || []);
-        setSummary(result.updatedFields.summary || "");
-        setSelected("");
+        setSummary(result.updatedFields.summary || '');
+        setSelected('');
       }
     } catch (error) {
-      console.error("Update failed:", error);
+      console.error('Update failed:', error);
     } finally {
       setIsSaving(false);
     }
   };
   const handleCardSelect = (cardType: string) => {
-    setSelected(selected === cardType ? "" : cardType);
+    setSelected(selected === cardType ? '' : cardType);
   };
   return (
     <div className="flex h-full flex-col max-w-2xl mx-auto gap-2 md:mt-auto mt-16">
       <Sidebar currentStep={0} />
-      <div className='w-full bg-white rounded-xl p-5 md:p-10 my-5'>
+      <div className="w-full bg-white rounded-xl p-5 md:p-10 my-5">
         <div className="flex flex-col gap-4">
           <p className="text-xl text-[#111928] font-semibold mb-5">
             Here&apos;s what Matchpoint knows about your business:
@@ -127,17 +126,17 @@ export default function BrandProfileEdit({ hasBrand }: any) {
         <DetailsCard
           title="Brand Colors"
           description={description.colors}
-          onClick={() => handleCardSelect("COLORS")}
-          isSelected={selected === "COLORS"}
+          onClick={() => handleCardSelect('COLORS')}
+          isSelected={selected === 'COLORS'}
         >
-          {selected === "COLORS" ? (
+          {selected === 'COLORS' ? (
             <div className="mt-5">
               <div className="flex gap-3 mb-4">
                 {[0, 1].map((index) => (
                   <div key={index} className="flex flex-col items-center">
                     <input
                       type="color"
-                      value={pColors[index] || "#ffffff"}
+                      value={pColors[index] || '#ffffff'}
                       onChange={(e) => {
                         const newColors = [...pColors];
                         newColors[index] = e.target.value;
@@ -149,11 +148,8 @@ export default function BrandProfileEdit({ hasBrand }: any) {
                   </div>
                 ))}
               </div>
-              <PurpleButton
-                onClick={handleSave}
-                disabled={isSaving}
-              >
-                {isSaving ? "Saving..." : "Save Colors"}
+              <PurpleButton onClick={handleSave} disabled={isSaving}>
+                {isSaving ? 'Saving...' : 'Save Colors'}
               </PurpleButton>
             </div>
           ) : (
@@ -173,10 +169,10 @@ export default function BrandProfileEdit({ hasBrand }: any) {
         <DetailsCard
           title="Business Summary"
           description={description.summary}
-          onClick={() => handleCardSelect("SUMMARY")}
-          isSelected={selected === "SUMMARY"}
+          onClick={() => handleCardSelect('SUMMARY')}
+          isSelected={selected === 'SUMMARY'}
         >
-          {selected === "SUMMARY" ? (
+          {selected === 'SUMMARY' ? (
             <div className="mt-5">
               <textarea
                 value={pSummary}
@@ -184,12 +180,8 @@ export default function BrandProfileEdit({ hasBrand }: any) {
                 className="w-full p-2 border rounded-md"
                 rows={4}
               />
-              <PurpleButton
-                className="mt-4"
-                onClick={handleSave}
-                disabled={isSaving}
-              >
-                {isSaving ? "Saving..." : "Save Summary"}
+              <PurpleButton className="mt-4" onClick={handleSave} disabled={isSaving}>
+                {isSaving ? 'Saving...' : 'Save Summary'}
               </PurpleButton>
             </div>
           ) : (
@@ -201,22 +193,18 @@ export default function BrandProfileEdit({ hasBrand }: any) {
         <DetailsCard
           title="Mission"
           description={description.mission}
-          onClick={() => handleCardSelect("MISSION")}
-          isSelected={selected === "MISSION"}
+          onClick={() => handleCardSelect('MISSION')}
+          isSelected={selected === 'MISSION'}
         >
-          {selected === "MISSION" ? (
+          {selected === 'MISSION' ? (
             <div className="mt-5">
               <BrandDetailsInput
                 placeholder="Mission"
                 value={pMission}
                 onChange={(e) => setMission(e.target.value)}
               />
-              <PurpleButton
-                className="mt-4"
-                onClick={handleSave}
-                disabled={isSaving}
-              >
-                {isSaving ? "Saving..." : "Save Mission"}
+              <PurpleButton className="mt-4" onClick={handleSave} disabled={isSaving}>
+                {isSaving ? 'Saving...' : 'Save Mission'}
               </PurpleButton>
             </div>
           ) : (
@@ -228,11 +216,11 @@ export default function BrandProfileEdit({ hasBrand }: any) {
         <DetailsCard
           title="Values"
           description={description.values}
-          onClick={() => handleCardSelect("VALUES")}
-          isSelected={selected === "VALUES"}
+          onClick={() => handleCardSelect('VALUES')}
+          isSelected={selected === 'VALUES'}
         >
           <div className="flex flex-wrap gap-3">
-            {selected === "VALUES" ? (
+            {selected === 'VALUES' ? (
               <EditableValuesCard
                 values={pValues}
                 onChange={setValues}
@@ -249,11 +237,11 @@ export default function BrandProfileEdit({ hasBrand }: any) {
         <DetailsCard
           title="Persona"
           description={description.persona}
-          onClick={() => handleCardSelect("PERSONA")}
-          isSelected={selected === "PERSONA"}
+          onClick={() => handleCardSelect('PERSONA')}
+          isSelected={selected === 'PERSONA'}
         >
           <div className="flex flex-wrap gap-3">
-            {selected === "PERSONA" ? (
+            {selected === 'PERSONA' ? (
               <EditableValuesCard
                 values={pPersona}
                 onChange={setPersona}
@@ -270,11 +258,11 @@ export default function BrandProfileEdit({ hasBrand }: any) {
         <DetailsCard
           title="Tone of Voice"
           description={description.toneAndVoice}
-          onClick={() => handleCardSelect("TOV")}
-          isSelected={selected === "TOV"}
+          onClick={() => handleCardSelect('TOV')}
+          isSelected={selected === 'TOV'}
         >
           <div className="flex flex-wrap gap-3">
-            {selected === "TOV" ? (
+            {selected === 'TOV' ? (
               <EditableValuesCard
                 values={pTov}
                 onChange={setTOV}
@@ -286,13 +274,18 @@ export default function BrandProfileEdit({ hasBrand }: any) {
             )}
           </div>
         </DetailsCard>
-      </ div >
-
+      </div>
     </div>
   );
 }
 
-function DetailsCard({ title, description, children, onClick, isSelected }: {
+function DetailsCard({
+  title,
+  description,
+  children,
+  onClick,
+  isSelected,
+}: {
   title: string;
   description: string;
   children: React.ReactNode;
@@ -315,7 +308,10 @@ function DetailsCard({ title, description, children, onClick, isSelected }: {
   }, [isSelected, onClick]);
 
   return (
-    <div ref={cardRef} className="p-5 mb-[14px] rounded-md w-full bg-[#F6F5FF] border border-[#D1D5DB]">
+    <div
+      ref={cardRef}
+      className="p-5 mb-[14px] rounded-md w-full bg-[#F6F5FF] border border-[#D1D5DB]"
+    >
       <div className="flex items-center justify-between">
         <h1 className="capitalize text-[#42389D] font-medium text-lg leading-7 mb-1">{title}</h1>
         <ButtonBase onClick={onClick}>
@@ -330,7 +326,7 @@ function DetailsCard({ title, description, children, onClick, isSelected }: {
 function VariablesBadge({ values }: any) {
   return (
     <>
-      {values.map((c: any) => (
+      {values.map((c: any) =>
         c.label.length ? (
           <div
             key={c.id}
@@ -339,7 +335,7 @@ function VariablesBadge({ values }: any) {
             {c.label}
           </div>
         ) : null
-      ))}
+      )}
     </>
   );
 }
@@ -354,19 +350,19 @@ function EditableValuesCard({ values, onChange, onSave, isSaving }: any) {
 
   const handleRemove = (index: number) => {
     const updated = values.map((item: any, i: number) =>
-      i === index ? { ...item, label: "", selected: false } : { ...item }
+      i === index ? { ...item, label: '', selected: false } : { ...item }
     );
     onChange(updated);
   };
 
   return (
-    <div className='w-full'>
+    <div className="w-full">
       <div className="space-y-3">
         {[...Array(3)].map((_, index) => (
           <div key={index} className="flex items-center gap-2 w-full">
             <input
               type="text"
-              value={values[index] ? values[index].label : ""}
+              value={values[index] ? values[index].label : ''}
               onChange={(e) => handleChange(index, e.target.value)}
               className="flex-1 rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
             />
@@ -381,12 +377,8 @@ function EditableValuesCard({ values, onChange, onSave, isSaving }: any) {
         ))}
       </div>
 
-      <PurpleButton
-        className="mt-5"
-        onClick={onSave}
-        disabled={isSaving}
-      >
-        {isSaving ? "Saving..." : "Save"}
+      <PurpleButton className="mt-5" onClick={onSave} disabled={isSaving}>
+        {isSaving ? 'Saving...' : 'Save'}
       </PurpleButton>
     </div>
   );

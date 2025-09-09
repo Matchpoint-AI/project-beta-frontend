@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from 'react';
 
 interface DropdownProps {
   className?: string;
@@ -67,19 +67,17 @@ const Dropdown: React.FC<DropdownProps> = ({
   useEffect(() => {
     if (dynamic) {
       if (containerRef.current) {
-        const tempSpan = document.createElement("span");
-        tempSpan.style.font = window.getComputedStyle(
-          containerRef.current
-        ).font;
-        tempSpan.style.visibility = "hidden";
-        tempSpan.style.whiteSpace = "nowrap";
+        const tempSpan = document.createElement('span');
+        tempSpan.style.font = window.getComputedStyle(containerRef.current).font;
+        tempSpan.style.visibility = 'hidden';
+        tempSpan.style.whiteSpace = 'nowrap';
         document.body.appendChild(tempSpan);
 
         if (!currentValue) return;
 
         // Calculate width for the currently selected option
         tempSpan.textContent = currentValue;
-        if (currentValue === "All") {
+        if (currentValue === 'All') {
           const calculatedWidth = tempSpan.offsetWidth + 70; // Add padding
           setDropdownWidth(calculatedWidth);
         } else {
@@ -94,12 +92,10 @@ const Dropdown: React.FC<DropdownProps> = ({
     } else {
       // Calculate the width of the largest option when not dynamic
       if (containerRef.current) {
-        const tempSpan = document.createElement("span");
-        tempSpan.style.font = window.getComputedStyle(
-          containerRef.current
-        ).font;
-        tempSpan.style.visibility = "hidden";
-        tempSpan.style.whiteSpace = "nowrap";
+        const tempSpan = document.createElement('span');
+        tempSpan.style.font = window.getComputedStyle(containerRef.current).font;
+        tempSpan.style.visibility = 'hidden';
+        tempSpan.style.whiteSpace = 'nowrap';
         document.body.appendChild(tempSpan);
 
         let maxWidth = 0;
@@ -122,7 +118,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   return (
     <div
       ref={containerRef}
-      className={`relative inline-block text-left ${className ?? ""}`}
+      className={`relative inline-block text-left ${className ?? ''}`}
       // style={{ width: `${dropdownWidth}px` }}
       style={dynamic ? { width: `${dropdownWidth}px` } : {}}
     >

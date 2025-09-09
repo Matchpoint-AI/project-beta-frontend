@@ -173,18 +173,14 @@ describe('CampaignsList Component', () => {
 
   it('should handle New Campaign button click', async () => {
     const campaigns = [createMockCampaign('campaign-1', 'ACTIVE')];
-    
+
     renderWithContext(campaigns);
 
     const newCampaignButton = screen.getByText('New Campaign');
     fireEvent.click(newCampaignButton);
 
     const handleNavigate = (await import('../../helpers/handleNavigate')).default;
-    expect(handleNavigate).toHaveBeenCalledWith(
-      'test-user-id',
-      '/campaign',
-      expect.any(Function)
-    );
+    expect(handleNavigate).toHaveBeenCalledWith('test-user-id', '/campaign', expect.any(Function));
   });
 
   it('should filter campaigns by type correctly', () => {
@@ -239,11 +235,7 @@ describe('CampaignsList Component', () => {
         <AuthContext.Provider value={mockAuthContextValue}>
           <CampaignContext.Provider value={campaignContextWithSetInfo}>
             <BrandContext.Provider value={mockBrandContextValue}>
-              <CampaignsList
-                campaigns={campaigns}
-                campaignType="All"
-                setCampaignType={vi.fn()}
-              />
+              <CampaignsList campaigns={campaigns} campaignType="All" setCampaignType={vi.fn()} />
             </BrandContext.Provider>
           </CampaignContext.Provider>
         </AuthContext.Provider>

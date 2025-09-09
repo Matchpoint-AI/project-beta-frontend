@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 const ExportCompleteDialog = () => {
   return (
@@ -15,23 +15,13 @@ const ExportCompleteDialog = () => {
           <rect x="126" y="31" width="224" height="228" fill="url(#pattern0)" />
           <rect x="0.5" width="400" height="251" fill="url(#pattern1)" />
           <defs>
-            <pattern
-              id="pattern0"
-              patternContentUnits="objectBoundingBox"
-              width="1"
-              height="1"
-            >
+            <pattern id="pattern0" patternContentUnits="objectBoundingBox" width="1" height="1">
               <use
                 xlinkHref="#image0_998_14463"
                 transform="matrix(0.00272154 0 0 0.0026738 -0.000763942 0)"
               />
             </pattern>
-            <pattern
-              id="pattern1"
-              patternContentUnits="objectBoundingBox"
-              width="1"
-              height="1"
-            >
+            <pattern id="pattern1" patternContentUnits="objectBoundingBox" width="1" height="1">
               <use
                 xlinkHref="#image1_998_14463"
                 transform="matrix(0.0025 0 0 0.00398406 0 -0.0976096)"
@@ -58,9 +48,8 @@ const ExportCompleteDialog = () => {
             Congrats!
           </div>
           <div className="self-stretch text-center text-gray-900 text-xl font-normal font-['Inter'] leading-[30px]">
-            You just exported your first set of AI-generated social media
-            content for your Winter Promotion 2024 campaign. Let’s keep the
-            momentum up
+            You just exported your first set of AI-generated social media content for your Winter
+            Promotion 2024 campaign. Let’s keep the momentum up
           </div>
           <div className="justify-start items-center gap-4 inline-flex">
             <div className="px-5 py-3 bg-indigo-700 rounded-lg justify-center items-center gap-2 flex">
@@ -82,12 +71,7 @@ const ExportCompleteDialog = () => {
                 </g>
                 <defs>
                   <clipPath id="clip0_2219_1423">
-                    <rect
-                      width="16"
-                      height="16"
-                      fill="white"
-                      transform="translate(0.5)"
-                    />
+                    <rect width="16" height="16" fill="white" transform="translate(0.5)" />
                   </clipPath>
                 </defs>
               </svg>

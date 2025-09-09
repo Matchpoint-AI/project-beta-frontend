@@ -29,7 +29,7 @@ interface DayBannerProps {
     weekIndex: number,
     dayIndex: number,
     postIndex: number | null,
-    isApproved: boolean,
+    isApproved: boolean
   ) => void;
   setOpen: (index: number) => void;
   brandName: string;
@@ -39,7 +39,7 @@ interface DayBannerProps {
     post: number,
     imageIndex: number,
     newImage: string,
-    text: string,
+    text: string
   ) => void;
 }
 
@@ -63,8 +63,8 @@ const DayBanner = ({
   const scrollContainerRef = useRef<any>(null);
   const [selectedImages, setSelectedImages] = useState(
     content.posts.map((post) =>
-      post.text_versions ? post.text_versions.findIndex((text) => text === post.text) + 1 : 1,
-    ),
+      post.text_versions ? post.text_versions.findIndex((text) => text === post.text) + 1 : 1
+    )
   );
 
   const [maxVisiblePosts, setMaxVisiblePosts] = useState(1);

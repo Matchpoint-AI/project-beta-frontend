@@ -42,7 +42,7 @@ export const BrandKnowledgePage: React.FC = () => {
         <Typography variant="h3" component="h1" gutterBottom align="center">
           Brand Knowledge Management
         </Typography>
-        
+
         <Stepper activeStep={activeStep} sx={{ mb: 4 }}>
           {steps.map((label) => (
             <Step key={label}>
@@ -51,11 +51,7 @@ export const BrandKnowledgePage: React.FC = () => {
           ))}
         </Stepper>
 
-        <BrandKnowledgeForm
-          handleNext={handleNext}
-          handleBack={handleBack}
-          onSave={handleSave}
-        />
+        <BrandKnowledgeForm handleNext={handleNext} handleBack={handleBack} onSave={handleSave} />
       </Box>
     </Container>
   );

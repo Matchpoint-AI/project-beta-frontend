@@ -87,7 +87,12 @@ export default function ModifyPrompt({
   const splitPrompt = (fullPrompt: string) => {
     if (!fullPrompt) return { firstPart: '', rest: '' };
     // Remove common prefixes but be more flexible
-    const prefixes = ['A realistic photograph of', 'A photograph of', 'A realistic image of', 'An image of'];
+    const prefixes = [
+      'A realistic photograph of',
+      'A photograph of',
+      'A realistic image of',
+      'An image of',
+    ];
     let withoutPrefix = fullPrompt;
     for (const prefix of prefixes) {
       if (fullPrompt.startsWith(prefix)) {
@@ -110,10 +115,10 @@ export default function ModifyPrompt({
 
     try {
       setSubmited(true);
-      
+
       // Try new Flux/FAL image generation first
       const useFlux = true; // Feature flag for new generation
-      
+
       if (useFlux && profile?.token) {
         try {
           // Generate image using new Flux/FAL API
@@ -128,7 +133,7 @@ export default function ModifyPrompt({
             },
             profile.token
           );
-          
+
           if (imageData.image_url) {
             // Update the prompt in backend for consistency
             const endpointUrl = getServiceURL('content-gen');
@@ -147,7 +152,7 @@ export default function ModifyPrompt({
                 image_url: imageData.image_url, // Include new image URL
               }),
             });
-            
+
             setSubmited(false);
             regenerate(imageData.image_url); // Pass new image URL
             setOpen(false);
@@ -157,7 +162,7 @@ export default function ModifyPrompt({
           console.error('Flux generation failed, falling back to legacy:', fluxError);
         }
       }
-      
+
       // Fallback to legacy image generation
       const endpointUrl = getServiceURL('content-gen');
       const response = await fetch(`${endpointUrl}/api/v1/image_prompt`, {
@@ -250,7 +255,7 @@ export default function ModifyPrompt({
           headers: {
             Authorization: `Bearer ${profile?.token}`,
           },
-        },
+        }
       );
 
       if (response.ok) {
@@ -313,9 +318,7 @@ export default function ModifyPrompt({
                 </CancelButton>
                 <PurpleButton type="submit" disabled={submited || remainingGenerations <= 0}>
                   {submited ? (
-                    <span className="flex items-center gap-2">
-                      Regenerating
-                    </span>
+                    <span className="flex items-center gap-2">Regenerating</span>
                   ) : (
                     <span className="flex items-center gap-2">
                       Regenerate

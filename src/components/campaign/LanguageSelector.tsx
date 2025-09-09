@@ -31,13 +31,14 @@ const SUPPORTED_LANGUAGES: Language[] = [
 const LanguageSelector: React.FC<LanguageSelectorProps> = ({
   selectedLanguage = 'en',
   onLanguageChange,
-  className = ''
+  className = '',
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [dropdownWidth, setDropdownWidth] = useState<number>(0);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const selectedLang = SUPPORTED_LANGUAGES.find(lang => lang.code === selectedLanguage) || SUPPORTED_LANGUAGES[0];
+  const selectedLang =
+    SUPPORTED_LANGUAGES.find((lang) => lang.code === selectedLanguage) || SUPPORTED_LANGUAGES[0];
 
   useEffect(() => {
     if (containerRef.current) {

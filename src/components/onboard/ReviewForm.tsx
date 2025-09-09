@@ -67,7 +67,7 @@ const ReviewForm = ({ setFormStep, handleBack, handleSave, saving }: ReviewFormP
                } industry, the brand emphasizes ${businessInfo.values
                  ?.filter((t: Selectable) => t?.selected)
                  .map(
-                   (t: Selectable) => t.label,
+                   (t: Selectable) => t.label
                  )} and communicates with a ${businessInfo.toneAndVoice
                  ?.filter((t: Selectable) => t?.selected)
                  .map((t: Selectable) => t.label)} voice. Known for its ${

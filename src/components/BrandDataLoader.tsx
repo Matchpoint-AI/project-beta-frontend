@@ -40,13 +40,13 @@ export default function BrandDataLoader({ children }: { children: React.ReactNod
       if (data.length > 0) {
         console.log('Raw brand_variables:', data[0].brand_variables);
         const convertedValues = convertToChipsArray(
-          (data[0].brand_variables.values || []).filter(Boolean),
+          (data[0].brand_variables.values || []).filter(Boolean)
         );
         const convertedPersona = convertToChipsArray(
-          (data[0].brand_variables.persona || []).filter(Boolean),
+          (data[0].brand_variables.persona || []).filter(Boolean)
         );
         const convertedToneAndVoice = convertToChipsArray(
-          (data[0].brand_variables.tov || []).filter(Boolean),
+          (data[0].brand_variables.tov || []).filter(Boolean)
         );
         console.log('Converted values:', convertedValues);
         console.log('Converted persona:', convertedPersona);

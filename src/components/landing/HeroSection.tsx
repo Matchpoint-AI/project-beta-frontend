@@ -1,11 +1,11 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const HeroSection: React.FC = () => {
   const navigate = useNavigate();
 
   const handleSignUp = () => {
-    navigate("/signup");
+    navigate('/signup');
   };
   return (
     <div
@@ -17,12 +17,10 @@ const HeroSection: React.FC = () => {
         {/* Main Text */}
         <div className="flex flex-col gap-4 order-1 lg:order-1">
           <h1 className="text-5xl leading-[50px] lg:text-6xl lg:leading-[70px] xl:text-7xl xl:leading-[100px] font-medium text-[#30175A]">
-            Elevate Your <br /> Social Media <br /> Presence with <br />{" "}
-            Matchpoint
+            Elevate Your <br /> Social Media <br /> Presence with <br /> Matchpoint
           </h1>
           <p className="text-2xl hidden xl:block leading-8 lg:text-3xl lg:leading-9 text-indigo-900 font-medium md:mb-8">
-            Unleash the power of AI to create <br /> stunning visuals and
-            captivating copy.
+            Unleash the power of AI to create <br /> stunning visuals and captivating copy.
           </p>
         </div>
 
@@ -42,8 +40,7 @@ const HeroSection: React.FC = () => {
         {/* Subtext */}
         <div className="flex xl:hidden flex-col gap-4 order-3 lg:order-2">
           <p className="text-2xl leading-8 lg:text-3xl lg:leading-9 text-indigo-900 font-medium md:mb-8">
-            Unleash the power of AI to create stunning visuals and captivating
-            copy.
+            Unleash the power of AI to create stunning visuals and captivating copy.
           </p>
         </div>
         {/* <p className="text-xs md:hidden order-4 leading-[18px] font-normal text-gray-800 mt-0">
@@ -55,11 +52,7 @@ const HeroSection: React.FC = () => {
       <div className="lg:w-1/2 flex justify-center lg:mt-0">
         {/* Main Image */}
         <div className="relative rounded-lg overflow-hidden">
-          <img
-            src="poster.png"
-            alt="Main visual"
-            className="w-full h-auto object-cover"
-          />
+          <img src="poster.png" alt="Main visual" className="w-full h-auto object-cover" />
         </div>
       </div>
     </div>
