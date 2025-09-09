@@ -240,7 +240,7 @@ describe('contentGenerationApi', () => {
           await captionApi.regenerateCaption(
             'content-123',
             'caption-456',
-            { style: style as unknown },
+            { style },
             'test-token'
           );
 

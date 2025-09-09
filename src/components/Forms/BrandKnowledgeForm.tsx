@@ -197,7 +197,7 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
     try {
       setLoading(true);
       const response = await fetch(
-        `${getServiceURL('content_generation')}/api/v1/brand-knowledge/by-brand/${businessInfo.id}`,
+        `${getServiceURL('content-gen')}/api/v1/brand-knowledge/by-brand/${businessInfo.id}`,
         {
           headers: {
             Authorization: `Bearer ${authState.token}`,
@@ -349,7 +349,7 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
       
       const campaignIds = businessInfo.campaigns.map(c => c.campaign_id);
       const response = await fetch(
-        `${getServiceURL('content_generation')}/api/v1/brand-knowledge/extract-from-campaigns`,
+        `${getServiceURL('content-gen')}/api/v1/brand-knowledge/extract-from-campaigns`,
         {
           method: 'POST',
           headers: {
@@ -396,8 +396,8 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
       }
 
       const endpoint = existingData 
-        ? `${getServiceURL('content_generation')}/api/v1/brand-knowledge/${existingData.brand_id}`
-        : `${getServiceURL('content_generation')}/api/v1/brand-knowledge`;
+        ? `${getServiceURL('content-gen')}/api/v1/brand-knowledge/${existingData.brand_id}`
+        : `${getServiceURL('content-gen')}/api/v1/brand-knowledge`;
 
       const response = await fetch(endpoint, {
         method: existingData ? 'PUT' : 'POST',

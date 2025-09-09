@@ -54,10 +54,10 @@ export default function BrandDetailsReview({ stepHandler, edit = true }: BrandDe
               .filter((c: Selectable) => c.selected)
               .map((c: Selectable) => (
                 <div
-                  key={c.id as React.Key}
+                  key={String(c.id)}
                   className="py-1 px-[10px] bg-[#D1D5DB] text-xs font-medium leading-[18px] capitalize text-[#111928] rounded-md"
                 >
-                  {c.label as React.ReactNode}
+                  {String(c.label)}
                 </div>
               ))}
           </div>
@@ -74,10 +74,10 @@ export default function BrandDetailsReview({ stepHandler, edit = true }: BrandDe
             .filter((c) => c.selected)
             .map((c) => (
               <div
-                key={c.id as React.Key}
+                key={String(c.id)}
                 className="py-1 px-[10px] bg-[#D1D5DB] text-xs font-medium leading-[18px] capitalize text-[#111928] rounded-md"
               >
-                {c.label as React.ReactNode}
+                {String(c.label)}
               </div>
             ))}
         </div>
@@ -93,10 +93,10 @@ export default function BrandDetailsReview({ stepHandler, edit = true }: BrandDe
             .filter((c) => c.selected)
             .map((c) => (
               <div
-                key={c.id as React.Key}
+                key={String(c.id)}
                 className="py-1 px-[10px] bg-[#D1D5DB] text-xs font-medium leading-[18px] capitalize text-[#111928] rounded-md"
               >
-                {c.label as React.ReactNode}
+                {String(c.label)}
               </div>
             ))}
         </div>
