@@ -6,7 +6,6 @@ import { useAuth } from '../features/auth/context/AuthContext';
 import { BrandContext } from '../context/BrandContext';
 import { getServiceURL } from '../helpers/getServiceURL';
 import PurpleButton from './shared/Buttons/PurpleButton';
-// import FormsContainer from './shared/FormsContainer';
 import BrandDetailsInput from './shared/Inputs/BrandDetailsInput';
 import Sidebar from './shared/Sidebar';
 
@@ -45,7 +44,7 @@ interface BrandProfileEditProps {
   hasBrand?: boolean;
 }
 
-export default function BrandProfileEdit({ hasBrand: _ }: BrandProfileEditProps) {
+export default function BrandProfileEdit({ hasBrand: _hasBrand }: BrandProfileEditProps) {
   const { businessInfo } = useContext(BrandContext);
   const [selected, setSelected] = useState('');
   const [pMission, setMission] = useState(businessInfo.mission || '');
