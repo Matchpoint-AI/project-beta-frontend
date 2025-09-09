@@ -1,5 +1,14 @@
 import React, { useState, useCallback } from 'react';
-import { Dialog, DialogContent, Button, Card, CardContent, Typography, Box, Chip } from '@mui/material';
+import {
+  Dialog,
+  DialogContent,
+  Button,
+  Card,
+  CardContent,
+  Typography,
+  Box,
+  Chip,
+} from '@mui/material';
 import { FaCheck, FaTimes, FaEdit, FaRedo, FaEye, FaEyeSlash } from 'react-icons/fa';
 import { MdCompare, MdHistory } from 'react-icons/md';
 import { useAuth } from '../../features/auth/context/AuthContext';
@@ -40,93 +49,112 @@ const HITLReviewPanel: React.FC<HITLReviewPanelProps> = ({
   onRegenerate,
   onClose,
   isOpen,
-  campaignId
+  campaignId,
 }) => {
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
   const [editingItem, setEditingItem] = useState<string | null>(null);
   const [editContent, setEditContent] = useState('');
-  const [showDiff, setShowDiff] = useState<{[key: string]: boolean}>({});
-  const [feedback, setFeedback] = useState<{[key: string]: string}>({});
-  const [loading, setLoading] = useState<{[key: string]: boolean}>({});
+  const [showDiff, setShowDiff] = useState<{ [key: string]: boolean }>({});
+  const [feedback, setFeedback] = useState<{ [key: string]: string }>({});
+  const [loading, setLoading] = useState<{ [key: string]: boolean }>({});
   const [error, setError] = useState<string | null>(null);
-  
+
   const { profile } = useAuth();
 
-  const handleApprove = useCallback(async (itemId: string) => {
-    try {
-      setLoading(prev => ({ ...prev, [itemId]: true }));
-      setError(null);
-      await onApprove(itemId);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to approve item');
-    } finally {
-      setLoading(prev => ({ ...prev, [itemId]: false }));
-    }
-  }, [onApprove]);
-
-  const handleReject = useCallback(async (itemId: string) => {
-    try {
-      setLoading(prev => ({ ...prev, [itemId]: true }));
-      setError(null);
-      await onReject(itemId, feedback[itemId]);
-      setFeedback(prev => ({ ...prev, [itemId]: '' }));
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to reject item');
-    } finally {
-      setLoading(prev => ({ ...prev, [itemId]: false }));
-    }
-  }, [onReject, feedback]);
-
-  const handleEdit = useCallback(async (itemId: string) => {
-    if (editingItem !== itemId) {
-      const item = items.find(i => i.id === itemId);
-      if (item) {
-        setEditContent(item.content);
-        setEditingItem(itemId);
+  const handleApprove = useCallback(
+    async (itemId: string) => {
+      try {
+        setLoading((prev) => ({ ...prev, [itemId]: true }));
+        setError(null);
+        await onApprove(itemId);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to approve item');
+      } finally {
+        setLoading((prev) => ({ ...prev, [itemId]: false }));
       }
-      return;
-    }
+    },
+    [onApprove]
+  );
 
-    try {
-      setLoading(prev => ({ ...prev, [itemId]: true }));
-      setError(null);
-      await onEdit(itemId, editContent);
-      setEditingItem(null);
-      setEditContent('');
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to edit item');
-    } finally {
-      setLoading(prev => ({ ...prev, [itemId]: false }));
-    }
-  }, [editingItem, editContent, onEdit, items]);
+  const handleReject = useCallback(
+    async (itemId: string) => {
+      try {
+        setLoading((prev) => ({ ...prev, [itemId]: true }));
+        setError(null);
+        await onReject(itemId, feedback[itemId]);
+        setFeedback((prev) => ({ ...prev, [itemId]: '' }));
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to reject item');
+      } finally {
+        setLoading((prev) => ({ ...prev, [itemId]: false }));
+      }
+    },
+    [onReject, feedback]
+  );
 
-  const handleRegenerate = useCallback(async (itemId: string) => {
-    try {
-      setLoading(prev => ({ ...prev, [itemId]: true }));
-      setError(null);
-      
-      // Extract targeted changes from feedback
-      const targetedChanges = feedback[itemId]?.split(',').map(s => s.trim()).filter(Boolean);
-      
-      await onRegenerate(itemId, targetedChanges);
-      setFeedback(prev => ({ ...prev, [itemId]: '' }));
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to regenerate item');
-    } finally {
-      setLoading(prev => ({ ...prev, [itemId]: false }));
-    }
-  }, [onRegenerate, feedback]);
+  const handleEdit = useCallback(
+    async (itemId: string) => {
+      if (editingItem !== itemId) {
+        const item = items.find((i) => i.id === itemId);
+        if (item) {
+          setEditContent(item.content);
+          setEditingItem(itemId);
+        }
+        return;
+      }
+
+      try {
+        setLoading((prev) => ({ ...prev, [itemId]: true }));
+        setError(null);
+        await onEdit(itemId, editContent);
+        setEditingItem(null);
+        setEditContent('');
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to edit item');
+      } finally {
+        setLoading((prev) => ({ ...prev, [itemId]: false }));
+      }
+    },
+    [editingItem, editContent, onEdit, items]
+  );
+
+  const handleRegenerate = useCallback(
+    async (itemId: string) => {
+      try {
+        setLoading((prev) => ({ ...prev, [itemId]: true }));
+        setError(null);
+
+        // Extract targeted changes from feedback
+        const targetedChanges = feedback[itemId]
+          ?.split(',')
+          .map((s) => s.trim())
+          .filter(Boolean);
+
+        await onRegenerate(itemId, targetedChanges);
+        setFeedback((prev) => ({ ...prev, [itemId]: '' }));
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to regenerate item');
+      } finally {
+        setLoading((prev) => ({ ...prev, [itemId]: false }));
+      }
+    },
+    [onRegenerate, feedback]
+  );
 
   const toggleDiff = useCallback((itemId: string) => {
-    setShowDiff(prev => ({ ...prev, [itemId]: !prev[itemId] }));
+    setShowDiff((prev) => ({ ...prev, [itemId]: !prev[itemId] }));
   }, []);
 
   const getStatusColor = (status: ContentItem['status']) => {
     switch (status) {
-      case 'approved': return 'success';
-      case 'rejected': return 'error';
-      case 'edited': return 'warning';
-      default: return 'default';
+      case 'approved':
+        return 'success';
+      case 'rejected':
+        return 'error';
+      case 'edited':
+        return 'warning';
+      default:
+        return 'default';
     }
   };
 
@@ -158,26 +186,36 @@ const HITLReviewPanel: React.FC<HITLReviewPanelProps> = ({
     // Simple diff display - in production, use a proper diff library
     const original = item.originalContent.split(' ');
     const current = item.content.split(' ');
-    
+
     return (
       <Box sx={{ mb: 1 }}>
-        <Typography variant="caption" color="textSecondary">Original:</Typography>
-        <Typography variant="body2" sx={{ 
-          background: '#ffebee', 
-          p: 1, 
-          borderRadius: 1, 
-          mb: 1,
-          whiteSpace: 'pre-wrap'
-        }}>
+        <Typography variant="caption" color="textSecondary">
+          Original:
+        </Typography>
+        <Typography
+          variant="body2"
+          sx={{
+            background: '#ffebee',
+            p: 1,
+            borderRadius: 1,
+            mb: 1,
+            whiteSpace: 'pre-wrap',
+          }}
+        >
           {item.originalContent}
         </Typography>
-        <Typography variant="caption" color="textSecondary">Current:</Typography>
-        <Typography variant="body2" sx={{ 
-          background: '#e8f5e8', 
-          p: 1, 
-          borderRadius: 1,
-          whiteSpace: 'pre-wrap'
-        }}>
+        <Typography variant="caption" color="textSecondary">
+          Current:
+        </Typography>
+        <Typography
+          variant="body2"
+          sx={{
+            background: '#e8f5e8',
+            p: 1,
+            borderRadius: 1,
+            whiteSpace: 'pre-wrap',
+          }}
+        >
           {item.content}
         </Typography>
       </Box>
@@ -194,8 +232,8 @@ const HITLReviewPanel: React.FC<HITLReviewPanelProps> = ({
         sx={{
           '& .MuiDialog-paper': {
             height: '90vh',
-            maxHeight: '90vh'
-          }
+            maxHeight: '90vh',
+          },
         }}
       >
         <DialogContent sx={{ p: 0 }}>
@@ -205,32 +243,24 @@ const HITLReviewPanel: React.FC<HITLReviewPanelProps> = ({
               <Typography variant="h6" sx={{ mb: 2 }}>
                 Content Review Queue
               </Typography>
-              
+
               {items.map((item) => (
-                <Card 
+                <Card
                   key={item.id}
-                  sx={{ 
-                    mb: 1, 
+                  sx={{
+                    mb: 1,
                     cursor: 'pointer',
                     border: selectedItem === item.id ? 2 : 1,
-                    borderColor: selectedItem === item.id ? 'primary.main' : 'divider'
+                    borderColor: selectedItem === item.id ? 'primary.main' : 'divider',
                   }}
                   onClick={() => setSelectedItem(item.id)}
                 >
                   <CardContent sx={{ p: 1.5, '&:last-child': { pb: 1.5 } }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-                      <Chip 
-                        label={item.type} 
-                        size="small" 
-                        sx={{ mr: 1 }}
-                      />
-                      <Chip 
-                        label={item.status} 
-                        size="small"
-                        color={getStatusColor(item.status)}
-                      />
+                      <Chip label={item.type} size="small" sx={{ mr: 1 }} />
+                      <Chip label={item.status} size="small" color={getStatusColor(item.status)} />
                       {item.qualityScore && (
-                        <Chip 
+                        <Chip
                           label={`${Math.round(item.qualityScore * 100)}%`}
                           size="small"
                           color={getQualityScoreColor(item.qualityScore)}
@@ -250,7 +280,7 @@ const HITLReviewPanel: React.FC<HITLReviewPanelProps> = ({
             <Box sx={{ width: '70%', p: 2 }}>
               {selectedItem ? (
                 (() => {
-                  const item = items.find(i => i.id === selectedItem);
+                  const item = items.find((i) => i.id === selectedItem);
                   if (!item) return null;
 
                   return (
@@ -259,7 +289,7 @@ const HITLReviewPanel: React.FC<HITLReviewPanelProps> = ({
                         <Typography variant="h6" sx={{ flex: 1 }}>
                           {item.type.charAt(0).toUpperCase() + item.type.slice(1)} Review
                         </Typography>
-                        
+
                         <Button
                           size="small"
                           startIcon={showDiff[item.id] ? <FaEyeSlash /> : <FaEye />}
@@ -274,7 +304,9 @@ const HITLReviewPanel: React.FC<HITLReviewPanelProps> = ({
                       {/* Metadata */}
                       {item.metadata && (
                         <Box sx={{ mb: 2 }}>
-                          <Typography variant="subtitle2" sx={{ mb: 1 }}>Metadata:</Typography>
+                          <Typography variant="subtitle2" sx={{ mb: 1 }}>
+                            Metadata:
+                          </Typography>
                           <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
                             {item.metadata.sceneType && (
                               <Chip label={`Scene: ${item.metadata.sceneType}`} size="small" />
@@ -283,15 +315,15 @@ const HITLReviewPanel: React.FC<HITLReviewPanelProps> = ({
                               <Chip label={`Subtype: ${item.metadata.sceneSubtype}`} size="small" />
                             )}
                             {item.metadata.brandCompliance && (
-                              <Chip 
-                                label={`Brand: ${Math.round(item.metadata.brandCompliance * 100)}%`} 
+                              <Chip
+                                label={`Brand: ${Math.round(item.metadata.brandCompliance * 100)}%`}
                                 size="small"
                                 color={item.metadata.brandCompliance > 0.8 ? 'success' : 'warning'}
                               />
                             )}
                             {item.metadata.diversityScore && (
-                              <Chip 
-                                label={`Diversity: ${Math.round(item.metadata.diversityScore * 100)}%`} 
+                              <Chip
+                                label={`Diversity: ${Math.round(item.metadata.diversityScore * 100)}%`}
                                 size="small"
                                 color={item.metadata.diversityScore > 0.7 ? 'success' : 'warning'}
                               />
@@ -302,7 +334,9 @@ const HITLReviewPanel: React.FC<HITLReviewPanelProps> = ({
 
                       {/* Content */}
                       <Box sx={{ mb: 3 }}>
-                        <Typography variant="subtitle2" sx={{ mb: 1 }}>Content:</Typography>
+                        <Typography variant="subtitle2" sx={{ mb: 1 }}>
+                          Content:
+                        </Typography>
                         {renderContentDiff(item)}
                       </Box>
 
@@ -313,7 +347,9 @@ const HITLReviewPanel: React.FC<HITLReviewPanelProps> = ({
                         </Typography>
                         <textarea
                           value={feedback[item.id] || ''}
-                          onChange={(e) => setFeedback(prev => ({ ...prev, [item.id]: e.target.value }))}
+                          onChange={(e) =>
+                            setFeedback((prev) => ({ ...prev, [item.id]: e.target.value }))
+                          }
                           className="w-full h-20 p-2 border rounded resize-none"
                           placeholder="Provide feedback or specify targeted changes (comma-separated)..."
                         />
@@ -330,7 +366,7 @@ const HITLReviewPanel: React.FC<HITLReviewPanelProps> = ({
                         >
                           Approve
                         </Button>
-                        
+
                         <Button
                           variant="contained"
                           color="error"
@@ -340,7 +376,7 @@ const HITLReviewPanel: React.FC<HITLReviewPanelProps> = ({
                         >
                           Reject
                         </Button>
-                        
+
                         <Button
                           variant="outlined"
                           startIcon={<FaEdit />}
@@ -349,7 +385,7 @@ const HITLReviewPanel: React.FC<HITLReviewPanelProps> = ({
                         >
                           {editingItem === item.id ? 'Save Edit' : 'Edit'}
                         </Button>
-                        
+
                         <Button
                           variant="outlined"
                           startIcon={<FaRedo />}
@@ -375,16 +411,16 @@ const HITLReviewPanel: React.FC<HITLReviewPanelProps> = ({
                   );
                 })()
               ) : (
-                <Box sx={{ 
-                  display: 'flex', 
-                  alignItems: 'center', 
-                  justifyContent: 'center',
-                  height: '100%',
-                  color: 'text.secondary'
-                }}>
-                  <Typography variant="h6">
-                    Select an item to review
-                  </Typography>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    height: '100%',
+                    color: 'text.secondary',
+                  }}
+                >
+                  <Typography variant="h6">Select an item to review</Typography>
                 </Box>
               )}
             </Box>
@@ -392,12 +428,7 @@ const HITLReviewPanel: React.FC<HITLReviewPanelProps> = ({
         </DialogContent>
       </Dialog>
 
-      {error && (
-        <ErrorToast 
-          message={error}
-          onClose={() => setError(null)}
-        />
-      )}
+      {error && <ErrorToast message={error} onClose={() => setError(null)} />}
     </>
   );
 };

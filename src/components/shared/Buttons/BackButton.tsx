@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from "react";
+import React from 'react';
 
 interface BackButtonProps {
   onClick: (e?: any) => void;
   text?: string;
 }
 
-const BackButton: React.FC<BackButtonProps> = ({ onClick, text = "Back" }) => {
+const BackButton: React.FC<BackButtonProps> = ({ onClick, text = 'Back' }) => {
   return (
     <button
       type="button"

@@ -1,6 +1,6 @@
 /**
  * Cost Optimization Dashboard Component
- * 
+ *
  * Tracks and visualizes the 90% cost reduction achievements from COST-1 through COST-6:
  * - GPT-4o to GPT-4o-mini vision switch (94% reduction, $85K annually)
  * - Gemini 2.5 Flash-Lite routing (67% cheaper than GPT-4o-mini, $50K annually)
@@ -21,7 +21,7 @@ import {
   Title,
   Tooltip,
   Legend,
-  ArcElement
+  ArcElement,
 } from 'chart.js';
 import { Line, Bar, Doughnut } from 'react-chartjs-2';
 import {
@@ -35,7 +35,7 @@ import {
   Image as ImageIcon,
   Cpu,
   Settings,
-  Award
+  Award,
 } from 'lucide-react';
 
 import { costOptimizationApi } from '../../api/costOptimizationApi';
@@ -98,7 +98,10 @@ interface CostDashboardData {
   total_percentage_savings: number;
   projected_annual_savings: number;
   optimization_metrics: CostOptimizationMetrics[];
-  current_model_distribution: Record<string, { requests: number; cost: number; percentage: number }>;
+  current_model_distribution: Record<
+    string,
+    { requests: number; cost: number; percentage: number }
+  >;
   daily_savings: Array<{
     date: string;
     daily_savings: number;
@@ -140,7 +143,7 @@ const OPTIMIZATION_CONFIG = {
     description: 'GPT-4o → GPT-4o-mini',
     expectedSavings: 94,
     targetAnnualSavings: 85000,
-    color: '#10B981' // emerald-500
+    color: '#10B981', // emerald-500
   },
   gemini_routing: {
     name: 'Gemini Routing',
@@ -148,7 +151,7 @@ const OPTIMIZATION_CONFIG = {
     description: 'Gemini 2.5 Flash-Lite',
     expectedSavings: 67,
     targetAnnualSavings: 50000,
-    color: '#3B82F6' // blue-500
+    color: '#3B82F6', // blue-500
   },
   flux_high_volume: {
     name: 'FLUX High Volume',
@@ -156,7 +159,7 @@ const OPTIMIZATION_CONFIG = {
     description: 'FLUX.1 [schnell]',
     expectedSavings: 90,
     targetAnnualSavings: 75000,
-    color: '#8B5CF6' // violet-500
+    color: '#8B5CF6', // violet-500
   },
   imagen_text_clarity: {
     name: 'Imagen Text Clarity',
@@ -164,7 +167,7 @@ const OPTIMIZATION_CONFIG = {
     description: 'Imagen 4 for text-in-image',
     expectedSavings: 50,
     targetAnnualSavings: 25000,
-    color: '#F59E0B' // amber-500
+    color: '#F59E0B', // amber-500
   },
   smart_router_v2: {
     name: 'Smart Router v2',
@@ -172,7 +175,7 @@ const OPTIMIZATION_CONFIG = {
     description: 'Intelligent model routing',
     expectedSavings: 90,
     targetAnnualSavings: 100000,
-    color: '#EF4444' // red-500
+    color: '#EF4444', // red-500
   },
   scene_mix_bandits: {
     name: 'Scene Mix Engine',
@@ -180,14 +183,14 @@ const OPTIMIZATION_CONFIG = {
     description: 'Contextual bandits',
     expectedSavings: 25,
     targetAnnualSavings: 30000,
-    color: '#06B6D4' // cyan-500
-  }
+    color: '#06B6D4', // cyan-500
+  },
 };
 
 const TIME_RANGES = [
   { label: '7 Days', days: 7 },
   { label: '30 Days', days: 30 },
-  { label: '90 Days', days: 90 }
+  { label: '90 Days', days: 90 },
 ] as const;
 
 export const CostOptimizationDashboard: React.FC = () => {
@@ -231,7 +234,7 @@ export const CostOptimizationDashboard: React.FC = () => {
       style: 'currency',
       currency: 'USD',
       minimumFractionDigits: 0,
-      maximumFractionDigits: 0
+      maximumFractionDigits: 0,
     }).format(amount);
   };
 
@@ -243,49 +246,49 @@ export const CostOptimizationDashboard: React.FC = () => {
     if (!dashboardData?.daily_savings) return null;
 
     const data = {
-      labels: dashboardData.daily_savings.map(d => new Date(d.date).toLocaleDateString()),
+      labels: dashboardData.daily_savings.map((d) => new Date(d.date).toLocaleDateString()),
       datasets: [
         {
           label: 'Daily Savings',
-          data: dashboardData.daily_savings.map(d => d.daily_savings),
+          data: dashboardData.daily_savings.map((d) => d.daily_savings),
           borderColor: '#10B981',
           backgroundColor: '#10B98120',
           tension: 0.4,
-          fill: true
+          fill: true,
         },
         {
           label: 'Cumulative Savings',
-          data: dashboardData.daily_savings.map(d => d.cumulative_savings),
+          data: dashboardData.daily_savings.map((d) => d.cumulative_savings),
           borderColor: '#3B82F6',
           backgroundColor: '#3B82F620',
           tension: 0.4,
-          yAxisID: 'y1'
-        }
-      ]
+          yAxisID: 'y1',
+        },
+      ],
     };
 
     const options = {
       responsive: true,
       interaction: {
         mode: 'index' as const,
-        intersect: false
+        intersect: false,
       },
       plugins: {
         title: {
           display: true,
-          text: 'Cost Savings Trend Over Time'
+          text: 'Cost Savings Trend Over Time',
         },
         legend: {
-          position: 'top' as const
-        }
+          position: 'top' as const,
+        },
       },
       scales: {
         x: {
           display: true,
           title: {
             display: true,
-            text: 'Date'
-          }
+            text: 'Date',
+          },
         },
         y: {
           type: 'linear' as const,
@@ -293,8 +296,8 @@ export const CostOptimizationDashboard: React.FC = () => {
           position: 'left' as const,
           title: {
             display: true,
-            text: 'Daily Savings ($)'
-          }
+            text: 'Daily Savings ($)',
+          },
         },
         y1: {
           type: 'linear' as const,
@@ -302,13 +305,13 @@ export const CostOptimizationDashboard: React.FC = () => {
           position: 'right' as const,
           title: {
             display: true,
-            text: 'Cumulative Savings ($)'
+            text: 'Cumulative Savings ($)',
           },
           grid: {
-            drawOnChartArea: false
-          }
-        }
-      }
+            drawOnChartArea: false,
+          },
+        },
+      },
     };
 
     return <Line data={data} options={options} />;
@@ -317,24 +320,28 @@ export const CostOptimizationDashboard: React.FC = () => {
   const createOptimizationComparisonChart = () => {
     if (!dashboardData?.optimization_metrics) return null;
 
-    const metrics = dashboardData.optimization_metrics.filter(m => 
-      OPTIMIZATION_CONFIG[m.optimization_type as keyof typeof OPTIMIZATION_CONFIG]
+    const metrics = dashboardData.optimization_metrics.filter(
+      (m) => OPTIMIZATION_CONFIG[m.optimization_type as keyof typeof OPTIMIZATION_CONFIG]
     );
 
     const data = {
-      labels: metrics.map(m => 
-        OPTIMIZATION_CONFIG[m.optimization_type as keyof typeof OPTIMIZATION_CONFIG]?.name || m.optimization_type
+      labels: metrics.map(
+        (m) =>
+          OPTIMIZATION_CONFIG[m.optimization_type as keyof typeof OPTIMIZATION_CONFIG]?.name ||
+          m.optimization_type
       ),
       datasets: [
         {
           label: 'Annual Savings ($)',
-          data: metrics.map(m => m.projected_annual_savings),
-          backgroundColor: metrics.map(m => 
-            OPTIMIZATION_CONFIG[m.optimization_type as keyof typeof OPTIMIZATION_CONFIG]?.color || '#6B7280'
+          data: metrics.map((m) => m.projected_annual_savings),
+          backgroundColor: metrics.map(
+            (m) =>
+              OPTIMIZATION_CONFIG[m.optimization_type as keyof typeof OPTIMIZATION_CONFIG]?.color ||
+              '#6B7280'
           ),
-          borderWidth: 1
-        }
-      ]
+          borderWidth: 1,
+        },
+      ],
     };
 
     const options = {
@@ -342,21 +349,21 @@ export const CostOptimizationDashboard: React.FC = () => {
       plugins: {
         title: {
           display: true,
-          text: 'Annual Savings by Optimization Type'
+          text: 'Annual Savings by Optimization Type',
         },
         legend: {
-          display: false
-        }
+          display: false,
+        },
       },
       scales: {
         y: {
           beginAtZero: true,
           title: {
             display: true,
-            text: 'Annual Savings ($)'
-          }
-        }
-      }
+            text: 'Annual Savings ($)',
+          },
+        },
+      },
     };
 
     return <Bar data={data} options={options} />;
@@ -366,9 +373,11 @@ export const CostOptimizationDashboard: React.FC = () => {
     if (!dashboardData?.current_model_distribution) return null;
 
     const models = Object.entries(dashboardData.current_model_distribution);
-    
+
     const data = {
-      labels: models.map(([model]) => model.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())),
+      labels: models.map(([model]) =>
+        model.replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase())
+      ),
       datasets: [
         {
           data: models.map(([, data]) => data.percentage),
@@ -378,12 +387,12 @@ export const CostOptimizationDashboard: React.FC = () => {
             '#8B5CF6', // violet
             '#F59E0B', // amber
             '#EF4444', // red
-            '#06B6D4'  // cyan
+            '#06B6D4', // cyan
           ],
           borderWidth: 2,
-          borderColor: '#FFFFFF'
-        }
-      ]
+          borderColor: '#FFFFFF',
+        },
+      ],
     };
 
     const options = {
@@ -391,12 +400,12 @@ export const CostOptimizationDashboard: React.FC = () => {
       plugins: {
         title: {
           display: true,
-          text: 'Current Model Usage Distribution'
+          text: 'Current Model Usage Distribution',
         },
         legend: {
-          position: 'right' as const
-        }
-      }
+          position: 'right' as const,
+        },
+      },
     };
 
     return <Doughnut data={data} options={options} />;
@@ -438,20 +447,20 @@ export const CostOptimizationDashboard: React.FC = () => {
             Track the 90% cost reduction achievement through AI model optimizations
           </p>
         </div>
-        
+
         <div className="flex items-center space-x-4">
           <select
             value={selectedTimeRange}
             onChange={(e) => setSelectedTimeRange(Number(e.target.value))}
             className="rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
           >
-            {TIME_RANGES.map(range => (
+            {TIME_RANGES.map((range) => (
               <option key={range.days} value={range.days}>
                 {range.label}
               </option>
             ))}
           </select>
-          
+
           <Button onClick={fetchDashboardData} variant="outline" size="sm">
             Refresh
           </Button>
@@ -489,9 +498,7 @@ export const CostOptimizationDashboard: React.FC = () => {
               <p className="text-2xl font-bold text-gray-900">
                 {formatCurrency(dashboardData.projected_annual_savings)}
               </p>
-              <p className="text-sm text-blue-600">
-                Based on current trend
-              </p>
+              <p className="text-sm text-blue-600">Based on current trend</p>
             </div>
           </div>
         </Card>
@@ -508,9 +515,11 @@ export const CostOptimizationDashboard: React.FC = () => {
                 {dashboardData.overall_quality_impact > 0 ? '+' : ''}
                 {formatPercentage(dashboardData.overall_quality_impact * 100)}
               </p>
-              <p className={`text-sm ${
-                dashboardData.overall_quality_impact >= 0 ? 'text-green-600' : 'text-red-600'
-              }`}>
+              <p
+                className={`text-sm ${
+                  dashboardData.overall_quality_impact >= 0 ? 'text-green-600' : 'text-red-600'
+                }`}
+              >
                 {dashboardData.overall_quality_impact >= 0 ? 'Maintained' : 'Decreased'}
               </p>
             </div>
@@ -529,8 +538,8 @@ export const CostOptimizationDashboard: React.FC = () => {
                 {formatPercentage(dashboardData.budget_utilization * 100)}
               </p>
               <div className="w-full bg-gray-200 rounded-full h-2 mt-1">
-                <div 
-                  className="bg-amber-600 h-2 rounded-full" 
+                <div
+                  className="bg-amber-600 h-2 rounded-full"
                   style={{ width: `${dashboardData.budget_utilization * 100}%` }}
                 />
               </div>
@@ -542,12 +551,16 @@ export const CostOptimizationDashboard: React.FC = () => {
       {/* Optimization Status Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {dashboardData.optimization_metrics.map((metric) => {
-          const config = OPTIMIZATION_CONFIG[metric.optimization_type as keyof typeof OPTIMIZATION_CONFIG];
+          const config =
+            OPTIMIZATION_CONFIG[metric.optimization_type as keyof typeof OPTIMIZATION_CONFIG];
           if (!config) return null;
 
           return (
-            <Card key={metric.optimization_type} className="p-6 cursor-pointer hover:shadow-md transition-shadow"
-                  onClick={() => setSelectedOptimization(metric.optimization_type)}>
+            <Card
+              key={metric.optimization_type}
+              className="p-6 cursor-pointer hover:shadow-md transition-shadow"
+              onClick={() => setSelectedOptimization(metric.optimization_type)}
+            >
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center space-x-3">
                   <div className="p-2 rounded-lg" style={{ backgroundColor: `${config.color}20` }}>
@@ -558,8 +571,14 @@ export const CostOptimizationDashboard: React.FC = () => {
                     <p className="text-sm text-gray-600">{config.description}</p>
                   </div>
                 </div>
-                <Badge variant={metric.percentage_savings >= config.expectedSavings ? 'success' : 'warning'}>
-                  {metric.percentage_savings >= config.expectedSavings ? 'On Track' : 'Below Target'}
+                <Badge
+                  variant={
+                    metric.percentage_savings >= config.expectedSavings ? 'success' : 'warning'
+                  }
+                >
+                  {metric.percentage_savings >= config.expectedSavings
+                    ? 'On Track'
+                    : 'Below Target'}
                 </Badge>
               </div>
 
@@ -570,7 +589,7 @@ export const CostOptimizationDashboard: React.FC = () => {
                     {formatPercentage(metric.percentage_savings)}
                   </span>
                 </div>
-                
+
                 <div className="flex justify-between items-center">
                   <span className="text-sm text-gray-600">Annual:</span>
                   <span className="font-semibold text-gray-900">
@@ -581,9 +600,11 @@ export const CostOptimizationDashboard: React.FC = () => {
                 {metric.quality_impact !== null && (
                   <div className="flex justify-between items-center">
                     <span className="text-sm text-gray-600">Quality:</span>
-                    <span className={`font-semibold ${
-                      metric.quality_impact >= 0 ? 'text-green-600' : 'text-red-600'
-                    }`}>
+                    <span
+                      className={`font-semibold ${
+                        metric.quality_impact >= 0 ? 'text-green-600' : 'text-red-600'
+                      }`}
+                    >
                       {metric.quality_impact > 0 ? '+' : ''}
                       {formatPercentage(metric.quality_impact * 100)}
                     </span>
@@ -592,11 +613,11 @@ export const CostOptimizationDashboard: React.FC = () => {
 
                 {/* Progress bar */}
                 <div className="w-full bg-gray-200 rounded-full h-2">
-                  <div 
-                    className="h-2 rounded-full transition-all duration-300" 
-                    style={{ 
+                  <div
+                    className="h-2 rounded-full transition-all duration-300"
+                    style={{
                       width: `${Math.min(100, (metric.percentage_savings / config.expectedSavings) * 100)}%`,
-                      backgroundColor: config.color
+                      backgroundColor: config.color,
                     }}
                   />
                 </div>
@@ -610,16 +631,12 @@ export const CostOptimizationDashboard: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Savings Trend */}
         <Card className="p-6">
-          <div className="h-80">
-            {createSavingsTrendChart()}
-          </div>
+          <div className="h-80">{createSavingsTrendChart()}</div>
         </Card>
 
         {/* Optimization Comparison */}
         <Card className="p-6">
-          <div className="h-80">
-            {createOptimizationComparisonChart()}
-          </div>
+          <div className="h-80">{createOptimizationComparisonChart()}</div>
         </Card>
 
         {/* Model Distribution */}
@@ -634,17 +651,19 @@ export const CostOptimizationDashboard: React.FC = () => {
           <div className="h-80">
             <Line
               data={{
-                labels: dashboardData.cost_efficiency_trend.map(d => 
+                labels: dashboardData.cost_efficiency_trend.map((d) =>
                   new Date(d.date).toLocaleDateString()
                 ),
-                datasets: [{
-                  label: 'Cost Efficiency',
-                  data: dashboardData.cost_efficiency_trend.map(d => d.cost_efficiency * 100),
-                  borderColor: '#8B5CF6',
-                  backgroundColor: '#8B5CF620',
-                  tension: 0.4,
-                  fill: true
-                }]
+                datasets: [
+                  {
+                    label: 'Cost Efficiency',
+                    data: dashboardData.cost_efficiency_trend.map((d) => d.cost_efficiency * 100),
+                    borderColor: '#8B5CF6',
+                    backgroundColor: '#8B5CF620',
+                    tension: 0.4,
+                    fill: true,
+                  },
+                ],
               }}
               options={{
                 responsive: true,
@@ -652,8 +671,8 @@ export const CostOptimizationDashboard: React.FC = () => {
                 plugins: {
                   title: {
                     display: true,
-                    text: 'Cost Efficiency Trend'
-                  }
+                    text: 'Cost Efficiency Trend',
+                  },
                 },
                 scales: {
                   y: {
@@ -661,10 +680,10 @@ export const CostOptimizationDashboard: React.FC = () => {
                     max: 100,
                     title: {
                       display: true,
-                      text: 'Efficiency (%)'
-                    }
-                  }
-                }
+                      text: 'Efficiency (%)',
+                    },
+                  },
+                },
               }}
             />
           </div>
@@ -677,20 +696,30 @@ export const CostOptimizationDashboard: React.FC = () => {
           <h2 className="text-xl font-semibold text-gray-900 mb-4">Cost Alerts</h2>
           <div className="space-y-3">
             {dashboardData.cost_alerts.map((alert, index) => (
-              <div key={index} className={`p-4 rounded-lg border-l-4 ${
-                alert.severity === 'critical' ? 'bg-red-50 border-red-500' :
-                alert.severity === 'warning' ? 'bg-yellow-50 border-yellow-500' :
-                'bg-blue-50 border-blue-500'
-              }`}>
+              <div
+                key={index}
+                className={`p-4 rounded-lg border-l-4 ${
+                  alert.severity === 'critical'
+                    ? 'bg-red-50 border-red-500'
+                    : alert.severity === 'warning'
+                      ? 'bg-yellow-50 border-yellow-500'
+                      : 'bg-blue-50 border-blue-500'
+                }`}
+              >
                 <div className="flex items-start">
-                  <AlertTriangle className={`h-5 w-5 mt-0.5 ${
-                    alert.severity === 'critical' ? 'text-red-500' :
-                    alert.severity === 'warning' ? 'text-yellow-500' :
-                    'text-blue-500'
-                  }`} />
+                  <AlertTriangle
+                    className={`h-5 w-5 mt-0.5 ${
+                      alert.severity === 'critical'
+                        ? 'text-red-500'
+                        : alert.severity === 'warning'
+                          ? 'text-yellow-500'
+                          : 'text-blue-500'
+                    }`}
+                  />
                   <div className="ml-3">
                     <h3 className="font-medium text-gray-900">
-                      {OPTIMIZATION_CONFIG[alert.optimization as keyof typeof OPTIMIZATION_CONFIG]?.name || alert.optimization}
+                      {OPTIMIZATION_CONFIG[alert.optimization as keyof typeof OPTIMIZATION_CONFIG]
+                        ?.name || alert.optimization}
                     </h3>
                     <p className="text-sm text-gray-700">{alert.message}</p>
                     {alert.expected_value && (
@@ -711,15 +740,26 @@ export const CostOptimizationDashboard: React.FC = () => {
         <h2 className="text-xl font-semibold text-gray-900 mb-4">Top Savings Opportunities</h2>
         <div className="space-y-3">
           {dashboardData.top_savings_by_optimization.slice(0, 5).map((opportunity, index) => {
-            const config = OPTIMIZATION_CONFIG[opportunity.optimization_type as keyof typeof OPTIMIZATION_CONFIG];
+            const config =
+              OPTIMIZATION_CONFIG[
+                opportunity.optimization_type as keyof typeof OPTIMIZATION_CONFIG
+              ];
             return (
-              <div key={index} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+              <div
+                key={index}
+                className="flex items-center justify-between p-4 bg-gray-50 rounded-lg"
+              >
                 <div className="flex items-center space-x-3">
-                  <div className="p-2 rounded-lg" style={{ backgroundColor: `${config?.color || '#6B7280'}20` }}>
+                  <div
+                    className="p-2 rounded-lg"
+                    style={{ backgroundColor: `${config?.color || '#6B7280'}20` }}
+                  >
                     {getOptimizationIcon(opportunity.optimization_type)}
                   </div>
                   <div>
-                    <h3 className="font-medium text-gray-900">{config?.name || opportunity.optimization_type}</h3>
+                    <h3 className="font-medium text-gray-900">
+                      {config?.name || opportunity.optimization_type}
+                    </h3>
                     <p className="text-sm text-gray-600">
                       {formatPercentage(opportunity.percentage_savings)} savings
                     </p>

@@ -44,13 +44,15 @@ export class ErrorBoundary extends Component<Props, State> {
   render() {
     if (this.state.hasError) {
       // You can render any custom fallback UI
-      return this.props.fallback || (
-        <div className="error-boundary-fallback">
-          <h2>Something went wrong.</h2>
-          <details style={{ whiteSpace: 'pre-wrap' }}>
-            {this.state.error && this.state.error.toString()}
-          </details>
-        </div>
+      return (
+        this.props.fallback || (
+          <div className="error-boundary-fallback">
+            <h2>Something went wrong.</h2>
+            <details style={{ whiteSpace: 'pre-wrap' }}>
+              {this.state.error && this.state.error.toString()}
+            </details>
+          </div>
+        )
       );
     }
 
@@ -65,18 +67,19 @@ export const useExternalScriptErrorHandler = () => {
   React.useEffect(() => {
     const handleGlobalError = (event: ErrorEvent) => {
       // Check if it's the share-modal.js error or similar external script errors
-      if (event.filename && (
-        event.filename.includes('share-modal.js') ||
-        event.filename.includes('addEventListener') ||
-        event.message.includes('Cannot read properties of null')
-      )) {
+      if (
+        event.filename &&
+        (event.filename.includes('share-modal.js') ||
+          event.filename.includes('addEventListener') ||
+          event.message.includes('Cannot read properties of null'))
+      ) {
         console.warn('External script error detected, handling gracefully:', {
           message: event.message,
           filename: event.filename,
           lineno: event.lineno,
-          colno: event.colno
+          colno: event.colno,
         });
-        
+
         // Prevent the error from being logged to console
         event.preventDefault();
         return false;
@@ -146,7 +149,7 @@ export const safeMap = <T, R>(
   if (!array || !Array.isArray(array)) {
     return fallback;
   }
-  
+
   try {
     return array.map(mapper);
   } catch (error) {

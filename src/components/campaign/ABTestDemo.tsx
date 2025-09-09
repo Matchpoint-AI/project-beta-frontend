@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { 
-  Button, 
-  Box, 
-  Card, 
-  CardContent, 
-  Typography, 
+import {
+  Button,
+  Box,
+  Card,
+  CardContent,
+  Typography,
   Grid,
   Chip,
   IconButton,
-  Tooltip
+  Tooltip,
 } from '@mui/material';
 import { FaFlask, FaPlay, FaChartBar } from 'react-icons/fa';
 import ABTestVariantComparison from './ABTestVariantComparison';
@@ -30,7 +30,7 @@ const demoTestConfig = {
       name: 'Text-Only Control',
       type: 'caption' as const,
       content: {
-        text: 'Discover our premium skincare line. Transform your daily routine with science-backed formulas. #skincare #premium #beauty'
+        text: 'Discover our premium skincare line. Transform your daily routine with science-backed formulas. #skincare #premium #beauty',
       },
       status: 'running' as const,
       trafficAllocation: 40,
@@ -40,20 +40,20 @@ const demoTestConfig = {
         ctr: 0.0615,
         engagement: 890,
         conversions: 47,
-        cost: 124.80,
-        confidenceLevel: 0.92
+        cost: 124.8,
+        confidenceLevel: 0.92,
       },
       created_at: '2024-01-20T09:00:00Z',
       updated_at: '2024-01-20T09:00:00Z',
       author: 'Marketing Team',
-      notes: 'Clean, professional tone without emojis'
+      notes: 'Clean, professional tone without emojis',
     },
     {
       id: 'demo-variant-2',
       name: 'Emoji-Rich Test',
       type: 'caption' as const,
       content: {
-        text: 'Discover our premium skincare line ✨ Transform your daily routine with science-backed formulas 🧴💫 #skincare #premium #beauty'
+        text: 'Discover our premium skincare line ✨ Transform your daily routine with science-backed formulas 🧴💫 #skincare #premium #beauty',
       },
       status: 'running' as const,
       trafficAllocation: 40,
@@ -63,20 +63,20 @@ const demoTestConfig = {
         ctr: 0.0817,
         engagement: 1240,
         conversions: 63,
-        cost: 118.40,
-        confidenceLevel: 0.97
+        cost: 118.4,
+        confidenceLevel: 0.97,
       },
       created_at: '2024-01-20T09:15:00Z',
       updated_at: '2024-01-20T09:15:00Z',
       author: 'Marketing Team',
-      notes: 'Engaging emojis to increase visual appeal'
+      notes: 'Engaging emojis to increase visual appeal',
     },
     {
       id: 'demo-variant-3',
       name: 'Question Format',
       type: 'caption' as const,
       content: {
-        text: 'Ready to transform your skin? 🤔 Our premium skincare line combines science with luxury. What are you waiting for? ✨ #skincare #transformation'
+        text: 'Ready to transform your skin? 🤔 Our premium skincare line combines science with luxury. What are you waiting for? ✨ #skincare #transformation',
       },
       status: 'running' as const,
       trafficAllocation: 20,
@@ -86,15 +86,15 @@ const demoTestConfig = {
         ctr: 0.1146,
         engagement: 780,
         conversions: 41,
-        cost: 89.40,
-        confidenceLevel: 0.89
+        cost: 89.4,
+        confidenceLevel: 0.89,
       },
       created_at: '2024-01-20T10:00:00Z',
       updated_at: '2024-01-20T10:00:00Z',
       author: 'Creative Team',
-      notes: 'Conversational tone with direct questions'
-    }
-  ]
+      notes: 'Conversational tone with direct questions',
+    },
+  ],
 };
 
 const ABTestDemo: React.FC = () => {
@@ -112,56 +112,56 @@ const ABTestDemo: React.FC = () => {
   const handleSaveVariant = async (variantId: string, content: any, notes?: string) => {
     // Simulate API call
     console.log('Saving variant:', { variantId, content, notes });
-    
+
     // Update demo data
-    setDemoData(prev => ({
+    setDemoData((prev) => ({
       ...prev,
-      variants: prev.variants.map(v => 
-        v.id === variantId 
+      variants: prev.variants.map((v) =>
+        v.id === variantId
           ? { ...v, content, notes: notes || v.notes, updated_at: new Date().toISOString() }
           : v
-      )
+      ),
     }));
   };
 
   const handleUpdateTrafficAllocation = async (allocations: { [variantId: string]: number }) => {
     console.log('Updating traffic allocation:', allocations);
-    
-    setDemoData(prev => ({
+
+    setDemoData((prev) => ({
       ...prev,
-      variants: prev.variants.map(v => ({
+      variants: prev.variants.map((v) => ({
         ...v,
-        trafficAllocation: allocations[v.id] || v.trafficAllocation
-      }))
+        trafficAllocation: allocations[v.id] || v.trafficAllocation,
+      })),
     }));
   };
 
   const handleStartTest = async () => {
     console.log('Starting A/B test');
-    setDemoData(prev => ({ ...prev, status: 'running' }));
+    setDemoData((prev) => ({ ...prev, status: 'running' }));
   };
 
   const handlePauseTest = async () => {
     console.log('Pausing A/B test');
-    setDemoData(prev => ({ ...prev, status: 'paused' }));
+    setDemoData((prev) => ({ ...prev, status: 'paused' }));
   };
 
   const handleDeclareWinner = async (variantId: string) => {
     console.log('Declaring winner:', variantId);
-    
-    setDemoData(prev => ({
+
+    setDemoData((prev) => ({
       ...prev,
       status: 'completed',
-      variants: prev.variants.map(v => ({
+      variants: prev.variants.map((v) => ({
         ...v,
-        status: v.id === variantId ? 'winner' : 'completed'
-      }))
+        status: v.id === variantId ? 'winner' : 'completed',
+      })),
     }));
   };
 
-  const handleCreateVariant = async (variant: Partial<typeof demoData.variants[0]>) => {
+  const handleCreateVariant = async (variant: Partial<(typeof demoData.variants)[0]>) => {
     console.log('Creating new variant:', variant);
-    
+
     const newVariant = {
       id: `demo-variant-${Date.now()}`,
       name: `Variant ${demoData.variants.length + 1}`,
@@ -172,20 +172,22 @@ const ABTestDemo: React.FC = () => {
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
       author: 'Demo User',
-      ...variant
+      ...variant,
     };
-    
-    setDemoData(prev => ({
+
+    setDemoData((prev) => ({
       ...prev,
-      variants: [...prev.variants, newVariant]
+      variants: [...prev.variants, newVariant],
     }));
   };
 
   const getWinningVariant = () => {
-    return demoData.variants.find(v => v.status === 'winner') || 
-           demoData.variants.reduce((best, current) => 
-             (current.performance?.ctr || 0) > (best.performance?.ctr || 0) ? current : best
-           );
+    return (
+      demoData.variants.find((v) => v.status === 'winner') ||
+      demoData.variants.reduce((best, current) =>
+        (current.performance?.ctr || 0) > (best.performance?.ctr || 0) ? current : best
+      )
+    );
   };
 
   const winningVariant = getWinningVariant();
@@ -202,15 +204,22 @@ const ABTestDemo: React.FC = () => {
         <Grid item xs={12} md={8}>
           <Card>
             <CardContent>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  mb: 2,
+                }}
+              >
                 <Typography variant="h6">{demoData.name}</Typography>
-                <Chip 
-                  label={demoData.status.toUpperCase()} 
+                <Chip
+                  label={demoData.status.toUpperCase()}
                   color={demoData.status === 'running' ? 'success' : 'primary'}
                   icon={<FaPlay />}
                 />
               </Box>
-              
+
               <Typography variant="body2" color="textSecondary" sx={{ mb: 2 }}>
                 {demoData.description}
               </Typography>
@@ -243,8 +252,10 @@ const ABTestDemo: React.FC = () => {
         <Grid item xs={12} md={4}>
           <Card>
             <CardContent>
-              <Typography variant="h6" sx={{ mb: 2 }}>Current Leader</Typography>
-              
+              <Typography variant="h6" sx={{ mb: 2 }}>
+                Current Leader
+              </Typography>
+
               {winningVariant && (
                 <Box>
                   <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
@@ -252,24 +263,27 @@ const ABTestDemo: React.FC = () => {
                       {winningVariant.name}
                     </Typography>
                     {winningVariant.status === 'winner' && (
-                      <Typography variant="h6" sx={{ ml: 1 }}>👑</Typography>
+                      <Typography variant="h6" sx={{ ml: 1 }}>
+                        👑
+                      </Typography>
                     )}
                   </Box>
-                  
+
                   <Typography variant="body2" color="textSecondary" sx={{ mb: 2 }}>
                     {winningVariant.content.text?.substring(0, 80)}...
                   </Typography>
-                  
+
                   {winningVariant.performance && (
                     <Box>
                       <Typography variant="h4" color="primary">
                         {(winningVariant.performance.ctr * 100).toFixed(2)}%
                       </Typography>
                       <Typography variant="caption">Click-through rate</Typography>
-                      
+
                       <Box sx={{ mt: 2 }}>
                         <Typography variant="body2">
-                          <strong>Confidence:</strong> {(winningVariant.performance.confidenceLevel * 100).toFixed(1)}%
+                          <strong>Confidence:</strong>{' '}
+                          {(winningVariant.performance.confidenceLevel * 100).toFixed(1)}%
                         </Typography>
                         <Typography variant="body2">
                           <strong>Conversions:</strong> {winningVariant.performance.conversions}
@@ -285,37 +299,44 @@ const ABTestDemo: React.FC = () => {
 
         {/* Variant Preview Cards */}
         <Grid item xs={12}>
-          <Typography variant="h6" sx={{ mb: 2 }}>Variant Previews</Typography>
+          <Typography variant="h6" sx={{ mb: 2 }}>
+            Variant Previews
+          </Typography>
           <Grid container spacing={2}>
             {demoData.variants.map((variant, index) => (
               <Grid item xs={12} md={4} key={variant.id}>
                 <Card variant="outlined">
                   <CardContent>
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        mb: 2,
+                      }}
+                    >
                       <Typography variant="subtitle1" fontWeight="bold">
                         {variant.name}
                       </Typography>
                       <Box sx={{ display: 'flex', gap: 1 }}>
-                        <Chip 
-                          label={`${variant.trafficAllocation}%`} 
-                          size="small" 
+                        <Chip
+                          label={`${variant.trafficAllocation}%`}
+                          size="small"
                           color="primary"
                         />
-                        {variant.status === 'winner' && (
-                          <Typography variant="body2">👑</Typography>
-                        )}
+                        {variant.status === 'winner' && <Typography variant="body2">👑</Typography>}
                       </Box>
                     </Box>
-                    
+
                     <Typography variant="body2" sx={{ mb: 2, minHeight: 60 }}>
                       {variant.content.text}
                     </Typography>
-                    
+
                     {variant.performance && (
                       <Box>
                         <Typography variant="caption" color="textSecondary">
-                          CTR: {(variant.performance.ctr * 100).toFixed(2)}% | 
-                          Engagement: {variant.performance.engagement.toLocaleString()}
+                          CTR: {(variant.performance.ctr * 100).toFixed(2)}% | Engagement:{' '}
+                          {variant.performance.engagement.toLocaleString()}
                         </Typography>
                       </Box>
                     )}

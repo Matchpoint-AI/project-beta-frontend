@@ -67,7 +67,6 @@ const PromotionComponent: React.FC<PromotionComponentProps> = ({ campaign, statu
 
   const title = capitalizeFirstLetterOfEachWord(campaign?.campaign_data?.campaign_variables?.name);
 
-
   const formatMonthDayYear = (date: Date): string => {
     const options: Intl.DateTimeFormatOptions = {
       day: 'numeric',
@@ -149,7 +148,7 @@ const PromotionComponent: React.FC<PromotionComponentProps> = ({ campaign, statu
 
   const info = displayPeriod(
     campaign?.campaign_data?.campaign_variables?.start_date,
-    campaign?.campaign_data?.campaign_variables?.duration,
+    campaign?.campaign_data?.campaign_variables?.duration
   );
 
   const navigate = useNavigate();
@@ -227,7 +226,7 @@ const PromotionComponent: React.FC<PromotionComponentProps> = ({ campaign, statu
                 handleNavigate(
                   profile?.id ?? '',
                   `/campaign/content/${campaign.campaign_id}`,
-                  navigate,
+                  navigate
                 )
               }
               className="text-[#5145CD] border border-[#5145CD] text-sm px-2 py-1 rounded-md  h-9"

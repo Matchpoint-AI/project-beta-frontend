@@ -1,6 +1,6 @@
 /**
  * Cost Optimization API Client
- * 
+ *
  * Provides methods to interact with the cost optimization tracking backend service.
  * Handles authentication, error handling, and data transformation for the frontend.
  */
@@ -41,7 +41,10 @@ interface CostDashboardData {
   total_percentage_savings: number;
   projected_annual_savings: number;
   optimization_metrics: CostOptimizationMetrics[];
-  current_model_distribution: Record<string, { requests: number; cost: number; percentage: number }>;
+  current_model_distribution: Record<
+    string,
+    { requests: number; cost: number; percentage: number }
+  >;
   daily_savings: Array<{
     date: string;
     daily_savings: number;
@@ -49,362 +52,467 @@ interface CostDashboardData {
     baseline_cost: number;
     optimized_cost: number;
   }>;
-  cost_efficiency_trend: Array<{
-    date: string;
-    cost_efficiency: number;
-    requests_per_dollar: number;
-    savings_rate: number;
-  }>;
-  overall_quality_impact: number;
-  quality_by_optimization: Record<string, number>;
-  top_savings_by_optimization: Array<{
-    optimization_type: string;
-    annual_savings: number;
-    percentage_savings: number;
-    quality_impact: number;
-    implementation_status: string;
-  }>;
-  budget_utilization: number;
-  cost_alerts: Array<{
-    type: string;
-    optimization: string;
-    severity: string;
-    message: string;
-    current_value: number;
-    expected_value?: number;
-    threshold?: number;
+  optimization_recommendations: Array<{
+    recommendation: string;
+    potential_savings: number;
+    difficulty: 'low' | 'medium' | 'high';
+    impact: 'low' | 'medium' | 'high';
   }>;
 }
 
 interface OptimizationComparison {
-  optimization_type: string;
-  period_days: number;
-  total_requests: number;
-  cost_metrics: {
-    optimized_cost: number;
-    baseline_cost: number;
-    absolute_savings: number;
-    percentage_savings: number;
-    cost_per_request: number;
-  };
-  quality_metrics: {
-    average_quality_score: number;
-    quality_distribution: Record<string, number>;
-  };
-  performance_metrics: {
-    average_latency_ms: number;
-    latency_percentiles: Record<string, number>;
-  };
-  model_usage: Record<string, number>;
-  usage_patterns: Record<string, unknown>;
-  recommendations: string[];
+  model_name: string;
+  requests: number;
+  total_cost: number;
+  average_cost_per_request: number;
+  percentage_of_total: number;
+  potential_savings?: number;
+  recommended_alternative?: string;
 }
 
 interface TrackUsageData {
-  model_used: string;
-  task_type: string;
-  tokens_used: number;
-  cost_incurred: number;
-  quality_score?: number;
+  request_id: string;
+  model_name: string;
+  operation_type: string;
+  input_tokens?: number;
+  output_tokens?: number;
+  total_tokens?: number;
+  cost?: number;
   latency_ms?: number;
-  user_id?: string;
-  brand_id?: string;
+  quality_score?: number;
+  status: 'success' | 'failure';
+  error_message?: string;
+  metadata?: Record<string, any>;
 }
 
 class CostOptimizationApiError extends Error {
-  constructor(message: string, public status?: number, public details?: unknown) {
+  constructor(
+    message: string,
+    public status?: number,
+    public details?: any
+  ) {
     super(message);
     this.name = 'CostOptimizationApiError';
   }
 }
 
 /**
- * API client for cost optimization tracking and analytics
+ * Fetches cost optimization dashboard data for the specified period
+ * @param startDate - Start date for the period (ISO 8601 format)
+ * @param endDate - End date for the period (ISO 8601 format)
+ * @returns Promise<CostDashboardData>
  */
-export const costOptimizationApi = {
-  /**
-   * Get comprehensive cost optimization dashboard data
-   */
-  getDashboardData: async (days: number = 30, brandId?: string): Promise<CostDashboardData> => {
-    try {
-      const token = await getToken();
-      const params = new URLSearchParams({ days: days.toString() });
-      if (brandId) {
-        params.append('brand_id', brandId);
-      }
+export async function fetchCostOptimizationData(
+  startDate?: string,
+  endDate?: string
+): Promise<CostDashboardData> {
+  try {
+    const token = await getToken();
+    if (!token) {
+      throw new CostOptimizationApiError('No authentication token available', 401);
+    }
 
-      const response = await fetch(
-        `${CONTENT_GEN_URL}/api/v1/cost-optimization/dashboard?${params}`,
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-        }
+    const params = new URLSearchParams();
+    if (startDate) params.append('start_date', startDate);
+    if (endDate) params.append('end_date', endDate);
+
+    const response = await fetch(
+      `${CONTENT_GEN_URL}/api/v1/cost-optimization/dashboard?${params.toString()}`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+
+    if (!response.ok) {
+      const errorBody = await response.text();
+      throw new CostOptimizationApiError(
+        `Failed to fetch cost optimization data: ${response.statusText}`,
+        response.status,
+        errorBody
       );
-
-      if (!response.ok) {
-        const error = await response.json().catch(() => ({ detail: 'Unknown error' }));
-        throw new CostOptimizationApiError(
-          error.detail || 'Failed to fetch dashboard data',
-          response.status,
-          error
-        );
-      }
-
-      return await response.json();
-    } catch (error) {
-      if (error instanceof CostOptimizationApiError) {
-        throw error;
-      }
-      throw new CostOptimizationApiError('Network error fetching dashboard data');
     }
-  },
 
-  /**
-   * Get detailed comparison for specific optimization type
-   */
-  getOptimizationComparison: async (
-    optimizationType: string,
-    days: number = 7
-  ): Promise<OptimizationComparison> => {
-    try {
-      const token = await getToken();
-      const params = new URLSearchParams({ 
-        days: days.toString(),
-        optimization_type: optimizationType 
-      });
-
-      const response = await fetch(
-        `${CONTENT_GEN_URL}/api/v1/cost-optimization/comparison?${params}`,
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      if (!response.ok) {
-        const error = await response.json().catch(() => ({ detail: 'Unknown error' }));
-        throw new CostOptimizationApiError(
-          error.detail || 'Failed to fetch optimization comparison',
-          response.status,
-          error
-        );
-      }
-
-      return await response.json();
-    } catch (error) {
-      if (error instanceof CostOptimizationApiError) {
-        throw error;
-      }
-      throw new CostOptimizationApiError('Network error fetching optimization comparison');
+    const data = await response.json();
+    return transformDashboardData(data);
+  } catch (error) {
+    if (error instanceof CostOptimizationApiError) {
+      throw error;
     }
-  },
-
-  /**
-   * Track usage of an optimized model for cost analysis
-   */
-  trackOptimizationUsage: async (data: TrackUsageData): Promise<{ document_id: string }> => {
-    try {
-      const token = await getToken();
-
-      const response = await fetch(
-        `${CONTENT_GEN_URL}/api/v1/cost-optimization/track-usage`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(data),
-        }
-      );
-
-      if (!response.ok) {
-        const error = await response.json().catch(() => ({ detail: 'Unknown error' }));
-        throw new CostOptimizationApiError(
-          error.detail || 'Failed to track optimization usage',
-          response.status,
-          error
-        );
-      }
-
-      return await response.json();
-    } catch (error) {
-      if (error instanceof CostOptimizationApiError) {
-        throw error;
-      }
-      throw new CostOptimizationApiError('Network error tracking optimization usage');
-    }
-  },
-
-  /**
-   * Get cost savings summary for a specific time period
-   */
-  getCostSavingsSummary: async (days: number = 30, brandId?: string): Promise<{
-    total_savings: number;
-    percentage_savings: number;
-    projected_annual: number;
-    by_optimization: Record<string, number>;
-  }> => {
-    try {
-      const dashboardData = await costOptimizationApi.getDashboardData(days, brandId);
-      
-      const byOptimization: Record<string, number> = {};
-      dashboardData.optimization_metrics.forEach(metric => {
-        byOptimization[metric.optimization_type] = metric.absolute_savings;
-      });
-
-      return {
-        total_savings: dashboardData.total_absolute_savings,
-        percentage_savings: dashboardData.total_percentage_savings,
-        projected_annual: dashboardData.projected_annual_savings,
-        by_optimization: byOptimization
-      };
-    } catch (error) {
-      if (error instanceof CostOptimizationApiError) {
-        throw error;
-      }
-      throw new CostOptimizationApiError('Failed to get cost savings summary');
-    }
-  },
-
-  /**
-   * Get model usage statistics
-   */
-  getModelUsageStats: async (days: number = 30): Promise<{
-    total_requests: number;
-    models: Record<string, {
-      requests: number;
-      cost: number;
-      percentage: number;
-      avg_cost_per_request: number;
-    }>;
-  }> => {
-    try {
-      const dashboardData = await costOptimizationApi.getDashboardData(days);
-      
-      let totalRequests = 0;
-      const models: Record<string, unknown> = {};
-
-      Object.entries(dashboardData.current_model_distribution).forEach(([model, data]) => {
-        totalRequests += data.requests;
-        models[model] = {
-          ...data,
-          avg_cost_per_request: data.cost / data.requests || 0
-        };
-      });
-
-      return {
-        total_requests: totalRequests,
-        models
-      };
-    } catch (error) {
-      if (error instanceof CostOptimizationApiError) {
-        throw error;
-      }
-      throw new CostOptimizationApiError('Failed to get model usage stats');
-    }
-  },
-
-  /**
-   * Get budget utilization and alerts
-   */
-  getBudgetStatus: async (days: number = 30): Promise<{
-    utilization: number;
-    alerts: Array<{
-      type: string;
-      severity: string;
-      message: string;
-    }>;
-    projected_monthly_cost: number;
-    monthly_budget: number;
-  }> => {
-    try {
-      const dashboardData = await costOptimizationApi.getDashboardData(days);
-      
-      // Calculate projected monthly cost
-      const dailyAvgCost = dashboardData.total_optimized_cost / days;
-      const projectedMonthlyCost = dailyAvgCost * 30;
-      const monthlyBudget = 5000; // This would come from user settings
-
-      return {
-        utilization: dashboardData.budget_utilization,
-        alerts: dashboardData.cost_alerts,
-        projected_monthly_cost: projectedMonthlyCost,
-        monthly_budget: monthlyBudget
-      };
-    } catch (error) {
-      if (error instanceof CostOptimizationApiError) {
-        throw error;
-      }
-      throw new CostOptimizationApiError('Failed to get budget status');
-    }
-  },
-
-  /**
-   * Get cost trends over time
-   */
-  getCostTrends: async (days: number = 30): Promise<{
-    daily_costs: Array<{ date: string; cost: number; savings: number }>;
-    weekly_summary: Array<{ week: string; cost: number; savings: number }>;
-    efficiency_trend: Array<{ date: string; efficiency: number }>;
-  }> => {
-    try {
-      const dashboardData = await costOptimizationApi.getDashboardData(days);
-
-      // Transform daily savings data
-      const dailyCosts = dashboardData.daily_savings.map(day => ({
-        date: day.date,
-        cost: day.optimized_cost,
-        savings: day.daily_savings
-      }));
-
-      // Calculate weekly summaries
-      const weeklySummary: Record<string, { cost: number; savings: number; days: number }> = {};
-      
-      dashboardData.daily_savings.forEach(day => {
-        const date = new Date(day.date);
-        const week = `${date.getFullYear()}-W${Math.ceil(date.getDate() / 7)}`;
-        
-        if (!weeklySummary[week]) {
-          weeklySummary[week] = { cost: 0, savings: 0, days: 0 };
-        }
-        
-        weeklySummary[week].cost += day.optimized_cost;
-        weeklySummary[week].savings += day.daily_savings;
-        weeklySummary[week].days += 1;
-      });
-
-      const weeklyArray = Object.entries(weeklySummary).map(([week, data]) => ({
-        week,
-        cost: data.cost,
-        savings: data.savings
-      }));
-
-      // Efficiency trend
-      const efficiencyTrend = dashboardData.cost_efficiency_trend.map(point => ({
-        date: point.date,
-        efficiency: point.cost_efficiency
-      }));
-
-      return {
-        daily_costs: dailyCosts,
-        weekly_summary: weeklyArray,
-        efficiency_trend: efficiencyTrend
-      };
-    } catch (error) {
-      if (error instanceof CostOptimizationApiError) {
-        throw error;
-      }
-      throw new CostOptimizationApiError('Failed to get cost trends');
-    }
+    throw new CostOptimizationApiError(
+      `Error fetching cost optimization data: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      undefined,
+      error
+    );
   }
-};
+}
 
+/**
+ * Tracks API usage for cost optimization analysis
+ * @param usageData - Usage data to track
+ * @returns Promise<void>
+ */
+export async function trackApiUsage(usageData: TrackUsageData): Promise<void> {
+  try {
+    const token = await getToken();
+    if (!token) {
+      throw new CostOptimizationApiError('No authentication token available', 401);
+    }
+
+    const response = await fetch(`${CONTENT_GEN_URL}/api/v1/cost-optimization/track`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(usageData),
+    });
+
+    if (!response.ok) {
+      const errorBody = await response.text();
+      throw new CostOptimizationApiError(
+        `Failed to track API usage: ${response.statusText}`,
+        response.status,
+        errorBody
+      );
+    }
+  } catch (error) {
+    if (error instanceof CostOptimizationApiError) {
+      throw error;
+    }
+    throw new CostOptimizationApiError(
+      `Error tracking API usage: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      undefined,
+      error
+    );
+  }
+}
+
+/**
+ * Fetches model comparison data for cost optimization
+ * @param startDate - Start date for the comparison period
+ * @param endDate - End date for the comparison period
+ * @returns Promise<OptimizationComparison[]>
+ */
+export async function fetchModelComparison(
+  startDate?: string,
+  endDate?: string
+): Promise<OptimizationComparison[]> {
+  try {
+    const token = await getToken();
+    if (!token) {
+      throw new CostOptimizationApiError('No authentication token available', 401);
+    }
+
+    const params = new URLSearchParams();
+    if (startDate) params.append('start_date', startDate);
+    if (endDate) params.append('end_date', endDate);
+
+    const response = await fetch(
+      `${CONTENT_GEN_URL}/api/v1/cost-optimization/model-comparison?${params.toString()}`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+
+    if (!response.ok) {
+      const errorBody = await response.text();
+      throw new CostOptimizationApiError(
+        `Failed to fetch model comparison: ${response.statusText}`,
+        response.status,
+        errorBody
+      );
+    }
+
+    return await response.json();
+  } catch (error) {
+    if (error instanceof CostOptimizationApiError) {
+      throw error;
+    }
+    throw new CostOptimizationApiError(
+      `Error fetching model comparison: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      undefined,
+      error
+    );
+  }
+}
+
+/**
+ * Exports cost optimization data as CSV
+ * @param startDate - Start date for the export period
+ * @param endDate - End date for the export period
+ * @returns Promise<Blob>
+ */
+export async function exportCostData(startDate?: string, endDate?: string): Promise<Blob> {
+  try {
+    const token = await getToken();
+    if (!token) {
+      throw new CostOptimizationApiError('No authentication token available', 401);
+    }
+
+    const params = new URLSearchParams();
+    if (startDate) params.append('start_date', startDate);
+    if (endDate) params.append('end_date', endDate);
+
+    const response = await fetch(
+      `${CONTENT_GEN_URL}/api/v1/cost-optimization/export?${params.toString()}`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    if (!response.ok) {
+      const errorBody = await response.text();
+      throw new CostOptimizationApiError(
+        `Failed to export cost data: ${response.statusText}`,
+        response.status,
+        errorBody
+      );
+    }
+
+    return await response.blob();
+  } catch (error) {
+    if (error instanceof CostOptimizationApiError) {
+      throw error;
+    }
+    throw new CostOptimizationApiError(
+      `Error exporting cost data: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      undefined,
+      error
+    );
+  }
+}
+
+/**
+ * Updates cost optimization settings
+ * @param settings - Settings to update
+ * @returns Promise<void>
+ */
+export async function updateOptimizationSettings(settings: {
+  enable_auto_optimization?: boolean;
+  quality_threshold?: number;
+  latency_threshold?: number;
+  cost_threshold?: number;
+  preferred_models?: string[];
+}): Promise<void> {
+  try {
+    const token = await getToken();
+    if (!token) {
+      throw new CostOptimizationApiError('No authentication token available', 401);
+    }
+
+    const response = await fetch(`${CONTENT_GEN_URL}/api/v1/cost-optimization/settings`, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(settings),
+    });
+
+    if (!response.ok) {
+      const errorBody = await response.text();
+      throw new CostOptimizationApiError(
+        `Failed to update optimization settings: ${response.statusText}`,
+        response.status,
+        errorBody
+      );
+    }
+  } catch (error) {
+    if (error instanceof CostOptimizationApiError) {
+      throw error;
+    }
+    throw new CostOptimizationApiError(
+      `Error updating optimization settings: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      undefined,
+      error
+    );
+  }
+}
+
+/**
+ * Transforms raw dashboard data from the API to the expected frontend format
+ * @param data - Raw data from the API
+ * @returns Transformed dashboard data
+ */
+function transformDashboardData(data: any): CostDashboardData {
+  // Handle case where data might be wrapped in a response object
+  const dashboardData = data.data || data;
+
+  return {
+    period_start: dashboardData.period_start || new Date().toISOString(),
+    period_end: dashboardData.period_end || new Date().toISOString(),
+    total_baseline_cost: dashboardData.total_baseline_cost || 0,
+    total_optimized_cost: dashboardData.total_optimized_cost || 0,
+    total_absolute_savings: dashboardData.total_absolute_savings || 0,
+    total_percentage_savings: dashboardData.total_percentage_savings || 0,
+    projected_annual_savings: dashboardData.projected_annual_savings || 0,
+    optimization_metrics: dashboardData.optimization_metrics || [],
+    current_model_distribution: dashboardData.current_model_distribution || {},
+    daily_savings: dashboardData.daily_savings || [],
+    optimization_recommendations: dashboardData.optimization_recommendations || [],
+  };
+}
+
+// Mock data generator for testing
+export function generateMockCostData(): CostDashboardData {
+  const endDate = new Date();
+  const startDate = new Date(endDate.getTime() - 30 * 24 * 60 * 60 * 1000); // 30 days ago
+
+  const baselineCost = 1250.0;
+  const optimizedCost = 875.0;
+  const savings = baselineCost - optimizedCost;
+  const percentageSavings = (savings / baselineCost) * 100;
+
+  // Generate daily savings data
+  const dailySavings = [];
+  let cumulativeSavings = 0;
+  for (let i = 0; i < 30; i++) {
+    const date = new Date(startDate.getTime() + i * 24 * 60 * 60 * 1000);
+    const dailyBaseline = 35 + Math.random() * 20;
+    const dailyOptimized = dailyBaseline * 0.7;
+    const dailySaving = dailyBaseline - dailyOptimized;
+    cumulativeSavings += dailySaving;
+
+    dailySavings.push({
+      date: date.toISOString().split('T')[0],
+      daily_savings: dailySaving,
+      cumulative_savings: cumulativeSavings,
+      baseline_cost: dailyBaseline,
+      optimized_cost: dailyOptimized,
+    });
+  }
+
+  return {
+    period_start: startDate.toISOString(),
+    period_end: endDate.toISOString(),
+    total_baseline_cost: baselineCost,
+    total_optimized_cost: optimizedCost,
+    total_absolute_savings: savings,
+    total_percentage_savings: percentageSavings,
+    projected_annual_savings: savings * 12,
+    optimization_metrics: [
+      {
+        optimization_type: 'model_routing',
+        period_start: startDate.toISOString(),
+        period_end: endDate.toISOString(),
+        baseline_cost: 500,
+        baseline_requests: 1000,
+        baseline_cost_per_request: 0.5,
+        baseline_model: 'gpt-4',
+        optimized_cost: 300,
+        optimized_requests: 1000,
+        optimized_cost_per_request: 0.3,
+        optimized_model: 'gpt-3.5-turbo',
+        absolute_savings: 200,
+        percentage_savings: 40,
+        projected_annual_savings: 2400,
+        quality_before: 0.95,
+        quality_after: 0.92,
+        quality_impact: -3.16,
+        latency_before: 2500,
+        latency_after: 1800,
+        latency_impact: -28,
+      },
+      {
+        optimization_type: 'prompt_optimization',
+        period_start: startDate.toISOString(),
+        period_end: endDate.toISOString(),
+        baseline_cost: 450,
+        baseline_requests: 500,
+        baseline_cost_per_request: 0.9,
+        baseline_model: 'claude-3-opus',
+        optimized_cost: 315,
+        optimized_requests: 500,
+        optimized_cost_per_request: 0.63,
+        optimized_model: 'claude-3-sonnet',
+        absolute_savings: 135,
+        percentage_savings: 30,
+        projected_annual_savings: 1620,
+        quality_before: 0.94,
+        quality_after: 0.91,
+        quality_impact: -3.19,
+        latency_before: 3000,
+        latency_after: 2200,
+        latency_impact: -26.67,
+      },
+      {
+        optimization_type: 'caching',
+        period_start: startDate.toISOString(),
+        period_end: endDate.toISOString(),
+        baseline_cost: 300,
+        baseline_requests: 2000,
+        baseline_cost_per_request: 0.15,
+        baseline_model: 'gpt-3.5-turbo',
+        optimized_cost: 260,
+        optimized_requests: 2000,
+        optimized_cost_per_request: 0.13,
+        optimized_model: 'gpt-3.5-turbo',
+        absolute_savings: 40,
+        percentage_savings: 13.33,
+        projected_annual_savings: 480,
+        latency_before: 1500,
+        latency_after: 50,
+        latency_impact: -96.67,
+      },
+    ],
+    current_model_distribution: {
+      'gpt-4': {
+        requests: 250,
+        cost: 375,
+        percentage: 42.86,
+      },
+      'gpt-3.5-turbo': {
+        requests: 1500,
+        cost: 300,
+        percentage: 34.29,
+      },
+      'claude-3-sonnet': {
+        requests: 400,
+        cost: 200,
+        percentage: 22.86,
+      },
+    },
+    daily_savings: dailySavings,
+    optimization_recommendations: [
+      {
+        recommendation: 'Switch 30% of GPT-4 requests to GPT-3.5-turbo for low-complexity tasks',
+        potential_savings: 150,
+        difficulty: 'low',
+        impact: 'high',
+      },
+      {
+        recommendation: 'Implement response caching for frequently requested content',
+        potential_savings: 75,
+        difficulty: 'medium',
+        impact: 'medium',
+      },
+      {
+        recommendation: 'Optimize prompts to reduce token usage by 20%',
+        potential_savings: 100,
+        difficulty: 'low',
+        impact: 'medium',
+      },
+      {
+        recommendation: 'Use batch processing for non-urgent requests',
+        potential_savings: 50,
+        difficulty: 'high',
+        impact: 'low',
+      },
+    ],
+  };
+}
+
+// Export all types and functions
 export { CostOptimizationApiError };
 export type { CostDashboardData, CostOptimizationMetrics, OptimizationComparison, TrackUsageData };

@@ -65,7 +65,7 @@ const ExportComponent = ({ campaign }: { campaign: CampaignInfoType }) => {
       const startDate = new Date(campaign?.campaign_data?.campaign_variables.start_date || ''); // Assuming start_date is in a valid date format
       const today = new Date();
       const daysSinceStart = Math.floor(
-        (today.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24),
+        (today.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)
       ); // Convert time difference to days
 
       let options = [];
@@ -103,7 +103,7 @@ const ExportComponent = ({ campaign }: { campaign: CampaignInfoType }) => {
 
   const emptyLoading = () => {
     setSteps((prevSteps) =>
-      prevSteps.map((step) => ({ ...step, loading: false, complete: false })),
+      prevSteps.map((step) => ({ ...step, loading: false, complete: false }))
     );
   };
   const fetchWeeksData = async () => {
@@ -114,7 +114,7 @@ const ExportComponent = ({ campaign }: { campaign: CampaignInfoType }) => {
       });
       const response = await fetch(`${endpointUrl}/api/v1/get-content?${params.toString()}`, {
         method: 'GET',
-        headers: { 
+        headers: {
           Authorization: `Bearer ${profile?.token}`,
           'Content-Type': 'application/json',
         },
@@ -177,7 +177,7 @@ const ExportComponent = ({ campaign }: { campaign: CampaignInfoType }) => {
       const brandProfilePDF = await fetchAndCreatePDF(
         id as string,
         getServiceURL('data'),
-        profile?.token || '',
+        profile?.token || ''
       );
       if (brandProfilePDF) bigFolder?.file('BrandProfile_CampaignBrief.pdf', brandProfilePDF);
       updateStep(0, { loading: false, complete: true });
@@ -324,7 +324,7 @@ const ExportComponent = ({ campaign }: { campaign: CampaignInfoType }) => {
         {showPopup && (
           <ExportPopup
             campaignName={capitalizeFirstLetterOfEachWord(
-              campaign?.campaign_data?.campaign_variables?.name || '',
+              campaign?.campaign_data?.campaign_variables?.name || ''
             )}
             onClose={() => setShowPopup(false)}
           />

@@ -24,7 +24,7 @@ const CardStats = ({ id }: { id: string }) => {
             headers: {
               Authorization: `Bearer ${profile?.token}`,
             },
-          },
+          }
         );
 
         if (!response.ok) {

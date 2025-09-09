@@ -199,11 +199,11 @@ describe('CampaignContent Component', () => {
 
     // Verify that setCampaignInfo was called with the correct data
     expect(mockSetCampaignInfo).toHaveBeenCalledWith(expect.any(Function));
-    
+
     // Get the function passed to setCampaignInfo and call it to verify the data
     const setCampaignInfoCall = mockSetCampaignInfo.mock.calls[0][0];
     const result = setCampaignInfoCall({});
-    
+
     // Verify the campaign data is set correctly
     expect(result).toMatchObject({
       summary: 'Test summary',

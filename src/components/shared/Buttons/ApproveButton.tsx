@@ -1,20 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from "react";
+import React from 'react';
 
 interface ApproveButtonProps {
   onClick: (e?: any) => void;
   checked?: boolean;
 }
 
-const ApproveButton: React.FC<ApproveButtonProps> = ({
-  onClick,
-  checked = false,
-}) => {
+const ApproveButton: React.FC<ApproveButtonProps> = ({ onClick, checked = false }) => {
   return (
     <button
       type="button"
       className={`h-12 px-5 py-2.5 gap-2 text-sm font-medium text-[#111928] ${
-        checked ? "bg-[#84E1BC]" : "bg-[#31C48D] hover:bg-[#84E1BC]"
+        checked ? 'bg-[#84E1BC]' : 'bg-[#31C48D] hover:bg-[#84E1BC]'
       } focus:ring-4 focus:outline-none rounded-lg text-center capitalize`}
       onClick={onClick}
     >

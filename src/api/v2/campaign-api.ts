@@ -1,6 +1,6 @@
 /**
  * Campaign API V2 Service
- * 
+ *
  * Implements campaign-related operations using protobuf messages.
  * All payloads are constructed using protobuf.js as per requirements.
  */
@@ -16,7 +16,7 @@ export enum CampaignStatus {
   CAMPAIGN_STATUS_ACTIVE = 'CAMPAIGN_STATUS_ACTIVE',
   CAMPAIGN_STATUS_PAUSED = 'CAMPAIGN_STATUS_PAUSED',
   CAMPAIGN_STATUS_COMPLETED = 'CAMPAIGN_STATUS_COMPLETED',
-  CAMPAIGN_STATUS_ARCHIVED = 'CAMPAIGN_STATUS_ARCHIVED'
+  CAMPAIGN_STATUS_ARCHIVED = 'CAMPAIGN_STATUS_ARCHIVED',
 }
 
 /**
@@ -27,7 +27,7 @@ export enum GenerationStatus {
   GENERATION_STATUS_ACCEPTED = 'GENERATION_STATUS_ACCEPTED',
   GENERATION_STATUS_PROCESSING = 'GENERATION_STATUS_PROCESSING',
   GENERATION_STATUS_COMPLETED = 'GENERATION_STATUS_COMPLETED',
-  GENERATION_STATUS_FAILED = 'GENERATION_STATUS_FAILED'
+  GENERATION_STATUS_FAILED = 'GENERATION_STATUS_FAILED',
 }
 
 /**
@@ -47,7 +47,7 @@ export interface GetCampaignResponse {
     brand_id?: string;
     created_at?: string;
     updated_at?: string;
-    metadata?: Record<string, unknown>;
+    metadata?: Record<string, any>;
   };
 }
 
@@ -66,7 +66,7 @@ export interface GetCampaignContentResponse {
         content: string;
         media_urls: string[];
         scheduled_at?: string;
-        metadata?: Record<string, unknown>;
+        metadata?: Record<string, any>;
       }>;
     }>;
     total_posts: number;
@@ -112,7 +112,7 @@ export interface CreateCampaignRequest {
   target_audience?: string;
   duration_weeks?: number;
   start_date?: string;
-  metadata?: Record<string, unknown>;
+  metadata?: Record<string, any>;
 }
 
 export interface CreateCampaignResponse {
@@ -130,7 +130,7 @@ export interface UpdateCampaignRequest {
   name?: string;
   objective?: string;
   target_audience?: string;
-  metadata?: Record<string, unknown>;
+  metadata?: Record<string, any>;
 }
 
 export interface UpdateCampaignResponse {
@@ -149,19 +149,16 @@ export class CampaignApiV2 extends ProtoService {
   constructor() {
     super({
       serviceName: 'Campaign V2 API',
-      baseUrl: '/api/v2'
+      baseUrl: '/api/v2',
     });
   }
 
   /**
    * Get campaign details
    */
-  async getCampaign(
-    campaignId: string,
-    token: string
-  ): Promise<GetCampaignResponse> {
+  async getCampaign(campaignId: string, token: string): Promise<GetCampaignResponse> {
     const request: GetCampaignRequest = {
-      campaign_id: campaignId
+      campaign_id: campaignId,
     };
 
     return this.post<GetCampaignRequest, GetCampaignResponse>(
@@ -199,7 +196,7 @@ export class CampaignApiV2 extends ProtoService {
   ): Promise<UpdateCampaignResponse> {
     const request: UpdateCampaignRequest = {
       campaign_id: campaignId,
-      ...data
+      ...data,
     };
 
     return this.put<UpdateCampaignRequest, UpdateCampaignResponse>(
@@ -221,7 +218,7 @@ export class CampaignApiV2 extends ProtoService {
   ): Promise<GenerateContentResponse> {
     const request: GenerateContentRequest = {
       campaign_id: campaignId,
-      ...options
+      ...options,
     };
 
     return this.post<GenerateContentRequest, GenerateContentResponse>(
@@ -236,12 +233,9 @@ export class CampaignApiV2 extends ProtoService {
   /**
    * Get generated content for a campaign
    */
-  async getCampaignContent(
-    campaignId: string,
-    token: string
-  ): Promise<GetCampaignContentResponse> {
+  async getCampaignContent(campaignId: string, token: string): Promise<GetCampaignContentResponse> {
     const request: GetCampaignContentRequest = {
-      campaign_id: campaignId
+      campaign_id: campaignId,
     };
 
     return this.post<GetCampaignContentRequest, GetCampaignContentResponse>(
@@ -263,7 +257,7 @@ export class CampaignApiV2 extends ProtoService {
   ): Promise<ApproveCampaignResponse> {
     const request: ApproveCampaignRequest = {
       campaign_id: campaignId,
-      approval_notes: approvalNotes
+      approval_notes: approvalNotes,
     };
 
     return this.post<ApproveCampaignRequest, ApproveCampaignResponse>(
@@ -302,7 +296,7 @@ export class CampaignApiV2 extends ProtoService {
     }
   ): Promise<{ campaigns: GetCampaignResponse['campaign'][] }> {
     const queryParams = new URLSearchParams();
-    
+
     if (filters) {
       if (filters.status) queryParams.append('status', filters.status);
       if (filters.brand_id) queryParams.append('brand_id', filters.brand_id);
@@ -365,8 +359,8 @@ export class CampaignApiV2 extends ProtoService {
       {
         method: 'GET',
         headers: {
-          'Authorization': `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       }
     );
 
@@ -380,3 +374,4 @@ export class CampaignApiV2 extends ProtoService {
 
 // Export singleton instance
 export const campaignApiV2 = new CampaignApiV2();
+

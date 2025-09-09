@@ -1,11 +1,11 @@
 import React, { useState, useCallback, useMemo } from 'react';
-import { 
-  Dialog, 
-  DialogTitle, 
-  DialogContent, 
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
   DialogActions,
-  Button, 
-  Box, 
+  Button,
+  Box,
   Typography,
   Card,
   CardContent,
@@ -22,7 +22,7 @@ import {
   Select,
   MenuItem,
   FormControl,
-  InputLabel
+  InputLabel,
 } from '@mui/material';
 import { FaSave, FaTimes, FaCopy, FaPlay, FaPause } from 'react-icons/fa';
 import { MdFullscreen, MdFullscreenExit, MdThumbUp, MdThumbDown } from 'react-icons/md';
@@ -92,7 +92,7 @@ const ABTestVariantComparison: React.FC<ABTestVariantComparisonProps> = ({
   onPauseTest,
   onDeclareWinner,
   onCreateVariant,
-  title = 'A/B Test Variant Comparison'
+  title = 'A/B Test Variant Comparison',
 }) => {
   const [selectedVariants, setSelectedVariants] = useState<string[]>([]);
   const [viewMode, setViewMode] = useState<'comparison' | 'performance' | 'traffic'>('comparison');
@@ -111,9 +111,9 @@ const ABTestVariantComparison: React.FC<ABTestVariantComparisonProps> = ({
   }, [testConfig.variants, selectedVariants]);
 
   const selectedVariantObjects = useMemo(() => {
-    return selectedVariants.map(id => 
-      testConfig.variants.find(v => v.id === id)
-    ).filter(Boolean) as ABTestVariant[];
+    return selectedVariants
+      .map((id) => testConfig.variants.find((v) => v.id === id))
+      .filter(Boolean) as ABTestVariant[];
   }, [selectedVariants, testConfig.variants]);
 
   const getPerformanceTrend = (metric: number, baseline?: number) => {
@@ -126,27 +126,36 @@ const ABTestVariantComparison: React.FC<ABTestVariantComparisonProps> = ({
 
   const getStatusColor = (status: ABTestVariant['status']) => {
     switch (status) {
-      case 'draft': return 'default';
-      case 'running': return 'primary';
-      case 'paused': return 'warning';
-      case 'completed': return 'secondary';
-      case 'winner': return 'success';
-      default: return 'default';
+      case 'draft':
+        return 'default';
+      case 'running':
+        return 'primary';
+      case 'paused':
+        return 'warning';
+      case 'completed':
+        return 'secondary';
+      case 'winner':
+        return 'success';
+      default:
+        return 'default';
     }
   };
 
-  const handleStartEdit = useCallback((variantId: string) => {
-    const variant = testConfig.variants.find(v => v.id === variantId);
-    if (variant) {
-      setEditingVariant(variantId);
-      setEditedContent(variant.content);
-      setEditNotes('');
-    }
-  }, [testConfig.variants]);
+  const handleStartEdit = useCallback(
+    (variantId: string) => {
+      const variant = testConfig.variants.find((v) => v.id === variantId);
+      if (variant) {
+        setEditingVariant(variantId);
+        setEditedContent(variant.content);
+        setEditNotes('');
+      }
+    },
+    [testConfig.variants]
+  );
 
   const handleSaveEdit = useCallback(async () => {
     if (!editingVariant) return;
-    
+
     try {
       setLoading(true);
       await onSaveVariant(editingVariant, editedContent, editNotes);
@@ -186,30 +195,38 @@ const ABTestVariantComparison: React.FC<ABTestVariantComparisonProps> = ({
       <Grid container spacing={2}>
         <Grid item xs={6}>
           <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-            <Typography variant="body2" sx={{ mr: 1 }}>CTR:</Typography>
+            <Typography variant="body2" sx={{ mr: 1 }}>
+              CTR:
+            </Typography>
             <Typography variant="h6" color="primary">
               {(performance.ctr * 100).toFixed(2)}%
             </Typography>
             {getPerformanceTrend(performance.ctr, baselinePerf?.ctr)}
           </Box>
-          <LinearProgress 
-            variant="determinate" 
-            value={performance.ctr * 100} 
+          <LinearProgress
+            variant="determinate"
+            value={performance.ctr * 100}
             sx={{ height: 6, borderRadius: 3 }}
           />
         </Grid>
-        
+
         <Grid item xs={6}>
           <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-            <Typography variant="body2" sx={{ mr: 1 }}>Engagement:</Typography>
+            <Typography variant="body2" sx={{ mr: 1 }}>
+              Engagement:
+            </Typography>
             <Typography variant="h6" color="primary">
               {performance.engagement.toLocaleString()}
             </Typography>
             {getPerformanceTrend(performance.engagement, baselinePerf?.engagement)}
           </Box>
-          <LinearProgress 
-            variant="determinate" 
-            value={(performance.engagement / Math.max(...testConfig.variants.map(v => v.performance?.engagement || 0))) * 100} 
+          <LinearProgress
+            variant="determinate"
+            value={
+              (performance.engagement /
+                Math.max(...testConfig.variants.map((v) => v.performance?.engagement || 0))) *
+              100
+            }
             color="secondary"
             sx={{ height: 6, borderRadius: 3 }}
           />
@@ -240,8 +257,8 @@ const ABTestVariantComparison: React.FC<ABTestVariantComparisonProps> = ({
             <Typography variant="caption">
               Confidence: {(performance.confidenceLevel * 100).toFixed(1)}%
             </Typography>
-            <LinearProgress 
-              variant="determinate" 
+            <LinearProgress
+              variant="determinate"
               value={performance.confidenceLevel * 100}
               color={performance.confidenceLevel > 0.95 ? 'success' : 'warning'}
               sx={{ width: 100, height: 4, borderRadius: 2 }}
@@ -258,24 +275,30 @@ const ABTestVariantComparison: React.FC<ABTestVariantComparisonProps> = ({
     const baselineVariant = testConfig.variants[0];
 
     return (
-      <Card key={variant.id} sx={{ mb: 2, border: selectedVariants.includes(variant.id) ? 2 : 1, borderColor: selectedVariants.includes(variant.id) ? 'primary.main' : 'divider' }}>
+      <Card
+        key={variant.id}
+        sx={{
+          mb: 2,
+          border: selectedVariants.includes(variant.id) ? 2 : 1,
+          borderColor: selectedVariants.includes(variant.id) ? 'primary.main' : 'divider',
+        }}
+      >
         <CardContent>
           {/* Variant Header */}
-          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
+          <Box
+            sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}
+          >
             <Box sx={{ display: 'flex', alignItems: 'center', flex: 1 }}>
-              <Badge
-                badgeContent={variant.status === 'winner' ? '👑' : ''}
-                color="primary"
-              >
+              <Badge badgeContent={variant.status === 'winner' ? '👑' : ''} color="primary">
                 <Avatar sx={{ mr: 2, bgcolor: getStatusColor(variant.status) + '.main' }}>
                   {variant.name.charAt(0).toUpperCase()}
                 </Avatar>
               </Badge>
-              
+
               <Box>
                 <Typography variant="h6">{variant.name}</Typography>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                  <Chip 
+                  <Chip
                     label={variant.status.replace('_', ' ').toUpperCase()}
                     color={getStatusColor(variant.status)}
                     size="small"
@@ -283,38 +306,45 @@ const ABTestVariantComparison: React.FC<ABTestVariantComparisonProps> = ({
                   <Typography variant="caption" color="textSecondary">
                     {variant.trafficAllocation}% traffic
                   </Typography>
-                  {isBaseline && (
-                    <Chip label="Baseline" size="small" variant="outlined" />
-                  )}
+                  {isBaseline && <Chip label="Baseline" size="small" variant="outlined" />}
                 </Box>
               </Box>
             </Box>
-            
+
             <Box sx={{ display: 'flex', gap: 1 }}>
               <Tooltip title="Copy content">
-                <IconButton size="small" onClick={() => copyToClipboard(JSON.stringify(variant.content, null, 2))}>
+                <IconButton
+                  size="small"
+                  onClick={() => copyToClipboard(JSON.stringify(variant.content, null, 2))}
+                >
                   <FaCopy />
                 </IconButton>
               </Tooltip>
-              
+
               <Tooltip title="Edit variant">
-                <IconButton size="small" onClick={() => handleStartEdit(variant.id)} disabled={loading || variant.status === 'running'}>
+                <IconButton
+                  size="small"
+                  onClick={() => handleStartEdit(variant.id)}
+                  disabled={loading || variant.status === 'running'}
+                >
                   <MdThumbUp />
                 </IconButton>
               </Tooltip>
 
-              {variant.status !== 'winner' && variant.performance && variant.performance.confidenceLevel > 0.95 && (
-                <Tooltip title="Declare winner">
-                  <IconButton 
-                    size="small" 
-                    color="success"
-                    onClick={() => onDeclareWinner(variant.id)}
-                    disabled={loading}
-                  >
-                    <MdThumbUp />
-                  </IconButton>
-                </Tooltip>
-              )}
+              {variant.status !== 'winner' &&
+                variant.performance &&
+                variant.performance.confidenceLevel > 0.95 && (
+                  <Tooltip title="Declare winner">
+                    <IconButton
+                      size="small"
+                      color="success"
+                      onClick={() => onDeclareWinner(variant.id)}
+                      disabled={loading}
+                    >
+                      <MdThumbUp />
+                    </IconButton>
+                  </Tooltip>
+                )}
             </Box>
           </Box>
 
@@ -322,8 +352,8 @@ const ABTestVariantComparison: React.FC<ABTestVariantComparisonProps> = ({
           <Box sx={{ mb: 2 }}>
             {variant.type === 'image' && variant.content.image_url && (
               <Box sx={{ mb: 2 }}>
-                <img 
-                  src={variant.content.image_url} 
+                <img
+                  src={variant.content.image_url}
                   alt={`Variant ${variant.name}`}
                   style={{ width: '100%', maxWidth: 300, height: 'auto', borderRadius: 8 }}
                 />
@@ -335,42 +365,59 @@ const ABTestVariantComparison: React.FC<ABTestVariantComparisonProps> = ({
               </Box>
             )}
 
-            {(variant.type === 'caption' || variant.type === 'complete_post') && variant.content.text && (
-              <Box sx={{ 
-                backgroundColor: isEditing ? 'transparent' : '#f5f5f5',
-                p: 2,
-                borderRadius: 1,
-                minHeight: '80px'
-              }}>
-                {isEditing ? (
-                  <TextField
-                    multiline
-                    fullWidth
-                    minRows={4}
-                    value={editedContent.text || ''}
-                    onChange={(e) => setEditedContent(prev => ({ ...prev, text: e.target.value }))}
-                    placeholder="Edit caption text..."
-                    variant="outlined"
-                  />
-                ) : (
-                  <Typography variant="body2" sx={{ whiteSpace: 'pre-wrap' }}>
-                    {variant.content.text}
-                  </Typography>
-                )}
-              </Box>
-            )}
+            {(variant.type === 'caption' || variant.type === 'complete_post') &&
+              variant.content.text && (
+                <Box
+                  sx={{
+                    backgroundColor: isEditing ? 'transparent' : '#f5f5f5',
+                    p: 2,
+                    borderRadius: 1,
+                    minHeight: '80px',
+                  }}
+                >
+                  {isEditing ? (
+                    <TextField
+                      multiline
+                      fullWidth
+                      minRows={4}
+                      value={editedContent.text || ''}
+                      onChange={(e) =>
+                        setEditedContent((prev) => ({ ...prev, text: e.target.value }))
+                      }
+                      placeholder="Edit caption text..."
+                      variant="outlined"
+                    />
+                  ) : (
+                    <Typography variant="body2" sx={{ whiteSpace: 'pre-wrap' }}>
+                      {variant.content.text}
+                    </Typography>
+                  )}
+                </Box>
+              )}
           </Box>
 
           {/* Performance Metrics */}
           {viewMode === 'performance' && (
             <Box sx={{ mt: 2 }}>
-              <Typography variant="subtitle2" sx={{ mb: 1 }}>Performance Metrics</Typography>
+              <Typography variant="subtitle2" sx={{ mb: 1 }}>
+                Performance Metrics
+              </Typography>
               {renderPerformanceMetrics(variant, !isBaseline ? baselineVariant : undefined)}
             </Box>
           )}
 
           {/* Metadata */}
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 2, pt: 2, borderTop: 1, borderColor: 'divider' }}>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              mt: 2,
+              pt: 2,
+              borderTop: 1,
+              borderColor: 'divider',
+            }}
+          >
             <Typography variant="caption" color="textSecondary">
               Created: {new Date(variant.created_at).toLocaleDateString()} by {variant.author}
             </Typography>
@@ -387,26 +434,37 @@ const ABTestVariantComparison: React.FC<ABTestVariantComparisonProps> = ({
 
   const renderTrafficAllocation = () => {
     const totalAllocation = testConfig.variants.reduce((sum, v) => sum + v.trafficAllocation, 0);
-    
+
     return (
       <Box>
-        <Typography variant="h6" sx={{ mb: 2 }}>Traffic Allocation</Typography>
+        <Typography variant="h6" sx={{ mb: 2 }}>
+          Traffic Allocation
+        </Typography>
         {testConfig.variants.map((variant) => (
           <Box key={variant.id} sx={{ mb: 2 }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1 }}>
+            <Box
+              sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1 }}
+            >
               <Typography variant="body2">{variant.name}</Typography>
               <Typography variant="body2" color="primary">
                 {variant.trafficAllocation}%
               </Typography>
             </Box>
-            <LinearProgress 
-              variant="determinate" 
-              value={variant.trafficAllocation} 
+            <LinearProgress
+              variant="determinate"
+              value={variant.trafficAllocation}
               sx={{ height: 8, borderRadius: 4 }}
             />
           </Box>
         ))}
-        <Box sx={{ mt: 2, p: 2, backgroundColor: totalAllocation === 100 ? 'success.light' : 'warning.light', borderRadius: 1 }}>
+        <Box
+          sx={{
+            mt: 2,
+            p: 2,
+            backgroundColor: totalAllocation === 100 ? 'success.light' : 'warning.light',
+            borderRadius: 1,
+          }}
+        >
           <Typography variant="caption">
             Total Allocation: {totalAllocation}% {totalAllocation !== 100 && '(Must equal 100%)'}
           </Typography>
@@ -424,8 +482,8 @@ const ABTestVariantComparison: React.FC<ABTestVariantComparisonProps> = ({
       fullScreen={isFullscreen}
       sx={{
         '& .MuiDialog-paper': {
-          height: isFullscreen ? '100vh' : '90vh'
-        }
+          height: isFullscreen ? '100vh' : '90vh',
+        },
       }}
     >
       <DialogTitle>
@@ -433,10 +491,11 @@ const ABTestVariantComparison: React.FC<ABTestVariantComparisonProps> = ({
           <Box>
             <Typography variant="h6">{title}</Typography>
             <Typography variant="subtitle2" color="textSecondary">
-              {testConfig.name} • {testConfig.status.toUpperCase()} • {testConfig.variants.length} variants
+              {testConfig.name} • {testConfig.status.toUpperCase()} • {testConfig.variants.length}{' '}
+              variants
             </Typography>
           </Box>
-          
+
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <FormControl size="small" sx={{ minWidth: 120 }}>
               <InputLabel>View Mode</InputLabel>
@@ -450,11 +509,11 @@ const ABTestVariantComparison: React.FC<ABTestVariantComparisonProps> = ({
                 <MenuItem value="traffic">Traffic</MenuItem>
               </Select>
             </FormControl>
-            
+
             <IconButton onClick={() => setIsFullscreen(!isFullscreen)}>
               {isFullscreen ? <MdFullscreenExit /> : <MdFullscreen />}
             </IconButton>
-            
+
             <IconButton onClick={onClose}>
               <FaTimes />
             </IconButton>
@@ -467,12 +526,15 @@ const ABTestVariantComparison: React.FC<ABTestVariantComparisonProps> = ({
         <Box sx={{ mb: 3, p: 2, backgroundColor: 'primary.light', borderRadius: 1 }}>
           <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <Box>
-              <Typography variant="h6" color="primary.contrastText">Test Status: {testConfig.status.toUpperCase()}</Typography>
+              <Typography variant="h6" color="primary.contrastText">
+                Test Status: {testConfig.status.toUpperCase()}
+              </Typography>
               <Typography variant="body2" color="primary.contrastText">
-                Primary Metric: {testConfig.primaryMetric.toUpperCase()} | Min Sample: {testConfig.minSampleSize.toLocaleString()}
+                Primary Metric: {testConfig.primaryMetric.toUpperCase()} | Min Sample:{' '}
+                {testConfig.minSampleSize.toLocaleString()}
               </Typography>
             </Box>
-            
+
             <Box sx={{ display: 'flex', gap: 1 }}>
               {testConfig.status === 'draft' && (
                 <Button
@@ -485,7 +547,7 @@ const ABTestVariantComparison: React.FC<ABTestVariantComparisonProps> = ({
                   Start Test
                 </Button>
               )}
-              
+
               {testConfig.status === 'running' && (
                 <Button
                   variant="contained"
@@ -516,7 +578,16 @@ const ABTestVariantComparison: React.FC<ABTestVariantComparisonProps> = ({
 
         {/* Edit Notes */}
         {editingVariant && (
-          <Box sx={{ mt: 2, p: 2, backgroundColor: 'background.paper', border: 1, borderColor: 'divider', borderRadius: 1 }}>
+          <Box
+            sx={{
+              mt: 2,
+              p: 2,
+              backgroundColor: 'background.paper',
+              border: 1,
+              borderColor: 'divider',
+              borderRadius: 1,
+            }}
+          >
             <TextField
               fullWidth
               label="Edit Notes (Optional)"
@@ -535,8 +606,8 @@ const ABTestVariantComparison: React.FC<ABTestVariantComparisonProps> = ({
             <Button onClick={handleCancelEdit} disabled={loading}>
               Cancel
             </Button>
-            <Button 
-              variant="contained" 
+            <Button
+              variant="contained"
               onClick={handleSaveEdit}
               disabled={loading}
               startIcon={<FaSave />}
@@ -547,8 +618,8 @@ const ABTestVariantComparison: React.FC<ABTestVariantComparisonProps> = ({
         ) : (
           <>
             <Button onClick={onClose}>Close</Button>
-            <Button 
-              variant="outlined" 
+            <Button
+              variant="outlined"
               onClick={() => setNewVariantDialogOpen(true)}
               disabled={testConfig.status === 'running'}
             >

@@ -10,8 +10,8 @@ import { SmartInsightsPanel } from './SmartInsightsPanel';
 jest.mock('../../api/performanceApi', () => ({
   performanceApi: {
     getPerformanceInsights: jest.fn(),
-    recordMetric: jest.fn()
-  }
+    recordMetric: jest.fn(),
+  },
 }));
 
 // Mock fetch for API calls
@@ -23,7 +23,7 @@ const mockLocalStorage = {
   getItem: jest.fn(() => 'mock_token'),
   setItem: jest.fn(),
   removeItem: jest.fn(),
-  clear: jest.fn()
+  clear: jest.fn(),
 };
 Object.defineProperty(window, 'localStorage', { value: mockLocalStorage });
 
@@ -41,13 +41,13 @@ describe('SmartInsightsPanel', () => {
       by_type: {
         cost_optimization: 2,
         anomaly_detection: 1,
-        user_experience: 2
+        user_experience: 2,
       },
       by_severity: {
         critical: 1,
         high: 2,
-        medium: 2
-      }
+        medium: 2,
+      },
     },
     health_score: 75,
     health_status: 'good',
@@ -56,20 +56,20 @@ describe('SmartInsightsPanel', () => {
         title: 'Implement Multi-Model Strategy',
         category: 'cost',
         priority_score: 85.0,
-        estimated_impact: '35% cost reduction'
+        estimated_impact: '35% cost reduction',
       },
       {
         title: 'Add Response Caching',
         category: 'performance',
         priority_score: 75.0,
-        estimated_impact: '40% latency reduction'
-      }
+        estimated_impact: '40% latency reduction',
+      },
     ],
     key_metrics: {
       critical_issues: 1,
       high_priority_issues: 2,
-      total_recommendations: 8
-    }
+      total_recommendations: 8,
+    },
   };
 
   const mockInsightsResponse = [
@@ -84,19 +84,14 @@ describe('SmartInsightsPanel', () => {
       predicted_value: 0.75,
       impact_score: 85.0,
       time_to_impact_minutes: 10080, // 7 days
-      recommendations: [
-        'Switch to GPT-4o-mini for routine tasks',
-        'Implement request batching'
-      ],
-      automated_actions: [
-        'Auto-route low-priority requests'
-      ],
+      recommendations: ['Switch to GPT-4o-mini for routine tasks', 'Implement request batching'],
+      automated_actions: ['Auto-route low-priority requests'],
       related_metrics: ['cost_efficiency'],
       metadata: {
-        threshold: 0.50,
-        potential_savings: '$350 per 1K generations'
+        threshold: 0.5,
+        potential_savings: '$350 per 1K generations',
       },
-      created_at: '2024-08-24T12:00:00Z'
+      created_at: '2024-08-24T12:00:00Z',
     },
     {
       id: 'insight_2',
@@ -109,20 +104,15 @@ describe('SmartInsightsPanel', () => {
       predicted_value: 1200.0,
       impact_score: 95.0,
       time_to_impact_minutes: 30,
-      recommendations: [
-        'Check model provider status',
-        'Implement automatic failover'
-      ],
-      automated_actions: [
-        'Enable failover mechanism'
-      ],
+      recommendations: ['Check model provider status', 'Implement automatic failover'],
+      automated_actions: ['Enable failover mechanism'],
       related_metrics: ['latency'],
       metadata: {
         z_score: 3.2,
-        baseline: 1200.0
+        baseline: 1200.0,
       },
-      created_at: '2024-08-24T12:00:00Z'
-    }
+      created_at: '2024-08-24T12:00:00Z',
+    },
   ];
 
   const mockPredictionsResponse = [
@@ -131,25 +121,25 @@ describe('SmartInsightsPanel', () => {
       predicted_value: 1800.0,
       confidence_interval: {
         lower: 1600.0,
-        upper: 2000.0
+        upper: 2000.0,
       },
       prediction_horizon_hours: 24,
       confidence_level: 'high',
       factors: ['historical_trend', 'seasonal_pattern'],
-      methodology: 'linear_regression'
+      methodology: 'linear_regression',
     },
     {
       metric_type: 'cost',
       predicted_value: 0.42,
       confidence_interval: {
         lower: 0.38,
-        upper: 0.46
+        upper: 0.46,
       },
       prediction_horizon_hours: 24,
       confidence_level: 'medium',
       factors: ['usage_pattern', 'model_mix'],
-      methodology: 'time_series'
-    }
+      methodology: 'time_series',
+    },
   ];
 
   const mockRecommendationsResponse = [
@@ -163,15 +153,10 @@ describe('SmartInsightsPanel', () => {
       implementation_steps: [
         'Implement content complexity scoring',
         'Create routing rules for different models',
-        'Set up A/B testing framework'
+        'Set up A/B testing framework',
       ],
-      risks: [
-        'Potential quality reduction for complex content'
-      ],
-      success_metrics: [
-        'Cost per generation < $0.25',
-        'Quality score maintained > 0.85'
-      ]
+      risks: ['Potential quality reduction for complex content'],
+      success_metrics: ['Cost per generation < $0.25', 'Quality score maintained > 0.85'],
     },
     {
       title: 'Add Response Time Optimization',
@@ -182,33 +167,31 @@ describe('SmartInsightsPanel', () => {
       priority_score: 75.0,
       implementation_steps: [
         'Implement intelligent caching layer',
-        'Add parallel request processing'
+        'Add parallel request processing',
       ],
-      risks: [
-        'Cache invalidation complexity'
-      ],
-      success_metrics: [
-        'Average latency < 1.5 seconds'
-      ]
-    }
+      risks: ['Cache invalidation complexity'],
+      success_metrics: ['Average latency < 1.5 seconds'],
+    },
   ];
 
   it('renders the component correctly', () => {
     mockFetch.mockResolvedValueOnce({
       ok: true,
-      json: () => Promise.resolve(mockSummaryResponse)
+      json: () => Promise.resolve(mockSummaryResponse),
     });
 
     render(<SmartInsightsPanel />);
 
     expect(screen.getByText('Smart Performance Insights')).toBeInTheDocument();
-    expect(screen.getByText('AI-powered insights, predictions, and optimization recommendations')).toBeInTheDocument();
+    expect(
+      screen.getByText('AI-powered insights, predictions, and optimization recommendations')
+    ).toBeInTheDocument();
   });
 
   it('displays tab navigation', () => {
     mockFetch.mockResolvedValueOnce({
       ok: true,
-      json: () => Promise.resolve(mockSummaryResponse)
+      json: () => Promise.resolve(mockSummaryResponse),
     });
 
     render(<SmartInsightsPanel />);
@@ -222,7 +205,7 @@ describe('SmartInsightsPanel', () => {
   it('fetches and displays summary data on initial load', async () => {
     mockFetch.mockResolvedValueOnce({
       ok: true,
-      json: () => Promise.resolve(mockSummaryResponse)
+      json: () => Promise.resolve(mockSummaryResponse),
     });
 
     render(<SmartInsightsPanel />);
@@ -235,8 +218,8 @@ describe('SmartInsightsPanel', () => {
 
     expect(mockFetch).toHaveBeenCalledWith('/api/v1/insights/summary', {
       headers: {
-        'Authorization': 'Bearer mock_token'
-      }
+        Authorization: 'Bearer mock_token',
+      },
     });
   });
 
@@ -244,11 +227,11 @@ describe('SmartInsightsPanel', () => {
     mockFetch
       .mockResolvedValueOnce({
         ok: true,
-        json: () => Promise.resolve(mockSummaryResponse)
+        json: () => Promise.resolve(mockSummaryResponse),
       })
       .mockResolvedValueOnce({
         ok: true,
-        json: () => Promise.resolve(mockInsightsResponse)
+        json: () => Promise.resolve(mockInsightsResponse),
       });
 
     render(<SmartInsightsPanel />);
@@ -266,8 +249,8 @@ describe('SmartInsightsPanel', () => {
         expect.stringContaining('/api/v1/insights/smart'),
         expect.objectContaining({
           headers: {
-            'Authorization': 'Bearer mock_token'
-          }
+            Authorization: 'Bearer mock_token',
+          },
         })
       );
     });
@@ -277,11 +260,11 @@ describe('SmartInsightsPanel', () => {
     mockFetch
       .mockResolvedValueOnce({
         ok: true,
-        json: () => Promise.resolve(mockSummaryResponse)
+        json: () => Promise.resolve(mockSummaryResponse),
       })
       .mockResolvedValueOnce({
         ok: true,
-        json: () => Promise.resolve(mockInsightsResponse)
+        json: () => Promise.resolve(mockInsightsResponse),
       });
 
     render(<SmartInsightsPanel />);
@@ -292,7 +275,9 @@ describe('SmartInsightsPanel', () => {
     await waitFor(() => {
       expect(screen.getByText('High Cost Per Generation')).toBeInTheDocument();
       expect(screen.getByText('Latency Spike Detected')).toBeInTheDocument();
-      expect(screen.getByText('Cost per generation is above optimal threshold')).toBeInTheDocument();
+      expect(
+        screen.getByText('Cost per generation is above optimal threshold')
+      ).toBeInTheDocument();
     });
 
     // Check that severity badges are displayed
@@ -304,11 +289,11 @@ describe('SmartInsightsPanel', () => {
     mockFetch
       .mockResolvedValueOnce({
         ok: true,
-        json: () => Promise.resolve(mockSummaryResponse)
+        json: () => Promise.resolve(mockSummaryResponse),
       })
       .mockResolvedValueOnce({
         ok: true,
-        json: () => Promise.resolve(mockPredictionsResponse)
+        json: () => Promise.resolve(mockPredictionsResponse),
       });
 
     render(<SmartInsightsPanel />);
@@ -328,11 +313,11 @@ describe('SmartInsightsPanel', () => {
     mockFetch
       .mockResolvedValueOnce({
         ok: true,
-        json: () => Promise.resolve(mockSummaryResponse)
+        json: () => Promise.resolve(mockSummaryResponse),
       })
       .mockResolvedValueOnce({
         ok: true,
-        json: () => Promise.resolve(mockRecommendationsResponse)
+        json: () => Promise.resolve(mockRecommendationsResponse),
       });
 
     render(<SmartInsightsPanel />);
@@ -355,15 +340,15 @@ describe('SmartInsightsPanel', () => {
     mockFetch
       .mockResolvedValueOnce({
         ok: true,
-        json: () => Promise.resolve(mockSummaryResponse)
+        json: () => Promise.resolve(mockSummaryResponse),
       })
       .mockResolvedValueOnce({
         ok: true,
-        json: () => Promise.resolve(mockInsightsResponse)
+        json: () => Promise.resolve(mockInsightsResponse),
       })
       .mockResolvedValueOnce({
         ok: true,
-        json: () => Promise.resolve([mockInsightsResponse[0]]) // Filtered response
+        json: () => Promise.resolve([mockInsightsResponse[0]]), // Filtered response
       });
 
     render(<SmartInsightsPanel />);
@@ -391,15 +376,15 @@ describe('SmartInsightsPanel', () => {
     mockFetch
       .mockResolvedValueOnce({
         ok: true,
-        json: () => Promise.resolve(mockSummaryResponse)
+        json: () => Promise.resolve(mockSummaryResponse),
       })
       .mockResolvedValueOnce({
         ok: true,
-        json: () => Promise.resolve(mockInsightsResponse)
+        json: () => Promise.resolve(mockInsightsResponse),
       })
       .mockResolvedValueOnce({
         ok: true,
-        json: () => Promise.resolve({ status: 'success' })
+        json: () => Promise.resolve({ status: 'success' }),
       });
 
     render(<SmartInsightsPanel />);
@@ -421,8 +406,8 @@ describe('SmartInsightsPanel', () => {
         expect.objectContaining({
           method: 'POST',
           headers: {
-            'Authorization': 'Bearer mock_token'
-          }
+            Authorization: 'Bearer mock_token',
+          },
         })
       );
     });
@@ -441,11 +426,11 @@ describe('SmartInsightsPanel', () => {
     mockFetch
       .mockResolvedValueOnce({
         ok: true,
-        json: () => Promise.resolve(mockSummaryResponse)
+        json: () => Promise.resolve(mockSummaryResponse),
       })
       .mockResolvedValueOnce({
         ok: true,
-        json: () => Promise.resolve([]) // Empty insights
+        json: () => Promise.resolve([]), // Empty insights
       });
 
     render(<SmartInsightsPanel />);
@@ -460,18 +445,19 @@ describe('SmartInsightsPanel', () => {
 
   it('handles API errors gracefully', async () => {
     const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
-    
-    mockFetch
-      .mockRejectedValueOnce(new Error('API Error'))
-      .mockResolvedValueOnce({
-        ok: false,
-        status: 500
-      });
+
+    mockFetch.mockRejectedValueOnce(new Error('API Error')).mockResolvedValueOnce({
+      ok: false,
+      status: 500,
+    });
 
     render(<SmartInsightsPanel />);
 
     await waitFor(() => {
-      expect(consoleSpy).toHaveBeenCalledWith('Failed to fetch insights summary:', expect.any(Error));
+      expect(consoleSpy).toHaveBeenCalledWith(
+        'Failed to fetch insights summary:',
+        expect.any(Error)
+      );
     });
 
     consoleSpy.mockRestore();
@@ -481,11 +467,11 @@ describe('SmartInsightsPanel', () => {
     mockFetch
       .mockResolvedValueOnce({
         ok: true,
-        json: () => Promise.resolve(mockSummaryResponse)
+        json: () => Promise.resolve(mockSummaryResponse),
       })
       .mockResolvedValueOnce({
         ok: true,
-        json: () => Promise.resolve(mockInsightsResponse)
+        json: () => Promise.resolve(mockInsightsResponse),
       });
 
     render(<SmartInsightsPanel />);
@@ -504,11 +490,11 @@ describe('SmartInsightsPanel', () => {
     mockFetch
       .mockResolvedValueOnce({
         ok: true,
-        json: () => Promise.resolve(mockSummaryResponse)
+        json: () => Promise.resolve(mockSummaryResponse),
       })
       .mockResolvedValueOnce({
         ok: true,
-        json: () => Promise.resolve(mockInsightsResponse)
+        json: () => Promise.resolve(mockInsightsResponse),
       });
 
     render(<SmartInsightsPanel />);
@@ -527,11 +513,11 @@ describe('SmartInsightsPanel', () => {
     mockFetch
       .mockResolvedValueOnce({
         ok: true,
-        json: () => Promise.resolve(mockSummaryResponse)
+        json: () => Promise.resolve(mockSummaryResponse),
       })
       .mockResolvedValueOnce({
         ok: true,
-        json: () => Promise.resolve(mockRecommendationsResponse)
+        json: () => Promise.resolve(mockRecommendationsResponse),
       });
 
     render(<SmartInsightsPanel />);
@@ -541,7 +527,9 @@ describe('SmartInsightsPanel', () => {
 
     await waitFor(() => {
       expect(screen.getByText('Risks to Consider:')).toBeInTheDocument();
-      expect(screen.getByText('Potential quality reduction for complex content')).toBeInTheDocument();
+      expect(
+        screen.getByText('Potential quality reduction for complex content')
+      ).toBeInTheDocument();
       expect(screen.getByText('Cache invalidation complexity')).toBeInTheDocument();
     });
   });

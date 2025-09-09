@@ -21,11 +21,11 @@ export const useTokenRefresh = () => {
     try {
       console.log('Refreshing token...');
       const newToken = await user.getIdToken(true); // Force refresh
-      
+
       if (profile) {
         const updatedProfile = { ...profile, token: newToken };
         setProfile(updatedProfile);
-        
+
         // Store new token in cookie
         const cookies = await import('universal-cookie');
         const cookieInstance = new cookies.default();
@@ -36,7 +36,7 @@ export const useTokenRefresh = () => {
           maxAge: 30 * 24 * 60 * 60, // 30 days
         });
       }
-      
+
       console.log('Token refreshed successfully');
       return newToken;
     } catch (error) {
@@ -51,7 +51,10 @@ export const useTokenRefresh = () => {
    * @param options - fetch options
    * @returns Promise<Response>
    */
-  const fetchWithTokenRefresh = async (url: string, options: RequestInit = {}): Promise<Response> => {
+  const fetchWithTokenRefresh = async (
+    url: string,
+    options: RequestInit = {}
+  ): Promise<Response> => {
     const makeRequest = async (token: string | undefined) => {
       const headers = {
         'Content-Type': 'application/json',
@@ -70,12 +73,12 @@ export const useTokenRefresh = () => {
 
     // First attempt with current token
     let response = await makeRequest(profile?.token);
-    
+
     // If we get a 401, try refreshing the token once
     if (response.status === 401 && user) {
       console.log('Got 401, attempting token refresh...');
       const newToken = await refreshToken();
-      
+
       if (newToken) {
         // Retry with new token
         response = await makeRequest(newToken);
