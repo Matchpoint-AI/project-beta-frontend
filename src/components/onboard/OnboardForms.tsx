@@ -8,7 +8,7 @@ import BrandForm from '../onboard/BrandForm';
 import ReviewForm from '../onboard/ReviewForm';
 import { CampaignContext } from '../../context/CampaignContext';
 import OnboardStepsBar from '../onboard/OnboardStepsBar';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../features/auth/context/AuthContext';
 import { getServiceURL } from '../../helpers/getServiceURL';
 import BusinessForm from '../onboard/BusinessForm';
 import ErrorToast from '../shared/ErrorToast';

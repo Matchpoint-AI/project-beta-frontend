@@ -3,7 +3,7 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { BrowserRouter } from 'react-router-dom';
 import Dashboard from './Dashboard';
-import { AuthContext } from '../context/AuthContext';
+import { AuthContext } from '../features/auth/context/AuthContext';
 import { BrandContext } from '../context/BrandContext';
 
 // Mock the modules

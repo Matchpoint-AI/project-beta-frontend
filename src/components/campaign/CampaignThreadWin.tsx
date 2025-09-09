@@ -11,7 +11,7 @@ import { CircularProgress } from "@mui/material";
 import { Messages } from "../../pages/UserDataPage";
 import { ClearIcon } from "@mui/x-date-pickers/icons";
 import { getServiceURL } from "../../helpers/getServiceURL";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../features/auth/context/AuthContext";
 
 const Transition = React.forwardRef(function Transition(
    props: TransitionProps & {

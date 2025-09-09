@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import PaginationImage from './PaginationImage';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../features/auth/context/AuthContext';
 import { getServiceURL } from '../../helpers/getServiceURL';
 import { Button, CircularProgress, Dialog, DialogContent, Menu, MenuItem } from '@mui/material';
 import ErrorToast from '../shared/ErrorToast';

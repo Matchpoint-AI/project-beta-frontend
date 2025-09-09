@@ -6,7 +6,7 @@ import { CircularProgress } from "@mui/material";
 import { RiErrorWarningLine } from "react-icons/ri";
 import { getServiceURL } from "../helpers/getServiceURL";
 import CampaignContentWin from "../components/campaign/CampaignContentWin";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../features/auth/context/AuthContext";
 import CampaignThreadWin from "../components/campaign/CampaignThreadWin";
 import useFetchThreadMessages from "../hooks/useFetchThreadMessages";
 

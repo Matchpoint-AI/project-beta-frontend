@@ -4,7 +4,7 @@ import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
 import '@testing-library/jest-dom';
 
 import SocialMediaPost from './SocialMediaPost';
-import { AuthContext } from '../../context/AuthContext';
+import { AuthContext } from '../../features/auth/context/AuthContext';
 
 // --- BROWSER API MOCKS (robust for CI) ---
 class ResizeObserverMock {

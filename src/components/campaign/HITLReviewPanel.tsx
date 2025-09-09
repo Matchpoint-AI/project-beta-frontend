@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { Dialog, DialogContent, Button, Card, CardContent, Typography, Box, Chip } from '@mui/material';
 import { FaCheck, FaTimes, FaEdit, FaRedo, FaEye, FaEyeSlash } from 'react-icons/fa';
 import { MdCompare, MdHistory } from 'react-icons/md';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../features/auth/context/AuthContext';
 import ErrorToast from '../shared/ErrorToast';
 
 export interface ContentItem {

@@ -5,7 +5,7 @@ import { MdKeyboardArrowRight } from "react-icons/md";
 
 import { useNavigate } from "react-router-dom";
 import { UsersContext } from "../../context/UsersContext";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../features/auth/context/AuthContext";
 import posthog from "../../helpers/posthog";
 
 function TableDataCell({ content }: { content: string | number }) {

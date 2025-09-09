@@ -7,11 +7,11 @@ import { render, screen, waitFor, fireEvent, within } from '@testing-library/rea
 import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
 import PerformancePredictionDashboard from './PerformancePredictionDashboard';
 import { performanceApi } from '../../api/performanceApi';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../features/auth/context/AuthContext';
 
 // Mock the dependencies
 vi.mock('../../api/performanceApi');
-vi.mock('../../context/AuthContext');
+vi.mock('../../features/auth/context/AuthContext');
 // No chart mocking needed - using CSS-based visualizations
 
 describe('PerformancePredictionDashboard', () => {

@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { IoArrowForward } from 'react-icons/io5';
 import Dialog from '@mui/material/Dialog';
 
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../features/auth/context/AuthContext';
 import { BrandContext } from '../../context/BrandContext';
 import { CampaignContext } from '../../context/CampaignContext';
 import { getServiceURL } from '../../helpers/getServiceURL';

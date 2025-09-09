@@ -16,7 +16,7 @@ import NextButton from "../shared/Buttons/NextButton";
 import { getServiceURL } from "../../helpers/getServiceURL";
 import AudienceDetails from "../AudienceDetails";
 import posthog from "../../helpers/posthog";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../features/auth/context/AuthContext";
 
 interface AudienceFormProps {
    handleNext?: any;

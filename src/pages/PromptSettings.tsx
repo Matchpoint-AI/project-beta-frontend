@@ -3,7 +3,7 @@ import { CircularProgress } from "@mui/material";
 import { RiErrorWarningLine } from "react-icons/ri";
 
 import Sidebar from "../components/shared/Sidebar";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../features/auth/context/AuthContext";
 import fetchPrompts from "../helpers/fetchPrompts";
 import PromptEditor from "../components/campaign/PromptEditor";
 

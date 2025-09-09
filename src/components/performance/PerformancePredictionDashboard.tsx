@@ -21,7 +21,7 @@ import {
 } from 'react-icons/fa';
 import { CircularProgress, LinearProgress, Chip } from '@mui/material';
 import { performanceApi } from '../../api/performanceApi';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../features/auth/context/AuthContext';
 
 // Performance visualization component without external chart dependencies
 

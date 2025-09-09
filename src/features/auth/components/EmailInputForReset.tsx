@@ -1,7 +1,7 @@
 import React, { FormEventHandler, useState } from "react";
 import { useAuthentication } from "../../firebase";
 import { sendPasswordResetEmail } from "firebase/auth";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../context/AuthContext";
 import posthog from "../../helpers/posthog";
 
 export default function EmailInputForReset({

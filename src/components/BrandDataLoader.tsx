@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { getServiceURL } from '../helpers/getServiceURL';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../features/auth/context/AuthContext';
 import { BrandContext } from '../context/BrandContext';
 // import { useNavigate } from "react-router-dom";
 

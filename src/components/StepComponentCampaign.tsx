@@ -4,7 +4,7 @@ import { BrandContext } from "../context/BrandContext";
 import { useNavigate } from "react-router-dom";
 // import { getAuth } from "firebase/auth";
 // import { useAuthentication } from "../firebase";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../features/auth/context/AuthContext";
 import { getServiceURL } from "../helpers/getServiceURL";
 import { CircularProgress } from "@mui/material";
 import handleNavigate from "../helpers/handleNavigate";

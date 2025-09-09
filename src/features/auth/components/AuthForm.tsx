@@ -7,7 +7,7 @@ import {
 import { useAuthentication } from '../../firebase';
 import React, { useState } from 'react';
 import posthog from '../../helpers/posthog';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../context/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import { getServiceURL } from '../../helpers/getServiceURL';

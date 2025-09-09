@@ -1,5 +1,5 @@
 import React, { FormEventHandler, useEffect, useState } from 'react';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../features/auth/context/AuthContext';
 import { Button, Dialog, DialogContent, TextareaAutosize, TextField } from '@mui/material';
 import { getServiceURL } from '../../helpers/getServiceURL';
 import Cookies from 'universal-cookie';

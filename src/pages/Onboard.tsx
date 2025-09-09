@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from 'react';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../features/auth/context/AuthContext';
 import OnboardForms from '../components/onboard/OnboardForms';
 import BrandReview from '../components/onboard/BrandReview';
 import { trackOnboardingStep, trackOnboardingComplete } from '../helpers/analytics';
