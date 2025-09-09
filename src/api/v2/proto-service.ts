@@ -1,8 +1,8 @@
 /**
- * Base Proto Service for V2 API
+ * Base Proto Service for V2 API (JSON-only implementation)
  * 
- * Provides base functionality for all V2 API services using protobuf.
- * This implements the requirements from frontend-protobuf-requirements.md.
+ * Provides base functionality for all V2 API services using JSON.
+ * Protobuf support has been removed.
  */
 import { protoLoader } from './proto-loader';
 import { V2_PUBLIC_API_URL } from '../config';
@@ -26,7 +26,7 @@ export interface RequestOptions {
 }
 
 /**
- * Base class for all V2 API services using protobuf
+ * Base class for all V2 API services using JSON
  */
 export abstract class ProtoService {
   protected serviceName: string;
@@ -40,7 +40,7 @@ export abstract class ProtoService {
   }
 
   /**
-   * Make a protobuf-based API request
+   * Make a JSON-based API request
    */
   protected async makeProtoRequest<TRequest, TResponse>(
     method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH',
@@ -52,9 +52,9 @@ export abstract class ProtoService {
   ): Promise<TResponse> {
     const url = `${this.baseUrl}${endpoint}`;
     
-    // Prepare headers
+    // Prepare headers - always use JSON
     const headers: Record<string, string> = {
-      'Accept': 'application/x-protobuf, application/json',
+      'Accept': 'application/json',
       ...options?.headers
     };
 
@@ -66,22 +66,8 @@ export abstract class ProtoService {
     let body: BodyInit | undefined;
     
     if (requestData && requestMessagePath) {
-      try {
-        // Encode request data as protobuf
-        const encodedData = await protoLoader.encodeMessage(
-          requestMessagePath.package,
-          requestMessagePath.message,
-          requestData
-        );
-        
-        body = encodedData;
-        headers['Content-Type'] = 'application/x-protobuf';
-      } catch (error) {
-        // Fallback to JSON if protobuf encoding fails
-        console.warn('Failed to encode as protobuf, falling back to JSON:', error);
-        body = JSON.stringify(requestData);
-        headers['Content-Type'] = 'application/json';
-      }
+      body = JSON.stringify(requestData);
+      headers['Content-Type'] = 'application/json';
     }
 
     // Make the request
@@ -103,23 +89,9 @@ export abstract class ProtoService {
         await this.handleErrorResponse(response);
       }
 
-      // Parse response based on content type
-      const contentType = response.headers.get('content-type');
-      
-      if (contentType?.includes('application/x-protobuf')) {
-        // Decode protobuf response
-        const buffer = await response.arrayBuffer();
-        const decoded = await protoLoader.decodeMessage(
-          responseMessagePath.package,
-          responseMessagePath.message,
-          new Uint8Array(buffer)
-        );
-        return decoded as TResponse;
-      } else {
-        // Parse as JSON (fallback)
-        const json = await response.json();
-        return json as TResponse;
-      }
+      // Always parse as JSON
+      const json = await response.json();
+      return json as TResponse;
     } catch (error) {
       clearTimeout(timeoutId);
       
@@ -134,7 +106,7 @@ export abstract class ProtoService {
   }
 
   /**
-   * Make a GET request with protobuf support
+   * Make a GET request with JSON support
    */
   protected async get<TResponse>(
     endpoint: string,
@@ -152,7 +124,7 @@ export abstract class ProtoService {
   }
 
   /**
-   * Make a POST request with protobuf support
+   * Make a POST request with JSON support
    */
   protected async post<TRequest, TResponse>(
     endpoint: string,
@@ -172,7 +144,7 @@ export abstract class ProtoService {
   }
 
   /**
-   * Make a PUT request with protobuf support
+   * Make a PUT request with JSON support
    */
   protected async put<TRequest, TResponse>(
     endpoint: string,
@@ -192,7 +164,7 @@ export abstract class ProtoService {
   }
 
   /**
-   * Make a DELETE request with protobuf support
+   * Make a DELETE request with JSON support
    */
   protected async delete<TResponse>(
     endpoint: string,
@@ -239,23 +211,19 @@ export abstract class ProtoService {
   }
 
   /**
-   * Validate a message against its proto definition
+   * Validate a message - always returns null for JSON
    */
   protected async validateMessage(
     packageName: string,
     messageName: string,
     data: any
   ): Promise<string | null> {
-    try {
-      const messageType = await protoLoader.getMessageType(packageName, messageName);
-      return messageType.verify(data);
-    } catch (error) {
-      return `Failed to validate message: ${error}`;
-    }
+    // No validation in JSON mode
+    return null;
   }
 
   /**
-   * Create headers for multipart form data with protobuf
+   * Create headers for multipart form data
    */
   protected async createMultipartFormData(
     fields: Record<string, any>,
@@ -270,20 +238,11 @@ export abstract class ProtoService {
       }
     }
     
-    // Add protobuf fields
+    // Add JSON fields (previously protobuf fields)
     for (const [key, protoField] of Object.entries(protoFields)) {
-      try {
-        const encoded = await protoLoader.encodeMessage(
-          protoField.package,
-          protoField.message,
-          protoField.data
-        );
-        
-        const blob = new Blob([encoded], { type: 'application/x-protobuf' });
-        formData.append(key, blob, `${key}.pb`);
-      } catch (error) {
-        console.error(`Failed to encode proto field ${key}:`, error);
-      }
+      const jsonString = JSON.stringify(protoField.data);
+      const blob = new Blob([jsonString], { type: 'application/json' });
+      formData.append(key, blob, `${key}.json`);
     }
     
     return formData;
