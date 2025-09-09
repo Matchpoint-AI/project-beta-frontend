@@ -1,31 +1,24 @@
 /**
- * Proto Loader for V2 API
+ * Proto Loader for V2 API (JSON-only implementation)
  * 
- * Dynamically loads protobuf definitions at runtime using protobuf.js.
- * This follows the requirements specified in frontend-protobuf-requirements.md.
+ * This is a simplified version that works with JSON payloads only.
+ * Protobuf support has been removed.
  */
-import * as protobuf from 'protobufjs';
 
-// Conditionally import runfiles only in Bazel environment
-let runfiles: any;
-try {
-  // This will only work in Bazel environment
-  runfiles = require('@bazel/runfiles').runfiles;
-} catch {
-  // Not in Bazel environment, runfiles will be undefined
-  runfiles = undefined;
+interface MockMessageType {
+  create: (data: unknown) => unknown;
+  verify: (data: unknown) => null;
+  encode: (message: unknown) => { finish: () => Uint8Array };
+  decode: (buffer: Uint8Array) => Record<string, unknown>;
+  toObject: (message: unknown, options?: unknown) => unknown;
 }
 
 /**
- * ProtoLoader handles dynamic loading of protobuf definitions.
- * All proto files are loaded dynamically at runtime to allow for proto updates
- * without requiring frontend rebuilds.
+ * ProtoLoader handles loading and validation of message definitions.
+ * This implementation uses JSON exclusively instead of protobuf.
  */
 export class ProtoLoader {
   private static instance: ProtoLoader;
-  private root: protobuf.Root | null = null;
-  private isLoading = false;
-  private loadPromise: Promise<protobuf.Root> | null = null;
 
   private constructor() {}
 
@@ -40,166 +33,65 @@ export class ProtoLoader {
   }
 
   /**
-   * Load all proto definitions needed for V2 API
-   * Uses Bazel runfiles to resolve proto file paths correctly
+   * Mock load protos - returns immediately since we're using JSON
    */
-  async loadProtos(): Promise<protobuf.Root> {
-    // Return cached root if already loaded
-    if (this.root) {
-      return this.root;
-    }
-
-    // Return existing promise if loading is in progress
-    if (this.isLoading && this.loadPromise) {
-      return this.loadPromise;
-    }
-
-    // Start loading
-    this.isLoading = true;
-    this.loadPromise = this.doLoadProtos();
-
-    try {
-      this.root = await this.loadPromise;
-      return this.root;
-    } finally {
-      this.isLoading = false;
-    }
+  async loadProtos(): Promise<Record<string, unknown>> {
+    // No-op for JSON implementation
+    return {};
   }
 
   /**
-   * Internal method to load proto files
+   * Mock get message type - not needed for JSON
    */
-  private async doLoadProtos(): Promise<protobuf.Root> {
-    const root = new protobuf.Root();
-
-    // List of proto files to load for V2 API
-    const protoFiles = [
-      'protos/entities.proto',
-      'protos/campaigns.proto',
-      'protos/brand.proto',
-      'protos/generation.proto',
-      'protos/policy.proto',
-      'protos/quality.proto',
-      'protos/progress.proto',
-      'protos/publishing.proto',
-      'protos/crawler.proto',
-      'protos/extractor.proto',
-      'protos/prompt.proto',
-      'protos/admin.proto',
-      'protos/moderation.proto',
-      'protos/distribution.proto'
-    ];
-
-    // Check if we're in a Bazel environment with runfiles available
-    const hasRunfiles = typeof runfiles !== 'undefined' && runfiles && runfiles.resolveWorkspaceRelative;
-    
-    // Only attempt to load proto files if we have a way to resolve them
-    if (hasRunfiles) {
-      for (const protoFile of protoFiles) {
-        try {
-          const protoPath = runfiles.resolveWorkspaceRelative(protoFile);
-          await root.load(protoPath);
-        } catch (error) {
-          console.warn(`Failed to load proto file ${protoFile}:`, error);
-          // Continue loading other files even if one fails
-        }
-      }
-      
-      // Resolve all references
-      try {
-        root.resolveAll();
-      } catch (error) {
-        console.warn('Failed to resolve proto references:', error);
-      }
-    } else {
-      // In non-Bazel environments (tests, dev), we'll use JSON fallback
-      console.info('Proto files not available - using JSON API fallback');
-    }
-
-    return root;
+  async getMessageType(_packageName: string, _messageName: string): Promise<MockMessageType> {
+    // Return a mock type object that satisfies the interface
+    return {
+      create: (data: unknown) => data,
+      verify: (_data: unknown) => null, // No errors in JSON mode
+      encode: (_message: unknown) => ({
+        finish: () => new Uint8Array(0)
+      }),
+      decode: (_buffer: Uint8Array) => ({}),
+      toObject: (message: unknown, _options?: unknown) => message
+    };
   }
 
   /**
-   * Get a specific message type from loaded protos
-   */
-  async getMessageType(packageName: string, messageName: string): Promise<protobuf.Type> {
-    const root = await this.loadProtos();
-    const fullName = `${packageName}.${messageName}`;
-    const messageType = root.lookupType(fullName);
-    
-    if (!messageType) {
-      throw new Error(`Message type ${fullName} not found in loaded protos`);
-    }
-    
-    return messageType;
-  }
-
-  /**
-   * Create and validate a message
+   * Create and validate a message - just returns the data for JSON
    */
   async createMessage(
     packageName: string,
     messageName: string,
-    data: any
-  ): Promise<protobuf.Message> {
-    const messageType = await this.getMessageType(packageName, messageName);
-    
-    // Create the message
-    const message = messageType.create(data);
-    
-    // Verify the message
-    const error = messageType.verify(message);
-    if (error) {
-      throw new Error(`Invalid message: ${error}`);
-    }
-    
-    return message;
+    data: unknown
+  ): Promise<unknown> {
+    // In JSON mode, just return the data as-is
+    return data;
   }
 
   /**
-   * Encode a message to binary format
+   * Encode a message - converts to JSON string then to Uint8Array
    */
   async encodeMessage(
     packageName: string,
     messageName: string,
-    data: any
+    data: unknown
   ): Promise<Uint8Array> {
-    const messageType = await this.getMessageType(packageName, messageName);
-    
-    // Create and verify the message
-    const message = messageType.create(data);
-    const error = messageType.verify(message);
-    if (error) {
-      throw new Error(`Invalid message: ${error}`);
-    }
-    
-    // Encode to binary
-    return messageType.encode(message).finish();
+    const jsonString = JSON.stringify(data);
+    const encoder = new TextEncoder();
+    return encoder.encode(jsonString);
   }
 
   /**
-   * Decode a binary message
+   * Decode a message - converts from Uint8Array to JSON
    */
   async decodeMessage(
     packageName: string,
     messageName: string,
     buffer: Uint8Array
-  ): Promise<any> {
-    const messageType = await this.getMessageType(packageName, messageName);
-    
-    // Decode the message
-    const message = messageType.decode(buffer);
-    
-    // Convert to plain object
-    return messageType.toObject(message, {
-      longs: String,
-      enums: String,
-      bytes: String,
-      defaults: true,
-      arrays: true,
-      objects: true,
-      oneofs: true
-    });
+  ): Promise<unknown> {
+    const decoder = new TextDecoder();
+    const jsonString = decoder.decode(buffer);
+    return JSON.parse(jsonString);
   }
 
   /**
@@ -208,22 +100,9 @@ export class ProtoLoader {
   async messageToJson(
     packageName: string,
     messageName: string,
-    data: any
+    data: unknown
   ): Promise<string> {
-    const message = await this.createMessage(packageName, messageName, data);
-    const messageType = await this.getMessageType(packageName, messageName);
-    
-    const jsonObj = messageType.toObject(message as any, {
-      longs: String,
-      enums: String,
-      bytes: String,
-      defaults: true,
-      arrays: true,
-      objects: true,
-      oneofs: true
-    });
-    
-    return JSON.stringify(jsonObj);
+    return JSON.stringify(data);
   }
 
   /**
@@ -233,19 +112,16 @@ export class ProtoLoader {
     packageName: string,
     messageName: string,
     json: string
-  ): Promise<protobuf.Message> {
-    const data = JSON.parse(json);
-    return this.createMessage(packageName, messageName, data);
+  ): Promise<unknown> {
+    return JSON.parse(json);
   }
 
   /**
    * Clear the cached proto definitions
-   * Useful for testing or when proto files are updated
+   * No-op for JSON implementation
    */
   clearCache(): void {
-    this.root = null;
-    this.loadPromise = null;
-    this.isLoading = false;
+    // No cache to clear in JSON mode
   }
 }
 
