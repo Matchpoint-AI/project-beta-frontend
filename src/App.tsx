@@ -13,7 +13,6 @@ import BrandDataLoader from './components/BrandDataLoader';
 import AppRoutes from './AppRoutes';
 import { AppProvider } from './context/appContext';
 import { UsersContextProvider } from './context/UsersContext';
-import PostHogPageviewTracker from './components/PostHogPageviewTracker';
 import VersionDisplay from './components/shared/VersionDisplay';
 
 function Fallback({ error }: { error: Error }) {

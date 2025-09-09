@@ -1,7 +1,18 @@
 import React from "react";
 import { CircularProgress } from "@mui/material";
 
-const LoadingModal = ({ steps, isOpen }) => {
+interface LoadingStep {
+  label: string;
+  loading: boolean;
+  complete: boolean;
+}
+
+interface LoadingModalProps {
+  steps: LoadingStep[];
+  isOpen: boolean;
+}
+
+const LoadingModal: React.FC<LoadingModalProps> = ({ steps, isOpen }) => {
   if (!isOpen) return null;
 
   return (

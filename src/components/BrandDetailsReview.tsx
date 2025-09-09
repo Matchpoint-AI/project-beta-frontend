@@ -2,10 +2,14 @@ import React, { useContext } from 'react';
 import DetailsBlock from './shared/DetailsBlock';
 import { BrandContext } from '../context/BrandContext';
 import { useNavigate } from 'react-router-dom';
-import BrandDetailsInput from './shared/Inputs/BrandDetailsInput';
-import PurpleButton from './shared/Buttons/PurpleButton';
 
-export default function BrandDetailsReview({ stepHandler, edit = true, hasBrand = false }: any) {
+interface BrandDetailsReviewProps {
+  stepHandler: (step: number) => void;
+  edit?: boolean;
+  hasBrand?: boolean;
+}
+
+export default function BrandDetailsReview({ stepHandler, edit = true }: BrandDetailsReviewProps) {
   const { businessInfo } = useContext(BrandContext);
   const description = {
     mission: 'The goal you want to achieve as a company',

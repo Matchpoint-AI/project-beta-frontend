@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useReducer, useRef } from "react";
 import { useAuth } from "../context/AuthContext";
 
-type TState = {
-   data: any;
+type TState<T = unknown> = {
+   data: T | null;
    loading: boolean;
    error: string | null;
 };
@@ -11,13 +11,13 @@ type TAction = {
    payload?: unknown;
 };
 
-function reducer(state: TState, action: TAction) {
+function reducer<T>(state: TState<T>, action: TAction): TState<T> {
    const { type, payload } = action;
    switch (type) {
       case "FETCH_REQUEST":
          return { ...state, loading: true, error: null };
       case "FETCH_SUCCESS":
-         return { ...state, loading: false, data: payload };
+         return { ...state, loading: false, data: payload as T };
       case "FETCH_FAILURE":
          return { ...state, loading: false, error: payload as string };
       default:
@@ -25,12 +25,12 @@ function reducer(state: TState, action: TAction) {
    }
 }
 
-export default function useApi(
-   apiHandler: (a: any, token: string) => Promise<any>,
+export default function useApi<T = unknown>(
+   apiHandler: (action: { type: unknown; [key: string]: unknown }, token: string) => Promise<T>,
    action: { type: unknown; [key: string]: unknown },
    manual?: "TRIGGER" // the action won't trigger at first render
 ) {
-   const [state, dispatch] = useReducer(reducer, {
+   const [state, dispatch] = useReducer(reducer<T>, {
       data: null,
       loading: false,
       error: null,
