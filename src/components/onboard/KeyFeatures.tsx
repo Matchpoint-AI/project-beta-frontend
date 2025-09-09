@@ -14,10 +14,14 @@ interface CampaignContextType {
 export default function KeyFeatures({ pros }: { pros: string[] }) {
   const { campaignInfo, setCampaignInfo } = useContext(CampaignContext) as CampaignContextType;
 
+  console.log('KeyFeatures - Initial render - pros:', pros);
+  console.log('KeyFeatures - Initial render - campaignInfo:', campaignInfo);
+
   const [features, setFeatures] = React.useState<string[]>(campaignInfo?.product_features ?? []);
   const [edit, setEdit] = useState(false);
 
   useEffect(() => {
+    console.log('KeyFeatures - features updated:', features);
     setCampaignInfo((prev: CampaignContextType['campaignInfo']) => ({
       ...prev,
       product_features: features,
@@ -29,12 +33,14 @@ export default function KeyFeatures({ pros }: { pros: string[] }) {
       console.warn('KeyFeatures: pros prop is not an array:', pros);
       return;
     }
+    console.log('KeyFeatures - pros prop updated:', pros);
     setFeatures(pros);
   }, [pros]);
 
   const handleChipClose = (index: number) => {
     const newChips = Array.from(features);
     newChips.splice(index, 1);
+    console.log('KeyFeatures - chip removed, new features:', newChips);
     setFeatures(newChips);
   };
 

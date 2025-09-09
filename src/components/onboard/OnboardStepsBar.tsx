@@ -18,7 +18,9 @@ export default function OnboardStepsBar({
     "Let's make sure we’ve gotten to know you well",
   ];
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    console.log('steps bar');
+  }, []);
 
   return (
     <>

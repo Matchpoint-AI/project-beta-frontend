@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react/no-unescaped-entities */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useContext, useEffect, useState } from 'react';
 import { BrandContext } from '../../context/BrandContext';
 import { CampaignContext } from '../../context/CampaignContext';
@@ -104,6 +105,7 @@ Get ${campaignInfo?.audienceGender} who are interested in ${
       .then((data) => {
         const { choices } = data.response;
         const { content } = choices[0].message;
+        console.log(content);
         setCampaignSummary(content);
         setCampaignInfo((prev: any) => ({ ...prev, summary: content }));
       })
@@ -126,6 +128,7 @@ Get ${campaignInfo?.audienceGender} who are interested in ${
     setCampaignInfo({});
     handleNavigate(profile?.id ?? '', '/dashboard', navigate);
   };
+  console.log(campaignInfo);
 
   return (
     <>

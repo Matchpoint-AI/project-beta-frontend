@@ -48,6 +48,8 @@ function isProduct(obj: unknown): obj is Product {
 
 const StepCampaignComponent: React.FC<StepCampaignProps> = ({
   name,
+  // title, // Remove unused
+  // description, // Remove unused
   isActive,
   currentStep,
   globalStep,
@@ -64,6 +66,7 @@ const StepCampaignComponent: React.FC<StepCampaignProps> = ({
 
   const handleSave = async () => {
     setSaving(true);
+    console.log('Saving ...');
     const info = campaignInfo as ExtendedCampaignInfoType;
     let campaignId;
     let apiEndpoint = '/api/v1/data';
@@ -108,6 +111,7 @@ const StepCampaignComponent: React.FC<StepCampaignProps> = ({
             ...prev,
             product_features: features,
           }));
+          console.log('LLM-generated product features:', features);
         }
       } catch (err) {
         console.error('Failed to generate product features via LLM:', err);
@@ -196,6 +200,7 @@ const StepCampaignComponent: React.FC<StepCampaignProps> = ({
         return response.json();
       })
       .then((data) => {
+        console.log('Data posted successfully:', data);
         setCampaignInfo({});
         setTimeout(() => {
           // setMessage(newMessage);

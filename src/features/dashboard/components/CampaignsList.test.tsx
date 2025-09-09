@@ -3,9 +3,9 @@ import { render, screen, fireEvent, waitFor, cleanup } from '@testing-library/re
 import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { BrowserRouter } from 'react-router-dom';
 import CampaignsList from './CampaignsList';
-import { AuthContext } from '../../features/auth/context/AuthContext';
-import { BrandContext } from '../../context/BrandContext';
-import { CampaignContext } from '../../context/CampaignContext';
+import { AuthContext } from '../../auth/context/AuthContext';
+import { BrandContext } from '../../../context/BrandContext';
+import { CampaignContext } from '../../../context/CampaignContext';
 
 // Mock the modules
 vi.mock('../../helpers/handleNavigate', () => ({

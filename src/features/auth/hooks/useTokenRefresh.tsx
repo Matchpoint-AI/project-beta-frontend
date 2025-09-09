@@ -19,6 +19,7 @@ export const useTokenRefresh = () => {
     }
 
     try {
+      console.log('Refreshing token...');
       const newToken = await user.getIdToken(true); // Force refresh
 
       if (profile) {
@@ -36,6 +37,7 @@ export const useTokenRefresh = () => {
         });
       }
 
+      console.log('Token refreshed successfully');
       return newToken;
     } catch (error) {
       console.error('Token refresh failed:', error);
@@ -74,6 +76,7 @@ export const useTokenRefresh = () => {
 
     // If we get a 401, try refreshing the token once
     if (response.status === 401 && user) {
+      console.log('Got 401, attempting token refresh...');
       const newToken = await refreshToken();
 
       if (newToken) {

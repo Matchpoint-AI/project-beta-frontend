@@ -39,6 +39,7 @@ export default function SideNavBar({
 
   const handleLogout = () => {
     const currentPath = window.location.pathname;
+    console.log('currentPath === ', currentPath);
     signOut(auth)
       .then(() => {
         cookies.remove('access_token', {
@@ -52,7 +53,7 @@ export default function SideNavBar({
         navigate('/login');
       })
       .catch((err) => {
-        // Handle sign out error silently
+        console.log('problem while signing out: ', err.message);
       });
   };
 

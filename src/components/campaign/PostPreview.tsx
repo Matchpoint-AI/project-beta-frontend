@@ -124,7 +124,9 @@ const PostPreview = ({
       }
       const { url, newText } = await response.json();
       updataImage(week - 1, day - 1, index, imageIndex[index], url, newText);
-    } catch (e) {}
+    } catch (e) {
+      console.log((e as Error).message);
+    }
   };
 
   useEffect(() => {
@@ -140,6 +142,7 @@ const PostPreview = ({
 
   useEffect(() => {
     if (edit === 'save') {
+      console.log('edit === ', edit);
       content.text = text;
       setEdit(false);
     } else if (edit === false) {
@@ -190,6 +193,7 @@ const PostPreview = ({
   const currentPlatform = platformConfigs[selectedPlatform];
   const PlatformIcon = currentPlatform.icon;
 
+  console.log(content);
   return (
     <div className="flex flex-col gap-2 my-6 sm:my-0">
       <div className="flex items-center justify-between">

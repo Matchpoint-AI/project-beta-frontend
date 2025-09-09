@@ -35,6 +35,7 @@ export default function PromptsSettings() {
   const getPrompts = async () => {
     setLoading(true);
     const app_prompts = await fetchPrompts(profile?.token || '');
+    console.log(app_prompts);
     if (app_prompts) setPrompts(app_prompts);
     else setError('error loading prompts');
     setLoading(false);

@@ -108,6 +108,7 @@ const ExportComponent = ({ campaign }: { campaign: CampaignInfoType }) => {
   };
   const fetchWeeksData = async () => {
     try {
+      console.log('id === ', id);
       const params = new URLSearchParams({
         campaign_id: id as string,
       });
@@ -123,8 +124,10 @@ const ExportComponent = ({ campaign }: { campaign: CampaignInfoType }) => {
 
       const data = await response.json();
       if (data.length === 0 || data.arr[0].length === 0) return;
+      console.log('data from fetch === ', data);
       // setContentId(data.id);
       const data2 = structureData(data.arr);
+      console.log('data after structure === ', data2);
       return { weeks: data2, contentId: data.id };
       // setWeeksData(data2);
     } catch (error) {
@@ -144,6 +147,9 @@ const ExportComponent = ({ campaign }: { campaign: CampaignInfoType }) => {
 
       const { weeks: weeksData, contentId } = fetchedData;
       // const { weeks: weeksData, id } = await fetchWeeksData();
+      console.log('weeks === ', weeksData);
+      console.log('id === ', id);
+      // return;
       const data = weeksData
         .filter((_, weekIndex) => currentValues.includes(`Week ${weekIndex + 1}`))
         .map((week) => {
@@ -248,6 +254,7 @@ const ExportComponent = ({ campaign }: { campaign: CampaignInfoType }) => {
       setError('Specify Week Content To Be Approved');
       return;
     }
+    console.log('currentValues === ', currentValues);
     const transformedWeeks = currentValues.map((week) => week.toLowerCase().replace(' ', '_'));
     setLoading(true);
     const endpointUrl = getServiceURL('data');
@@ -269,6 +276,7 @@ const ExportComponent = ({ campaign }: { campaign: CampaignInfoType }) => {
       }
 
       const data = await response.json();
+      console.log('Approval Success:', data);
       setSuccess(true);
       setErrorText('You Can Export The Specified Week');
       setErrorSaving(true); // Display error toast

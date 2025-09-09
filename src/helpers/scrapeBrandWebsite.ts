@@ -18,6 +18,7 @@ const scrapeBrandWebsite = async (
     }),
   });
   const parsedContent = await response.json();
+  console.log('parsedContent', parsedContent);
   if (!parsedContent) throw new Error('no data found');
   setBusinessInfo((prevState) => ({
     ...prevState,

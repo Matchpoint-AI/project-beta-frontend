@@ -33,6 +33,7 @@ const CustomDialog: FC<CustomDialogProps> = ({
     setIsOpen(0);
     // setCurrentStep(5);
   };
+  console.log('opening the cusotm dialog');
   const handleNext = () => {
     setIsOpen(0);
     // setStep(step + 1);

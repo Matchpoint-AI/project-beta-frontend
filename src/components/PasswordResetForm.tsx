@@ -59,6 +59,7 @@ export default function PasswordResetForm({ setOpenToast }: { setOpenToast: any 
             })
             .catch((e) => {
               const authError = e as FirebaseError;
+              console.log(authError);
               let message = 'Password reset failed!';
               if (authError.code === 'auth/weak-password')
                 message = 'Password should be at least 6 characters';

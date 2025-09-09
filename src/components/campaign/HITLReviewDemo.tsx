@@ -96,31 +96,38 @@ const HITLReviewDemo: React.FC = () => {
 
   // Mock handlers for the HITL Review Panel
   const handleApprove = useCallback(async (itemId: string) => {
+    console.log('Approving item:', itemId);
     await new Promise((resolve) => setTimeout(resolve, 1000));
   }, []);
 
   const handleReject = useCallback(async (itemId: string, feedback?: string) => {
+    console.log('Rejecting item:', itemId, 'with feedback:', feedback);
     await new Promise((resolve) => setTimeout(resolve, 1000));
   }, []);
 
   const handleEdit = useCallback(async (itemId: string, newContent: string) => {
+    console.log('Editing item:', itemId, 'new content:', newContent);
     await new Promise((resolve) => setTimeout(resolve, 1000));
   }, []);
 
   const handleRegenerate = useCallback(async (itemId: string, targetedChanges?: string[]) => {
+    console.log('Regenerating item:', itemId, 'with changes:', targetedChanges);
     await new Promise((resolve) => setTimeout(resolve, 2000));
   }, []);
 
   // Mock handlers for Content Comparison Modal
   const handleSave = useCallback(async (itemId: string, content: string, notes?: string) => {
+    console.log('Saving content for item:', itemId, 'content:', content, 'notes:', notes);
     await new Promise((resolve) => setTimeout(resolve, 1000));
   }, []);
 
   const handleRevert = useCallback(async (itemId: string, versionId: string) => {
+    console.log('Reverting item:', itemId, 'to version:', versionId);
     await new Promise((resolve) => setTimeout(resolve, 1000));
   }, []);
 
   const handleQualityRecheck = useCallback(async (itemId: string) => {
+    console.log('Rechecking quality for item:', itemId);
     await new Promise((resolve) => setTimeout(resolve, 2000));
 
     // Return mock quality result
