@@ -96,7 +96,7 @@ interface OptimizationComparison {
     latency_percentiles: Record<string, number>;
   };
   model_usage: Record<string, number>;
-  usage_patterns: Record<string, any>;
+  usage_patterns: Record<string, unknown>;
   recommendations: string[];
 }
 
@@ -112,7 +112,7 @@ interface TrackUsageData {
 }
 
 class CostOptimizationApiError extends Error {
-  constructor(message: string, public status?: number, public details?: any) {
+  constructor(message: string, public status?: number, public details?: unknown) {
     super(message);
     this.name = 'CostOptimizationApiError';
   }
@@ -289,7 +289,7 @@ export const costOptimizationApi = {
       const dashboardData = await costOptimizationApi.getDashboardData(days);
       
       let totalRequests = 0;
-      const models: Record<string, any> = {};
+      const models: Record<string, unknown> = {};
 
       Object.entries(dashboardData.current_model_distribution).forEach(([model, data]) => {
         totalRequests += data.requests;

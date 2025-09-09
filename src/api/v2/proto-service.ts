@@ -74,7 +74,7 @@ export abstract class ProtoService {
           requestData
         );
         
-        body = encodedData;
+        body = encodedData as BodyInit;
         headers['Content-Type'] = 'application/x-protobuf';
       } catch (error) {
         // Fallback to JSON if protobuf encoding fails
@@ -279,7 +279,7 @@ export abstract class ProtoService {
           protoField.data
         );
         
-        const blob = new Blob([encoded], { type: 'application/x-protobuf' });
+        const blob = new Blob([encoded as BlobPart], { type: 'application/x-protobuf' });
         formData.append(key, blob, `${key}.pb`);
       } catch (error) {
         console.error(`Failed to encode proto field ${key}:`, error);

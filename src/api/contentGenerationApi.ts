@@ -160,7 +160,7 @@ export const policyApi = {
     intent: 'awareness' | 'conversion' | 'engagement' | 'education';
     industry: 'consumable' | 'wearable' | 'device' | 'service' | 'venue' | 'food_beverage' | 'cosmetic' | 'supplement' | 'saas';
     brand_tier?: 'premium' | 'standard' | 'budget';
-    target_audience?: any;
+    target_audience?: unknown;
     brand_personality?: string[];
     product_features?: string[];
     seasonal_context?: string;
@@ -205,7 +205,7 @@ export const policyApi = {
   },
 
   // Update policy
-  updatePolicy: async (campaignId: string, policyId: string, data: any, token: string) => {
+  updatePolicy: async (campaignId: string, policyId: string, data: unknown, token: string) => {
     const response = await fetch(
       `${CONTENT_GEN_URL}/api/v1/campaigns/${campaignId}/policy/${policyId}`,
       {
@@ -321,7 +321,7 @@ export const imageApi = {
   },
 
   // Generate images in batch
-  generateBatch: async (requests: Array<any>, token: string) => {
+  generateBatch: async (requests: Array<unknown>, token: string) => {
     const response = await fetch(
       `${CONTENT_GEN_URL}/api/v1/images/batch`,
       {
