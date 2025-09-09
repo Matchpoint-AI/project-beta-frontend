@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
-import StepCampaignComponent from '../StepComponentCampaign';
-import PhoneNavIcons from '../shared/PhoneNavIcons';
-import { CampaignInfoType } from '../../context/CampaignContext';
+import StepCampaignComponent from './StepComponentCampaign';
+import PhoneNavIcons from '../../../components/shared/PhoneNavIcons';
+import { CampaignInfoType } from '../../../context/CampaignContext';
 
 interface CampaignStepsBar {
   currentStep: number;

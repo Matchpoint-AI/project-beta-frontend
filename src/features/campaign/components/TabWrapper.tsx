@@ -1,8 +1,8 @@
 import React from 'react';
-import ContentLibrary from '../campaign/ContentLibrary';
-import ExportComponent from '../campaign/ExportComponent';
-import CalendarCampaign from '../campaign/CalendarCampaign';
-import SceneMixPlanner from '../campaign/SceneMixPlanner';
+import ContentLibrary from './ContentLibrary';
+import ExportComponent from './ExportComponent';
+import CalendarCampaign from './CalendarCampaign';
+import SceneMixPlanner from './SceneMixPlanner';
 
 export interface Campaign {
   campaign_id: string;
