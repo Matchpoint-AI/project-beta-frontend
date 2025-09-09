@@ -19,7 +19,7 @@ import CampaignDetails from "../campaign/CampaignDetails";
 import CampaignSchedule from "../CampaignSchedule";
 import CampaignDetailsBlock from "../campaign/CampaignDetailsBlock";
 import handleNavigate from "../../helpers/handleNavigate";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../features/auth/context/AuthContext";
 import { trackCampaignBriefCreation } from "../../helpers/analytics";
 
 type CampaignBriefFormProps = {

@@ -8,7 +8,7 @@ import FormInputBox from "../FormInputBox";
 import { LinkSymbol } from "../../LinkSymbol";
 import ClearIcon from "@mui/icons-material/Clear";
 import { BrandContext } from "../../../context/BrandContext";
-import { useAuth } from "../../../context/AuthContext";
+import { useAuth } from "../../../features/auth/context/AuthContext";
 
 interface FormErrorState {
    count: number;

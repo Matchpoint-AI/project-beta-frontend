@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../features/auth/context/AuthContext";
 import { getServiceURL } from "../helpers/getServiceURL";
 import { useParams } from "react-router-dom";
 

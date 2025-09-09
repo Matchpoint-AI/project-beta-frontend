@@ -18,7 +18,7 @@ import {
   FormHelperText,
 } from '@mui/material';
 import { LuPlus, LuTrash2, LuChevronDown, LuChevronUp } from 'react-icons/lu';
-import { AuthContext } from '../../context/AuthContext';
+import { AuthContext } from '../../features/auth/context/AuthContext';
 import { BrandContext } from '../../context/BrandContext';
 import FormsContainer from '../shared/FormsContainer';
 import NextButton from '../shared/Buttons/NextButton';
@@ -132,7 +132,8 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
   onSave,
   existingData,
 }) => {
-  const { authState } = useContext(AuthContext);
+  const authContext = useContext(AuthContext);
+  const authState = authContext?.profile;
   const { businessInfo } = useContext(BrandContext);
   
   const [loading, setLoading] = useState(false);

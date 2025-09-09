@@ -3,7 +3,7 @@ import PurpleButton from "../shared/Buttons/PurpleButton";
 import { CircularProgress } from "@mui/material";
 import ErrorToast from "../shared/ErrorToast";
 import { getServiceURL } from "../../helpers/getServiceURL";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../features/auth/context/AuthContext";
 
 interface SavePromptBtnProps {
    prompt: string;

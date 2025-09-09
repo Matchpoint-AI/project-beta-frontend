@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../features/auth/context/AuthContext';
 import { useParams } from 'react-router-dom';
 import { getServiceURL } from '../../helpers/getServiceURL';
 import LoadingModal from '../ExportLoading';

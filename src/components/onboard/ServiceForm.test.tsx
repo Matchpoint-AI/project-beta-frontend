@@ -19,7 +19,7 @@ vi.mock('../../helpers/posthog', () => ({
 }));
 
 // Mock the AuthContext
-vi.mock('../../context/AuthContext', () => ({
+vi.mock('../../features/auth/context/AuthContext', () => ({
   useAuth: () => ({
     profile: { id: 'test-user-id' },
   }),

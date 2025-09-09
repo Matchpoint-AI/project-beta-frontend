@@ -8,7 +8,7 @@ import useIntegrationApi, {
 import React, { useEffect, useState } from "react";
 import useAppContext from "../../../context/appContext";
 import { getServiceURL } from "../../../helpers/getServiceURL";
-import { useAuth } from "../../../context/AuthContext";
+import { useAuth } from "../../../features/auth/context/AuthContext";
 
 const PLATFORMS = ["INSTAGRAM"];
 

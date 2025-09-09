@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import EmptyDashboard from "./EmptyDashboard";
-import Dropdown from "../shared/Dropdown";
-import PromotionComponent from "../PromotionComponent";
+import Dropdown from "../../../components/shared/Dropdown";
+import PromotionComponent from "../../../components/PromotionComponent";
 import { useNavigate } from "react-router-dom";
-import { CampaignContext } from "../../context/CampaignContext";
-import { BrandContext } from "../../context/BrandContext";
-import handleNavigate from "../../helpers/handleNavigate";
-import { useAuth } from "../../context/AuthContext";
+import { CampaignContext } from "../../../context/CampaignContext";
+import { BrandContext } from "../../../context/BrandContext";
+import handleNavigate from "../../../helpers/handleNavigate";
+import { useAuth } from "../../auth/context/AuthContext";
 
 interface Campaign {
    campaign_id: string;

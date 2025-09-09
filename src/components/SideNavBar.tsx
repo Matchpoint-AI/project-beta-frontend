@@ -9,7 +9,7 @@ import { TbPhoto } from "react-icons/tb";
 import { PiUsersBold } from "react-icons/pi";
 import { TbSparkles } from "react-icons/tb";
 import Cookies from "universal-cookie";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../features/auth/context/AuthContext";
 import posthog from "../helpers/posthog";
 import handleNavigate from "../helpers/handleNavigate";
 

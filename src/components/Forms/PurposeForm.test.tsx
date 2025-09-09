@@ -4,7 +4,7 @@ import { vi } from 'vitest';
 import PurposeForm from './PurposeForm';
 import { CampaignContext } from '../../context/CampaignContext';
 import { BrandContext } from '../../context/BrandContext';
-import { AuthContext } from '../../context/AuthContext';
+import { AuthContext } from '../../features/auth/context/AuthContext';
 
 // Mock dependencies
 vi.mock('../../helpers/posthog', () => ({

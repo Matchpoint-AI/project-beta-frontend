@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { CampaignContext } from '../../context/CampaignContext';
-import { useAuth } from '../../context/AuthContext';
-import handleNavigate from '../../helpers/handleNavigate';
+import { CampaignContext } from '../../../context/CampaignContext';
+import { useAuth } from '../../auth/context/AuthContext';
+import handleNavigate from '../../../helpers/handleNavigate';
 
 interface Campaign {
   campaign_id: string;

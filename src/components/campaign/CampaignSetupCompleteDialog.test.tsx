@@ -4,12 +4,12 @@ import { vi, describe, it, expect, beforeEach } from 'vitest';
 import CampaignSetupCompleteDialog from './CampaignSetupCompleteDialog';
 import { BrandContext } from '../../context/BrandContext';
 import { CampaignContext } from '../../context/CampaignContext';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../features/auth/context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { plannerApi, policyApi } from '../../api/contentGenerationApi';
 
 // Mock dependencies
-vi.mock('../../context/AuthContext');
+vi.mock('../../features/auth/context/AuthContext');
 vi.mock('react-router-dom');
 vi.mock('../../helpers/getServiceURL', () => ({
   getServiceURL: () => 'https://mock-service.com',

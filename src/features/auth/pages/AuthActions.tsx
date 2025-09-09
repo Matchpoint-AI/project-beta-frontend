@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 
-import Footer from "../components/auth/Footer";
-import Navbar from "../components/auth/Navbar";
+import Footer from "../components/Footer";
+import Navbar from "../components/Navbar";
 import { Alert, Snackbar } from "@mui/material";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import ResetPassword from "../components/auth/ResetPassword";
-import VerifyEmail from "../components/auth/VerifyEmail";
+import ResetPassword from "../components/ResetPassword";
+import VerifyEmail from "../components/VerifyEmail";
 
 export default function AuthActions() {
    const [params] = useSearchParams();

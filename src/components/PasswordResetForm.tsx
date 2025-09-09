@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { CircularProgress } from "@mui/material";
 import { FirebaseError } from "firebase/app";
 import posthog from "../helpers/posthog";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../features/auth/context/AuthContext";
 
 export default function PasswordResetForm({
   setOpenToast,

@@ -7,7 +7,7 @@ import { BrandContext } from '../../context/BrandContext';
 import ModifyPromptForm from './ModifyPromptForm';
 import { TiArrowMaximise } from 'react-icons/ti';
 import AutoAwesomeOutlinedIcon from '@mui/icons-material/AutoAwesomeOutlined';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../features/auth/context/AuthContext';
 import { getServiceURL } from '../../helpers/getServiceURL';
 import { CircularProgress, Select, MenuItem, FormControl, InputLabel, Chip } from '@mui/material';
 import { FaInstagram, FaTwitter, FaFacebook, FaLinkedin, FaTiktok } from 'react-icons/fa';

@@ -1,5 +1,5 @@
 import React, { FormEventHandler, useEffect, useState } from "react";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../features/auth/context/AuthContext";
 import { CircularProgress, Dialog, DialogContent } from "@mui/material";
 import PurpleButton from "../shared/Buttons/PurpleButton";
 import { getServiceURL } from "../../helpers/getServiceURL";
