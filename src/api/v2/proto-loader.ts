@@ -5,6 +5,14 @@
  * Protobuf support has been removed.
  */
 
+interface MockMessageType {
+  create: (data: unknown) => unknown;
+  verify: (data: unknown) => null;
+  encode: (message: unknown) => { finish: () => Uint8Array };
+  decode: (buffer: Uint8Array) => Record<string, unknown>;
+  toObject: (message: unknown, options?: unknown) => unknown;
+}
+
 /**
  * ProtoLoader handles loading and validation of message definitions.
  * This implementation uses JSON exclusively instead of protobuf.
@@ -27,7 +35,7 @@ export class ProtoLoader {
   /**
    * Mock load protos - returns immediately since we're using JSON
    */
-  async loadProtos(): Promise<any> {
+  async loadProtos(): Promise<Record<string, unknown>> {
     // No-op for JSON implementation
     return {};
   }
@@ -35,16 +43,16 @@ export class ProtoLoader {
   /**
    * Mock get message type - not needed for JSON
    */
-  async getMessageType(packageName: string, messageName: string): Promise<any> {
+  async getMessageType(_packageName: string, _messageName: string): Promise<MockMessageType> {
     // Return a mock type object that satisfies the interface
     return {
-      create: (data: any) => data,
-      verify: (data: any) => null, // No errors in JSON mode
-      encode: (message: any) => ({
+      create: (data: unknown) => data,
+      verify: (_data: unknown) => null, // No errors in JSON mode
+      encode: (_message: unknown) => ({
         finish: () => new Uint8Array(0)
       }),
-      decode: (buffer: Uint8Array) => ({}),
-      toObject: (message: any, options?: any) => message
+      decode: (_buffer: Uint8Array) => ({}),
+      toObject: (message: unknown, _options?: unknown) => message
     };
   }
 
@@ -54,8 +62,8 @@ export class ProtoLoader {
   async createMessage(
     packageName: string,
     messageName: string,
-    data: any
-  ): Promise<any> {
+    data: unknown
+  ): Promise<unknown> {
     // In JSON mode, just return the data as-is
     return data;
   }
@@ -66,7 +74,7 @@ export class ProtoLoader {
   async encodeMessage(
     packageName: string,
     messageName: string,
-    data: any
+    data: unknown
   ): Promise<Uint8Array> {
     const jsonString = JSON.stringify(data);
     const encoder = new TextEncoder();
@@ -80,7 +88,7 @@ export class ProtoLoader {
     packageName: string,
     messageName: string,
     buffer: Uint8Array
-  ): Promise<any> {
+  ): Promise<unknown> {
     const decoder = new TextDecoder();
     const jsonString = decoder.decode(buffer);
     return JSON.parse(jsonString);
@@ -92,7 +100,7 @@ export class ProtoLoader {
   async messageToJson(
     packageName: string,
     messageName: string,
-    data: any
+    data: unknown
   ): Promise<string> {
     return JSON.stringify(data);
   }
@@ -104,7 +112,7 @@ export class ProtoLoader {
     packageName: string,
     messageName: string,
     json: string
-  ): Promise<any> {
+  ): Promise<unknown> {
     return JSON.parse(json);
   }
 

@@ -4,7 +4,6 @@
  * Provides base functionality for all V2 API services using JSON.
  * Protobuf support has been removed.
  */
-import { protoLoader } from './proto-loader';
 import { V2_PUBLIC_API_URL } from '../config';
 
 /**
@@ -214,9 +213,9 @@ export abstract class ProtoService {
    * Validate a message - always returns null for JSON
    */
   protected async validateMessage(
-    packageName: string,
-    messageName: string,
-    data: any
+    _packageName: string,
+    _messageName: string,
+    _data: unknown
   ): Promise<string | null> {
     // No validation in JSON mode
     return null;
@@ -226,8 +225,8 @@ export abstract class ProtoService {
    * Create headers for multipart form data
    */
   protected async createMultipartFormData(
-    fields: Record<string, any>,
-    protoFields: Record<string, { data: any; package: string; message: string }>
+    fields: Record<string, unknown>,
+    protoFields: Record<string, { data: unknown; package: string; message: string }>
   ): Promise<FormData> {
     const formData = new FormData();
     
