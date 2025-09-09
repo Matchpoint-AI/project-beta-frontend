@@ -28,7 +28,7 @@ export interface Brand {
   };
   created_at?: string;
   updated_at?: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 }
 
 export interface BrandKnowledge {
@@ -80,7 +80,7 @@ export interface CreateBrandRequest {
   brand_voice?: string;
   brand_values?: string[];
   social_handles?: Brand['social_handles'];
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 }
 
 export interface UpdateBrandRequest {
@@ -94,7 +94,7 @@ export interface UpdateBrandRequest {
   brand_voice?: string;
   brand_values?: string[];
   social_handles?: Brand['social_handles'];
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 }
 
 export interface CreateBrandKnowledgeRequest {

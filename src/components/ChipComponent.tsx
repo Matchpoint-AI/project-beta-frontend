@@ -6,7 +6,6 @@ interface ChipComponentProps {
   onClose: (index: number) => void;
   onSelect: (index: number) => void;
   index: number;
-  single?: boolean;
   className?: string;
 }
 
@@ -16,7 +15,6 @@ const ChipComponent: React.FC<ChipComponentProps> = ({
   selected,
   onClose,
   onSelect,
-  single = false,
   className,
 }) => {
   const [hover, setHover] = useState(false);

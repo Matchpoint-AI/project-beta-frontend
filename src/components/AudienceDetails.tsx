@@ -6,7 +6,7 @@ import ChipsEditBlock from './onboard/ChipsEditBlock';
 
 interface AudienceEmotionsProps {
   values: string[];
-  setValues: any;
+  setValues: (values: string[]) => void;
   title: string;
   description?: string;
   genre: 'emotion' | 'interests';

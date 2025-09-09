@@ -73,7 +73,7 @@ const ContentLibrary = ({
       campaign_id: id as string,
     });
 
-    let pollingInterval: NodeJS.Timeout;
+    let pollingInterval: NodeJS.Timeout | null = null;
     const fetchSingleWeek = async () => {
       try {
         // if (weeksContent.length === 0) {
@@ -97,7 +97,7 @@ const ContentLibrary = ({
 
         if (data.length === 0 || data.arr[0].length === 0) {
           setText('Content Is Being Generated');
-          clearInterval(pollingInterval);
+          if (pollingInterval) clearInterval(pollingInterval);
           setLoading(false);
           return;
         }
@@ -129,7 +129,7 @@ const ContentLibrary = ({
         );
 
         if (isFullyGenerated) {
-          clearInterval(pollingInterval);
+          if (pollingInterval) clearInterval(pollingInterval);
         }
         setLoading(false);
       } catch (error) {
@@ -145,7 +145,7 @@ const ContentLibrary = ({
 
     // Cleanup interval on unmount
     return () => {
-      clearInterval(pollingInterval);
+      if (pollingInterval) clearInterval(pollingInterval);
     };
   }, [profile?.token, id]);
 

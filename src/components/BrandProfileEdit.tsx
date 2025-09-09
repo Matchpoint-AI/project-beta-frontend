@@ -6,7 +6,7 @@ import { useAuth } from '../features/auth/context/AuthContext';
 import { BrandContext } from '../context/BrandContext';
 import { getServiceURL } from '../helpers/getServiceURL';
 import PurpleButton from './shared/Buttons/PurpleButton';
-import FormsContainer from './shared/FormsContainer';
+// import FormsContainer from './shared/FormsContainer';
 import BrandDetailsInput from './shared/Inputs/BrandDetailsInput';
 import Sidebar from './shared/Sidebar';
 
@@ -19,7 +19,7 @@ const description = {
   summary: 'Brief description of your business',
 };
 
-const mergeValues = (values: any) => {
+const mergeValues = (values: unknown) => {
   const result = [
     { id: 0, label: '', selected: false },
     { id: 1, label: '', selected: false },
@@ -41,7 +41,11 @@ const mergeValues = (values: any) => {
   return result;
 };
 
-export default function BrandProfileEdit({ hasBrand }: any) {
+interface BrandProfileEditProps {
+  hasBrand?: boolean;
+}
+
+export default function BrandProfileEdit({ hasBrand: _ }: BrandProfileEditProps) {
   const { businessInfo } = useContext(BrandContext);
   const [selected, setSelected] = useState('');
   const [pMission, setMission] = useState(businessInfo.mission || '');
@@ -323,10 +327,14 @@ function DetailsCard({
     </div>
   );
 }
-function VariablesBadge({ values }: any) {
+interface VariablesBadgeProps {
+  values: Array<{ selected: boolean; label: string; }>;
+}
+
+function VariablesBadge({ values }: VariablesBadgeProps) {
   return (
     <>
-      {values.map((c: any) =>
+      {values.map((c) =>
         c.label.length ? (
           <div
             key={c.id}
@@ -340,16 +348,23 @@ function VariablesBadge({ values }: any) {
   );
 }
 
-function EditableValuesCard({ values, onChange, onSave, isSaving }: any) {
+interface EditableValuesCardProps {
+  values: Array<{ selected: boolean; label: string; }>;
+  onChange: (values: Array<{ selected: boolean; label: string; }>) => void;
+  onSave: () => void;
+  isSaving: boolean;
+}
+
+function EditableValuesCard({ values, onChange, onSave, isSaving }: EditableValuesCardProps) {
   const handleChange = (index: number, newValue: string) => {
-    const updated = values.map((item: any, i: number) =>
+    const updated = values.map((item, i: number) =>
       i === index ? { ...item, label: newValue } : { ...item }
     );
     onChange(updated);
   };
 
   const handleRemove = (index: number) => {
-    const updated = values.map((item: any, i: number) =>
+    const updated = values.map((item, i: number) =>
       i === index ? { ...item, label: '', selected: false } : { ...item }
     );
     onChange(updated);

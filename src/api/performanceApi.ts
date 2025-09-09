@@ -6,7 +6,7 @@ export interface MetricRequest {
   metric_type: 'latency' | 'error_rate' | 'cost' | 'quality' | 'throughput' | 'resource_usage';
   value: number;
   labels?: Record<string, string>;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 }
 
 export interface MetricResponse {
@@ -171,7 +171,7 @@ class PerformanceApiClient {
   async recordQualityMetric(
     operation: string,
     qualityScore: number,
-    details?: Record<string, any>
+    details?: Record<string, unknown>
   ): Promise<MetricResponse> {
     const params = new URLSearchParams({
       operation,

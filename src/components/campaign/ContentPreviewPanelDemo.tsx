@@ -100,7 +100,7 @@ Join thousands of satisfied customers who've already made the switch!`,
         </Typography>
         <Typography variant="body2" color="text.secondary">
           This component provides immediate visual impact for demonstrating AI-powered content
-          generation capabilities. It's designed to be highly interactive and visually appealing,
+          generation capabilities. It&apos;s designed to be highly interactive and visually appealing,
           perfect for stakeholder demos and user presentations. The component supports multiple
           platforms, responsive design, and real-time quality metrics.
         </Typography>
