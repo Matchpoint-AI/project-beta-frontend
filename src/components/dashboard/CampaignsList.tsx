@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { CampaignContext } from "../../context/CampaignContext";
 import { BrandContext } from "../../context/BrandContext";
 import handleNavigate from "../../helpers/handleNavigate";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../features/auth/context/AuthContext";
 
 interface Campaign {
    campaign_id: string;

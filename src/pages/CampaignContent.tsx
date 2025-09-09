@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Sidebar from '../components/shared/Sidebar';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../features/auth/context/AuthContext';
 import { getServiceURL } from '../helpers/getServiceURL';
 import { useNavigate, useParams } from 'react-router-dom';
 import { displayDuration, getPostingSchedule } from '../helpers/calculateTiming';

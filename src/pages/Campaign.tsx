@@ -9,7 +9,7 @@ import PurposeForm from "../components/Forms/PurposeForm";
 import ServiceForm from "../components/onboard/ServiceForm";
 import TimingForm from "../components/Forms/TimingForm";
 import Sidebar from "../components/shared/Sidebar";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../features/auth/context/AuthContext";
 import { BrandContext } from "../context/BrandContext";
 import { CampaignContext } from "../context/CampaignContext";
 import { getServiceURL } from "../helpers/getServiceURL";

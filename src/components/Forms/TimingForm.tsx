@@ -11,7 +11,7 @@ import FormsContainer from '../shared/FormsContainer';
 import BackButton from '../shared/Buttons/BackButton';
 import NextButton from '../shared/Buttons/NextButton';
 import posthog from '../../helpers/posthog';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../features/auth/context/AuthContext';
 
 interface TimingFormProps {
   handleNext?: any;

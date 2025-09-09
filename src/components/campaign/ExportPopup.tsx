@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { CampaignContext } from "../../context/CampaignContext";
 import handleNavigate from "../../helpers/handleNavigate";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../features/auth/context/AuthContext";
 
 const ExportPopup = ({
    campaignName,

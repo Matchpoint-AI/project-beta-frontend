@@ -4,9 +4,9 @@ import { applyActionCode } from "firebase/auth";
 import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import { RiErrorWarningLine } from "react-icons/ri";
-import { useAuthentication } from "../../firebase";
+import { useAuthentication } from "../../../firebase";
 import { CircularProgress } from "@mui/material";
-import { getServiceURL } from "../../helpers/getServiceURL";
+import { getServiceURL } from "../../../helpers/getServiceURL";
 import Cookies from "universal-cookie";
 
 interface VerifyEmailProps {

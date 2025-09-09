@@ -6,7 +6,7 @@ import { BrandContext } from '../../context/BrandContext';
 import { CampaignContext } from '../../context/CampaignContext';
 
 // Mock the useAuth hook
-vi.mock('../../context/AuthContext', () => ({
+vi.mock('../../features/auth/context/AuthContext', () => ({
   useAuth: () => ({
     profile: { id: 'test-user-id' },
   }),

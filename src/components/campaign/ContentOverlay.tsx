@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { IoClose } from 'react-icons/io5';
 import PostPreview from './PostPreview';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../features/auth/context/AuthContext';
 import { IoIosArrowBack } from 'react-icons/io';
 import { IoIosArrowForward } from 'react-icons/io';
 import { getServiceURL } from '../../helpers/getServiceURL';

@@ -19,7 +19,7 @@ import FormInputBox from "../shared/FormInputBox";
 import { SparklesMessage } from "../shared/SparklesMessage";
 import ErrorToast from "../shared/ErrorToast";
 import { CircularProgress } from "@mui/material";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../features/auth/context/AuthContext";
 import scrapeProductDefault from "./scrapeProduct";
 
 import posthog from "../../helpers/posthog";

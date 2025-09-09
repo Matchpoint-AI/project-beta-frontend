@@ -3,7 +3,7 @@ import { render, screen, fireEvent, waitFor, cleanup } from '@testing-library/re
 import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { BrowserRouter } from 'react-router-dom';
 import CampaignsList from './CampaignsList';
-import { AuthContext } from '../../context/AuthContext';
+import { AuthContext } from '../../features/auth/context/AuthContext';
 import { BrandContext } from '../../context/BrandContext';
 import { CampaignContext } from '../../context/CampaignContext';
 

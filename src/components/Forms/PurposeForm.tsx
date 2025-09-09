@@ -13,7 +13,7 @@ import CampaignFormInput from "../shared/Inputs/CampaignFormInput";
 import Dropdown from "../campaign/CampaignDropdown";
 import LanguageSelector from "../campaign/LanguageSelector";
 import { BrandContext } from "../../context/BrandContext";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../features/auth/context/AuthContext";
 import posthog from "../../helpers/posthog";
 
 interface PurposeFormProps {

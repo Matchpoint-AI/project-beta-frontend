@@ -7,7 +7,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import CampaignToolBar from "./CampaignToolBar";
 import MonthHeader from "./MonthHeader";
 import EventWrapper from "./EventWrapper";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../features/auth/context/AuthContext";
 import { useParams } from "react-router-dom";
 import { getServiceURL } from "../../helpers/getServiceURL";
 

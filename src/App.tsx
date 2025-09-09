@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import './index.css';
 import { BrandContext, BusinessInfo } from './context/BrandContext';
 import { CampaignContext } from './context/CampaignContext';
-import { AuthProvider } from './context/AuthContext';
+import { AuthProvider } from './features/auth/context/AuthContext';
 import { withErrorBoundary } from 'react-error-boundary';
 import { RiErrorWarningLine } from 'react-icons/ri';
-import { useAuth } from './context/AuthContext';
+import { useAuth } from './features/auth/context/AuthContext';
 import posthog from './helpers/posthog';
 
 import './App.css';

@@ -2,7 +2,7 @@ import React, { useContext, useState, useRef, useEffect } from 'react';
 import { ButtonBase } from '@mui/material';
 import { FaRegEdit } from 'react-icons/fa';
 import { LuFileMinus } from 'react-icons/lu';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../features/auth/context/AuthContext';
 import { BrandContext } from '../context/BrandContext';
 import { getServiceURL } from '../helpers/getServiceURL';
 import PurpleButton from './shared/Buttons/PurpleButton';

@@ -3,7 +3,7 @@ import { render, screen, fireEvent, waitFor, cleanup } from '@testing-library/re
 import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { BrowserRouter } from 'react-router-dom';
 import PromotionComponent from './PromotionComponent';
-import { AuthContext } from '../context/AuthContext';
+import { AuthContext } from '../features/auth/context/AuthContext';
 import { CampaignContext } from '../context/CampaignContext';
 
 // Mock the modules

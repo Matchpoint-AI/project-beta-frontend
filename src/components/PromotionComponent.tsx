@@ -6,7 +6,7 @@ import { CampaignContext } from '../context/CampaignContext';
 import CardStats from './dashboard/CardStats';
 import CampaignReviewButton from './dashboard/CampaignReviewButton';
 import handleNavigate from '../helpers/handleNavigate';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../features/auth/context/AuthContext';
 import { GiElectric } from 'react-icons/gi';
 import CampaignThreadWin from './campaign/CampaignThreadWin';
 import useFetchThreadMessages from '../hooks/useFetchThreadMessages';
