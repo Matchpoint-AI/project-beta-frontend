@@ -5,7 +5,7 @@ import Signup from './features/auth/pages/Signup';
 // import Home from "./pages/Home";
 import Onboard from './pages/Onboard';
 import Campaign from './pages/Campaign';
-import Dashboard from './pages/Dashboard';
+import Dashboard from './features/dashboard/pages/Dashboard';
 import CampaignContent from './pages/CampaignContent';
 import NewCampaigns from './pages/NewCampaigns';
 import DisplayContent from './pages/DisplayContent';
