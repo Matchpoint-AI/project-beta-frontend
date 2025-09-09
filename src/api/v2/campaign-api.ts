@@ -4,7 +4,7 @@
  * Implements campaign-related operations using protobuf messages.
  * All payloads are constructed using protobuf.js as per requirements.
  */
-import { ProtoService, RequestOptions } from './proto-service';
+import { ProtoService } from './proto-service';
 
 /**
  * Campaign status enum matching proto definition

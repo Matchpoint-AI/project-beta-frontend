@@ -24,7 +24,7 @@ export interface BrandKnowledgeData {
   }>;
   approved_scenes: string[];
   avoid_list: string[];
-  guardrails: Record<string, any>;
+  guardrails: Record<string, string | boolean | number>;
 }
 
 const CONTENT_GEN_URL = getServiceURL('content-gen');

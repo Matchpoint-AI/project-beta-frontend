@@ -2,7 +2,13 @@
 import React from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
 
-const ApproveButton = ({ double, handleApproveAll, loading }) => (
+interface ApproveButtonProps {
+  double: boolean;
+  handleApproveAll: () => void;
+  loading: boolean;
+}
+
+const ApproveButton: React.FC<ApproveButtonProps> = ({ double, handleApproveAll, loading }) => (
   <button
     disabled={double || loading}
     onClick={handleApproveAll}
