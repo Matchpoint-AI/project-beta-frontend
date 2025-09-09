@@ -50,7 +50,7 @@ export default function BrandDetailsReview({ stepHandler, edit = true }: BrandDe
           onClick={() => clickHandler('mission')}
         >
           <div className="flex flex-wrap gap-3">
-            {(businessInfo?.mission as Selectable[] ?? [])
+            {((businessInfo?.mission as Selectable[]) ?? [])
               .filter((c: Selectable) => c.selected)
               .map((c: Selectable) => (
                 <div

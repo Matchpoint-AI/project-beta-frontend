@@ -318,7 +318,11 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
     }));
   };
 
-  const updateProduct = (index: number, field: keyof ProductDetails, value: string | string[] | Array<{ name: string; purpose: string }>) => {
+  const updateProduct = (
+    index: number,
+    field: keyof ProductDetails,
+    value: string | string[] | Array<{ name: string; purpose: string }>
+  ) => {
     setFormData((prev) => ({
       ...prev,
       products: prev.products.map((product, i) =>
@@ -446,8 +450,8 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
         Brand Knowledge Base
       </Typography>
       <Typography variant="body2" color="textSecondary" paragraph>
-        Define your brand&apos;s personality, visual style, and product details to enhance AI-generated
-        content.
+        Define your brand&apos;s personality, visual style, and product details to enhance
+        AI-generated content.
       </Typography>
 
       {error && (
@@ -1038,4 +1042,3 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
 };
 
 export default BrandKnowledgeForm;
-

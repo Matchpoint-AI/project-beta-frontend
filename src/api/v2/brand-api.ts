@@ -454,4 +454,3 @@ export class BrandApiV2 extends ProtoService {
 
 // Export singleton instance
 export const brandApiV2 = new BrandApiV2();
-

@@ -327,4 +327,3 @@ class PerformanceApiClient {
 }
 
 export const performanceApi = new PerformanceApiClient();
-

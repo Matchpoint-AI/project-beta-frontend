@@ -352,17 +352,45 @@ function transformDashboardData(data: unknown): CostDashboardData {
   const safeData = dashboardData as Record<string, unknown>;
 
   return {
-    period_start: typeof safeData?.period_start === 'string' ? safeData.period_start : new Date().toISOString(),
-    period_end: typeof safeData?.period_end === 'string' ? safeData.period_end : new Date().toISOString(),
-    total_baseline_cost: typeof safeData?.total_baseline_cost === 'number' ? safeData.total_baseline_cost : 0,
-    total_optimized_cost: typeof safeData?.total_optimized_cost === 'number' ? safeData.total_optimized_cost : 0,
-    total_absolute_savings: typeof safeData?.total_absolute_savings === 'number' ? safeData.total_absolute_savings : 0,
-    total_percentage_savings: typeof safeData?.total_percentage_savings === 'number' ? safeData.total_percentage_savings : 0,
-    projected_annual_savings: typeof safeData?.projected_annual_savings === 'number' ? safeData.projected_annual_savings : 0,
-    optimization_metrics: Array.isArray(safeData?.optimization_metrics) ? safeData.optimization_metrics as CostOptimizationMetrics[] : [],
-    current_model_distribution: typeof safeData?.current_model_distribution === 'object' ? safeData.current_model_distribution as Record<string, { requests: number; cost: number; percentage: number }> : {},
-    daily_savings: Array.isArray(safeData?.daily_savings) ? safeData.daily_savings as Array<{ date: string; daily_savings: number }> : [],
-    optimization_recommendations: Array.isArray(safeData?.optimization_recommendations) ? safeData.optimization_recommendations as Array<{ type: string; description: string; potential_savings: number; implementation_effort: string }> : [],
+    period_start:
+      typeof safeData?.period_start === 'string' ? safeData.period_start : new Date().toISOString(),
+    period_end:
+      typeof safeData?.period_end === 'string' ? safeData.period_end : new Date().toISOString(),
+    total_baseline_cost:
+      typeof safeData?.total_baseline_cost === 'number' ? safeData.total_baseline_cost : 0,
+    total_optimized_cost:
+      typeof safeData?.total_optimized_cost === 'number' ? safeData.total_optimized_cost : 0,
+    total_absolute_savings:
+      typeof safeData?.total_absolute_savings === 'number' ? safeData.total_absolute_savings : 0,
+    total_percentage_savings:
+      typeof safeData?.total_percentage_savings === 'number'
+        ? safeData.total_percentage_savings
+        : 0,
+    projected_annual_savings:
+      typeof safeData?.projected_annual_savings === 'number'
+        ? safeData.projected_annual_savings
+        : 0,
+    optimization_metrics: Array.isArray(safeData?.optimization_metrics)
+      ? (safeData.optimization_metrics as CostOptimizationMetrics[])
+      : [],
+    current_model_distribution:
+      typeof safeData?.current_model_distribution === 'object'
+        ? (safeData.current_model_distribution as Record<
+            string,
+            { requests: number; cost: number; percentage: number }
+          >)
+        : {},
+    daily_savings: Array.isArray(safeData?.daily_savings)
+      ? (safeData.daily_savings as Array<{ date: string; daily_savings: number }>)
+      : [],
+    optimization_recommendations: Array.isArray(safeData?.optimization_recommendations)
+      ? (safeData.optimization_recommendations as Array<{
+          type: string;
+          description: string;
+          potential_savings: number;
+          implementation_effort: string;
+        }>)
+      : [],
   };
 }
 

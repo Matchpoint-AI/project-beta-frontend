@@ -328,7 +328,7 @@ function DetailsCard({
   );
 }
 interface VariablesBadgeProps {
-  values: Array<{ selected: boolean; label: string; }>;
+  values: Array<{ selected: boolean; label: string }>;
 }
 
 function VariablesBadge({ values }: VariablesBadgeProps) {
@@ -349,8 +349,8 @@ function VariablesBadge({ values }: VariablesBadgeProps) {
 }
 
 interface EditableValuesCardProps {
-  values: Array<{ selected: boolean; label: string; }>;
-  onChange: (values: Array<{ selected: boolean; label: string; }>) => void;
+  values: Array<{ selected: boolean; label: string }>;
+  onChange: (values: Array<{ selected: boolean; label: string }>) => void;
   onSave: () => void;
   isSaving: boolean;
 }
