@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import DetailsBlock from './shared/DetailsBlock';
-import { BrandContext } from '../context/BrandContext';
+import { BrandContext, type Selectable } from '../context/BrandContext';
 import { useNavigate } from 'react-router-dom';
 
 interface BrandDetailsReviewProps {
@@ -50,14 +50,14 @@ export default function BrandDetailsReview({ stepHandler, edit = true }: BrandDe
           onClick={() => clickHandler('mission')}
         >
           <div className="flex flex-wrap gap-3">
-            {(businessInfo?.mission ?? [])
-              .filter((c) => c.selected)
-              .map((c) => (
+            {(businessInfo?.mission as Selectable[] ?? [])
+              .filter((c: Selectable) => c.selected)
+              .map((c: Selectable) => (
                 <div
-                  key={c.id}
+                  key={String(c.id)}
                   className="py-1 px-[10px] bg-[#D1D5DB] text-xs font-medium leading-[18px] capitalize text-[#111928] rounded-md"
                 >
-                  {c.label}
+                  {String(c.label)}
                 </div>
               ))}
           </div>
@@ -74,10 +74,10 @@ export default function BrandDetailsReview({ stepHandler, edit = true }: BrandDe
             .filter((c) => c.selected)
             .map((c) => (
               <div
-                key={c.id}
+                key={String(c.id)}
                 className="py-1 px-[10px] bg-[#D1D5DB] text-xs font-medium leading-[18px] capitalize text-[#111928] rounded-md"
               >
-                {c.label}
+                {String(c.label)}
               </div>
             ))}
         </div>
@@ -93,10 +93,10 @@ export default function BrandDetailsReview({ stepHandler, edit = true }: BrandDe
             .filter((c) => c.selected)
             .map((c) => (
               <div
-                key={c.id}
+                key={String(c.id)}
                 className="py-1 px-[10px] bg-[#D1D5DB] text-xs font-medium leading-[18px] capitalize text-[#111928] rounded-md"
               >
-                {c.label}
+                {String(c.label)}
               </div>
             ))}
         </div>

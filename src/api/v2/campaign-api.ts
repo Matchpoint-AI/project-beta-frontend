@@ -374,3 +374,4 @@ export class CampaignApiV2 extends ProtoService {
 
 // Export singleton instance
 export const campaignApiV2 = new CampaignApiV2();
+
