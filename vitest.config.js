@@ -52,9 +52,18 @@ export default defineConfig({
     deps: {
       inline: ['@testing-library/jest-dom']
     },
-    // Disable coverage for now to avoid additional issues
     coverage: {
-      enabled: false
+      enabled: false, // Set to true when running with --coverage flag
+      provider: 'v8',
+      reporter: ['text', 'json', 'html', 'text-summary', 'json-summary'],
+      exclude: [
+        'node_modules/',
+        'src/setupTests.ts',
+        '**/*.d.ts',
+        '**/*.config.*',
+        '**/mockData',
+        '**/__mocks__',
+      ],
     },
     // Use threads pool which is more stable than forks
     pool: 'threads',
