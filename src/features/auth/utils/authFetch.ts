@@ -35,7 +35,7 @@ export const getAuthToken = (): string | null => {
         console.error('Failed to parse profile from localStorage:', e);
       }
     }
-    
+
     // Fallback to sessionStorage if needed
     if (window.sessionStorage) {
       const sessionProfileStr = sessionStorage.getItem('profile');
@@ -54,7 +54,7 @@ export const getAuthToken = (): string | null => {
     // Handle cases where localStorage/sessionStorage access is blocked
     console.error('Failed to access storage:', error);
   }
-  
+
   return null;
 };
 
@@ -62,23 +62,20 @@ export const getAuthToken = (): string | null => {
  * Enhanced fetch that automatically adds authentication headers
  * Use this instead of regular fetch for all API calls
  */
-export const authFetch = async (
-  url: string,
-  options: AuthFetchOptions = {}
-): Promise<Response> => {
+export const authFetch = async (url: string, options: AuthFetchOptions = {}): Promise<Response> => {
   const { skipAuth = false, ...fetchOptions } = options;
-  
+
   // Get the auth token
   const token = getAuthToken();
-  
+
   // Initialize headers
   const headers = new Headers(fetchOptions.headers || {});
-  
+
   // Add auth header if we have a token and skipAuth is false
   if (token && !skipAuth) {
     headers.set('Authorization', `Bearer ${token}`);
   }
-  
+
   // Add Content-Type if not present and body exists
   if (fetchOptions.body && !headers.has('Content-Type')) {
     // Check if body is FormData (for file uploads)
@@ -86,7 +83,7 @@ export const authFetch = async (
       headers.set('Content-Type', 'application/json');
     }
   }
-  
+
   // Log the request for debugging (only in development)
   if (process.env.NODE_ENV === 'development') {
     console.log(`[AuthFetch] ${fetchOptions.method || 'GET'} ${url}`, {
@@ -94,13 +91,13 @@ export const authFetch = async (
       headers: Object.fromEntries(headers.entries()),
     });
   }
-  
+
   // Make the fetch request with auth headers
   const response = await fetch(url, {
     ...fetchOptions,
     headers,
   });
-  
+
   // Log response status for debugging
   if (process.env.NODE_ENV === 'development') {
     console.log(`[AuthFetch] Response: ${response.status} ${response.statusText}`);
@@ -108,7 +105,7 @@ export const authFetch = async (
       console.error('[AuthFetch] 401 Unauthorized - Token may be invalid or missing');
     }
   }
-  
+
   return response;
 };
 
@@ -122,7 +119,7 @@ export const serviceAuthFetch = async (
 ): Promise<Response> => {
   const baseUrl = getServiceURL(service);
   const url = `${baseUrl}${path}`;
-  
+
   return authFetch(url, { ...options, service });
 };
 
@@ -130,27 +127,26 @@ export const serviceAuthFetch = async (
  * Convenience methods for common HTTP methods
  */
 export const authApi = {
-  get: (url: string, options?: AuthFetchOptions) => 
-    authFetch(url, { ...options, method: 'GET' }),
-  
-  post: (url: string, body?: any, options?: AuthFetchOptions) => 
+  get: (url: string, options?: AuthFetchOptions) => authFetch(url, { ...options, method: 'GET' }),
+
+  post: (url: string, body?: any, options?: AuthFetchOptions) =>
     authFetch(url, {
       ...options,
       method: 'POST',
       body: typeof body === 'string' ? body : JSON.stringify(body),
     }),
-  
-  put: (url: string, body?: any, options?: AuthFetchOptions) => 
+
+  put: (url: string, body?: any, options?: AuthFetchOptions) =>
     authFetch(url, {
       ...options,
       method: 'PUT',
       body: typeof body === 'string' ? body : JSON.stringify(body),
     }),
-  
-  delete: (url: string, options?: AuthFetchOptions) => 
+
+  delete: (url: string, options?: AuthFetchOptions) =>
     authFetch(url, { ...options, method: 'DELETE' }),
-  
-  patch: (url: string, body?: any, options?: AuthFetchOptions) => 
+
+  patch: (url: string, body?: any, options?: AuthFetchOptions) =>
     authFetch(url, {
       ...options,
       method: 'PATCH',

@@ -5,14 +5,15 @@ import { MdClose } from 'react-icons/md';
 interface ErrorToastProps {
   open: boolean;
   onClose: () => void;
-  message: string|React.JSX.Element;
+  message: string | React.JSX.Element;
   success?: boolean;
   title?: string;
   buttonText?: string | null;
   onButtonClick?: () => void;
 }
 
-export default function ErrorToast({ open,
+export default function ErrorToast({
+  open,
   onClose,
   message,
   success = false,
@@ -52,7 +53,7 @@ export default function ErrorToast({ open,
           )}
         </div>
         <div className="px-6 pb-6">
-         <p className="text-center text-gray-700">{message}</p>       
+          <p className="text-center text-gray-700">{message}</p>
         </div>
         {buttonText ? (
           <div className="px-6 pb-6">

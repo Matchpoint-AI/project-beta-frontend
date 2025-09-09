@@ -46,9 +46,21 @@ const parseDate = (dateStr: string): Date => {
 };
 
 const formatDate = (date: Date, format: string): string => {
-  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
-                  'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  
+  const months = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+  ];
+
   switch (format) {
     case 'YYYY-MM-DD':
       return date.toISOString().split('T')[0];
@@ -147,7 +159,7 @@ const SmartSchedulingTimeline: React.FC<TimelineProps> = ({
     const schedule: ScheduleEvent[] = [];
     const start = parseDate(startDate);
     const postingTimes = getPostingScheduleArray(postsPerWeek);
-    
+
     // AI-optimized time slots based on engagement data
     const aiOptimizedTimes = [
       { time: '9:00 AM', engagement: 0.85, day: 'Monday' },
@@ -159,12 +171,12 @@ const SmartSchedulingTimeline: React.FC<TimelineProps> = ({
 
     for (let week = 0; week < duration; week++) {
       const weekStart = addTime(start, week, 'week');
-      
+
       for (let post = 0; post < postsPerWeek; post++) {
         const dayOffset = Math.floor(post * (7 / postsPerWeek));
         const postDate = addTime(weekStart, dayOffset, 'day');
         const aiTime = aiOptimizedTimes[post % aiOptimizedTimes.length];
-        
+
         // Post event
         schedule.push({
           id: `post-w${week}-p${post}`,
@@ -222,17 +234,18 @@ const SmartSchedulingTimeline: React.FC<TimelineProps> = ({
   // Generate AI insights
   const generateAiInsights = useCallback(() => {
     const bestTimes = ['9:00 AM Mon', '12:00 PM Wed', '5:00 PM Fri', '8:00 PM Sun'];
-    const avgEngagement = events.reduce((acc, event) => 
-      acc + (event.estimatedEngagement || 75), 0) / events.length;
-    
+    const avgEngagement =
+      events.reduce((acc, event) => acc + (event.estimatedEngagement || 75), 0) / events.length;
+
     setAiInsights({
       bestTimes,
       engagementPrediction: Math.round(avgEngagement),
-      optimization: avgEngagement > 85 
-        ? 'Excellent timing optimization' 
-        : avgEngagement > 70 
-        ? 'Good timing, consider shifting some posts to peak hours'
-        : 'Timeline needs optimization for better engagement',
+      optimization:
+        avgEngagement > 85
+          ? 'Excellent timing optimization'
+          : avgEngagement > 70
+            ? 'Good timing, consider shifting some posts to peak hours'
+            : 'Timeline needs optimization for better engagement',
     });
   }, [events]);
 
@@ -260,7 +273,7 @@ const SmartSchedulingTimeline: React.FC<TimelineProps> = ({
   };
 
   const handleEventUpdate = (updatedEvent: ScheduleEvent) => {
-    const updatedEvents = events.map(event => 
+    const updatedEvents = events.map((event) =>
       event.id === updatedEvent.id ? updatedEvent : event
     );
     setEvents(updatedEvents);
@@ -271,22 +284,27 @@ const SmartSchedulingTimeline: React.FC<TimelineProps> = ({
 
   const getEventIcon = (type: ScheduleEvent['type']) => {
     switch (type) {
-      case 'post': return <Schedule />;
-      case 'review': return <Edit />;
-      case 'approval': return <TrendingUp />;
-      case 'delivery': return <CalendarToday />;
-      default: return <Schedule />;
+      case 'post':
+        return <Schedule />;
+      case 'review':
+        return <Edit />;
+      case 'approval':
+        return <TrendingUp />;
+      case 'delivery':
+        return <CalendarToday />;
+      default:
+        return <Schedule />;
     }
   };
 
   const weeklyGroups = useMemo(() => {
     const groups: { [week: string]: ScheduleEvent[] } = {};
-    events.forEach(event => {
+    events.forEach((event) => {
       const eventDate = new Date(event.date);
       const weekStart = parseDate(startDate);
       const weekNumber = Math.floor(diffInDays(eventDate, weekStart) / 7) + 1;
       const weekKey = `Week ${weekNumber}`;
-      
+
       if (!groups[weekKey]) {
         groups[weekKey] = [];
       }
@@ -296,7 +314,7 @@ const SmartSchedulingTimeline: React.FC<TimelineProps> = ({
   }, [events, startDate]);
 
   const completionRate = useMemo(() => {
-    const completedEvents = events.filter(e => e.status === 'completed').length;
+    const completedEvents = events.filter((e) => e.status === 'completed').length;
     return events.length > 0 ? (completedEvents / events.length) * 100 : 0;
   }, [events]);
 
@@ -331,44 +349,42 @@ const SmartSchedulingTimeline: React.FC<TimelineProps> = ({
               </Tooltip>
               {!readonly && (
                 <Tooltip title="Add custom event">
-                  <IconButton onClick={() => {/* Add event logic */}}>
+                  <IconButton
+                    onClick={() => {
+                      /* Add event logic */
+                    }}
+                  >
                     <Add />
                   </IconButton>
                 </Tooltip>
               )}
             </Box>
           </Box>
-          
+
           <Box display="flex" gap={3} mb={2}>
             <Box>
               <Typography variant="body2" color="textSecondary">
                 Campaign Progress
               </Typography>
-              <Typography variant="h6">
-                {Math.round(completionRate)}%
-              </Typography>
+              <Typography variant="h6">{Math.round(completionRate)}%</Typography>
             </Box>
             <Box>
               <Typography variant="body2" color="textSecondary">
                 Total Events
               </Typography>
-              <Typography variant="h6">
-                {events.length}
-              </Typography>
+              <Typography variant="h6">{events.length}</Typography>
             </Box>
             <Box>
               <Typography variant="body2" color="textSecondary">
                 Avg. Predicted Engagement
               </Typography>
-              <Typography variant="h6">
-                {aiInsights?.engagementPrediction || '--'}%
-              </Typography>
+              <Typography variant="h6">{aiInsights?.engagementPrediction || '--'}%</Typography>
             </Box>
           </Box>
-          
-          <LinearProgress 
-            variant="determinate" 
-            value={completionRate} 
+
+          <LinearProgress
+            variant="determinate"
+            value={completionRate}
             sx={{ height: 8, borderRadius: 4 }}
           />
         </CardContent>
@@ -385,20 +401,27 @@ const SmartSchedulingTimeline: React.FC<TimelineProps> = ({
               <Grid container spacing={1}>
                 {weekEvents.map((event) => (
                   <Grid item xs={12} sm={6} md={4} key={event.id}>
-                    <Card 
-                      sx={{ 
+                    <Card
+                      sx={{
                         cursor: readonly ? 'default' : 'pointer',
                         borderLeft: `4px solid ${STATUS_COLORS[event.status]}`,
-                        '&:hover': readonly ? {} : { 
-                          boxShadow: 2, 
-                          transform: 'translateY(-1px)' 
-                        },
+                        '&:hover': readonly
+                          ? {}
+                          : {
+                              boxShadow: 2,
+                              transform: 'translateY(-1px)',
+                            },
                         transition: 'all 0.2s ease-in-out',
                       }}
                       onClick={() => handleEventClick(event)}
                     >
                       <CardContent sx={{ p: 2 }}>
-                        <Box display="flex" justifyContent="space-between" alignItems="flex-start" mb={1}>
+                        <Box
+                          display="flex"
+                          justifyContent="space-between"
+                          alignItems="flex-start"
+                          mb={1}
+                        >
                           <Box display="flex" alignItems="center" gap={1}>
                             {getEventIcon(event.type)}
                             <Typography variant="subtitle2" noWrap>
@@ -411,30 +434,32 @@ const SmartSchedulingTimeline: React.FC<TimelineProps> = ({
                             </Tooltip>
                           )}
                         </Box>
-                        
+
                         <Typography variant="body2" color="textSecondary" gutterBottom>
                           {formatDate(new Date(event.date), 'MMM D')} at {event.time}
                         </Typography>
-                        
+
                         <Box display="flex" gap={1} mb={1} flexWrap="wrap">
-                          <Chip 
-                            size="small" 
+                          <Chip
+                            size="small"
                             label={event.status}
                             sx={{ backgroundColor: STATUS_COLORS[event.status], color: 'white' }}
                           />
                           <Chip size="small" label={event.priority} variant="outlined" />
                           {event.platform && (
-                            <Chip 
-                              size="small" 
+                            <Chip
+                              size="small"
                               label={event.platform}
-                              sx={{ 
-                                backgroundColor: PLATFORM_COLORS[event.platform as keyof typeof PLATFORM_COLORS] || PLATFORM_COLORS.default,
-                                color: 'white' 
+                              sx={{
+                                backgroundColor:
+                                  PLATFORM_COLORS[event.platform as keyof typeof PLATFORM_COLORS] ||
+                                  PLATFORM_COLORS.default,
+                                color: 'white',
                               }}
                             />
                           )}
                         </Box>
-                        
+
                         {event.estimatedEngagement && (
                           <Box display="flex" alignItems="center" gap={1}>
                             <TrendingUp fontSize="small" />
@@ -443,9 +468,14 @@ const SmartSchedulingTimeline: React.FC<TimelineProps> = ({
                             </Typography>
                           </Box>
                         )}
-                        
+
                         {event.description && (
-                          <Typography variant="caption" color="textSecondary" display="block" mt={1}>
+                          <Typography
+                            variant="caption"
+                            color="textSecondary"
+                            display="block"
+                            mt={1}
+                          >
                             {event.description}
                           </Typography>
                         )}
@@ -493,7 +523,12 @@ const SmartSchedulingTimeline: React.FC<TimelineProps> = ({
                   Average Engagement: {aiInsights.engagementPrediction}%
                 </Typography>
                 <Typography variant="body2">
-                  Timeline Optimization Score: {aiInsights.engagementPrediction > 85 ? 'Excellent' : aiInsights.engagementPrediction > 70 ? 'Good' : 'Needs Improvement'}
+                  Timeline Optimization Score:{' '}
+                  {aiInsights.engagementPrediction > 85
+                    ? 'Excellent'
+                    : aiInsights.engagementPrediction > 70
+                      ? 'Good'
+                      : 'Needs Improvement'}
                 </Typography>
               </Grid>
             </Grid>
@@ -505,7 +540,12 @@ const SmartSchedulingTimeline: React.FC<TimelineProps> = ({
       </Dialog>
 
       {/* Edit Event Dialog */}
-      <Dialog open={editDialogOpen} onClose={() => setEditDialogOpen(false)} maxWidth="sm" fullWidth>
+      <Dialog
+        open={editDialogOpen}
+        onClose={() => setEditDialogOpen(false)}
+        maxWidth="sm"
+        fullWidth
+      >
         <DialogTitle>Edit Event</DialogTitle>
         <DialogContent>
           {selectedEvent && (
@@ -515,7 +555,7 @@ const SmartSchedulingTimeline: React.FC<TimelineProps> = ({
                   fullWidth
                   label="Title"
                   value={selectedEvent.title}
-                  onChange={(e) => setSelectedEvent({...selectedEvent, title: e.target.value})}
+                  onChange={(e) => setSelectedEvent({ ...selectedEvent, title: e.target.value })}
                 />
               </Grid>
               <Grid item xs={6}>
@@ -524,7 +564,7 @@ const SmartSchedulingTimeline: React.FC<TimelineProps> = ({
                   type="date"
                   label="Date"
                   value={selectedEvent.date}
-                  onChange={(e) => setSelectedEvent({...selectedEvent, date: e.target.value})}
+                  onChange={(e) => setSelectedEvent({ ...selectedEvent, date: e.target.value })}
                   InputLabelProps={{ shrink: true }}
                 />
               </Grid>
@@ -534,7 +574,7 @@ const SmartSchedulingTimeline: React.FC<TimelineProps> = ({
                   type="time"
                   label="Time"
                   value={selectedEvent.time}
-                  onChange={(e) => setSelectedEvent({...selectedEvent, time: e.target.value})}
+                  onChange={(e) => setSelectedEvent({ ...selectedEvent, time: e.target.value })}
                   InputLabelProps={{ shrink: true }}
                 />
               </Grid>
@@ -543,7 +583,12 @@ const SmartSchedulingTimeline: React.FC<TimelineProps> = ({
                   <InputLabel>Status</InputLabel>
                   <Select
                     value={selectedEvent.status}
-                    onChange={(e) => setSelectedEvent({...selectedEvent, status: e.target.value as ScheduleEvent['status']})}
+                    onChange={(e) =>
+                      setSelectedEvent({
+                        ...selectedEvent,
+                        status: e.target.value as ScheduleEvent['status'],
+                      })
+                    }
                   >
                     <MenuItem value="scheduled">Scheduled</MenuItem>
                     <MenuItem value="in_progress">In Progress</MenuItem>
@@ -557,7 +602,12 @@ const SmartSchedulingTimeline: React.FC<TimelineProps> = ({
                   <InputLabel>Priority</InputLabel>
                   <Select
                     value={selectedEvent.priority}
-                    onChange={(e) => setSelectedEvent({...selectedEvent, priority: e.target.value as ScheduleEvent['priority']})}
+                    onChange={(e) =>
+                      setSelectedEvent({
+                        ...selectedEvent,
+                        priority: e.target.value as ScheduleEvent['priority'],
+                      })
+                    }
                   >
                     <MenuItem value="high">High</MenuItem>
                     <MenuItem value="medium">Medium</MenuItem>
@@ -572,7 +622,9 @@ const SmartSchedulingTimeline: React.FC<TimelineProps> = ({
                   rows={3}
                   label="Description"
                   value={selectedEvent.description || ''}
-                  onChange={(e) => setSelectedEvent({...selectedEvent, description: e.target.value})}
+                  onChange={(e) =>
+                    setSelectedEvent({ ...selectedEvent, description: e.target.value })
+                  }
                 />
               </Grid>
             </Grid>
@@ -580,7 +632,7 @@ const SmartSchedulingTimeline: React.FC<TimelineProps> = ({
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setEditDialogOpen(false)}>Cancel</Button>
-          <Button 
+          <Button
             onClick={() => selectedEvent && handleEventUpdate(selectedEvent)}
             variant="contained"
           >

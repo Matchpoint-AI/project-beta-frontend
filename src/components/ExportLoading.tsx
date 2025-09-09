@@ -1,5 +1,5 @@
-import React from "react";
-import { CircularProgress } from "@mui/material";
+import React from 'react';
+import { CircularProgress } from '@mui/material';
 
 interface LoadingStep {
   label: string;

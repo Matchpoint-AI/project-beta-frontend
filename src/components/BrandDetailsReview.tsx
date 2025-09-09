@@ -27,7 +27,7 @@ export default function BrandDetailsReview({ stepHandler, edit = true }: BrandDe
         search: '?edit=true',
         hash: `#${value}`,
       },
-      { replace: true },
+      { replace: true }
     );
   };
   return (

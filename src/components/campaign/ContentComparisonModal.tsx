@@ -1,11 +1,11 @@
 import React, { useState, useCallback, useMemo } from 'react';
-import { 
-  Dialog, 
-  DialogTitle, 
-  DialogContent, 
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
   DialogActions,
-  Button, 
-  Box, 
+  Button,
+  Box,
   Typography,
   Tabs,
   Tab,
@@ -16,7 +16,7 @@ import {
   IconButton,
   Tooltip,
   Switch,
-  FormControlLabel
+  FormControlLabel,
 } from '@mui/material';
 import { FaSave, FaTimes, FaUndo, FaRedo, FaCopy } from 'react-icons/fa';
 import { MdFullscreen, MdFullscreenExit } from 'react-icons/md';
@@ -60,11 +60,7 @@ const TabPanel: React.FC<TabPanelProps> = ({ children, value, index }) => {
       id={`content-tabpanel-${index}`}
       aria-labelledby={`content-tab-${index}`}
     >
-      {value === index && (
-        <Box sx={{ p: 0 }}>
-          {children}
-        </Box>
-      )}
+      {value === index && <Box sx={{ p: 0 }}>{children}</Box>}
     </div>
   );
 };
@@ -77,7 +73,7 @@ const ContentComparisonModal: React.FC<ContentComparisonModalProps> = ({
   versions,
   onSave,
   onRevert,
-  title = 'Content Comparison & Edit'
+  title = 'Content Comparison & Edit',
 }) => {
   const [activeTab, setActiveTab] = useState(0);
   const [editedContent, setEditedContent] = useState('');
@@ -110,16 +106,19 @@ const ContentComparisonModal: React.FC<ContentComparisonModalProps> = ({
     // Simple word-level diff (in production, use a proper diff library like react-diff-view)
     const words1 = version1.split(/(\s+)/);
     const words2 = version2.split(/(\s+)/);
-    
+
     return { version1, version2, words1, words2 };
   }, [showDiffMode, selectedVersions, versions]);
 
-  const handleTabChange = useCallback((event: React.SyntheticEvent, newValue: number) => {
-    setActiveTab(newValue);
-    if (newValue < versions.length && !isEditing) {
-      setEditedContent(versions[newValue].content);
-    }
-  }, [versions, isEditing]);
+  const handleTabChange = useCallback(
+    (event: React.SyntheticEvent, newValue: number) => {
+      setActiveTab(newValue);
+      if (newValue < versions.length && !isEditing) {
+        setEditedContent(versions[newValue].content);
+      }
+    },
+    [versions, isEditing]
+  );
 
   const handleStartEdit = useCallback(() => {
     setIsEditing(true);
@@ -147,16 +146,19 @@ const ContentComparisonModal: React.FC<ContentComparisonModalProps> = ({
     }
   }, [itemId, editedContent, editNotes, onSave]);
 
-  const handleRevert = useCallback(async (versionId: string) => {
-    try {
-      setLoading(true);
-      await onRevert(itemId, versionId);
-    } catch (error) {
-      console.error('Failed to revert content:', error);
-    } finally {
-      setLoading(false);
-    }
-  }, [itemId, onRevert]);
+  const handleRevert = useCallback(
+    async (versionId: string) => {
+      try {
+        setLoading(true);
+        await onRevert(itemId, versionId);
+      } catch (error) {
+        console.error('Failed to revert content:', error);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [itemId, onRevert]
+  );
 
   const copyToClipboard = useCallback((content: string) => {
     navigator.clipboard.writeText(content);
@@ -164,21 +166,31 @@ const ContentComparisonModal: React.FC<ContentComparisonModalProps> = ({
 
   const getVersionTypeColor = (type: ContentVersion['type']) => {
     switch (type) {
-      case 'original': return 'default';
-      case 'ai_generated': return 'primary';
-      case 'human_edited': return 'secondary';
-      case 'ai_revised': return 'warning';
-      default: return 'default';
+      case 'original':
+        return 'default';
+      case 'ai_generated':
+        return 'primary';
+      case 'human_edited':
+        return 'secondary';
+      case 'ai_revised':
+        return 'warning';
+      default:
+        return 'default';
     }
   };
 
   const getVersionTypeLabel = (type: ContentVersion['type']) => {
     switch (type) {
-      case 'original': return 'Original';
-      case 'ai_generated': return 'AI Generated';
-      case 'human_edited': return 'Human Edited';
-      case 'ai_revised': return 'AI Revised';
-      default: return 'Unknown';
+      case 'original':
+        return 'Original';
+      case 'ai_generated':
+        return 'AI Generated';
+      case 'human_edited':
+        return 'Human Edited';
+      case 'ai_revised':
+        return 'AI Revised';
+      default:
+        return 'Unknown';
     }
   };
 
@@ -194,32 +206,36 @@ const ContentComparisonModal: React.FC<ContentComparisonModalProps> = ({
             <Typography variant="subtitle2" sx={{ mb: 1, color: 'error.main' }}>
               Version {selectedVersions[0] + 1} (Before)
             </Typography>
-            <Box sx={{ 
-              backgroundColor: '#ffebee', 
-              p: 2, 
-              borderRadius: 1, 
-              height: '300px', 
-              overflow: 'auto',
-              whiteSpace: 'pre-wrap'
-            }}>
+            <Box
+              sx={{
+                backgroundColor: '#ffebee',
+                p: 2,
+                borderRadius: 1,
+                height: '300px',
+                overflow: 'auto',
+                whiteSpace: 'pre-wrap',
+              }}
+            >
               {version1}
             </Box>
           </CardContent>
         </Card>
-        
+
         <Card sx={{ flex: 1 }}>
           <CardContent>
             <Typography variant="subtitle2" sx={{ mb: 1, color: 'success.main' }}>
               Version {selectedVersions[1] + 1} (After)
             </Typography>
-            <Box sx={{ 
-              backgroundColor: '#e8f5e8', 
-              p: 2, 
-              borderRadius: 1, 
-              height: '300px', 
-              overflow: 'auto',
-              whiteSpace: 'pre-wrap'
-            }}>
+            <Box
+              sx={{
+                backgroundColor: '#e8f5e8',
+                p: 2,
+                borderRadius: 1,
+                height: '300px',
+                overflow: 'auto',
+                whiteSpace: 'pre-wrap',
+              }}
+            >
               {version2}
             </Box>
           </CardContent>
@@ -230,14 +246,14 @@ const ContentComparisonModal: React.FC<ContentComparisonModalProps> = ({
 
   const renderVersionView = (version: ContentVersion, index: number) => {
     const isCurrentlyShown = index === activeTab;
-    
+
     return (
       <Card key={version.id} sx={{ mb: 2 }}>
         <CardContent>
           {/* Version Header */}
           <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'between', mb: 2 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', flex: 1 }}>
-              <Chip 
+              <Chip
                 label={getVersionTypeLabel(version.type)}
                 color={getVersionTypeColor(version.type)}
                 size="small"
@@ -247,7 +263,7 @@ const ContentComparisonModal: React.FC<ContentComparisonModalProps> = ({
                 {new Date(version.timestamp).toLocaleString()} by {version.author}
               </Typography>
               {version.metadata?.qualityScore && (
-                <Chip 
+                <Chip
                   label={`${Math.round(version.metadata.qualityScore * 100)}%`}
                   size="small"
                   color={version.metadata.qualityScore > 0.8 ? 'success' : 'warning'}
@@ -255,7 +271,7 @@ const ContentComparisonModal: React.FC<ContentComparisonModalProps> = ({
                 />
               )}
             </Box>
-            
+
             <Box sx={{ display: 'flex', gap: 1 }}>
               <Tooltip title="Copy to clipboard">
                 <IconButton size="small" onClick={() => copyToClipboard(version.content)}>
@@ -264,8 +280,8 @@ const ContentComparisonModal: React.FC<ContentComparisonModalProps> = ({
               </Tooltip>
               {index > 0 && (
                 <Tooltip title="Revert to this version">
-                  <IconButton 
-                    size="small" 
+                  <IconButton
+                    size="small"
                     onClick={() => handleRevert(version.id)}
                     disabled={loading}
                   >
@@ -298,12 +314,14 @@ const ContentComparisonModal: React.FC<ContentComparisonModalProps> = ({
           )}
 
           {/* Content */}
-          <Box sx={{ 
-            backgroundColor: isCurrentlyShown && isEditing ? 'transparent' : '#f5f5f5',
-            p: 2,
-            borderRadius: 1,
-            minHeight: '100px'
-          }}>
+          <Box
+            sx={{
+              backgroundColor: isCurrentlyShown && isEditing ? 'transparent' : '#f5f5f5',
+              p: 2,
+              borderRadius: 1,
+              minHeight: '100px',
+            }}
+          >
             {isCurrentlyShown && isEditing ? (
               <TextField
                 multiline
@@ -334,8 +352,8 @@ const ContentComparisonModal: React.FC<ContentComparisonModalProps> = ({
       fullScreen={isFullscreen}
       sx={{
         '& .MuiDialog-paper': {
-          height: isFullscreen ? '100vh' : '80vh'
-        }
+          height: isFullscreen ? '100vh' : '80vh',
+        },
       }}
     >
       <DialogTitle>
@@ -399,20 +417,20 @@ const ContentComparisonModal: React.FC<ContentComparisonModalProps> = ({
           </Box>
         ) : (
           <Box>
-            <Tabs 
-              value={activeTab} 
+            <Tabs
+              value={activeTab}
               onChange={handleTabChange}
               variant="scrollable"
               scrollButtons="auto"
               sx={{ borderBottom: 1, borderColor: 'divider', px: 2 }}
             >
               {versions.map((version, index) => (
-                <Tab 
+                <Tab
                   key={version.id}
                   label={
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                       <span>Version {index + 1}</span>
-                      <Chip 
+                      <Chip
                         label={getVersionTypeLabel(version.type)}
                         size="small"
                         color={getVersionTypeColor(version.type)}
@@ -454,8 +472,8 @@ const ContentComparisonModal: React.FC<ContentComparisonModalProps> = ({
             <Button onClick={handleCancelEdit} disabled={loading}>
               Cancel
             </Button>
-            <Button 
-              variant="contained" 
+            <Button
+              variant="contained"
               onClick={handleSave}
               disabled={!editedContent.trim() || loading}
               startIcon={<FaSave />}
@@ -466,11 +484,7 @@ const ContentComparisonModal: React.FC<ContentComparisonModalProps> = ({
         ) : (
           <>
             <Button onClick={onClose}>Close</Button>
-            <Button 
-              variant="contained" 
-              onClick={handleStartEdit}
-              disabled={versions.length === 0}
-            >
+            <Button variant="contained" onClick={handleStartEdit} disabled={versions.length === 0}>
               Edit Current
             </Button>
           </>

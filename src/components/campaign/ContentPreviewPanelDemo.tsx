@@ -21,21 +21,21 @@ Join thousands of satisfied customers who've already made the switch!`,
     imageUrl: [
       'https://picsum.photos/800/800?random=1',
       'https://picsum.photos/800/800?random=2',
-      'https://picsum.photos/800/800?random=3'
+      'https://picsum.photos/800/800?random=3',
     ],
     hashtags: ['Innovation', 'TechLife', 'Sustainable', 'NewProduct', 'Lifestyle'],
     mentions: ['@techreview', '@ecofriendly'],
-    emojis: ['🌟', '✨', '🚀', '💚']
+    emojis: ['🌟', '✨', '🚀', '💚'],
   };
 
   const engagementPrediction = {
     likes: Math.floor(Math.random() * 10000) + 5000,
     shares: Math.floor(Math.random() * 1000) + 200,
-    comments: Math.floor(Math.random() * 500) + 100
+    comments: Math.floor(Math.random() * 500) + 100,
   };
 
   const handleRefresh = () => {
-    setRefreshCount(prev => prev + 1);
+    setRefreshCount((prev) => prev + 1);
     setQualityScore(Math.floor(Math.random() * 40) + 60);
   };
 
@@ -50,10 +50,11 @@ Join thousands of satisfied customers who've already made the switch!`,
           Enhanced Content Preview Panel Demo
         </Typography>
         <Typography variant="body1" color="text.secondary" paragraph>
-          A rich, interactive preview panel that shows how content will appear across different social media platforms.
-          Features split-screen editing, platform-specific previews, quality scoring, and engagement predictions.
+          A rich, interactive preview panel that shows how content will appear across different
+          social media platforms. Features split-screen editing, platform-specific previews, quality
+          scoring, and engagement predictions.
         </Typography>
-        
+
         <Alert severity="info" sx={{ mb: 3 }}>
           <Typography variant="body2">
             <strong>Demo Features:</strong>
@@ -69,15 +70,11 @@ Join thousands of satisfied customers who've already made the switch!`,
         </Alert>
 
         <Box sx={{ display: 'flex', gap: 2, mb: 3 }}>
-          <Button 
-            variant="contained" 
-            onClick={handleRefresh}
-            color="primary"
-          >
+          <Button variant="contained" onClick={handleRefresh} color="primary">
             Simulate Content Refresh
           </Button>
-          <Button 
-            variant="outlined" 
+          <Button
+            variant="outlined"
             onClick={() => setQualityScore(Math.floor(Math.random() * 100))}
           >
             Randomize Quality Score
@@ -102,13 +99,14 @@ Join thousands of satisfied customers who've already made the switch!`,
           Implementation Notes
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          This component provides immediate visual impact for demonstrating AI-powered content generation capabilities.
-          It's designed to be highly interactive and visually appealing, perfect for stakeholder demos and user presentations.
-          The component supports multiple platforms, responsive design, and real-time quality metrics.
+          This component provides immediate visual impact for demonstrating AI-powered content
+          generation capabilities. It's designed to be highly interactive and visually appealing,
+          perfect for stakeholder demos and user presentations. The component supports multiple
+          platforms, responsive design, and real-time quality metrics.
         </Typography>
         <Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
-          <strong>Refresh Count:</strong> {refreshCount} | 
-          <strong> Current Quality Score:</strong> {qualityScore}%
+          <strong>Refresh Count:</strong> {refreshCount} |<strong> Current Quality Score:</strong>{' '}
+          {qualityScore}%
         </Typography>
       </Box>
     </Container>

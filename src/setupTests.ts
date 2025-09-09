@@ -5,9 +5,9 @@ import { vi } from 'vitest';
 vi.mock('./firebase-config', () => ({
   auth: {
     currentUser: {
-      getIdToken: vi.fn().mockResolvedValue('test-token')
-    }
-  }
+      getIdToken: vi.fn().mockResolvedValue('test-token'),
+    },
+  },
 }));
 
 // Global mock for scrapeProduct
@@ -51,12 +51,12 @@ Object.defineProperty(globalThis, 'crypto', {
         }
       }
       // Fallback UUID generation
-      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-        const r = Math.random() * 16 | 0;
-        const v = c === 'x' ? r : (r & 0x3 | 0x8);
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        const r = (Math.random() * 16) | 0;
+        const v = c === 'x' ? r : (r & 0x3) | 0x8;
         return v.toString(16);
       });
-    }
+    },
   },
   configurable: true,
 });
@@ -64,18 +64,22 @@ Object.defineProperty(globalThis, 'crypto', {
 // Additional browser API mocks
 if (typeof window !== 'undefined') {
   // Mock ResizeObserver
-  window.ResizeObserver = window.ResizeObserver || class ResizeObserver {
-    observe() {}
-    unobserve() {}
-    disconnect() {}
-  };
+  window.ResizeObserver =
+    window.ResizeObserver ||
+    class ResizeObserver {
+      observe() {}
+      unobserve() {}
+      disconnect() {}
+    };
 
   // Mock IntersectionObserver
-  window.IntersectionObserver = window.IntersectionObserver || class IntersectionObserver {
-    observe() {}
-    unobserve() {}
-    disconnect() {}
-  };
+  window.IntersectionObserver =
+    window.IntersectionObserver ||
+    class IntersectionObserver {
+      observe() {}
+      unobserve() {}
+      disconnect() {}
+    };
 
   // Mock matchMedia
   Object.defineProperty(window, 'matchMedia', {

@@ -39,7 +39,9 @@ global.fetch = vi.fn().mockResolvedValue({
 // Simple test component
 const TestComponent: React.FC = () => {
   const { isAuthenticated } = useAuth();
-  return <div data-testid="auth-test">{isAuthenticated ? 'authenticated' : 'not-authenticated'}</div>;
+  return (
+    <div data-testid="auth-test">{isAuthenticated ? 'authenticated' : 'not-authenticated'}</div>
+  );
 };
 
 describe('AuthContext', () => {
@@ -62,7 +64,7 @@ describe('AuthContext', () => {
         </AuthProvider>
       </BrowserRouter>
     );
-    
+
     expect(container).toBeInTheDocument();
   });
 
@@ -74,7 +76,7 @@ describe('AuthContext', () => {
         </AuthProvider>
       </BrowserRouter>
     );
-    
+
     // Just check that the component renders without throwing
     expect(container.firstChild).toBeTruthy();
   });
@@ -83,7 +85,7 @@ describe('AuthContext', () => {
     // TODO: Update test to work with enhanced token refresh logic
     // The enhanced implementation only sets up intervals when a Firebase user exists
     const setIntervalSpy = vi.spyOn(global, 'setInterval');
-    
+
     render(
       <BrowserRouter>
         <AuthProvider>
@@ -93,16 +95,13 @@ describe('AuthContext', () => {
     );
 
     // Verify that setInterval was called (backup refresh interval is 30 minutes)
-    expect(setIntervalSpy).toHaveBeenCalledWith(
-      expect.any(Function),
-      30 * 60 * 1000
-    );
+    expect(setIntervalSpy).toHaveBeenCalledWith(expect.any(Function), 30 * 60 * 1000);
   });
 
   it.skip('should clean up interval on unmount', () => {
     // TODO: Update test to work with enhanced token refresh logic
     const clearIntervalSpy = vi.spyOn(global, 'clearInterval');
-    
+
     const { unmount } = render(
       <BrowserRouter>
         <AuthProvider>

@@ -47,7 +47,7 @@ const ContentLibrary = ({
     post: number,
     imageIndex: number,
     newImage: string | null,
-    newText: string,
+    newText: string
   ) => {
     if (!newImage && newText) {
       setWeeksContent((old) => {
@@ -115,9 +115,9 @@ const ContentLibrary = ({
               posts: day?.posts.map((post, postIndex) =>
                 post.image_url // Keep existing post if it has image_url
                   ? post
-                  : newData[weekIndex]?.[dayIndex]?.posts[postIndex] || post,
+                  : newData[weekIndex]?.[dayIndex]?.posts[postIndex] || post
               ),
-            })),
+            }))
           );
 
           return updatedContent;
@@ -125,7 +125,7 @@ const ContentLibrary = ({
 
         // Check if all data is fully generated
         const isFullyGenerated = newData.every((week) =>
-          week.every((day) => day.posts.every((post) => post.image_url)),
+          week.every((day) => day.posts.every((post) => post.image_url))
         );
 
         if (isFullyGenerated) {
@@ -155,7 +155,7 @@ const ContentLibrary = ({
     weekIndex: number,
     dayIndex: number,
     postIndex: number | null,
-    isApproved: boolean,
+    isApproved: boolean
   ) => {
     console.log('week === ', weekIndex);
     console.log('dayIndex === ', dayIndex);
@@ -177,7 +177,7 @@ const ContentLibrary = ({
             (post: any) => ({
               ...post,
               approved: isApproved,
-            }),
+            })
           );
           updatedContent[weekIndex][dayIndex].approved = isApproved;
           setStats((prevStats: any) => ({

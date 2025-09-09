@@ -1,6 +1,6 @@
 /**
  * Cost Optimization API Client
- * 
+ *
  * Provides methods to interact with the cost optimization tracking backend service.
  * Handles authentication, error handling, and data transformation for the frontend.
  */
@@ -41,7 +41,10 @@ interface CostDashboardData {
   total_percentage_savings: number;
   projected_annual_savings: number;
   optimization_metrics: CostOptimizationMetrics[];
-  current_model_distribution: Record<string, { requests: number; cost: number; percentage: number }>;
+  current_model_distribution: Record<
+    string,
+    { requests: number; cost: number; percentage: number }
+  >;
   daily_savings: Array<{
     date: string;
     daily_savings: number;
@@ -112,7 +115,11 @@ interface TrackUsageData {
 }
 
 class CostOptimizationApiError extends Error {
-  constructor(message: string, public status?: number, public details?: any) {
+  constructor(
+    message: string,
+    public status?: number,
+    public details?: any
+  ) {
     super(message);
     this.name = 'CostOptimizationApiError';
   }
@@ -171,9 +178,9 @@ export const costOptimizationApi = {
   ): Promise<OptimizationComparison> => {
     try {
       const token = await getToken();
-      const params = new URLSearchParams({ 
+      const params = new URLSearchParams({
         days: days.toString(),
-        optimization_type: optimizationType 
+        optimization_type: optimizationType,
       });
 
       const response = await fetch(
@@ -212,17 +219,14 @@ export const costOptimizationApi = {
     try {
       const token = await getToken();
 
-      const response = await fetch(
-        `${CONTENT_GEN_URL}/api/v1/cost-optimization/track-usage`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(data),
-        }
-      );
+      const response = await fetch(`${CONTENT_GEN_URL}/api/v1/cost-optimization/track-usage`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+      });
 
       if (!response.ok) {
         const error = await response.json().catch(() => ({ detail: 'Unknown error' }));
@@ -245,7 +249,10 @@ export const costOptimizationApi = {
   /**
    * Get cost savings summary for a specific time period
    */
-  getCostSavingsSummary: async (days: number = 30, brandId?: string): Promise<{
+  getCostSavingsSummary: async (
+    days: number = 30,
+    brandId?: string
+  ): Promise<{
     total_savings: number;
     percentage_savings: number;
     projected_annual: number;
@@ -253,9 +260,9 @@ export const costOptimizationApi = {
   }> => {
     try {
       const dashboardData = await costOptimizationApi.getDashboardData(days, brandId);
-      
+
       const byOptimization: Record<string, number> = {};
-      dashboardData.optimization_metrics.forEach(metric => {
+      dashboardData.optimization_metrics.forEach((metric) => {
         byOptimization[metric.optimization_type] = metric.absolute_savings;
       });
 
@@ -263,7 +270,7 @@ export const costOptimizationApi = {
         total_savings: dashboardData.total_absolute_savings,
         percentage_savings: dashboardData.total_percentage_savings,
         projected_annual: dashboardData.projected_annual_savings,
-        by_optimization: byOptimization
+        by_optimization: byOptimization,
       };
     } catch (error) {
       if (error instanceof CostOptimizationApiError) {
@@ -276,18 +283,23 @@ export const costOptimizationApi = {
   /**
    * Get model usage statistics
    */
-  getModelUsageStats: async (days: number = 30): Promise<{
+  getModelUsageStats: async (
+    days: number = 30
+  ): Promise<{
     total_requests: number;
-    models: Record<string, {
-      requests: number;
-      cost: number;
-      percentage: number;
-      avg_cost_per_request: number;
-    }>;
+    models: Record<
+      string,
+      {
+        requests: number;
+        cost: number;
+        percentage: number;
+        avg_cost_per_request: number;
+      }
+    >;
   }> => {
     try {
       const dashboardData = await costOptimizationApi.getDashboardData(days);
-      
+
       let totalRequests = 0;
       const models: Record<string, any> = {};
 
@@ -295,13 +307,13 @@ export const costOptimizationApi = {
         totalRequests += data.requests;
         models[model] = {
           ...data,
-          avg_cost_per_request: data.cost / data.requests || 0
+          avg_cost_per_request: data.cost / data.requests || 0,
         };
       });
 
       return {
         total_requests: totalRequests,
-        models
+        models,
       };
     } catch (error) {
       if (error instanceof CostOptimizationApiError) {
@@ -314,7 +326,9 @@ export const costOptimizationApi = {
   /**
    * Get budget utilization and alerts
    */
-  getBudgetStatus: async (days: number = 30): Promise<{
+  getBudgetStatus: async (
+    days: number = 30
+  ): Promise<{
     utilization: number;
     alerts: Array<{
       type: string;
@@ -326,7 +340,7 @@ export const costOptimizationApi = {
   }> => {
     try {
       const dashboardData = await costOptimizationApi.getDashboardData(days);
-      
+
       // Calculate projected monthly cost
       const dailyAvgCost = dashboardData.total_optimized_cost / days;
       const projectedMonthlyCost = dailyAvgCost * 30;
@@ -336,7 +350,7 @@ export const costOptimizationApi = {
         utilization: dashboardData.budget_utilization,
         alerts: dashboardData.cost_alerts,
         projected_monthly_cost: projectedMonthlyCost,
-        monthly_budget: monthlyBudget
+        monthly_budget: monthlyBudget,
       };
     } catch (error) {
       if (error instanceof CostOptimizationApiError) {
@@ -349,7 +363,9 @@ export const costOptimizationApi = {
   /**
    * Get cost trends over time
    */
-  getCostTrends: async (days: number = 30): Promise<{
+  getCostTrends: async (
+    days: number = 30
+  ): Promise<{
     daily_costs: Array<{ date: string; cost: number; savings: number }>;
     weekly_summary: Array<{ week: string; cost: number; savings: number }>;
     efficiency_trend: Array<{ date: string; efficiency: number }>;
@@ -358,23 +374,23 @@ export const costOptimizationApi = {
       const dashboardData = await costOptimizationApi.getDashboardData(days);
 
       // Transform daily savings data
-      const dailyCosts = dashboardData.daily_savings.map(day => ({
+      const dailyCosts = dashboardData.daily_savings.map((day) => ({
         date: day.date,
         cost: day.optimized_cost,
-        savings: day.daily_savings
+        savings: day.daily_savings,
       }));
 
       // Calculate weekly summaries
       const weeklySummary: Record<string, { cost: number; savings: number; days: number }> = {};
-      
-      dashboardData.daily_savings.forEach(day => {
+
+      dashboardData.daily_savings.forEach((day) => {
         const date = new Date(day.date);
         const week = `${date.getFullYear()}-W${Math.ceil(date.getDate() / 7)}`;
-        
+
         if (!weeklySummary[week]) {
           weeklySummary[week] = { cost: 0, savings: 0, days: 0 };
         }
-        
+
         weeklySummary[week].cost += day.optimized_cost;
         weeklySummary[week].savings += day.daily_savings;
         weeklySummary[week].days += 1;
@@ -383,19 +399,19 @@ export const costOptimizationApi = {
       const weeklyArray = Object.entries(weeklySummary).map(([week, data]) => ({
         week,
         cost: data.cost,
-        savings: data.savings
+        savings: data.savings,
       }));
 
       // Efficiency trend
-      const efficiencyTrend = dashboardData.cost_efficiency_trend.map(point => ({
+      const efficiencyTrend = dashboardData.cost_efficiency_trend.map((point) => ({
         date: point.date,
-        efficiency: point.cost_efficiency
+        efficiency: point.cost_efficiency,
       }));
 
       return {
         daily_costs: dailyCosts,
         weekly_summary: weeklyArray,
-        efficiency_trend: efficiencyTrend
+        efficiency_trend: efficiencyTrend,
       };
     } catch (error) {
       if (error instanceof CostOptimizationApiError) {
@@ -403,7 +419,7 @@ export const costOptimizationApi = {
       }
       throw new CostOptimizationApiError('Failed to get cost trends');
     }
-  }
+  },
 };
 
 export { CostOptimizationApiError };

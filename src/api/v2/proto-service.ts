@@ -1,6 +1,6 @@
 /**
  * Base Proto Service for V2 API (JSON-only implementation)
- * 
+ *
  * Provides base functionality for all V2 API services using JSON.
  * Protobuf support has been removed.
  */
@@ -50,11 +50,11 @@ export abstract class ProtoService {
     options?: RequestOptions
   ): Promise<TResponse> {
     const url = `${this.baseUrl}${endpoint}`;
-    
+
     // Prepare headers - always use JSON
     const headers: Record<string, string> = {
-      'Accept': 'application/json',
-      ...options?.headers
+      Accept: 'application/json',
+      ...options?.headers,
     };
 
     if (options?.token) {
@@ -63,7 +63,7 @@ export abstract class ProtoService {
 
     // Prepare request body if needed
     let body: BodyInit | undefined;
-    
+
     if (requestData && requestMessagePath) {
       body = JSON.stringify(requestData);
       headers['Content-Type'] = 'application/json';
@@ -79,7 +79,7 @@ export abstract class ProtoService {
         method,
         headers,
         body,
-        signal: controller.signal
+        signal: controller.signal,
       });
 
       clearTimeout(timeoutId);
@@ -93,13 +93,13 @@ export abstract class ProtoService {
       return json as TResponse;
     } catch (error) {
       clearTimeout(timeoutId);
-      
+
       if (error instanceof Error) {
         if (error.name === 'AbortError') {
           throw new Error(`Request timeout after ${timeout}ms`);
         }
       }
-      
+
       throw error;
     }
   }
@@ -185,10 +185,10 @@ export abstract class ProtoService {
    */
   private async handleErrorResponse(response: Response): Promise<never> {
     let errorMessage = `${this.serviceName} API error: ${response.status} ${response.statusText}`;
-    
+
     try {
       const contentType = response.headers.get('content-type');
-      
+
       if (contentType?.includes('application/json')) {
         const errorData = await response.json();
         if (errorData.detail) {
@@ -205,7 +205,7 @@ export abstract class ProtoService {
     } catch {
       // Ignore parsing errors, use default message
     }
-    
+
     throw new Error(errorMessage);
   }
 
@@ -229,21 +229,21 @@ export abstract class ProtoService {
     protoFields: Record<string, { data: unknown; package: string; message: string }>
   ): Promise<FormData> {
     const formData = new FormData();
-    
+
     // Add regular fields
     for (const [key, value] of Object.entries(fields)) {
       if (value !== undefined && value !== null) {
         formData.append(key, String(value));
       }
     }
-    
+
     // Add JSON fields (previously protobuf fields)
     for (const [key, protoField] of Object.entries(protoFields)) {
       const jsonString = JSON.stringify(protoField.data);
       const blob = new Blob([jsonString], { type: 'application/json' });
       formData.append(key, blob, `${key}.json`);
     }
-    
+
     return formData;
   }
 }

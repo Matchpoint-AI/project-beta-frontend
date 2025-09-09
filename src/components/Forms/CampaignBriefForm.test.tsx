@@ -140,7 +140,9 @@ describe('CampaignBriefForm', () => {
   const renderWithProviders = (component: React.ReactElement) => {
     return render(
       <BrandContext.Provider value={{ businessInfo: mockBusinessInfo, setBusinessInfo: vi.fn() }}>
-        <CampaignContext.Provider value={{ campaignInfo: mockCampaignInfo, setCampaignInfo: vi.fn() }}>
+        <CampaignContext.Provider
+          value={{ campaignInfo: mockCampaignInfo, setCampaignInfo: vi.fn() }}
+        >
           {component}
         </CampaignContext.Provider>
       </BrandContext.Provider>
@@ -151,17 +153,18 @@ describe('CampaignBriefForm', () => {
     vi.clearAllMocks();
     // Mock fetch for the generateSummary call
     global.fetch = vi.fn().mockResolvedValue({
-      json: () => Promise.resolve({
-        response: {
-          choices: [
-            {
-              message: {
-                content: 'Test campaign summary',
+      json: () =>
+        Promise.resolve({
+          response: {
+            choices: [
+              {
+                message: {
+                  content: 'Test campaign summary',
+                },
               },
-            },
-          ],
-        },
-      }),
+            ],
+          },
+        }),
     });
   });
 
@@ -247,13 +250,13 @@ describe('CampaignBriefForm', () => {
 
     // Should display the brand name
     expect(screen.getByText('Test Business')).toBeInTheDocument();
-    
+
     // Should display the campaign name
     expect(screen.getByText('Test Campaign')).toBeInTheDocument();
-    
+
     // Should display timing blocks
     expect(screen.getAllByTestId('timing-block')).toHaveLength(2);
-    
+
     // Should display campaign details block for the product
     expect(screen.getByTestId('campaign-details-block')).toBeInTheDocument();
   });

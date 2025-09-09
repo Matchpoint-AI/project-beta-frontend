@@ -89,41 +89,35 @@ class PerformanceApiClient {
     return token;
   }
 
-  private async makeRequest<T>(
-    endpoint: string,
-    options: RequestInit = {}
-  ): Promise<T> {
+  private async makeRequest<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
     const token = await this.getAuthToken();
-    
+
     const response = await fetch(`${this.baseUrl}${endpoint}`, {
       ...options,
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
         ...options.headers,
       },
     });
 
     if (!response.ok) {
       let errorMessage = `HTTP ${response.status}: ${response.statusText}`;
-      
+
       try {
         const errorData = await response.json();
         errorMessage = errorData.detail || errorMessage;
       } catch {
         // If JSON parsing fails, use the default error message
       }
-      
+
       throw new Error(errorMessage);
     }
 
     return response.json();
   }
 
-  private async makeRequestWithoutAuth<T>(
-    endpoint: string,
-    options: RequestInit = {}
-  ): Promise<T> {
+  private async makeRequestWithoutAuth<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
     const response = await fetch(`${this.baseUrl}${endpoint}`, {
       ...options,
       headers: {
@@ -134,14 +128,14 @@ class PerformanceApiClient {
 
     if (!response.ok) {
       let errorMessage = `HTTP ${response.status}: ${response.statusText}`;
-      
+
       try {
         const errorData = await response.json();
         errorMessage = errorData.detail || errorMessage;
       } catch {
         // If JSON parsing fails, use the default error message
       }
-      
+
       throw new Error(errorMessage);
     }
 
@@ -198,7 +192,7 @@ class PerformanceApiClient {
   // Metrics summary and analysis
   async getMetricsSummary(params: MetricsSummaryParams = {}): Promise<MetricsSummary> {
     const searchParams = new URLSearchParams();
-    
+
     if (params.metric_type) searchParams.set('metric_type', params.metric_type);
     if (params.hours_back) searchParams.set('hours_back', params.hours_back.toString());
     if (params.operation) searchParams.set('operation', params.operation);
@@ -212,7 +206,7 @@ class PerformanceApiClient {
 
   async getCostAnalysis(params: CostAnalysisParams = {}): Promise<CostAnalysis> {
     const searchParams = new URLSearchParams();
-    
+
     if (params.hours_back) {
       searchParams.set('hours_back', params.hours_back.toString());
     }
@@ -229,7 +223,9 @@ class PerformanceApiClient {
     return this.makeRequest<Alert[]>(`/alerts${params}`);
   }
 
-  async resolveAlert(alertId: string): Promise<{ success: string; message: string; resolved_at: string }> {
+  async resolveAlert(
+    alertId: string
+  ): Promise<{ success: string; message: string; resolved_at: string }> {
     return this.makeRequest(`/alerts/${alertId}/resolve`, {
       method: 'POST',
     });
@@ -257,10 +253,10 @@ class PerformanceApiClient {
   ): Promise<T> {
     const startTime = Date.now();
     let error: Error | null = null;
-    
+
     try {
       const result = await operation();
-      
+
       // Record successful operation latency
       const latency = (Date.now() - startTime) / 1000;
       await this.recordMetric({
@@ -268,11 +264,11 @@ class PerformanceApiClient {
         value: latency,
         labels: { ...labels, operation: operationName },
       });
-      
+
       return result;
     } catch (err) {
       error = err instanceof Error ? err : new Error(String(err));
-      
+
       // Record error
       await this.recordMetric({
         metric_type: 'error_rate',
@@ -280,14 +276,14 @@ class PerformanceApiClient {
         labels: { ...labels, operation: operationName },
         metadata: { error: error.message },
       });
-      
+
       throw error;
     }
   }
 
   // Batch operations
   async recordMultipleMetrics(requests: MetricRequest[]): Promise<MetricResponse[]> {
-    const promises = requests.map(request => this.recordMetric(request));
+    const promises = requests.map((request) => this.recordMetric(request));
     return Promise.all(promises);
   }
 
@@ -298,11 +294,8 @@ class PerformanceApiClient {
   ): () => void {
     const interval = setInterval(async () => {
       try {
-        const [alerts, health] = await Promise.all([
-          this.getActiveAlerts(),
-          this.getHealthCheck(),
-        ]);
-        
+        const [alerts, health] = await Promise.all([this.getActiveAlerts(), this.getHealthCheck()]);
+
         callback({ alerts, health });
       } catch (error) {
         console.error('Real-time monitoring error:', error);

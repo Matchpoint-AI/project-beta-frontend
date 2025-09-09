@@ -29,4 +29,3 @@ export default async function registerUser(email: string, name: string, password
   }
   return data;
 }
-

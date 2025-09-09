@@ -1,6 +1,6 @@
 /**
  * Proto Loader for V2 API (JSON-only implementation)
- * 
+ *
  * This is a simplified version that works with JSON payloads only.
  * Protobuf support has been removed.
  */
@@ -49,21 +49,17 @@ export class ProtoLoader {
       create: (data: unknown) => data,
       verify: (_data: unknown) => null, // No errors in JSON mode
       encode: (_message: unknown) => ({
-        finish: () => new Uint8Array(0)
+        finish: () => new Uint8Array(0),
       }),
       decode: (_buffer: Uint8Array) => ({}),
-      toObject: (message: unknown, _options?: unknown) => message
+      toObject: (message: unknown, _options?: unknown) => message,
     };
   }
 
   /**
    * Create and validate a message - just returns the data for JSON
    */
-  async createMessage(
-    packageName: string,
-    messageName: string,
-    data: unknown
-  ): Promise<unknown> {
+  async createMessage(packageName: string, messageName: string, data: unknown): Promise<unknown> {
     // In JSON mode, just return the data as-is
     return data;
   }
@@ -97,22 +93,14 @@ export class ProtoLoader {
   /**
    * Convert a message to JSON
    */
-  async messageToJson(
-    packageName: string,
-    messageName: string,
-    data: unknown
-  ): Promise<string> {
+  async messageToJson(packageName: string, messageName: string, data: unknown): Promise<string> {
     return JSON.stringify(data);
   }
 
   /**
    * Parse JSON to a message
    */
-  async jsonToMessage(
-    packageName: string,
-    messageName: string,
-    json: string
-  ): Promise<unknown> {
+  async jsonToMessage(packageName: string, messageName: string, json: string): Promise<unknown> {
     return JSON.parse(json);
   }
 

@@ -13,7 +13,7 @@ import {
   Info,
   Zap,
   BarChart3,
-  Settings
+  Settings,
 } from 'lucide-react';
 
 import { performanceApi } from '../../api/performanceApi';
@@ -91,7 +91,7 @@ const INSIGHT_TYPES = [
   { value: 'predictive_scaling', label: 'Predictive Scaling' },
   { value: 'model_recommendation', label: 'Model Recommendations' },
   { value: 'user_experience', label: 'User Experience' },
-  { value: 'capacity_planning', label: 'Capacity Planning' }
+  { value: 'capacity_planning', label: 'Capacity Planning' },
 ];
 
 const SEVERITY_LEVELS = [
@@ -100,12 +100,12 @@ const SEVERITY_LEVELS = [
   { value: 'high', label: 'High' },
   { value: 'medium', label: 'Medium' },
   { value: 'low', label: 'Low' },
-  { value: 'info', label: 'Info' }
+  { value: 'info', label: 'Info' },
 ];
 
 const SeverityIcon: React.FC<{ severity: SmartInsight['severity'] }> = ({ severity }) => {
-  const iconClass = "h-4 w-4";
-  
+  const iconClass = 'h-4 w-4';
+
   switch (severity) {
     case 'critical':
       return <XCircle className={`${iconClass} text-red-500`} />;
@@ -123,8 +123,8 @@ const SeverityIcon: React.FC<{ severity: SmartInsight['severity'] }> = ({ severi
 };
 
 const InsightTypeIcon: React.FC<{ insightType: string }> = ({ insightType }) => {
-  const iconClass = "h-4 w-4";
-  
+  const iconClass = 'h-4 w-4';
+
   switch (insightType) {
     case 'cost_optimization':
       return <Target className={`${iconClass} text-green-500`} />;
@@ -144,71 +144,73 @@ const InsightTypeIcon: React.FC<{ insightType: string }> = ({ insightType }) => 
 };
 
 const SeverityBadge: React.FC<{ severity: SmartInsight['severity'] }> = ({ severity }) => {
-  const baseClass = "px-2 py-1 rounded-full text-xs font-medium";
-  
+  const baseClass = 'px-2 py-1 rounded-full text-xs font-medium';
+
   const severityClasses = {
-    critical: "bg-red-100 text-red-800",
-    high: "bg-orange-100 text-orange-800",
-    medium: "bg-yellow-100 text-yellow-800",
-    low: "bg-blue-100 text-blue-800",
-    info: "bg-gray-100 text-gray-800"
+    critical: 'bg-red-100 text-red-800',
+    high: 'bg-orange-100 text-orange-800',
+    medium: 'bg-yellow-100 text-yellow-800',
+    low: 'bg-blue-100 text-blue-800',
+    info: 'bg-gray-100 text-gray-800',
   };
-  
+
   return (
-    <span className={`${baseClass} ${severityClasses[severity]}`}>
-      {severity.toUpperCase()}
-    </span>
+    <span className={`${baseClass} ${severityClasses[severity]}`}>{severity.toUpperCase()}</span>
   );
 };
 
 const ConfidenceBadge: React.FC<{ confidence: string }> = ({ confidence }) => {
-  const baseClass = "px-2 py-1 rounded-full text-xs font-medium";
-  
+  const baseClass = 'px-2 py-1 rounded-full text-xs font-medium';
+
   const confidenceClasses = {
-    very_high: "bg-green-100 text-green-800",
-    high: "bg-green-100 text-green-700",
-    medium: "bg-yellow-100 text-yellow-800",
-    low: "bg-orange-100 text-orange-800",
-    very_low: "bg-red-100 text-red-800"
+    very_high: 'bg-green-100 text-green-800',
+    high: 'bg-green-100 text-green-700',
+    medium: 'bg-yellow-100 text-yellow-800',
+    low: 'bg-orange-100 text-orange-800',
+    very_low: 'bg-red-100 text-red-800',
   };
-  
+
   return (
-    <span className={`${baseClass} ${confidenceClasses[confidence as keyof typeof confidenceClasses] || 'bg-gray-100 text-gray-800'}`}>
+    <span
+      className={`${baseClass} ${confidenceClasses[confidence as keyof typeof confidenceClasses] || 'bg-gray-100 text-gray-800'}`}
+    >
       {confidence.replace('_', ' ').toUpperCase()}
     </span>
   );
 };
 
 export const SmartInsightsPanel: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'insights' | 'predictions' | 'recommendations' | 'summary'>('summary');
-  
+  const [activeTab, setActiveTab] = useState<
+    'insights' | 'predictions' | 'recommendations' | 'summary'
+  >('summary');
+
   // Filters
   const [selectedInsightType, setSelectedInsightType] = useState('');
   const [selectedSeverity, setSelectedSeverity] = useState('');
   const [lookbackHours, setLookbackHours] = useState(168); // 1 week
-  
+
   // Data states
   const [summary, setSummary] = useState<InsightsSummary | null>(null);
   const [insights, setInsights] = useState<SmartInsight[]>([]);
   const [predictions, setPredictions] = useState<PerformancePrediction[]>([]);
   const [recommendations, setRecommendations] = useState<OptimizationRecommendation[]>([]);
-  
+
   // Loading states
   const [loading, setLoading] = useState({
     summary: false,
     insights: false,
     predictions: false,
-    recommendations: false
+    recommendations: false,
   });
 
   // Fetch data functions
   const fetchSummary = async () => {
-    setLoading(prev => ({ ...prev, summary: true }));
+    setLoading((prev) => ({ ...prev, summary: true }));
     try {
       const response = await fetch('/api/v1/insights/summary', {
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('auth_token')}`
-        }
+          Authorization: `Bearer ${localStorage.getItem('auth_token')}`,
+        },
       });
       if (response.ok) {
         const data = await response.json();
@@ -217,22 +219,22 @@ export const SmartInsightsPanel: React.FC = () => {
     } catch (error) {
       console.error('Failed to fetch insights summary:', error);
     } finally {
-      setLoading(prev => ({ ...prev, summary: false }));
+      setLoading((prev) => ({ ...prev, summary: false }));
     }
   };
 
   const fetchInsights = async () => {
-    setLoading(prev => ({ ...prev, insights: true }));
+    setLoading((prev) => ({ ...prev, insights: true }));
     try {
       const params = new URLSearchParams();
       params.set('lookback_hours', lookbackHours.toString());
       if (selectedInsightType) params.set('insight_types', selectedInsightType);
       if (selectedSeverity) params.set('min_severity', selectedSeverity);
-      
+
       const response = await fetch(`/api/v1/insights/smart?${params}`, {
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('auth_token')}`
-        }
+          Authorization: `Bearer ${localStorage.getItem('auth_token')}`,
+        },
       });
       if (response.ok) {
         const data = await response.json();
@@ -241,18 +243,21 @@ export const SmartInsightsPanel: React.FC = () => {
     } catch (error) {
       console.error('Failed to fetch smart insights:', error);
     } finally {
-      setLoading(prev => ({ ...prev, insights: false }));
+      setLoading((prev) => ({ ...prev, insights: false }));
     }
   };
 
   const fetchPredictions = async () => {
-    setLoading(prev => ({ ...prev, predictions: true }));
+    setLoading((prev) => ({ ...prev, predictions: true }));
     try {
-      const response = await fetch('/api/v1/insights/predictions?metric_types=latency&metric_types=cost&prediction_hours=24', {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('auth_token')}`
+      const response = await fetch(
+        '/api/v1/insights/predictions?metric_types=latency&metric_types=cost&prediction_hours=24',
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('auth_token')}`,
+          },
         }
-      });
+      );
       if (response.ok) {
         const data = await response.json();
         setPredictions(data);
@@ -260,17 +265,17 @@ export const SmartInsightsPanel: React.FC = () => {
     } catch (error) {
       console.error('Failed to fetch predictions:', error);
     } finally {
-      setLoading(prev => ({ ...prev, predictions: false }));
+      setLoading((prev) => ({ ...prev, predictions: false }));
     }
   };
 
   const fetchRecommendations = async () => {
-    setLoading(prev => ({ ...prev, recommendations: true }));
+    setLoading((prev) => ({ ...prev, recommendations: true }));
     try {
       const response = await fetch('/api/v1/insights/recommendations?limit=10', {
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('auth_token')}`
-        }
+          Authorization: `Bearer ${localStorage.getItem('auth_token')}`,
+        },
       });
       if (response.ok) {
         const data = await response.json();
@@ -279,18 +284,21 @@ export const SmartInsightsPanel: React.FC = () => {
     } catch (error) {
       console.error('Failed to fetch recommendations:', error);
     } finally {
-      setLoading(prev => ({ ...prev, recommendations: false }));
+      setLoading((prev) => ({ ...prev, recommendations: false }));
     }
   };
 
   const submitFeedback = async (insightId: string, feedbackType: string) => {
     try {
-      await fetch(`/api/v1/insights/feedback?insight_id=${insightId}&feedback_type=${feedbackType}`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('auth_token')}`
+      await fetch(
+        `/api/v1/insights/feedback?insight_id=${insightId}&feedback_type=${feedbackType}`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('auth_token')}`,
+          },
         }
-      });
+      );
       // Optionally show success message
     } catch (error) {
       console.error('Failed to submit feedback:', error);
@@ -333,30 +341,42 @@ export const SmartInsightsPanel: React.FC = () => {
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-semibold">System Health Overview</h3>
             <div className="flex items-center gap-2">
-              <div className={`h-3 w-3 rounded-full ${
-                summary.health_status === 'excellent' ? 'bg-green-500' :
-                summary.health_status === 'good' ? 'bg-blue-500' :
-                summary.health_status === 'fair' ? 'bg-yellow-500' : 'bg-red-500'
-              }`} />
+              <div
+                className={`h-3 w-3 rounded-full ${
+                  summary.health_status === 'excellent'
+                    ? 'bg-green-500'
+                    : summary.health_status === 'good'
+                      ? 'bg-blue-500'
+                      : summary.health_status === 'fair'
+                        ? 'bg-yellow-500'
+                        : 'bg-red-500'
+                }`}
+              />
               <span className="font-medium capitalize">{summary.health_status}</span>
             </div>
           </div>
-          
+
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="text-center">
               <div className="text-3xl font-bold text-blue-600">{summary.health_score}</div>
               <div className="text-sm text-gray-600">Health Score</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-red-600">{summary.key_metrics.critical_issues}</div>
+              <div className="text-3xl font-bold text-red-600">
+                {summary.key_metrics.critical_issues}
+              </div>
               <div className="text-sm text-gray-600">Critical Issues</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-orange-600">{summary.key_metrics.high_priority_issues}</div>
+              <div className="text-3xl font-bold text-orange-600">
+                {summary.key_metrics.high_priority_issues}
+              </div>
               <div className="text-sm text-gray-600">High Priority</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-green-600">{summary.key_metrics.total_recommendations}</div>
+              <div className="text-3xl font-bold text-green-600">
+                {summary.key_metrics.total_recommendations}
+              </div>
               <div className="text-sm text-gray-600">Recommendations</div>
             </div>
           </div>
@@ -370,7 +390,9 @@ export const SmartInsightsPanel: React.FC = () => {
               <div key={index} className="flex justify-between items-center p-3 bg-gray-50 rounded">
                 <div>
                   <div className="font-medium">{rec.title}</div>
-                  <div className="text-sm text-gray-600 capitalize">{rec.category} • {rec.estimated_impact}</div>
+                  <div className="text-sm text-gray-600 capitalize">
+                    {rec.category} • {rec.estimated_impact}
+                  </div>
                 </div>
                 <div className="text-right">
                   <div className="font-bold text-blue-600">{rec.priority_score.toFixed(0)}</div>
@@ -416,16 +438,16 @@ export const SmartInsightsPanel: React.FC = () => {
         <div className="bg-white p-4 rounded-lg border">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Insight Type
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Insight Type</label>
               <select
                 value={selectedInsightType}
                 onChange={(e) => setSelectedInsightType(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
-                {INSIGHT_TYPES.map(type => (
-                  <option key={type.value} value={type.value}>{type.label}</option>
+                {INSIGHT_TYPES.map((type) => (
+                  <option key={type.value} value={type.value}>
+                    {type.label}
+                  </option>
                 ))}
               </select>
             </div>
@@ -438,15 +460,15 @@ export const SmartInsightsPanel: React.FC = () => {
                 onChange={(e) => setSelectedSeverity(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
-                {SEVERITY_LEVELS.map(level => (
-                  <option key={level.value} value={level.value}>{level.label}</option>
+                {SEVERITY_LEVELS.map((level) => (
+                  <option key={level.value} value={level.value}>
+                    {level.label}
+                  </option>
                 ))}
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Lookback Hours
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Lookback Hours</label>
               <select
                 value={lookbackHours}
                 onChange={(e) => setLookbackHours(Number(e.target.value))}
@@ -484,17 +506,23 @@ export const SmartInsightsPanel: React.FC = () => {
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                   <div className="text-center p-3 bg-gray-50 rounded">
-                    <div className="text-2xl font-bold text-blue-600">{insight.current_value.toFixed(2)}</div>
+                    <div className="text-2xl font-bold text-blue-600">
+                      {insight.current_value.toFixed(2)}
+                    </div>
                     <div className="text-sm text-gray-600">Current Value</div>
                   </div>
                   {insight.predicted_value !== null && (
                     <div className="text-center p-3 bg-gray-50 rounded">
-                      <div className="text-2xl font-bold text-purple-600">{insight.predicted_value.toFixed(2)}</div>
+                      <div className="text-2xl font-bold text-purple-600">
+                        {insight.predicted_value.toFixed(2)}
+                      </div>
                       <div className="text-sm text-gray-600">Predicted Value</div>
                     </div>
                   )}
                   <div className="text-center p-3 bg-gray-50 rounded">
-                    <div className="text-2xl font-bold text-green-600">{insight.impact_score.toFixed(0)}</div>
+                    <div className="text-2xl font-bold text-green-600">
+                      {insight.impact_score.toFixed(0)}
+                    </div>
                     <div className="text-sm text-gray-600">Impact Score</div>
                   </div>
                 </div>
@@ -583,7 +611,8 @@ export const SmartInsightsPanel: React.FC = () => {
                   </div>
                   <div className="text-center p-4 bg-green-50 rounded">
                     <div className="text-lg font-bold text-green-600">
-                      {prediction.confidence_interval.lower.toFixed(2)} - {prediction.confidence_interval.upper.toFixed(2)}
+                      {prediction.confidence_interval.lower.toFixed(2)} -{' '}
+                      {prediction.confidence_interval.upper.toFixed(2)}
                     </div>
                     <div className="text-sm text-gray-600">Confidence Interval</div>
                   </div>
@@ -608,9 +637,7 @@ export const SmartInsightsPanel: React.FC = () => {
               </div>
             ))}
             {predictions.length === 0 && (
-              <div className="p-6 text-center text-gray-500">
-                No predictions available
-              </div>
+              <div className="p-6 text-center text-gray-500">No predictions available</div>
             )}
           </div>
         )}
@@ -647,11 +674,15 @@ export const SmartInsightsPanel: React.FC = () => {
                     <div className="text-sm text-gray-600">Estimated Impact</div>
                   </div>
                   <div className="text-center p-3 bg-yellow-50 rounded">
-                    <div className="font-bold text-yellow-600 capitalize">{rec.effort_required}</div>
+                    <div className="font-bold text-yellow-600 capitalize">
+                      {rec.effort_required}
+                    </div>
                     <div className="text-sm text-gray-600">Effort Required</div>
                   </div>
                   <div className="text-center p-3 bg-purple-50 rounded">
-                    <div className="font-bold text-purple-600">{rec.priority_score.toFixed(0)}/100</div>
+                    <div className="font-bold text-purple-600">
+                      {rec.priority_score.toFixed(0)}/100
+                    </div>
                     <div className="text-sm text-gray-600">Priority Score</div>
                   </div>
                 </div>
@@ -688,9 +719,7 @@ export const SmartInsightsPanel: React.FC = () => {
               </div>
             ))}
             {recommendations.length === 0 && (
-              <div className="p-6 text-center text-gray-500">
-                No recommendations available
-              </div>
+              <div className="p-6 text-center text-gray-500">No recommendations available</div>
             )}
           </div>
         )}
@@ -702,7 +731,9 @@ export const SmartInsightsPanel: React.FC = () => {
     <div className="max-w-7xl mx-auto p-6">
       <div className="mb-6">
         <h1 className="text-3xl font-bold text-gray-900">Smart Performance Insights</h1>
-        <p className="text-gray-600">AI-powered insights, predictions, and optimization recommendations</p>
+        <p className="text-gray-600">
+          AI-powered insights, predictions, and optimization recommendations
+        </p>
       </div>
 
       {/* Tab Navigation */}
@@ -712,7 +743,7 @@ export const SmartInsightsPanel: React.FC = () => {
             { id: 'summary', label: 'Summary', icon: BarChart3 },
             { id: 'insights', label: 'Smart Insights', icon: Lightbulb },
             { id: 'predictions', label: 'Predictions', icon: TrendingUp },
-            { id: 'recommendations', label: 'Recommendations', icon: Target }
+            { id: 'recommendations', label: 'Recommendations', icon: Target },
           ].map((tab) => {
             const Icon = tab.icon;
             return (

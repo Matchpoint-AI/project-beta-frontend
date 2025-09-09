@@ -37,23 +37,20 @@ export const brandKnowledgeApi = {
    * Create new brand knowledge
    */
   create: async (data: BrandKnowledgeData, token: string) => {
-    const response = await fetch(
-      `${CONTENT_GEN_URL}/api/v1/brand-knowledge`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(data),
-      }
-    );
-    
+    const response = await fetch(`${CONTENT_GEN_URL}/api/v1/brand-knowledge`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    });
+
     if (!response.ok) {
       const error = await response.json();
       throw new Error(error.detail || 'Failed to create brand knowledge');
     }
-    
+
     return response.json();
   },
 
@@ -61,23 +58,20 @@ export const brandKnowledgeApi = {
    * Update existing brand knowledge
    */
   update: async (id: string, data: BrandKnowledgeData, token: string) => {
-    const response = await fetch(
-      `${CONTENT_GEN_URL}/api/v1/brand-knowledge/${id}`,
-      {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(data),
-      }
-    );
-    
+    const response = await fetch(`${CONTENT_GEN_URL}/api/v1/brand-knowledge/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    });
+
     if (!response.ok) {
       const error = await response.json();
       throw new Error(error.detail || 'Failed to update brand knowledge');
     }
-    
+
     return response.json();
   },
 
@@ -85,20 +79,17 @@ export const brandKnowledgeApi = {
    * Get brand knowledge by ID
    */
   get: async (id: string, token: string) => {
-    const response = await fetch(
-      `${CONTENT_GEN_URL}/api/v1/brand-knowledge/${id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    
+    const response = await fetch(`${CONTENT_GEN_URL}/api/v1/brand-knowledge/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
     if (!response.ok) {
       const error = await response.json();
       throw new Error(error.detail || 'Failed to fetch brand knowledge');
     }
-    
+
     return response.json();
   },
 
@@ -106,24 +97,21 @@ export const brandKnowledgeApi = {
    * Get brand knowledge by brand ID
    */
   getByBrandId: async (brandId: string, token: string) => {
-    const response = await fetch(
-      `${CONTENT_GEN_URL}/api/v1/brand-knowledge/by-brand/${brandId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    
+    const response = await fetch(`${CONTENT_GEN_URL}/api/v1/brand-knowledge/by-brand/${brandId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
     if (!response.ok && response.status !== 404) {
       const error = await response.json();
       throw new Error(error.detail || 'Failed to fetch brand knowledge');
     }
-    
+
     if (response.status === 404) {
       return null;
     }
-    
+
     return response.json();
   },
 
@@ -139,12 +127,12 @@ export const brandKnowledgeApi = {
         },
       }
     );
-    
+
     if (!response.ok) {
       const error = await response.json();
       throw new Error(error.detail || 'Failed to list brand knowledge');
     }
-    
+
     return response.json();
   },
 
@@ -163,12 +151,12 @@ export const brandKnowledgeApi = {
         body: JSON.stringify({ campaign_id: campaignId }),
       }
     );
-    
+
     if (!response.ok) {
       const error = await response.json();
       throw new Error(error.detail || 'Failed to extract brand knowledge');
     }
-    
+
     return response.json();
   },
 
@@ -187,12 +175,12 @@ export const brandKnowledgeApi = {
         body: JSON.stringify({ campaign_ids: campaignIds }),
       }
     );
-    
+
     if (!response.ok) {
       const error = await response.json();
       throw new Error(error.detail || 'Failed to extract brand knowledge');
     }
-    
+
     return response.json();
   },
 
@@ -200,21 +188,18 @@ export const brandKnowledgeApi = {
    * Delete brand knowledge
    */
   delete: async (id: string, token: string) => {
-    const response = await fetch(
-      `${CONTENT_GEN_URL}/api/v1/brand-knowledge/${id}`,
-      {
-        method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    
+    const response = await fetch(`${CONTENT_GEN_URL}/api/v1/brand-knowledge/${id}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
     if (!response.ok) {
       const error = await response.json();
       throw new Error(error.detail || 'Failed to delete brand knowledge');
     }
-    
+
     return response.json();
   },
 
@@ -222,20 +207,17 @@ export const brandKnowledgeApi = {
    * Get summary statistics for brand knowledge
    */
   getSummary: async (token: string) => {
-    const response = await fetch(
-      `${CONTENT_GEN_URL}/api/v1/brand-knowledge/summary`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    
+    const response = await fetch(`${CONTENT_GEN_URL}/api/v1/brand-knowledge/summary`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
     if (!response.ok) {
       const error = await response.json();
       throw new Error(error.detail || 'Failed to fetch summary');
     }
-    
+
     return response.json();
   },
 };

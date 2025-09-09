@@ -27,7 +27,7 @@ const TimingForm = ({ handleNext, handleBack, setTiming, review = false }: Timin
   const { profile } = useAuth();
   const [duration, setDuration] = useState<string>(campaignInfo?.duration ?? '1 Week');
   const [postingFrequency, setPostingFrequency] = useState<string>(
-    campaignInfo?.postingFrequency ?? '3 posts per day',
+    campaignInfo?.postingFrequency ?? '3 posts per day'
   );
   const [deliveryDay, setDeliveryDay] = useState<string>(campaignInfo?.deliveryDay ?? 'Monday');
 
@@ -208,7 +208,7 @@ const TimingForm = ({ handleNext, handleBack, setTiming, review = false }: Timin
                   onChange={(newValue: any) => setValue(newValue)}
                   shouldDisableDate={(date) => {
                     // Disable dates before today
-                   return dayjs(date).isBefore(dayjs().add(1, 'day'), 'day'); 
+                    return dayjs(date).isBefore(dayjs().add(1, 'day'), 'day');
                   }}
                   // onClick={(e) => console.log("clicked icon")}
                 />

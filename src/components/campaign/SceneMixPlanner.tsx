@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  Box, 
-  Paper, 
-  Typography, 
+import {
+  Box,
+  Paper,
+  Typography,
   CircularProgress,
   Alert,
   Button,
@@ -12,7 +12,7 @@ import {
   Chip,
   IconButton,
   Tooltip,
-  LinearProgress
+  LinearProgress,
 } from '@mui/material';
 import { useAuth } from '../../features/auth/context/AuthContext';
 import { plannerApi, policyApi } from '../../api/contentGenerationApi';
@@ -101,7 +101,7 @@ const SceneMixPlanner: React.FC<SceneMixPlannerProps> = ({
     } catch (err) {
       console.error('Error loading plan and policy:', err);
       let errorMessage = 'Failed to load content plan';
-      
+
       if (err instanceof Error) {
         if (err.message.includes('404')) {
           errorMessage = 'No existing content plan found for this campaign';
@@ -111,7 +111,7 @@ const SceneMixPlanner: React.FC<SceneMixPlannerProps> = ({
           errorMessage = `Error loading plan: ${err.message}`;
         }
       }
-      
+
       setError(errorMessage);
     } finally {
       setLoading(false);
@@ -137,7 +137,7 @@ const SceneMixPlanner: React.FC<SceneMixPlannerProps> = ({
             target_audience: {
               age_range: '25-45',
               interests: ['lifestyle', 'quality'],
-              behavior: ['social_media_active']
+              behavior: ['social_media_active'],
             },
             brand_personality: ['authentic', 'approachable', 'quality-focused'],
             product_features: ['high-quality', 'user-friendly', 'innovative'],
@@ -146,7 +146,7 @@ const SceneMixPlanner: React.FC<SceneMixPlannerProps> = ({
             has_ingredients: false,
             visual_restrictions: [],
             performance_history: {},
-            force_regenerate: false
+            force_regenerate: false,
           },
           profile.token
         );
@@ -164,7 +164,7 @@ const SceneMixPlanner: React.FC<SceneMixPlannerProps> = ({
           content_types: ['post', 'story', 'reel'],
           weekly_post_count: postsPerWeek,
           themes: ['brand_awareness', 'product_showcase', 'user_stories', 'educational'],
-          brand_values: ['quality', 'innovation', 'authenticity']
+          brand_values: ['quality', 'innovation', 'authenticity'],
         },
         profile.token
       );
@@ -173,7 +173,7 @@ const SceneMixPlanner: React.FC<SceneMixPlannerProps> = ({
     } catch (err) {
       console.error('Error creating plan:', err);
       let errorMessage = 'Failed to create content plan';
-      
+
       if (err instanceof Error) {
         if (err.message.includes('422')) {
           errorMessage = 'Invalid request parameters. Please check your campaign settings.';
@@ -185,7 +185,7 @@ const SceneMixPlanner: React.FC<SceneMixPlannerProps> = ({
           errorMessage = `Error: ${err.message}`;
         }
       }
-      
+
       setError(errorMessage);
     } finally {
       setCreatingPlan(false);
@@ -313,7 +313,12 @@ const SceneMixPlanner: React.FC<SceneMixPlannerProps> = ({
                       }}
                     >
                       <CardContent>
-                        <Box display="flex" justifyContent="space-between" alignItems="center" mb={1}>
+                        <Box
+                          display="flex"
+                          justifyContent="space-between"
+                          alignItems="center"
+                          mb={1}
+                        >
                           <Chip
                             label={post.scene_type}
                             size="small"
@@ -326,13 +331,13 @@ const SceneMixPlanner: React.FC<SceneMixPlannerProps> = ({
                             Day {post.day}
                           </Typography>
                         </Box>
-                        
+
                         {post.theme && (
                           <Typography variant="body2" gutterBottom>
                             Theme: {post.theme}
                           </Typography>
                         )}
-                        
+
                         {post.elements && post.elements.length > 0 && (
                           <Box sx={{ mt: 1 }}>
                             {post.elements.map((element, i) => (
@@ -346,9 +351,13 @@ const SceneMixPlanner: React.FC<SceneMixPlannerProps> = ({
                             ))}
                           </Box>
                         )}
-                        
+
                         {post.caption_style && (
-                          <Typography variant="caption" color="text.secondary" sx={{ mt: 1, display: 'block' }}>
+                          <Typography
+                            variant="caption"
+                            color="text.secondary"
+                            sx={{ mt: 1, display: 'block' }}
+                          >
                             Style: {post.caption_style}
                           </Typography>
                         )}

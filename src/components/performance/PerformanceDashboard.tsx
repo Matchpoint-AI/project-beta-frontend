@@ -11,7 +11,7 @@ import {
   Title,
   Tooltip,
   Legend,
-  ArcElement
+  ArcElement,
 } from 'chart.js';
 import { Line, Bar, Doughnut } from 'react-chartjs-2';
 import { AlertTriangle, TrendingUp, TrendingDown, Minus, Activity } from 'lucide-react';
@@ -82,12 +82,12 @@ const TIME_RANGES = [
   { label: '6 Hours', hours: 6 },
   { label: '24 Hours', hours: 24 },
   { label: '3 Days', hours: 72 },
-  { label: '7 Days', hours: 168 }
+  { label: '7 Days', hours: 168 },
 ] as const;
 
 const TrendIcon: React.FC<{ trend: string | null }> = ({ trend }) => {
-  const iconClass = "h-4 w-4";
-  
+  const iconClass = 'h-4 w-4';
+
   switch (trend) {
     case 'increasing':
       return <TrendingUp className={`${iconClass} text-red-500`} />;
@@ -101,72 +101,64 @@ const TrendIcon: React.FC<{ trend: string | null }> = ({ trend }) => {
 };
 
 const AlertBadge: React.FC<{ severity: Alert['severity'] }> = ({ severity }) => {
-  const baseClass = "px-2 py-1 rounded-full text-xs font-medium";
-  
+  const baseClass = 'px-2 py-1 rounded-full text-xs font-medium';
+
   const severityClasses = {
-    info: "bg-blue-100 text-blue-800",
-    warning: "bg-yellow-100 text-yellow-800",
-    critical: "bg-red-100 text-red-800"
+    info: 'bg-blue-100 text-blue-800',
+    warning: 'bg-yellow-100 text-yellow-800',
+    critical: 'bg-red-100 text-red-800',
   };
-  
+
   return (
-    <span className={`${baseClass} ${severityClasses[severity]}`}>
-      {severity.toUpperCase()}
-    </span>
+    <span className={`${baseClass} ${severityClasses[severity]}`}>{severity.toUpperCase()}</span>
   );
 };
 
 export const PerformanceDashboard: React.FC = () => {
   const [selectedTimeRange, setSelectedTimeRange] = useState(24);
   const [selectedMetricType, setSelectedMetricType] = useState<string>('');
-  
+
   // State for data
   const [metricsSummaries, setMetricsSummaries] = useState<Record<string, MetricsSummary>>({});
   const [alerts, setAlerts] = useState<Alert[]>([]);
   const [costAnalysis, setCostAnalysis] = useState<CostAnalysis | null>(null);
   const [healthStatus, setHealthStatus] = useState<HealthStatus | null>(null);
-  
+
   // Loading states
   const [loading, setLoading] = useState({
     metrics: false,
     alerts: false,
     costs: false,
-    health: false
+    health: false,
   });
 
   // Fetch all data
   const fetchData = async () => {
-    setLoading(prev => ({ ...prev, metrics: true, alerts: true, costs: true, health: true }));
-    
+    setLoading((prev) => ({ ...prev, metrics: true, alerts: true, costs: true, health: true }));
+
     try {
       // Fetch metrics summaries for each type
       const metricsPromises = METRIC_TYPES.map(async (metricType) => {
         const summary = await performanceApi.getMetricsSummary({
           metric_type: metricType,
-          hours_back: selectedTimeRange
+          hours_back: selectedTimeRange,
         });
         return [metricType, summary];
       });
-      
-      const [
-        metricsResults,
-        alertsData,
-        costData,
-        healthData
-      ] = await Promise.all([
+
+      const [metricsResults, alertsData, costData, healthData] = await Promise.all([
         Promise.all(metricsPromises),
         performanceApi.getActiveAlerts(),
         performanceApi.getCostAnalysis({ hours_back: selectedTimeRange }),
-        performanceApi.getHealthCheck()
+        performanceApi.getHealthCheck(),
       ]);
-      
+
       // Update state
       const summariesMap = Object.fromEntries(metricsResults);
       setMetricsSummaries(summariesMap);
       setAlerts(alertsData);
       setCostAnalysis(costData);
       setHealthStatus(healthData);
-      
     } catch (error) {
       console.error('Failed to fetch dashboard data:', error);
     } finally {
@@ -177,7 +169,7 @@ export const PerformanceDashboard: React.FC = () => {
   // Auto-refresh effect
   useEffect(() => {
     fetchData();
-    
+
     // Refresh every 30 seconds
     const interval = setInterval(fetchData, 30000);
     return () => clearInterval(interval);
@@ -204,48 +196,38 @@ export const PerformanceDashboard: React.FC = () => {
           metricsSummaries.latency?.median_value || 0,
           metricsSummaries.latency?.p95_value || 0,
           metricsSummaries.latency?.p99_value || 0,
-          metricsSummaries.latency?.max_value || 0
+          metricsSummaries.latency?.max_value || 0,
         ],
         backgroundColor: 'rgba(59, 130, 246, 0.8)',
         borderColor: 'rgba(59, 130, 246, 1)',
-        borderWidth: 1
-      }
-    ]
+        borderWidth: 1,
+      },
+    ],
   };
 
-  const costByOperationData = costAnalysis?.cost_by_operation ? {
-    labels: Object.keys(costAnalysis.cost_by_operation),
-    datasets: [
-      {
-        data: Object.values(costAnalysis.cost_by_operation),
-        backgroundColor: [
-          '#3B82F6',
-          '#EF4444', 
-          '#10B981',
-          '#F59E0B',
-          '#8B5CF6',
-          '#EC4899'
-        ]
+  const costByOperationData = costAnalysis?.cost_by_operation
+    ? {
+        labels: Object.keys(costAnalysis.cost_by_operation),
+        datasets: [
+          {
+            data: Object.values(costAnalysis.cost_by_operation),
+            backgroundColor: ['#3B82F6', '#EF4444', '#10B981', '#F59E0B', '#8B5CF6', '#EC4899'],
+          },
+        ],
       }
-    ]
-  } : null;
+    : null;
 
-  const costByModelData = costAnalysis?.cost_by_model ? {
-    labels: Object.keys(costAnalysis.cost_by_model),
-    datasets: [
-      {
-        data: Object.values(costAnalysis.cost_by_model),
-        backgroundColor: [
-          '#06B6D4',
-          '#84CC16', 
-          '#F97316',
-          '#6366F1',
-          '#EF4444',
-          '#8B5CF6'
-        ]
+  const costByModelData = costAnalysis?.cost_by_model
+    ? {
+        labels: Object.keys(costAnalysis.cost_by_model),
+        datasets: [
+          {
+            data: Object.values(costAnalysis.cost_by_model),
+            backgroundColor: ['#06B6D4', '#84CC16', '#F97316', '#6366F1', '#EF4444', '#8B5CF6'],
+          },
+        ],
       }
-    ]
-  } : null;
+    : null;
 
   return (
     <div className="p-6 max-w-7xl mx-auto space-y-6">
@@ -259,7 +241,9 @@ export const PerformanceDashboard: React.FC = () => {
             className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             {TIME_RANGES.map(({ label, hours }) => (
-              <option key={hours} value={hours}>{label}</option>
+              <option key={hours} value={hours}>
+                {label}
+              </option>
             ))}
           </select>
           <button
@@ -274,16 +258,20 @@ export const PerformanceDashboard: React.FC = () => {
 
       {/* Health Status */}
       {healthStatus && (
-        <div className={`p-4 rounded-lg border ${
-          healthStatus.status === 'healthy' 
-            ? 'bg-green-50 border-green-200' 
-            : 'bg-red-50 border-red-200'
-        }`}>
+        <div
+          className={`p-4 rounded-lg border ${
+            healthStatus.status === 'healthy'
+              ? 'bg-green-50 border-green-200'
+              : 'bg-red-50 border-red-200'
+          }`}
+        >
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-2">
-              <div className={`h-3 w-3 rounded-full ${
-                healthStatus.status === 'healthy' ? 'bg-green-500' : 'bg-red-500'
-              }`} />
+              <div
+                className={`h-3 w-3 rounded-full ${
+                  healthStatus.status === 'healthy' ? 'bg-green-500' : 'bg-red-500'
+                }`}
+              />
               <h3 className="text-lg font-semibold">System Health: {healthStatus.status}</h3>
             </div>
             <div className="text-sm text-gray-600">
@@ -306,7 +294,7 @@ export const PerformanceDashboard: React.FC = () => {
         {METRIC_TYPES.map((metricType) => {
           const summary = metricsSummaries[metricType];
           if (!summary || summary.count === 0) return null;
-          
+
           return (
             <div key={metricType} className="bg-white p-6 rounded-lg shadow-sm border">
               <div className="flex justify-between items-start mb-4">
@@ -348,21 +336,24 @@ export const PerformanceDashboard: React.FC = () => {
         <div className="bg-white p-6 rounded-lg shadow-sm border">
           <h3 className="text-lg font-semibold mb-4">Response Time Distribution</h3>
           {metricsSummaries.latency?.count > 0 ? (
-            <Bar data={latencyData} options={{
-              responsive: true,
-              plugins: {
-                legend: { display: false }
-              },
-              scales: {
-                y: {
-                  beginAtZero: true,
-                  title: {
-                    display: true,
-                    text: 'Seconds'
-                  }
-                }
-              }
-            }} />
+            <Bar
+              data={latencyData}
+              options={{
+                responsive: true,
+                plugins: {
+                  legend: { display: false },
+                },
+                scales: {
+                  y: {
+                    beginAtZero: true,
+                    title: {
+                      display: true,
+                      text: 'Seconds',
+                    },
+                  },
+                },
+              }}
+            />
           ) : (
             <div className="text-center py-8 text-gray-500">No latency data available</div>
           )}
@@ -372,14 +363,17 @@ export const PerformanceDashboard: React.FC = () => {
         <div className="bg-white p-6 rounded-lg shadow-sm border">
           <h3 className="text-lg font-semibold mb-4">Cost by Operation</h3>
           {costByOperationData ? (
-            <Doughnut data={costByOperationData} options={{
-              responsive: true,
-              plugins: {
-                legend: {
-                  position: 'bottom'
-                }
-              }
-            }} />
+            <Doughnut
+              data={costByOperationData}
+              options={{
+                responsive: true,
+                plugins: {
+                  legend: {
+                    position: 'bottom',
+                  },
+                },
+              }}
+            />
           ) : (
             <div className="text-center py-8 text-gray-500">No cost data available</div>
           )}
@@ -419,21 +413,24 @@ export const PerformanceDashboard: React.FC = () => {
               <div className="text-sm text-gray-600">Avg per Operation</div>
             </div>
           </div>
-          
+
           {/* Cost by Model Chart */}
           {costByModelData && (
             <div className="mt-6">
               <h4 className="text-md font-medium mb-3">Cost by Model</h4>
               <div className="h-64">
-                <Doughnut data={costByModelData} options={{
-                  responsive: true,
-                  maintainAspectRatio: false,
-                  plugins: {
-                    legend: {
-                      position: 'right'
-                    }
-                  }
-                }} />
+                <Doughnut
+                  data={costByModelData}
+                  options={{
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                      legend: {
+                        position: 'right',
+                      },
+                    },
+                  }}
+                />
               </div>
             </div>
           )}
@@ -460,7 +457,8 @@ export const PerformanceDashboard: React.FC = () => {
                     <div>
                       <div className="font-medium">{alert.message}</div>
                       <div className="text-sm text-gray-600">
-                        {alert.metric_type} • Threshold: {alert.threshold} • Actual: {alert.actual_value}
+                        {alert.metric_type} • Threshold: {alert.threshold} • Actual:{' '}
+                        {alert.actual_value}
                       </div>
                     </div>
                   </div>
@@ -478,7 +476,8 @@ export const PerformanceDashboard: React.FC = () => {
                   Triggered: {new Date(alert.triggered_at).toLocaleString()}
                   {Object.keys(alert.labels).length > 0 && (
                     <span className="ml-4">
-                      Labels: {Object.entries(alert.labels)
+                      Labels:{' '}
+                      {Object.entries(alert.labels)
                         .map(([k, v]) => `${k}=${v}`)
                         .join(', ')}
                     </span>

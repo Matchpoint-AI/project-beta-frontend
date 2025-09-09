@@ -23,13 +23,13 @@ Object.defineProperty(globalThis, 'crypto', {
         return crypto.randomUUID();
       } catch {
         // Fallback UUID generation
-        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-          const r = Math.random() * 16 | 0;
-          const v = c === 'x' ? r : (r & 0x3 | 0x8);
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+          const r = (Math.random() * 16) | 0;
+          const v = c === 'x' ? r : (r & 0x3) | 0x8;
           return v.toString(16);
         });
       }
-    }
+    },
   },
   configurable: true,
 });
@@ -50,7 +50,7 @@ export default defineConfig({
     include: ['src/**/*.test.{ts,tsx}'],
     exclude: ['node_modules', 'dist'],
     deps: {
-      inline: ['@testing-library/jest-dom']
+      inline: ['@testing-library/jest-dom'],
     },
     coverage: {
       enabled: false, // Set to true when running with --coverage flag

@@ -57,7 +57,9 @@ describe('CampaignSetupCompleteDialog - Default Values', () => {
 
     render(
       <BrandContext.Provider value={{ businessInfo, setBusinessInfo: vi.fn() }}>
-        <CampaignContext.Provider value={{ campaignInfo: minimalCampaignInfo, setCampaignInfo: vi.fn() }}>
+        <CampaignContext.Provider
+          value={{ campaignInfo: minimalCampaignInfo, setCampaignInfo: vi.fn() }}
+        >
           <CampaignSetupCompleteDialog setCurrentStep={vi.fn()} open={true} />
         </CampaignContext.Provider>
       </BrandContext.Provider>
@@ -183,7 +185,7 @@ describe('CampaignSetupCompleteDialog - Scene Mix Integration', () => {
     await waitFor(() => {
       expect(global.fetch).toHaveBeenCalled();
     });
-    
+
     // Wait for the Scene Mix flow to complete
     await waitFor(() => {
       expect(plannerApi.createPlan).toHaveBeenCalled();
@@ -196,14 +198,7 @@ describe('CampaignSetupCompleteDialog - Scene Mix Integration', () => {
         campaign_name: 'Test Campaign',
         campaign_type: 'brand_awareness', // Mapped from purpose
         duration_weeks: 3,
-        target_audience: [
-          'technology',
-          'innovation',
-          'male',
-          'female',
-          '25-34',
-          '35-44',
-        ],
+        target_audience: ['technology', 'innovation', 'male', 'female', '25-34', '35-44'],
         content_types: ['post', 'story', 'reel'],
         weekly_post_count: 5,
         themes: ['brand_awareness', 'product_showcase', 'user_stories', 'educational'],
@@ -291,7 +286,10 @@ describe('CampaignSetupCompleteDialog - Scene Mix Integration', () => {
 
     (policyApi.createPolicy as any).mockResolvedValueOnce({ id: 'policy-123' });
     (plannerApi.createPlan as any).mockResolvedValueOnce({ plan_id: 'plan-123' });
-    (global.fetch as any).mockResolvedValueOnce({ ok: true, json: async () => ({ success: true }) });
+    (global.fetch as any).mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({ success: true }),
+    });
 
     render(
       <BrandContext.Provider value={{ businessInfo: {}, setBusinessInfo: vi.fn() }}>
@@ -357,8 +355,8 @@ describe('CampaignSetupCompleteDialog - Scene Mix Integration', () => {
     });
 
     // Find the content generation call
-    const contentGenCall = (global.fetch as any).mock.calls.find(
-      (call: any) => call[0].includes('/contentgen/generate')
+    const contentGenCall = (global.fetch as any).mock.calls.find((call: any) =>
+      call[0].includes('/contentgen/generate')
     );
 
     expect(contentGenCall).toBeDefined();
@@ -379,9 +377,7 @@ describe('CampaignSetupCompleteDialog - Scene Mix Integration', () => {
     });
 
     // Policy creation fails
-    (policyApi.createPolicy as any).mockRejectedValueOnce(
-      new Error('Policy creation failed')
-    );
+    (policyApi.createPolicy as any).mockRejectedValueOnce(new Error('Policy creation failed'));
 
     // Legacy generation succeeds
     (global.fetch as any).mockResolvedValueOnce({
