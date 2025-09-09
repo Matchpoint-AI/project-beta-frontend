@@ -3,7 +3,7 @@
  * This ensures ALL API calls to backend services include proper authentication
  */
 
-import { getServiceURL } from '../helpers/getServiceURL';
+import { getServiceURL } from '../../../helpers/getServiceURL';
 
 type Service = 'data' | 'llm' | 'content-gen' | 'campaign-manager';
 
@@ -16,7 +16,7 @@ interface AuthFetchOptions extends RequestInit {
  * Get the authentication token from localStorage or sessionStorage
  * This matches how the auth context stores the token
  */
-const getAuthToken = (): string | null => {
+export const getAuthToken = (): string | null => {
   // Check if we're in a browser environment
   if (typeof window === 'undefined' || !window.localStorage) {
     return null;
@@ -207,4 +207,7 @@ export const campaignManagerApi = {
 };
 
 // Export default for backward compatibility
+// Export getAuthToken as getToken for backward compatibility
+export { getAuthToken as getToken };
+
 export default authFetch;

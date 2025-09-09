@@ -15,7 +15,7 @@ export { AuthProvider, useAuth } from './context/AuthContext';
 export { useTokenRefresh } from './hooks/useTokenRefresh';
 
 // Auth Utils
-export { authFetch } from './utils/authFetch';
+export { authFetch, getToken } from './utils/authFetch';
 
 // Auth Pages
 export { default as Login } from './pages/Login';

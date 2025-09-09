@@ -132,7 +132,8 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
   onSave,
   existingData,
 }) => {
-  const { authState } = useContext(AuthContext);
+  const authContext = useContext(AuthContext);
+  const authState = authContext?.profile;
   const { businessInfo } = useContext(BrandContext);
   
   const [loading, setLoading] = useState(false);

@@ -5,7 +5,7 @@ import React, {
    useState,
 } from "react";
 import { useAuth } from "../context/AuthContext";
-import updateUserProfile from "../../helpers/updateUserProfile";
+import updateUserProfile from "../../../helpers/updateUserProfile";
 import ErrorToast from "../shared/ErrorToast";
 import { CircularProgress } from "@mui/material";
 import EditProfileInput from "../EditProfileInput";
