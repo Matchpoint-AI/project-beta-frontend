@@ -3,23 +3,23 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { BrowserRouter } from 'react-router-dom';
 import Dashboard from './Dashboard';
-import { AuthContext } from '../features/auth/context/AuthContext';
-import { BrandContext } from '../context/BrandContext';
+import { AuthContext } from '../../auth/context/AuthContext';
+import { BrandContext } from '../../../context/BrandContext';
 
 // Mock the modules
-vi.mock('../helpers/getServiceURL', () => ({
+vi.mock('../../../helpers/getServiceURL', () => ({
   getServiceURL: vi.fn(() => 'http://localhost:8080'),
 }));
 
-vi.mock('../helpers/handleNavigate', () => ({
+vi.mock('../../../helpers/handleNavigate', () => ({
   default: vi.fn(),
 }));
 
-vi.mock('../components/shared/Sidebar', () => ({
+vi.mock('../../../components/shared/Sidebar', () => ({
   default: () => <div data-testid="sidebar">Sidebar</div>,
 }));
 
-vi.mock('../components/dashboard/CampaignsList', () => ({
+vi.mock('../components/CampaignsList', () => ({
   default: ({ campaigns, campaignType, setCampaignType }: any) => (
     <div data-testid="campaigns-list">
       <span data-testid="campaign-count">{campaigns.length}</span>
