@@ -5,8 +5,6 @@ import { FaCheckCircle } from 'react-icons/fa';
 import { RiExportLine } from 'react-icons/ri';
 
 const NewCardStats = ({ id, stats }: { id: string; stats: any }) => {
-  console.log('cardstatsss', stats);
-
   return (
     <div className="flex sm:flex-row flex-col  items-start gap-4 w-full">
       <div className="flex flex-row gap-4 items-center justify-center">

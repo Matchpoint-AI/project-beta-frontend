@@ -138,7 +138,6 @@ const ContentLibrary = ({
       }
     };
 
-    console.log('content', weeksContent);
     fetchSingleWeek();
 
     // Start polling every 10 seconds
@@ -146,7 +145,6 @@ const ContentLibrary = ({
 
     // Cleanup interval on unmount
     return () => {
-      console.log('Cleaning up polling interval');
       clearInterval(pollingInterval);
     };
   }, [profile?.token, id]);
@@ -157,10 +155,6 @@ const ContentLibrary = ({
     postIndex: number | null,
     isApproved: boolean
   ) => {
-    console.log('week === ', weekIndex);
-    console.log('dayIndex === ', dayIndex);
-    console.log('postIndex === ', postIndex);
-
     setTimeout(() => {
       setWeeksContent((prevContent) => {
         const updatedContent = [...prevContent];
@@ -172,7 +166,6 @@ const ContentLibrary = ({
 
           // Count how many are currently unapproved
           const unapprovedCount = dayPosts.filter((p) => !p.approved).length;
-          console.log('unapproved count === ', unapprovedCount);
           updatedContent[weekIndex][dayIndex].posts = updatedContent[weekIndex][dayIndex].posts.map(
             (post: any) => ({
               ...post,
@@ -187,7 +180,6 @@ const ContentLibrary = ({
           }));
         } else {
           // Approve only the specified post
-          console.log('isApproved === ', isApproved);
           if (isApproved === false) {
             updatedContent[weekIndex][dayIndex].approved = isApproved;
           }

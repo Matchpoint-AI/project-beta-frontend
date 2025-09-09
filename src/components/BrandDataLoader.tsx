@@ -15,11 +15,9 @@ export default function BrandDataLoader({ children }: { children: React.ReactNod
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
-    console.log('BrandDataLoader useEffect running, profile:', profile);
     if (!profile || !profile?.token) return;
 
     const fetchBrandData = async () => {
-      console.log('fetchBrandData called');
       setLoading(true);
       setError(false);
       const endpointUrl = getServiceURL('data');
@@ -29,16 +27,13 @@ export default function BrandDataLoader({ children }: { children: React.ReactNod
           Authorization: `Bearer ${profile?.token}`,
         },
       });
-      console.log('Brand data response status:', response.status);
       if (!response.ok) {
         setError(true);
         setLoading(false);
         return;
       }
       const data = await response.json();
-      console.log('Brand data fetched:', data);
       if (data.length > 0) {
-        console.log('Raw brand_variables:', data[0].brand_variables);
         const convertedValues = convertToChipsArray(
           (data[0].brand_variables.values || []).filter(Boolean)
         );
@@ -48,13 +43,6 @@ export default function BrandDataLoader({ children }: { children: React.ReactNod
         const convertedToneAndVoice = convertToChipsArray(
           (data[0].brand_variables.tov || []).filter(Boolean)
         );
-        console.log('Converted values:', convertedValues);
-        console.log('Converted persona:', convertedPersona);
-        console.log('Converted toneAndVoice:', convertedToneAndVoice);
-
-        // Log product features
-        console.log('Product features from backend:', data[0].brand_variables.product_features);
-        console.log('Key features from backend:', data[0].brand_variables.key_features);
 
         setBusinessInfo({
           id: data[0].id,
