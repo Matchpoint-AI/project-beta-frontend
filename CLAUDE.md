@@ -5,6 +5,7 @@
 This repository uses automated semantic versioning triggered by commits to the main branch. Understanding and following these conventions is critical for proper version management.
 
 ### Version Format
+
 Versions follow the format: `v{major}.{minor}.{patch}`
 
 ### Triggering Version Changes
@@ -17,7 +18,7 @@ The automated versioning system responds to specific keywords in commit messages
    - Example: `Refactor API endpoints (MAJOR)`
    - Version change: `v1.2.3` → `v2.0.0`
 
-2. **Minor Version Increment (New Features)**  
+2. **Minor Version Increment (New Features)**
    - Include the exact string `(MINOR)` in your commit message
    - Use for: New features, non-breaking enhancements, significant additions
    - Example: `Add user authentication feature (MINOR)`
@@ -50,18 +51,21 @@ When creating pull requests:
 ### Examples of Proper Usage
 
 #### Breaking Change Example
+
 ```
 PR Title: Restructure API response format
 Squash Commit: Restructure API response format (MAJOR)
 ```
 
-#### New Feature Example  
+#### New Feature Example
+
 ```
 PR Title: Implement dark mode theme
 Squash Commit: Implement dark mode theme (MINOR)
 ```
 
 #### Bug Fix Example
+
 ```
 PR Title: Resolve dropdown menu z-index issue
 Squash Commit: Resolve dropdown menu z-index issue
@@ -153,6 +157,7 @@ src/
 ### Feature Folder Contents
 
 Each feature folder should contain:
+
 - `components/` - UI components specific to this feature
 - `hooks/` - Custom hooks for this feature
 - `api/` - API calls and data fetching logic
@@ -171,6 +176,7 @@ Each feature folder should contain:
 ### When to Create a New Feature
 
 Create a new feature folder when:
+
 - You have a distinct business domain or user flow
 - The functionality requires multiple components and supporting files
 - The code is cohesive and changes together
@@ -179,6 +185,7 @@ Create a new feature folder when:
 ### Migration Strategy
 
 When restructuring existing code:
+
 1. Start with one feature at a time
 2. Update all import statements
 3. Run tests to ensure nothing breaks

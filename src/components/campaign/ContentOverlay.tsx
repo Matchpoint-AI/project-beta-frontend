@@ -31,8 +31,8 @@ interface ContentOverlayProps {
     day: number,
     post: number,
     imageIndex: number,
-    newImage: string|null,
-    newText: string,
+    newImage: string | null,
+    newText: string
   ) => void;
   approved: boolean;
   onApprovalUpdate: () => void;
@@ -81,7 +81,7 @@ const ContentOverlay = ({
           };
           return acc;
         },
-        {},
+        {}
       ),
     };
     try {

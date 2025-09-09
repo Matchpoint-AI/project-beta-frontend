@@ -7,11 +7,7 @@ import useIntegrationApi, {
   getAvailableIntegrations,
   revokeAuthApp,
 } from '../../../api/api-integrations';
-import {
-  Box,
-  CircularProgress,
-  Modal,
-} from '@mui/material';
+import { Box, CircularProgress, Modal } from '@mui/material';
 import InstagramIcon from '../../InstagramIcon';
 import { useNavigate, useParams } from 'react-router-dom';
 import moment from 'moment-timezone';
@@ -21,9 +17,7 @@ import { FaCheckCircle } from 'react-icons/fa';
 import { GoClock } from 'react-icons/go';
 import { VscHome } from 'react-icons/vsc';
 import { MdCalendarToday, MdClose, MdOutlineUpdate } from 'react-icons/md';
-import {
-  DatePicker,
-} from '@mui/x-date-pickers';
+import { DatePicker } from '@mui/x-date-pickers';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs, { Dayjs } from 'dayjs';
@@ -88,8 +82,7 @@ const InstaConnect: React.FC<InstaConnectProps> = ({
       }),
     })
       .then((response) => response.json())
-      .then((data: unknown) => {
-      })
+      .then((data: unknown) => {})
       .catch((error) => {
         console.error('Error:', error);
         setError('Failed to save redirect URI');
@@ -112,9 +105,7 @@ const InstaConnect: React.FC<InstaConnectProps> = ({
         publish ? (
           <PublishApproved stats={stats} startDate={startDate} duration={duration} />
         ) : (
-          <Connected
-            onRevoke={() => setIsConnected(false)}
-          />
+          <Connected onRevoke={() => setIsConnected(false)} />
         )
       ) : (
         PLATFORMS.map((platform) => (
@@ -224,8 +215,6 @@ interface DateSelectorProps {
 }
 
 const DateSelector = ({ label, date, onDateChange, minDate, maxDate }: DateSelectorProps) => {
-
-
   return (
     <Box
       sx={{
@@ -299,7 +288,6 @@ const ConfirmDate: React.FC<ConfirmDateProps> = ({
   const [endDate, setEndDate] = useState(dayjs(start_date).add(duration, 'week'));
 
   useEffect(() => {
-
     // 1) Figure out if local time is past 9 AM
     const now = dayjs();
     const isPast9AM = now.hour() >= 9; // e.g. 9 means 9:00 AM
@@ -353,11 +341,7 @@ const ConfirmDate: React.FC<ConfirmDateProps> = ({
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <Modal
-        onClose={() => setIsPopupOpen(false)}
-        open={isPopupOpen}
-        className=""
-      >
+      <Modal onClose={() => setIsPopupOpen(false)} open={isPopupOpen} className="">
         <Box
           style={{
             outline: 'none',
@@ -467,7 +451,7 @@ const PublishApproved: React.FC<PublishApprovedProps> = ({ stats, startDate, dur
             headers: {
               Authorization: `Bearer ${profile?.token}`,
             },
-          },
+          }
         );
 
         if (response.ok) {
@@ -619,7 +603,7 @@ function Connected({
   } = useAppContext();
   const { triggerRequest: requestRevoke, loading: revokeLoading } = useIntegrationApi(
     revokeAuthApp('instagram'),
-    'TRIGGER',
+    'TRIGGER'
   );
 
   const handleRevoke = () => {
@@ -691,7 +675,7 @@ const openAuthPopup = (url: string, windowName: string = 'auth-popup') => {
 function Unconnected({ onConnect, publish }: { onConnect: () => void; publish: boolean }) {
   const { data, triggerRequest: requestURL } = useIntegrationApi(
     authenticateApp('instagram'),
-    'TRIGGER',
+    'TRIGGER'
   );
 
   useEffect(() => {

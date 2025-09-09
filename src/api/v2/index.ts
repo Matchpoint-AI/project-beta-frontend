@@ -1,6 +1,6 @@
 /**
  * V2 API Module Exports
- * 
+ *
  * Central export point for all V2 API services.
  * This module provides protobuf-based API communication.
  */
@@ -31,7 +31,7 @@ export type {
   CreateCampaignRequest,
   CreateCampaignResponse,
   UpdateCampaignRequest,
-  UpdateCampaignResponse
+  UpdateCampaignResponse,
 } from './campaign-api';
 
 export type {
@@ -48,7 +48,7 @@ export type {
   CrawlWebsiteRequest,
   CrawlWebsiteResponse,
   ExtractBrandInfoRequest,
-  ExtractBrandInfoResponse
+  ExtractBrandInfoResponse,
 } from './brand-api';
 
 /**
@@ -58,7 +58,7 @@ export type {
 export async function initializeV2Api(): Promise<void> {
   // Import protoLoader inside the function to avoid circular dependency issues
   const { protoLoader } = await import('./proto-loader');
-  
+
   try {
     // Preload proto definitions
     await protoLoader.loadProtos();

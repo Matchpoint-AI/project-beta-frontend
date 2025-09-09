@@ -135,7 +135,7 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
   const authContext = useContext(AuthContext);
   const authState = authContext?.profile;
   const { businessInfo } = useContext(BrandContext);
-  
+
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -193,7 +193,7 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
     if (!authState?.token || !businessInfo?.id) {
       return;
     }
-    
+
     try {
       setLoading(true);
       const response = await fetch(
@@ -204,7 +204,7 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
           },
         }
       );
-      
+
       if (response && response.ok) {
         const data = await response.json();
         if (data.brand_knowledge) {
@@ -219,7 +219,7 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
   };
 
   const toggleSection = (section: string) => {
-    setExpandedSections(prev => ({
+    setExpandedSections((prev) => ({
       ...prev,
       [section]: !prev[section],
     }));
@@ -227,7 +227,7 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
 
   const addPersonalityTrait = (trait: string) => {
     if (trait && !formData.personality.traits.includes(trait)) {
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
         personality: {
           ...prev.personality,
@@ -238,18 +238,18 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
   };
 
   const removePersonalityTrait = (trait: string) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       personality: {
         ...prev.personality,
-        traits: prev.personality.traits.filter(t => t !== trait),
+        traits: prev.personality.traits.filter((t) => t !== trait),
       },
     }));
   };
 
   const addVoiceAttribute = () => {
     if (newVoiceAttribute && !formData.personality.voice_attributes.includes(newVoiceAttribute)) {
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
         personality: {
           ...prev.personality,
@@ -261,17 +261,17 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
   };
 
   const removeVoiceAttribute = (attr: string) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       personality: {
         ...prev.personality,
-        voice_attributes: prev.personality.voice_attributes.filter(a => a !== attr),
+        voice_attributes: prev.personality.voice_attributes.filter((a) => a !== attr),
       },
     }));
   };
 
   const updateTone = (key: string, value: string) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       personality: {
         ...prev.personality,
@@ -285,7 +285,7 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
 
   const addColor = (color: string) => {
     if (!formData.visual_style.color_palette.includes(color)) {
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
         visual_style: {
           ...prev.visual_style,
@@ -296,7 +296,7 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
   };
 
   const removeColor = (index: number) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       visual_style: {
         ...prev.visual_style,
@@ -314,24 +314,24 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
       usage_context: '',
       ingredients: [],
     };
-    
-    setFormData(prev => ({
+
+    setFormData((prev) => ({
       ...prev,
       products: [...prev.products, newProduct],
     }));
   };
 
   const updateProduct = (index: number, field: keyof ProductDetails, value: any) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      products: prev.products.map((product, i) => 
+      products: prev.products.map((product, i) =>
         i === index ? { ...product, [field]: value } : product
       ),
     }));
   };
 
   const removeProduct = (index: number) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       products: prev.products.filter((_, i) => i !== index),
     }));
@@ -346,8 +346,8 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
     try {
       setLoading(true);
       setError(null);
-      
-      const campaignIds = businessInfo.campaigns.map(c => c.campaign_id);
+
+      const campaignIds = businessInfo.campaigns.map((c) => c.campaign_id);
       const response = await fetch(
         `${getServiceURL('content_generation')}/api/v1/brand-knowledge/extract-from-campaigns`,
         {
@@ -395,7 +395,7 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
         return;
       }
 
-      const endpoint = existingData 
+      const endpoint = existingData
         ? `${getServiceURL('content_generation')}/api/v1/brand-knowledge/${existingData.brand_id}`
         : `${getServiceURL('content_generation')}/api/v1/brand-knowledge`;
 
@@ -415,11 +415,11 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
 
       const result = await response.json();
       setSuccess(true);
-      
+
       if (onSave) {
         onSave(formData);
       }
-      
+
       setTimeout(() => {
         setSuccess(false);
         if (handleNext) {
@@ -449,7 +449,8 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
         Brand Knowledge Base
       </Typography>
       <Typography variant="body2" color="textSecondary" paragraph>
-        Define your brand's personality, visual style, and product details to enhance AI-generated content.
+        Define your brand's personality, visual style, and product details to enhance AI-generated
+        content.
       </Typography>
 
       {error && (
@@ -485,7 +486,7 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
             {expandedSections.personality ? <LuChevronUp /> : <LuChevronDown />}
           </IconButton>
         </Box>
-        
+
         <Collapse in={expandedSections.personality}>
           <Box mt={2}>
             {/* Personality Traits */}
@@ -493,7 +494,7 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
               Personality Traits
             </Typography>
             <Box display="flex" flexWrap="wrap" gap={1} mb={2}>
-              {PERSONALITY_TRAITS.map(trait => (
+              {PERSONALITY_TRAITS.map((trait) => (
                 <Chip
                   key={trait}
                   label={trait}
@@ -504,7 +505,7 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
               ))}
             </Box>
             <Box display="flex" flexWrap="wrap" gap={1} mb={3}>
-              {formData.personality.traits.map(trait => (
+              {formData.personality.traits.map((trait) => (
                 <Chip
                   key={trait}
                   label={trait}
@@ -581,21 +582,13 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
                 onChange={(e) => setNewVoiceAttribute(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && addVoiceAttribute()}
               />
-              <Button
-                variant="outlined"
-                onClick={addVoiceAttribute}
-                startIcon={<LuPlus />}
-              >
+              <Button variant="outlined" onClick={addVoiceAttribute} startIcon={<LuPlus />}>
                 Add
               </Button>
             </Box>
             <Box display="flex" flexWrap="wrap" gap={1}>
-              {formData.personality.voice_attributes.map(attr => (
-                <Chip
-                  key={attr}
-                  label={attr}
-                  onDelete={() => removeVoiceAttribute(attr)}
-                />
+              {formData.personality.voice_attributes.map((attr) => (
+                <Chip key={attr} label={attr} onDelete={() => removeVoiceAttribute(attr)} />
               ))}
             </Box>
           </Box>
@@ -610,7 +603,7 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
             {expandedSections.visual ? <LuChevronUp /> : <LuChevronDown />}
           </IconButton>
         </Box>
-        
+
         <Collapse in={expandedSections.visual}>
           <Box mt={2}>
             {/* Color Palette */}
@@ -673,22 +666,22 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
               Style Tags
             </Typography>
             <Box display="flex" flexWrap="wrap" gap={1} mb={3}>
-              {STYLE_TAGS.map(tag => (
+              {STYLE_TAGS.map((tag) => (
                 <Chip
                   key={tag}
                   label={tag}
                   onClick={() => {
                     const tags = formData.visual_style.style_tags;
                     if (tags.includes(tag)) {
-                      setFormData(prev => ({
+                      setFormData((prev) => ({
                         ...prev,
                         visual_style: {
                           ...prev.visual_style,
-                          style_tags: tags.filter(t => t !== tag),
+                          style_tags: tags.filter((t) => t !== tag),
                         },
                       }));
                     } else {
-                      setFormData(prev => ({
+                      setFormData((prev) => ({
                         ...prev,
                         visual_style: {
                           ...prev.visual_style,
@@ -708,16 +701,18 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
               <InputLabel>Photography Style</InputLabel>
               <Select
                 value={formData.visual_style.photography_style}
-                onChange={(e) => setFormData(prev => ({
-                  ...prev,
-                  visual_style: {
-                    ...prev.visual_style,
-                    photography_style: e.target.value,
-                  },
-                }))}
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    visual_style: {
+                      ...prev.visual_style,
+                      photography_style: e.target.value,
+                    },
+                  }))
+                }
                 label="Photography Style"
               >
-                {PHOTOGRAPHY_STYLES.map(style => (
+                {PHOTOGRAPHY_STYLES.map((style) => (
                   <MenuItem key={style} value={style}>
                     {style.charAt(0).toUpperCase() + style.slice(1).replace('-', ' ')}
                   </MenuItem>
@@ -737,11 +732,14 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
                 onChange={(e) => setNewCompositionPref(e.target.value)}
                 onKeyPress={(e) => {
                   if (e.key === 'Enter' && newCompositionPref) {
-                    setFormData(prev => ({
+                    setFormData((prev) => ({
                       ...prev,
                       visual_style: {
                         ...prev.visual_style,
-                        composition_preferences: [...prev.visual_style.composition_preferences, newCompositionPref],
+                        composition_preferences: [
+                          ...prev.visual_style.composition_preferences,
+                          newCompositionPref,
+                        ],
                       },
                     }));
                     setNewCompositionPref('');
@@ -752,11 +750,14 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
                 variant="outlined"
                 onClick={() => {
                   if (newCompositionPref) {
-                    setFormData(prev => ({
+                    setFormData((prev) => ({
                       ...prev,
                       visual_style: {
                         ...prev.visual_style,
-                        composition_preferences: [...prev.visual_style.composition_preferences, newCompositionPref],
+                        composition_preferences: [
+                          ...prev.visual_style.composition_preferences,
+                          newCompositionPref,
+                        ],
                       },
                     }));
                     setNewCompositionPref('');
@@ -773,11 +774,13 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
                   key={index}
                   label={pref}
                   onDelete={() => {
-                    setFormData(prev => ({
+                    setFormData((prev) => ({
                       ...prev,
                       visual_style: {
                         ...prev.visual_style,
-                        composition_preferences: prev.visual_style.composition_preferences.filter((_, i) => i !== index),
+                        composition_preferences: prev.visual_style.composition_preferences.filter(
+                          (_, i) => i !== index
+                        ),
                       },
                     }));
                   }}
@@ -793,12 +796,7 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
         <Box display="flex" alignItems="center" justifyContent="space-between">
           <Typography variant="h6">Products</Typography>
           <Box display="flex" gap={1}>
-            <Button
-              variant="outlined"
-              size="small"
-              onClick={addProduct}
-              startIcon={<LuPlus />}
-            >
+            <Button variant="outlined" size="small" onClick={addProduct} startIcon={<LuPlus />}>
               Add Product
             </Button>
             <IconButton onClick={() => toggleSection('products')}>
@@ -806,7 +804,7 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
             </IconButton>
           </Box>
         </Box>
-        
+
         <Collapse in={expandedSections.products}>
           <Box mt={2}>
             {formData.products.map((product, index) => (
@@ -846,9 +844,10 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
                         onChange={(e) => updateProduct(index, 'category', e.target.value)}
                         label="Category"
                       >
-                        {BRAND_CATEGORIES.map(cat => (
+                        {BRAND_CATEGORIES.map((cat) => (
                           <MenuItem key={cat} value={cat}>
-                            {cat.replace('_', ' ').charAt(0).toUpperCase() + cat.slice(1).replace('_', ' ')}
+                            {cat.replace('_', ' ').charAt(0).toUpperCase() +
+                              cat.slice(1).replace('_', ' ')}
                           </MenuItem>
                         ))}
                       </Select>
@@ -869,14 +868,23 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
                       size="small"
                       label="Differentiators (comma-separated)"
                       value={product.differentiators.join(', ')}
-                      onChange={(e) => updateProduct(index, 'differentiators', e.target.value.split(',').map(s => s.trim()).filter(Boolean))}
+                      onChange={(e) =>
+                        updateProduct(
+                          index,
+                          'differentiators',
+                          e.target.value
+                            .split(',')
+                            .map((s) => s.trim())
+                            .filter(Boolean)
+                        )
+                      }
                       helperText="What makes this product unique?"
                     />
                   </Grid>
                 </Grid>
               </Paper>
             ))}
-            
+
             {formData.products.length === 0 && (
               <Typography variant="body2" color="textSecondary" sx={{ textAlign: 'center', py: 3 }}>
                 No products added yet. Click "Add Product" to get started.
@@ -894,7 +902,7 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
             {expandedSections.scenes ? <LuChevronUp /> : <LuChevronDown />}
           </IconButton>
         </Box>
-        
+
         <Collapse in={expandedSections.scenes}>
           <Box mt={2}>
             {/* Approved Scenes */}
@@ -909,7 +917,7 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
                 onChange={(e) => setNewApprovedScene(e.target.value)}
                 onKeyPress={(e) => {
                   if (e.key === 'Enter' && newApprovedScene) {
-                    setFormData(prev => ({
+                    setFormData((prev) => ({
                       ...prev,
                       approved_scenes: [...prev.approved_scenes, newApprovedScene],
                     }));
@@ -921,7 +929,7 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
                 variant="outlined"
                 onClick={() => {
                   if (newApprovedScene) {
-                    setFormData(prev => ({
+                    setFormData((prev) => ({
                       ...prev,
                       approved_scenes: [...prev.approved_scenes, newApprovedScene],
                     }));
@@ -940,7 +948,7 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
                   label={scene}
                   color="success"
                   onDelete={() => {
-                    setFormData(prev => ({
+                    setFormData((prev) => ({
                       ...prev,
                       approved_scenes: prev.approved_scenes.filter((_, i) => i !== index),
                     }));
@@ -961,7 +969,7 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
                 onChange={(e) => setNewAvoidItem(e.target.value)}
                 onKeyPress={(e) => {
                   if (e.key === 'Enter' && newAvoidItem) {
-                    setFormData(prev => ({
+                    setFormData((prev) => ({
                       ...prev,
                       avoid_list: [...prev.avoid_list, newAvoidItem],
                     }));
@@ -973,7 +981,7 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
                 variant="outlined"
                 onClick={() => {
                   if (newAvoidItem) {
-                    setFormData(prev => ({
+                    setFormData((prev) => ({
                       ...prev,
                       avoid_list: [...prev.avoid_list, newAvoidItem],
                     }));
@@ -992,7 +1000,7 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
                   label={item}
                   color="error"
                   onDelete={() => {
-                    setFormData(prev => ({
+                    setFormData((prev) => ({
                       ...prev,
                       avoid_list: prev.avoid_list.filter((_, i) => i !== index),
                     }));

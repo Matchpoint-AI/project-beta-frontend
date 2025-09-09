@@ -123,7 +123,7 @@ const CampaignSetupCompleteDialog: React.FC<Props> = ({ setCurrentStep, open }) 
     })
       .then((response) => {
         if (!response.ok) {
-          return response.json().then(err => {
+          return response.json().then((err) => {
             throw new Error(err.detail || 'Failed to create campaign');
           });
         }
@@ -150,42 +150,68 @@ const CampaignSetupCompleteDialog: React.FC<Props> = ({ setCurrentStep, open }) 
       try {
         // Step 1: Create Scene Mix Policy for the campaign
         // Map purpose to intent
-        const purposeToIntent: Record<string, 'awareness' | 'conversion' | 'engagement' | 'education'> = {
+        const purposeToIntent: Record<
+          string,
+          'awareness' | 'conversion' | 'engagement' | 'education'
+        > = {
           'Make customers aware/excited': 'awareness',
           'Get customers to buy': 'conversion',
           'Build community': 'engagement',
           'Educate audience': 'education',
         };
-        
+
         // Map industry/vertical to backend industry enum
-        const getIndustry = (industry: string, vertical: string): 'consumable' | 'wearable' | 'device' | 'service' | 'venue' | 'food_beverage' | 'cosmetic' | 'supplement' | 'saas' => {
-          const mapping: Record<string, 'consumable' | 'wearable' | 'device' | 'service' | 'venue' | 'food_beverage' | 'cosmetic' | 'supplement' | 'saas'> = {
-            'food': 'food_beverage',
-            'beverage': 'food_beverage',
-            'food_beverage': 'food_beverage',
-            'cosmetics': 'cosmetic',
-            'cosmetic': 'cosmetic',
-            'supplement': 'supplement',
-            'supplements': 'supplement',
-            'clothing': 'wearable',
-            'apparel': 'wearable',
-            'fashion': 'wearable',
-            'technology': 'device',
-            'electronics': 'device',
-            'software': 'saas',
-            'saas': 'saas',
-            'service': 'service',
-            'venue': 'venue',
-            'restaurant': 'venue',
-            'retail': 'venue',
+        const getIndustry = (
+          industry: string,
+          vertical: string
+        ):
+          | 'consumable'
+          | 'wearable'
+          | 'device'
+          | 'service'
+          | 'venue'
+          | 'food_beverage'
+          | 'cosmetic'
+          | 'supplement'
+          | 'saas' => {
+          const mapping: Record<
+            string,
+            | 'consumable'
+            | 'wearable'
+            | 'device'
+            | 'service'
+            | 'venue'
+            | 'food_beverage'
+            | 'cosmetic'
+            | 'supplement'
+            | 'saas'
+          > = {
+            food: 'food_beverage',
+            beverage: 'food_beverage',
+            food_beverage: 'food_beverage',
+            cosmetics: 'cosmetic',
+            cosmetic: 'cosmetic',
+            supplement: 'supplement',
+            supplements: 'supplement',
+            clothing: 'wearable',
+            apparel: 'wearable',
+            fashion: 'wearable',
+            technology: 'device',
+            electronics: 'device',
+            software: 'saas',
+            saas: 'saas',
+            service: 'service',
+            venue: 'venue',
+            restaurant: 'venue',
+            retail: 'venue',
           };
-          
+
           const industryLower = (industry || '').toLowerCase();
           const verticalLower = (vertical || '').toLowerCase();
-          
+
           return mapping[industryLower] || mapping[verticalLower] || 'service';
         };
-        
+
         const policyData = await policyApi.createPolicy(
           campaignId,
           {
@@ -210,15 +236,18 @@ const CampaignSetupCompleteDialog: React.FC<Props> = ({ setCurrentStep, open }) 
         );
 
         // Step 2: Create content plan using Scene Mix Planner
-        
+
         // Map campaign purpose to campaign type
-        const purposeToCampaignType: Record<string, 'product_launch' | 'brand_awareness' | 'seasonal' | 'engagement'> = {
+        const purposeToCampaignType: Record<
+          string,
+          'product_launch' | 'brand_awareness' | 'seasonal' | 'engagement'
+        > = {
           'Make customers aware/excited': 'brand_awareness',
           'Get customers to buy': 'product_launch',
           'Build community': 'engagement',
           'Educate audience': 'brand_awareness',
         };
-        
+
         const planData = await plannerApi.createPlan(
           campaignId,
           {
@@ -229,7 +258,7 @@ const CampaignSetupCompleteDialog: React.FC<Props> = ({ setCurrentStep, open }) 
               const audience = [
                 ...(campaignInfo?.audienceInterests || []),
                 ...(campaignInfo?.audienceGender || []),
-                ...(campaignInfo?.audienceAgeRange || [])
+                ...(campaignInfo?.audienceAgeRange || []),
               ].filter(Boolean);
               // Ensure at least one target audience item (backend requires min_items=1)
               return audience.length > 0 ? audience : ['general'];
@@ -248,12 +277,12 @@ const CampaignSetupCompleteDialog: React.FC<Props> = ({ setCurrentStep, open }) 
           use_scene_mix: 'true', // Flag to use new Scene Mix generation
           plan_id: planData.plan_id,
         };
-        
+
         // Only add policy_id if it exists and is not undefined
         if (policyData?.id && policyData.id !== 'undefined') {
           baseParams.policy_id = policyData.id;
         }
-        
+
         const params = new URLSearchParams(baseParams);
         const generateUrl = `${getServiceURL('content-gen')}/api/v1/contentgen/generate?${params.toString()}`;
 
@@ -266,20 +295,24 @@ const CampaignSetupCompleteDialog: React.FC<Props> = ({ setCurrentStep, open }) 
             'Content-Type': 'application/json',
           },
         });
-        
+
         if (!response.ok) {
           const errorText = await response.text();
           console.error('Content generation failed:', response.status, errorText);
-          throw new Error(`Failed to start content generation: ${response.status} - ${errorText || response.statusText}`);
+          throw new Error(
+            `Failed to start content generation: ${response.status} - ${errorText || response.statusText}`
+          );
         }
-        
+
         const responseData = await response.json();
         return;
       } catch (error) {
         console.error('Scene Mix generation failed:', error);
         // Don't fall back to legacy - we want Scene Mix to work properly
         // This ensures we fix Scene Mix issues rather than masking them
-        setError(`Scene Mix generation failed: ${error.message || error}. Please try again or contact support.`);
+        setError(
+          `Scene Mix generation failed: ${error.message || error}. Please try again or contact support.`
+        );
         throw new Error(`Scene Mix generation failed: ${error.message || error}`);
       }
     };
@@ -308,7 +341,10 @@ const CampaignSetupCompleteDialog: React.FC<Props> = ({ setCurrentStep, open }) 
           Campaign Setup Complete!
         </h2>
         {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+          <div
+            className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4"
+            role="alert"
+          >
             <span className="block sm:inline">{error}</span>
           </div>
         )}

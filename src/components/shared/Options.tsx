@@ -1,10 +1,10 @@
-import { CircularProgress } from "@mui/material";
-import React, { useState } from "react";
+import { CircularProgress } from '@mui/material';
+import React, { useState } from 'react';
 
 interface OptionsProps {
   edit: boolean | string;
   setEdit: React.Dispatch<React.SetStateAction<boolean | string>>;
-  regenerateImage: () => Promise<void>
+  regenerateImage: () => Promise<void>;
 }
 
 const Options = ({ edit, setEdit, regenerateImage }: OptionsProps) => {
@@ -12,7 +12,7 @@ const Options = ({ edit, setEdit, regenerateImage }: OptionsProps) => {
 
   const handleEdit = () => {
     if (edit === true) {
-      setEdit("save");
+      setEdit('save');
     } else if (edit === false) {
       setEdit(true);
     }
@@ -22,18 +22,18 @@ const Options = ({ edit, setEdit, regenerateImage }: OptionsProps) => {
     setLoading(true);
     await regenerateImage();
     setLoading(false);
-  }
+  };
 
   return (
     <div
       className={`flex flex-row mb-[13px] mt-auto ${
-        edit === false ? "justify-end" : "justify-between"
+        edit === false ? 'justify-end' : 'justify-between'
       }  w-full  items-center p-1 text-white`}
     >
       <button
         onClick={() => setEdit(false)}
         className={`${
-          edit === false ? "hidden" : ""
+          edit === false ? 'hidden' : ''
         } bg-[#5850EC] w-[29px] h-[29px] rounded-md flex justify-center items-center`}
       >
         <svg
@@ -84,9 +84,13 @@ const Options = ({ edit, setEdit, regenerateImage }: OptionsProps) => {
             </svg>
           )}
         </button>
-        <button disabled={loading} className="bg-[#5850EC] w-[29px] h-[29px] rounded-md flex justify-center items-center" onClick={handleClick}>
-          {
-            !loading && (<svg
+        <button
+          disabled={loading}
+          className="bg-[#5850EC] w-[29px] h-[29px] rounded-md flex justify-center items-center"
+          onClick={handleClick}
+        >
+          {!loading && (
+            <svg
               width="11"
               height="12"
               viewBox="0 0 11 12"
@@ -99,17 +103,10 @@ const Options = ({ edit, setEdit, regenerateImage }: OptionsProps) => {
                 d="M0.785714 0C0.994099 0 1.19395 0.0790176 1.3413 0.21967C1.48865 0.360322 1.57143 0.551088 1.57143 0.75V2.32575C2.22517 1.6892 3.03791 1.22198 3.93308 0.968087C4.82826 0.714194 5.77641 0.681989 6.68822 0.874504C7.60004 1.06702 8.44551 1.47792 9.145 2.0685C9.84449 2.65908 10.375 3.4099 10.6865 4.25025C10.7243 4.34382 10.742 4.44367 10.7387 4.5439C10.7354 4.64413 10.711 4.74271 10.6671 4.83379C10.6231 4.92488 10.5605 5.00663 10.4828 5.07421C10.4052 5.14178 10.3142 5.19381 10.2151 5.22722C10.1161 5.26063 10.011 5.27473 9.90614 5.2687C9.80128 5.26267 9.69874 5.23663 9.6046 5.19211C9.51046 5.1476 9.42663 5.08551 9.35807 5.00953C9.28951 4.93355 9.2376 4.84521 9.20543 4.74975C8.96825 4.10986 8.55364 3.54339 8.00578 3.11068C7.45793 2.67798 6.79735 2.39526 6.09444 2.29266C5.39153 2.19006 4.67263 2.27141 4.01434 2.52806C3.35605 2.7847 2.78303 3.20701 2.35636 3.75H4.71429C4.92267 3.75 5.12252 3.82902 5.26987 3.96967C5.41722 4.11032 5.5 4.30109 5.5 4.5C5.5 4.69891 5.41722 4.88968 5.26987 5.03033C5.12252 5.17098 4.92267 5.25 4.71429 5.25H0.785714C0.57733 5.25 0.37748 5.17098 0.23013 5.03033C0.0827803 4.88968 0 4.69891 0 4.5V0.75C0 0.551088 0.0827803 0.360322 0.23013 0.21967C0.37748 0.0790176 0.57733 0 0.785714 0ZM0.792 6.79275C0.8893 6.75995 0.992416 6.74576 1.09546 6.751C1.19851 6.75623 1.29946 6.7808 1.39256 6.82328C1.48566 6.86576 1.56908 6.92534 1.63806 6.9986C1.70703 7.07186 1.76022 7.15737 1.79457 7.25025C2.03175 7.89014 2.44636 8.45661 2.99421 8.88932C3.54207 9.32202 4.20265 9.60474 4.90556 9.70734C5.60847 9.80994 6.32737 9.72859 6.98566 9.47194C7.64395 9.2153 8.21697 8.79299 8.64364 8.25H6.28571C6.07733 8.25 5.87748 8.17098 5.73013 8.03033C5.58278 7.88968 5.5 7.69891 5.5 7.5C5.5 7.30109 5.58278 7.11032 5.73013 6.96967C5.87748 6.82902 6.07733 6.75 6.28571 6.75H10.2143C10.4227 6.75 10.6225 6.82902 10.7699 6.96967C10.9172 7.11032 11 7.30109 11 7.5V11.25C11 11.4489 10.9172 11.6397 10.7699 11.7803C10.6225 11.921 10.4227 12 10.2143 12C10.0059 12 9.80605 11.921 9.6587 11.7803C9.51135 11.6397 9.42857 11.4489 9.42857 11.25V9.67425C8.77483 10.3108 7.96209 10.778 7.06692 11.0319C6.17174 11.2858 5.22359 11.318 4.31178 11.1255C3.39996 10.933 2.55449 10.5221 1.855 9.9315C1.15551 9.34092 0.625019 8.5901 0.3135 7.74975C0.279133 7.65687 0.264269 7.55844 0.269757 7.46008C0.275245 7.36172 0.300977 7.26536 0.345483 7.17649C0.38999 7.08762 0.4524 7.00799 0.529148 6.94215C0.605897 6.87631 0.695481 6.82554 0.792786 6.79275H0.792Z"
                 fill="white"
               />
-            </svg>)
-          }
+            </svg>
+          )}
 
-          {
-            loading && <CircularProgress
-            sx={{ color: "#ffffff" }}
-            size={15}
-            thickness={7}
-          />
-          }
-          
+          {loading && <CircularProgress sx={{ color: '#ffffff' }} size={15} thickness={7} />}
         </button>
       </div>
     </div>

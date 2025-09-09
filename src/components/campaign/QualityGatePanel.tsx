@@ -1,17 +1,17 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { 
-  Card, 
-  CardContent, 
-  Typography, 
-  Box, 
-  LinearProgress, 
-  Chip, 
+import {
+  Card,
+  CardContent,
+  Typography,
+  Box,
+  LinearProgress,
+  Chip,
   Accordion,
   AccordionSummary,
   AccordionDetails,
   Alert,
   Divider,
-  Button
+  Button,
 } from '@mui/material';
 import { FaExclamationTriangle, FaCheckCircle, FaInfoCircle } from 'react-icons/fa';
 import { MdExpandMore, MdRefresh } from 'react-icons/md';
@@ -57,7 +57,7 @@ const QualityGatePanel: React.FC<QualityGatePanelProps> = ({
   content,
   metadata,
   onRecheck,
-  className
+  className,
 }) => {
   const [result, setResult] = useState<QualityGateResult | null>(null);
   const [loading, setLoading] = useState(false);
@@ -67,10 +67,10 @@ const QualityGatePanel: React.FC<QualityGatePanelProps> = ({
   // Mock quality gate analysis - in production, this would call the actual quality gate service
   const performQualityCheck = useCallback(async (): Promise<QualityGateResult> => {
     // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
     const checks: QualityCheck[] = [];
-    
+
     // Brand Compliance Check
     const brandScore = Math.random() * 0.4 + 0.6; // 0.6-1.0
     checks.push({
@@ -82,9 +82,11 @@ const QualityGatePanel: React.FC<QualityGatePanelProps> = ({
       category: 'brand_compliance',
       details: [
         brandScore > 0.8 ? 'Brand voice and tone are consistent' : 'Brand voice needs adjustment',
-        brandScore > 0.7 ? 'Visual style aligns with brand guidelines' : 'Visual style deviates from guidelines',
-        brandScore > 0.6 ? 'Approved messaging elements present' : 'Missing key brand messaging'
-      ]
+        brandScore > 0.7
+          ? 'Visual style aligns with brand guidelines'
+          : 'Visual style deviates from guidelines',
+        brandScore > 0.6 ? 'Approved messaging elements present' : 'Missing key brand messaging',
+      ],
     });
 
     // Diversity Check (for image content)
@@ -98,10 +100,14 @@ const QualityGatePanel: React.FC<QualityGatePanelProps> = ({
         status: diversityScore > 0.8 ? 'pass' : diversityScore > 0.6 ? 'warning' : 'fail',
         category: 'diversity',
         details: [
-          diversityScore > 0.8 ? 'Diverse representation achieved' : 'Limited diversity in representation',
-          diversityScore > 0.7 ? 'Inclusive messaging and imagery' : 'Consider more inclusive approach',
-          'Accessibility considerations reviewed'
-        ]
+          diversityScore > 0.8
+            ? 'Diverse representation achieved'
+            : 'Limited diversity in representation',
+          diversityScore > 0.7
+            ? 'Inclusive messaging and imagery'
+            : 'Consider more inclusive approach',
+          'Accessibility considerations reviewed',
+        ],
       });
     }
 
@@ -115,10 +121,12 @@ const QualityGatePanel: React.FC<QualityGatePanelProps> = ({
       status: consistencyScore > 0.8 ? 'pass' : consistencyScore > 0.6 ? 'warning' : 'fail',
       category: 'consistency',
       details: [
-        consistencyScore > 0.8 ? 'Consistent with campaign theme' : 'Some inconsistency with campaign theme',
+        consistencyScore > 0.8
+          ? 'Consistent with campaign theme'
+          : 'Some inconsistency with campaign theme',
         consistencyScore > 0.7 ? 'Messaging tone is uniform' : 'Tone varies from campaign standard',
-        consistencyScore > 0.6 ? 'Visual elements are cohesive' : 'Visual elements need alignment'
-      ]
+        consistencyScore > 0.6 ? 'Visual elements are cohesive' : 'Visual elements need alignment',
+      ],
     });
 
     // Completeness Check
@@ -131,10 +139,12 @@ const QualityGatePanel: React.FC<QualityGatePanelProps> = ({
       status: completenessScore > 0.8 ? 'pass' : completenessScore > 0.6 ? 'warning' : 'fail',
       category: 'completeness',
       details: [
-        completenessScore > 0.8 ? 'All required elements present' : 'Missing some required elements',
+        completenessScore > 0.8
+          ? 'All required elements present'
+          : 'Missing some required elements',
         itemType === 'caption' ? 'Caption length appropriate' : 'Content length adequate',
-        'Call-to-action included where appropriate'
-      ]
+        'Call-to-action included where appropriate',
+      ],
     });
 
     // Policy Check
@@ -149,14 +159,14 @@ const QualityGatePanel: React.FC<QualityGatePanelProps> = ({
       details: [
         policyScore > 0.9 ? 'No policy violations detected' : 'Minor policy concerns',
         'Copyright and trademark compliance verified',
-        'Platform-specific guidelines followed'
-      ]
+        'Platform-specific guidelines followed',
+      ],
     });
 
     const overallScore = checks.reduce((sum, check) => sum + check.score, 0) / checks.length;
-    const failedChecks = checks.filter(check => check.status === 'fail');
-    const warningChecks = checks.filter(check => check.status === 'warning');
-    
+    const failedChecks = checks.filter((check) => check.status === 'fail');
+    const warningChecks = checks.filter((check) => check.status === 'warning');
+
     const recommendations = [];
     const blockers = [];
 
@@ -184,7 +194,7 @@ const QualityGatePanel: React.FC<QualityGatePanelProps> = ({
       checks,
       recommendations,
       blockers,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
   }, [itemId, itemType, content]);
 
@@ -192,11 +202,9 @@ const QualityGatePanel: React.FC<QualityGatePanelProps> = ({
     try {
       setLoading(true);
       setError(null);
-      
-      const checkResult = onRecheck 
-        ? await onRecheck(itemId)
-        : await performQualityCheck();
-      
+
+      const checkResult = onRecheck ? await onRecheck(itemId) : await performQualityCheck();
+
       setResult(checkResult);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Quality check failed');
@@ -217,20 +225,29 @@ const QualityGatePanel: React.FC<QualityGatePanelProps> = ({
 
   const getStatusIcon = (status: QualityCheck['status']) => {
     switch (status) {
-      case 'pass': return <FaCheckCircle color="#4caf50" />;
-      case 'warning': return <FaExclamationTriangle color="#ff9800" />;
-      case 'fail': return <FaExclamationTriangle color="#f44336" />;
+      case 'pass':
+        return <FaCheckCircle color="#4caf50" />;
+      case 'warning':
+        return <FaExclamationTriangle color="#ff9800" />;
+      case 'fail':
+        return <FaExclamationTriangle color="#f44336" />;
     }
   };
 
   const getCategoryColor = (category: QualityCheck['category']) => {
     switch (category) {
-      case 'brand_compliance': return '#1976d2';
-      case 'diversity': return '#9c27b0';
-      case 'consistency': return '#2e7d32';
-      case 'completeness': return '#ed6c02';
-      case 'policy': return '#d32f2f';
-      default: return '#757575';
+      case 'brand_compliance':
+        return '#1976d2';
+      case 'diversity':
+        return '#9c27b0';
+      case 'consistency':
+        return '#2e7d32';
+      case 'completeness':
+        return '#ed6c02';
+      case 'policy':
+        return '#d32f2f';
+      default:
+        return '#757575';
     }
   };
 
@@ -257,11 +274,7 @@ const QualityGatePanel: React.FC<QualityGatePanelProps> = ({
           <Alert severity="error" sx={{ mb: 2 }}>
             {error}
           </Alert>
-          <Button
-            variant="outlined"
-            startIcon={<MdRefresh />}
-            onClick={runQualityCheck}
-          >
+          <Button variant="outlined" startIcon={<MdRefresh />} onClick={runQualityCheck}>
             Retry Quality Check
           </Button>
         </CardContent>
@@ -278,14 +291,8 @@ const QualityGatePanel: React.FC<QualityGatePanelProps> = ({
       <CardContent>
         {/* Header */}
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
-          <Typography variant="h6">
-            Quality Gate Results
-          </Typography>
-          <Button
-            size="small"
-            startIcon={<MdRefresh />}
-            onClick={runQualityCheck}
-          >
+          <Typography variant="h6">Quality Gate Results</Typography>
+          <Button size="small" startIcon={<MdRefresh />} onClick={runQualityCheck}>
             Recheck
           </Button>
         </Box>
@@ -296,14 +303,14 @@ const QualityGatePanel: React.FC<QualityGatePanelProps> = ({
             <Typography variant="subtitle1" sx={{ mr: 2 }}>
               Overall Score: {Math.round(result.overallScore * 100)}%
             </Typography>
-            <Chip 
+            <Chip
               label={result.passed ? 'PASSED' : 'FAILED'}
               color={result.passed ? 'success' : 'error'}
               variant="filled"
             />
           </Box>
-          <LinearProgress 
-            variant="determinate" 
+          <LinearProgress
+            variant="determinate"
             value={result.overallScore * 100}
             color={getScoreColor(result.overallScore)}
             sx={{ height: 8, borderRadius: 4 }}
@@ -344,30 +351,26 @@ const QualityGatePanel: React.FC<QualityGatePanelProps> = ({
         <Typography variant="subtitle1" sx={{ mb: 2 }}>
           Detailed Checks:
         </Typography>
-        
+
         {result.checks.map((check) => (
           <Accordion key={check.id} sx={{ mb: 1 }}>
             <AccordionSummary expandIcon={<MdExpandMore />}>
               <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
-                <Box sx={{ mr: 2 }}>
-                  {getStatusIcon(check.status)}
-                </Box>
+                <Box sx={{ mr: 2 }}>{getStatusIcon(check.status)}</Box>
                 <Box sx={{ flex: 1 }}>
-                  <Typography variant="subtitle2">
-                    {check.name}
-                  </Typography>
+                  <Typography variant="subtitle2">{check.name}</Typography>
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center', mr: 2 }}>
                   <Typography variant="body2" sx={{ mr: 1 }}>
                     {Math.round(check.score * 100)}%
                   </Typography>
-                  <Chip 
+                  <Chip
                     label={check.category.replace('_', ' ')}
                     size="small"
-                    sx={{ 
+                    sx={{
                       bgcolor: getCategoryColor(check.category),
                       color: 'white',
-                      fontSize: '0.7rem'
+                      fontSize: '0.7rem',
                     }}
                   />
                 </Box>
@@ -377,10 +380,10 @@ const QualityGatePanel: React.FC<QualityGatePanelProps> = ({
               <Typography variant="body2" color="textSecondary" sx={{ mb: 2 }}>
                 {check.description}
               </Typography>
-              
+
               <Box sx={{ mb: 2 }}>
-                <LinearProgress 
-                  variant="determinate" 
+                <LinearProgress
+                  variant="determinate"
                   value={check.score * 100}
                   color={getScoreColor(check.score)}
                   sx={{ height: 6, borderRadius: 3 }}

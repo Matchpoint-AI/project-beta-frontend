@@ -35,15 +35,14 @@ export default function BrandDataLoader({ children }: { children: React.ReactNod
       const data = await response.json();
       if (data.length > 0) {
         const convertedValues = convertToChipsArray(
-          (data[0].brand_variables.values || []).filter(Boolean),
+          (data[0].brand_variables.values || []).filter(Boolean)
         );
         const convertedPersona = convertToChipsArray(
-          (data[0].brand_variables.persona || []).filter(Boolean),
+          (data[0].brand_variables.persona || []).filter(Boolean)
         );
         const convertedToneAndVoice = convertToChipsArray(
-          (data[0].brand_variables.tov || []).filter(Boolean),
+          (data[0].brand_variables.tov || []).filter(Boolean)
         );
-
 
         setBusinessInfo({
           id: data[0].id,

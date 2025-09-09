@@ -28,12 +28,7 @@ vi.mock('../../features/auth/context/AuthContext', () => ({
 // Mock the NextButton component
 vi.mock('../shared/Buttons/NextButton', () => ({
   default: ({ text, formId, disabled }: any) => (
-    <button 
-      type="submit" 
-      form={formId} 
-      disabled={disabled}
-      data-testid="next-button"
-    >
+    <button type="submit" form={formId} disabled={disabled} data-testid="next-button">
       {text}
     </button>
   ),
@@ -51,8 +46,8 @@ vi.mock('../shared/Buttons/BackButton', () => ({
 // Mock the Dropdown component
 vi.mock('../shared/Dropdown', () => ({
   default: ({ options, currentValue, onUpdateContext }: any) => (
-    <select 
-      value={currentValue} 
+    <select
+      value={currentValue}
       onChange={(e) => onUpdateContext(e.target.value, 1)}
       data-testid="product-dropdown"
     >
@@ -85,7 +80,7 @@ vi.mock('../WebsiteOwnership', () => ({
 
 // Mock the ErrorToast component
 vi.mock('../shared/ErrorToast', () => ({
-  default: ({ open, onClose, message }: any) => 
+  default: ({ open, onClose, message }: any) =>
     open ? (
       <div data-testid="error-toast" onClick={onClose}>
         {message}
@@ -106,7 +101,7 @@ vi.mock('../shared/FormsContainer', () => ({
 // Mock the FormInputBox component
 vi.mock('../shared/FormInputBox', () => ({
   default: ({ children, styles, color }: any) => (
-    <div 
+    <div
       className="bg-gray-50 border rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5 flex items-center justify-center gap-2"
       style={{ borderColor: color, backgroundColor: styles?.backgroundColor || 'white' }}
     >
@@ -143,8 +138,12 @@ describe('ServiceForm', () => {
 
   const renderWithProviders = (component: React.ReactElement) => {
     return render(
-      <BrandContext.Provider value={{ businessInfo: mockBusinessInfo, setBusinessInfo: mockSetBusinessInfo }}>
-        <CampaignContext.Provider value={{ campaignInfo: mockCampaignInfo, setCampaignInfo: mockSetCampaignInfo }}>
+      <BrandContext.Provider
+        value={{ businessInfo: mockBusinessInfo, setBusinessInfo: mockSetBusinessInfo }}
+      >
+        <CampaignContext.Provider
+          value={{ campaignInfo: mockCampaignInfo, setCampaignInfo: mockSetCampaignInfo }}
+        >
           {component}
         </CampaignContext.Provider>
       </BrandContext.Provider>
@@ -187,8 +186,12 @@ describe('ServiceForm', () => {
     const emptyBusinessInfo = { products: [] };
     const newProductCampaignInfo = { ...mockCampaignInfo, newProduct: true };
     render(
-      <BrandContext.Provider value={{ businessInfo: emptyBusinessInfo, setBusinessInfo: mockSetBusinessInfo }}>
-        <CampaignContext.Provider value={{ campaignInfo: newProductCampaignInfo, setCampaignInfo: mockSetCampaignInfo }}>
+      <BrandContext.Provider
+        value={{ businessInfo: emptyBusinessInfo, setBusinessInfo: mockSetBusinessInfo }}
+      >
+        <CampaignContext.Provider
+          value={{ campaignInfo: newProductCampaignInfo, setCampaignInfo: mockSetCampaignInfo }}
+        >
           <ServiceForm
             handleNext={mockHandleNext}
             handleBack={mockHandleBack}
@@ -359,22 +362,22 @@ describe('ServiceForm', () => {
         setService={mockSetService}
       />
     );
-    
+
     // Clear both product name and product link inputs
     const productNameInput = screen.getAllByPlaceholderText('Name the new Product/Service')[0];
     const websiteInput = screen.getAllByPlaceholderText('Link to Product/Service')[0];
-    
+
     fireEvent.change(productNameInput, { target: { value: '' } });
     fireEvent.change(websiteInput, { target: { value: '' } });
-    
+
     // The next button should be disabled when both are empty
     const nextButton = screen.getAllByTestId('next-button')[0];
     expect(nextButton).toBeDisabled();
-    
+
     // Fill in the product name - should enable the button
     fireEvent.change(productNameInput, { target: { value: 'Test Product' } });
     expect(nextButton).not.toBeDisabled();
-    
+
     // Clear product name but add a link - should still be enabled
     fireEvent.change(productNameInput, { target: { value: '' } });
     fireEvent.change(websiteInput, { target: { value: 'https://example.com/product' } });
@@ -394,7 +397,9 @@ describe('ServiceForm', () => {
     fireEvent.change(productNameInput, { target: { value: '' } });
     const nextButton = screen.getAllByTestId('next-button')[0];
     fireEvent.click(nextButton);
-    expect(screen.getByText((text) => /please at least provide a name of your product/i.test(text))).toBeInTheDocument();
+    expect(
+      screen.getByText((text) => /please at least provide a name of your product/i.test(text))
+    ).toBeInTheDocument();
   });
 
   it('allows form submission with product link but no product name', () => {
@@ -405,15 +410,15 @@ describe('ServiceForm', () => {
         setService={mockSetService}
       />
     );
-    
+
     // Add a product link
     const websiteInput = screen.getAllByPlaceholderText('Link to Product/Service')[0];
     fireEvent.change(websiteInput, { target: { value: 'https://example.com/product' } });
-    
+
     // Clear the product name input
     const productNameInput = screen.getAllByPlaceholderText('Name the new Product/Service')[0];
     fireEvent.change(productNameInput, { target: { value: '' } });
-    
+
     // The next button should be enabled because we have a product link
     const nextButton = screen.getAllByTestId('next-button')[0];
     expect(nextButton).not.toBeDisabled();
@@ -427,15 +432,15 @@ describe('ServiceForm', () => {
         setService={mockSetService}
       />
     );
-    
+
     // Clear all inputs
     const websiteInput = screen.getAllByPlaceholderText('Link to Product/Service')[0];
     const productNameInput = screen.getAllByPlaceholderText('Name the new Product/Service')[0];
     fireEvent.change(websiteInput, { target: { value: '' } });
     fireEvent.change(productNameInput, { target: { value: '' } });
-    
+
     // The next button should show informative text
     const nextButton = screen.getAllByTestId('next-button')[0];
     expect(nextButton).toHaveTextContent('Enter product details to continue');
   });
-}); 
+});

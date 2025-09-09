@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 // import { Link } from "react-router-dom";
-import SideNavBar from "../SideNavBar";
+import SideNavBar from '../SideNavBar';
 
 interface SidebarProps {
   currentStep?: number;
@@ -11,8 +11,10 @@ const Sidebar: React.FC<SidebarProps> = ({ currentStep = 1 }) => {
   return (
     <>
       <div
-        className={`fixed top-0 left-0 h-screen w-20 bg-white z-50 shadow-md hidden md:block ${currentStep === 6 ? "blur-md" : ""
-          }`}>
+        className={`fixed top-0 left-0 h-screen w-20 bg-white z-50 shadow-md hidden md:block ${
+          currentStep === 6 ? 'blur-md' : ''
+        }`}
+      >
         <SideNavBar phone={false} />
       </div>
 
@@ -20,7 +22,7 @@ const Sidebar: React.FC<SidebarProps> = ({ currentStep = 1 }) => {
         <img src="/logo.svg" alt="logo" />
         <SideNavBar
           className=" bg-white w-20 absolute top-0 transition-all"
-          style={{ right: displaySidebar ? "0px" : "-80px" }}
+          style={{ right: displaySidebar ? '0px' : '-80px' }}
           phone={true}
         />
         <button onClick={() => setDisplaySidebar((old) => !old)}>

@@ -1,24 +1,24 @@
-import React, { useState } from "react";
-import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import React, { useState } from 'react';
+import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 
 const reviews = [
   {
-    text: "Matchpoint AI transformed our social media strategy!",
-    name: "Emerson Stedmann",
-    title: "CEO, Spa Essentials",
-    image: "/face.png", // Replace with actual image URL
+    text: 'Matchpoint AI transformed our social media strategy!',
+    name: 'Emerson Stedmann',
+    title: 'CEO, Spa Essentials',
+    image: '/face.png', // Replace with actual image URL
   },
   {
-    text: "This platform skyrocketed our engagement!",
-    name: "Sophia Carter",
-    title: "Marketing Director, BrightSide",
-    image: "/face.png", // Replace with actual image URL
+    text: 'This platform skyrocketed our engagement!',
+    name: 'Sophia Carter',
+    title: 'Marketing Director, BrightSide',
+    image: '/face.png', // Replace with actual image URL
   },
   {
-    text: "Incredible AI tools that save us time and improve our results.",
-    name: "Liam James",
-    title: "Founder, GreenWave Co.",
-    image: "/face.png", // Replace with actual image URL
+    text: 'Incredible AI tools that save us time and improve our results.',
+    name: 'Liam James',
+    title: 'Founder, GreenWave Co.',
+    image: '/face.png', // Replace with actual image URL
   },
 ];
 
@@ -30,9 +30,7 @@ const Reviews: React.FC = () => {
   };
 
   const handlePrev = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? reviews.length - 1 : prevIndex - 1
-    );
+    setCurrentIndex((prevIndex) => (prevIndex === 0 ? reviews.length - 1 : prevIndex - 1));
   };
 
   return (

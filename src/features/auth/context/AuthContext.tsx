@@ -30,7 +30,7 @@ interface AuthContextType {
     plan?: string,
     role?: string,
     is_admin?: boolean,
-    hasBrand?: boolean,
+    hasBrand?: boolean
   ) => void;
 }
 
@@ -69,7 +69,7 @@ const getTokenExpiration = (token: string): number | null => {
 const isTokenExpiringSoon = (token: string): boolean => {
   const exp = getTokenExpiration(token);
   if (!exp) return true; // Assume expired if we can't decode
-  
+
   const now = Date.now();
   const fiveMinutes = 5 * 60 * 1000;
   return exp - now < fiveMinutes;
@@ -91,13 +91,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     try {
       const newToken = await user.getIdToken(true); // Force refresh
-      
+
       // Update profile with new token
       if (profile) {
         const updatedProfile = { ...profile, token: newToken };
         setProfile(updatedProfile);
       }
-      
+
       // Store new token in cookie
       cookies.set('token', newToken, {
         path: '/',
@@ -105,7 +105,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         sameSite: 'lax',
         maxAge: 30 * 24 * 60 * 60, // 30 days
       });
-      
+
       return newToken;
     } catch (error) {
       console.error('Token refresh failed:', error);
@@ -122,7 +122,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     plan?: string,
     role?: string,
     is_admin?: boolean,
-    hasBrand?: boolean,
+    hasBrand?: boolean
   ) => {
     const newProfile: Profile = {
       id,
@@ -143,7 +143,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax', // Changed from 'strict' to 'lax' for better compatibility
     });
-
 
     if (newProfile.hasBrand) {
       navigate('/dashboard');
@@ -265,9 +264,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (expiration) {
         const now = Date.now();
         const timeUntilExpiry = expiration - now;
-        const refreshTime = Math.max(timeUntilExpiry - (10 * 60 * 1000), 5 * 60 * 1000); // Refresh 10 min before expiry, but at least 5 min from now
-        
-        
+        const refreshTime = Math.max(timeUntilExpiry - 10 * 60 * 1000, 5 * 60 * 1000); // Refresh 10 min before expiry, but at least 5 min from now
+
         const refreshTimeout = setTimeout(async () => {
           const newToken = await performTokenRefresh();
           if (!newToken) {
@@ -284,15 +282,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const cleanup = scheduleTokenRefresh();
 
     // Also set up a backup interval every 30 minutes as a safety net
-    const backupInterval = setInterval(async () => {
-      const currentToken = profile.token;
-      if (currentToken && isTokenExpiringSoon(currentToken)) {
-        const newToken = await performTokenRefresh();
-        if (!newToken) {
-          logout();
+    const backupInterval = setInterval(
+      async () => {
+        const currentToken = profile.token;
+        if (currentToken && isTokenExpiringSoon(currentToken)) {
+          const newToken = await performTokenRefresh();
+          if (!newToken) {
+            logout();
+          }
         }
-      }
-    }, 30 * 60 * 1000);
+      },
+      30 * 60 * 1000
+    );
 
     return () => {
       cleanup?.();

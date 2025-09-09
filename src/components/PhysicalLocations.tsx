@@ -1,7 +1,7 @@
-import React, { useState, useContext, useEffect } from "react";
-import { SparklesMessage } from "./SparklesMessage";
-import ZipCodeInput from "./Inputs/ZipCodeInput";
-import { BrandContext } from "../context/BrandContext";
+import React, { useState, useContext, useEffect } from 'react';
+import { SparklesMessage } from './SparklesMessage';
+import ZipCodeInput from './Inputs/ZipCodeInput';
+import { BrandContext } from '../context/BrandContext';
 
 interface PhysicalLocationsProps {
   physicalLocations: string[];
@@ -67,14 +67,13 @@ export function PhysicalLocationsFound(props: PhysicalLocationsProps) {
   const handleCheckBox = async () => {
     setBusinessInfo((prev: any) => {
       prev.checkZip = !checkZip;
-      return (prev);
+      return prev;
     });
     setCheckZip(!checkZip);
   };
 
   useEffect(() => {
-    if (businessInfo.checkZip !== undefined)
-      setCheckZip(businessInfo.checkZip);
+    if (businessInfo.checkZip !== undefined) setCheckZip(businessInfo.checkZip);
   }, [businessInfo]);
 
   return (
@@ -84,8 +83,8 @@ export function PhysicalLocationsFound(props: PhysicalLocationsProps) {
           We’ve detected your brand has physical locations in these areas.
         </SparklesMessage>
         <p className="text-sm text-[#6B7280]">
-          You may remove locations as you wish. To add a location please type
-          the zip code of the city it’s in.
+          You may remove locations as you wish. To add a location please type the zip code of the
+          city it’s in.
         </p>
         {!checkZip && (
           <ZipCodeInput
@@ -118,9 +117,7 @@ export function PhysicalLocationsFound(props: PhysicalLocationsProps) {
 export function PhysicalLocations(props: PhysicalLocationsProps) {
   return (
     <div className="my-10">
-      <h2 className="text-xl font-medium text-gray-900 capitalize mb-3">
-        locations
-      </h2>
+      <h2 className="text-xl font-medium text-gray-900 capitalize mb-3">locations</h2>
       {props.physicalLocations.length > 0 ? (
         <PhysicalLocationsFound {...props} />
       ) : (

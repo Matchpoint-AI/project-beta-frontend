@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import Drawer from "@mui/material/Drawer";
-import ReactJson from "react-json-view";
+import React, { useEffect, useState } from 'react';
+import Drawer from '@mui/material/Drawer';
+import ReactJson from 'react-json-view';
 
-import { Post } from "../pages/UserDataPage";
+import { Post } from '../pages/UserDataPage';
 
 interface RawDataProps {
   state: boolean;
@@ -49,14 +49,14 @@ export default function RawData({ state, onClose, data }: RawDataProps) {
   return (
     <>
       {formattedData && (
-        <Drawer
-          anchor="left"
-          open={state}
-          onClose={onClose}
-          sx={{ zIndex: 50, maxWidth: "900px"}}
-        >
+        <Drawer anchor="left" open={state} onClose={onClose} sx={{ zIndex: 50, maxWidth: '900px' }}>
           <div className="bg-[#272822] h-full w-full relative overflow-auto">
-            <ReactJson src={formattedData} theme="monokai" displayDataTypes={false} style={{width: "900px", position: "absolute top-0 left-0"}} />
+            <ReactJson
+              src={formattedData}
+              theme="monokai"
+              displayDataTypes={false}
+              style={{ width: '900px', position: 'absolute top-0 left-0' }}
+            />
           </div>
         </Drawer>
       )}
@@ -65,7 +65,7 @@ export default function RawData({ state, onClose, data }: RawDataProps) {
 }
 
 /**
- * 
- * 
- * 
+ *
+ *
+ *
  */

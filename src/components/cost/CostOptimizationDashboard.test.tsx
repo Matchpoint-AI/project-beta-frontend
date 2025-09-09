@@ -1,6 +1,6 @@
 /**
  * Tests for Cost Optimization Dashboard Component
- * 
+ *
  * Comprehensive test coverage for the cost optimization dashboard,
  * including data fetching, chart rendering, user interactions, and error handling.
  */
@@ -65,7 +65,13 @@ vi.mock('../ui/Badge', () => ({
 
 vi.mock('../ui/Button', () => ({
   Button: vi.fn(({ children, onClick, variant, size, ...props }) => (
-    <button data-testid="button" onClick={onClick} data-variant={variant} data-size={size} {...props}>
+    <button
+      data-testid="button"
+      onClick={onClick}
+      data-variant={variant}
+      data-size={size}
+      {...props}
+    >
       {children}
     </button>
   )),
@@ -96,7 +102,7 @@ const mockDashboardData = {
       percentage_savings: 94.0,
       projected_annual_savings: 57135.0,
       quality_before: 0.95,
-      quality_after: 0.90,
+      quality_after: 0.9,
       quality_impact: -0.05,
       latency_before: 2500.0,
       latency_after: 1200.0,
@@ -236,7 +242,11 @@ describe('CostOptimizationDashboard', () => {
 
       await waitFor(() => {
         expect(screen.getByText('Cost Optimization Dashboard')).toBeInTheDocument();
-        expect(screen.getByText('Track the 90% cost reduction achievement through AI model optimizations')).toBeInTheDocument();
+        expect(
+          screen.getByText(
+            'Track the 90% cost reduction achievement through AI model optimizations'
+          )
+        ).toBeInTheDocument();
       });
     });
 
@@ -287,18 +297,22 @@ describe('CostOptimizationDashboard', () => {
 
       await waitFor(() => {
         const badges = screen.getAllByTestId('badge');
-        
-        // Vision model switch should be "On Track" (94% >= 94% target)
-        expect(badges.some(badge => 
-          badge.textContent === 'On Track' && 
-          badge.getAttribute('data-variant') === 'success'
-        )).toBe(true);
 
-        // Gemini routing should be "On Track" (67% >= 67% target) 
-        expect(badges.some(badge => 
-          badge.textContent === 'On Track' && 
-          badge.getAttribute('data-variant') === 'success'
-        )).toBe(true);
+        // Vision model switch should be "On Track" (94% >= 94% target)
+        expect(
+          badges.some(
+            (badge) =>
+              badge.textContent === 'On Track' && badge.getAttribute('data-variant') === 'success'
+          )
+        ).toBe(true);
+
+        // Gemini routing should be "On Track" (67% >= 67% target)
+        expect(
+          badges.some(
+            (badge) =>
+              badge.textContent === 'On Track' && badge.getAttribute('data-variant') === 'success'
+          )
+        ).toBe(true);
       });
     });
 
@@ -308,10 +322,10 @@ describe('CostOptimizationDashboard', () => {
       await waitFor(() => {
         // Should have savings trend chart
         expect(screen.getByTestId('line-chart')).toBeInTheDocument();
-        
+
         // Should have optimization comparison chart
         expect(screen.getByTestId('bar-chart')).toBeInTheDocument();
-        
+
         // Should have model distribution chart
         expect(screen.getByTestId('doughnut-chart')).toBeInTheDocument();
       });
@@ -323,7 +337,9 @@ describe('CostOptimizationDashboard', () => {
       await waitFor(() => {
         expect(screen.getByText('Cost Alerts')).toBeInTheDocument();
         expect(screen.getByText('Gemini Routing')).toBeInTheDocument();
-        expect(screen.getByText('Gemini routing causing quality degradation of 7%')).toBeInTheDocument();
+        expect(
+          screen.getByText('Gemini routing causing quality degradation of 7%')
+        ).toBeInTheDocument();
       });
     });
 
@@ -332,11 +348,11 @@ describe('CostOptimizationDashboard', () => {
 
       await waitFor(() => {
         expect(screen.getByText('Top Savings Opportunities')).toBeInTheDocument();
-        
+
         // Should show opportunities sorted by annual savings
         const savingsText = screen.getAllByText(/\$[0-9,]+/);
-        expect(savingsText.some(el => el.textContent?.includes('$57,135'))).toBe(true);
-        expect(savingsText.some(el => el.textContent?.includes('$24,422'))).toBe(true);
+        expect(savingsText.some((el) => el.textContent?.includes('$57,135'))).toBe(true);
+        expect(savingsText.some((el) => el.textContent?.includes('$24,422'))).toBe(true);
       });
     });
   });
@@ -382,7 +398,7 @@ describe('CostOptimizationDashboard', () => {
       await waitFor(() => {
         const visionCard = screen.getByText('Vision Model Switch').closest('[data-testid="card"]');
         expect(visionCard).toBeInTheDocument();
-        
+
         if (visionCard) {
           fireEvent.click(visionCard);
           // Note: In a real implementation, this might navigate or show details
@@ -400,7 +416,9 @@ describe('CostOptimizationDashboard', () => {
       render(<CostOptimizationDashboard />);
 
       await waitFor(() => {
-        expect(screen.getByText(`Error loading cost dashboard: ${errorMessage}`)).toBeInTheDocument();
+        expect(
+          screen.getByText(`Error loading cost dashboard: ${errorMessage}`)
+        ).toBeInTheDocument();
         expect(screen.getByText('Retry')).toBeInTheDocument();
       });
     });
@@ -475,7 +493,7 @@ describe('CostOptimizationDashboard', () => {
         const highSavingsElement = screen.getByText('94.0%');
         expect(highSavingsElement).toHaveClass('text-green-600');
 
-        // Medium savings (67%) should have appropriate color  
+        // Medium savings (67%) should have appropriate color
         const mediumSavingsElement = screen.getByText('67.0%');
         expect(mediumSavingsElement).toHaveClass('text-green-600'); // Still good
       });
@@ -512,11 +530,15 @@ describe('CostOptimizationDashboard', () => {
 
       await waitFor(() => {
         // Main heading
-        expect(screen.getByRole('heading', { level: 1, name: 'Cost Optimization Dashboard' })).toBeInTheDocument();
-        
+        expect(
+          screen.getByRole('heading', { level: 1, name: 'Cost Optimization Dashboard' })
+        ).toBeInTheDocument();
+
         // Section headings
         expect(screen.getByRole('heading', { level: 2, name: 'Cost Alerts' })).toBeInTheDocument();
-        expect(screen.getByRole('heading', { level: 2, name: 'Top Savings Opportunities' })).toBeInTheDocument();
+        expect(
+          screen.getByRole('heading', { level: 2, name: 'Top Savings Opportunities' })
+        ).toBeInTheDocument();
       });
     });
 
@@ -526,7 +548,7 @@ describe('CostOptimizationDashboard', () => {
       await waitFor(() => {
         const select = screen.getByDisplayValue('30 Days');
         expect(select).toHaveAttribute('aria-label');
-        
+
         const refreshButton = screen.getByText('Refresh');
         expect(refreshButton).toBeInstanceOf(HTMLButtonElement);
       });
@@ -540,12 +562,12 @@ describe('CostOptimizationDashboard', () => {
 
     it('should prepare line chart data correctly', async () => {
       const { Line } = require('react-chartjs-2');
-      
+
       render(<CostOptimizationDashboard />);
 
       await waitFor(() => {
         expect(Line).toHaveBeenCalled();
-        
+
         const chartProps = Line.mock.calls[0][0];
         expect(chartProps.data).toBeDefined();
         expect(chartProps.data.labels).toEqual(['8/20/2024', '8/21/2024']);
@@ -557,12 +579,12 @@ describe('CostOptimizationDashboard', () => {
 
     it('should prepare bar chart data correctly', async () => {
       const { Bar } = require('react-chartjs-2');
-      
+
       render(<CostOptimizationDashboard />);
 
       await waitFor(() => {
         expect(Bar).toHaveBeenCalled();
-        
+
         const chartProps = Bar.mock.calls[0][0];
         expect(chartProps.data).toBeDefined();
         expect(chartProps.data.labels).toEqual(['Vision Model Switch', 'Gemini Routing']);
@@ -572,12 +594,12 @@ describe('CostOptimizationDashboard', () => {
 
     it('should prepare doughnut chart data correctly', async () => {
       const { Doughnut } = require('react-chartjs-2');
-      
+
       render(<CostOptimizationDashboard />);
 
       await waitFor(() => {
         expect(Doughnut).toHaveBeenCalled();
-        
+
         const chartProps = Doughnut.mock.calls[0][0];
         expect(chartProps.data).toBeDefined();
         expect(chartProps.data.labels).toHaveLength(5);
@@ -592,7 +614,7 @@ describe('CostOptimizationDashboard', () => {
         ...mockDashboardData,
         optimization_metrics: [],
       };
-      
+
       (costOptimizationApi.getDashboardData as any).mockResolvedValue(emptyData);
 
       render(<CostOptimizationDashboard />);
@@ -615,7 +637,7 @@ describe('CostOptimizationDashboard', () => {
           },
         ],
       };
-      
+
       (costOptimizationApi.getDashboardData as any).mockResolvedValue(incompleteData);
 
       render(<CostOptimizationDashboard />);
@@ -632,7 +654,7 @@ describe('CostOptimizationDashboard', () => {
         total_percentage_savings: -5.0,
         total_absolute_savings: -500.0,
       };
-      
+
       (costOptimizationApi.getDashboardData as any).mockResolvedValue(negativeData);
 
       render(<CostOptimizationDashboard />);

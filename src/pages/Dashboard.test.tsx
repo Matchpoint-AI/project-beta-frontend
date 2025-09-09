@@ -79,7 +79,10 @@ const mockBrandContextValue = {
   setBusinessInfo: vi.fn(),
 };
 
-const renderWithContext = (authValue = mockAuthContextValue, brandValue = mockBrandContextValue) => {
+const renderWithContext = (
+  authValue = mockAuthContextValue,
+  brandValue = mockBrandContextValue
+) => {
   return render(
     <BrowserRouter>
       <AuthContext.Provider value={authValue}>
@@ -166,7 +169,7 @@ describe('Dashboard Component', () => {
     renderWithContext(mockAuthContextValue, brandValueWithOneCampaign);
 
     // Wait a bit to ensure no automatic navigation occurs
-    await new Promise(resolve => setTimeout(resolve, 100));
+    await new Promise((resolve) => setTimeout(resolve, 100));
 
     // The handleNavigate mock should NOT have been called
     const handleNavigate = (await import('../helpers/handleNavigate')).default;

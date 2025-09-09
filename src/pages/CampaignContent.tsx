@@ -91,7 +91,7 @@ const CampaignContent = () => {
               Authorization: `Bearer ${profile.token}`,
               'Content-Type': 'application/json',
             },
-          },
+          }
         );
 
         if (campaignResponse.status === 401) {
@@ -113,17 +113,17 @@ const CampaignContent = () => {
         const campaign = campaignData[0];
         setCampaign(campaign);
         setTitle(
-          capitalizeFirstLetterOfEachWord(campaign.campaign_data?.campaign_variables?.name || ''),
+          capitalizeFirstLetterOfEachWord(campaign.campaign_data?.campaign_variables?.name || '')
         );
         setService(campaign.campaign_data?.campaign_variables?.product_service || 'not selected');
         setPostingSchedule(
-          getPostingSchedule(campaign.campaign_data?.campaign_variables?.frequency || ''),
+          getPostingSchedule(campaign.campaign_data?.campaign_variables?.frequency || '')
         );
         setTimeFrame(
           displayDuration(
             campaign.campaign_data?.campaign_variables?.start_date || '',
-            campaign.campaign_data?.campaign_variables?.durationNum || 0,
-          ),
+            campaign.campaign_data?.campaign_variables?.durationNum || 0
+          )
         );
 
         // Fetch content data
@@ -139,7 +139,7 @@ const CampaignContent = () => {
             headers: {
               Authorization: `Bearer ${profile.token}`,
             },
-          },
+          }
         );
 
         if (!contentResponse.ok) {
@@ -211,7 +211,7 @@ const CampaignContent = () => {
       trackCampaignPublish(
         id,
         campaignContent.campaign_data.campaign_variables.durationNum,
-        stats?.total_content,
+        stats?.total_content
       );
     }
   };
@@ -232,7 +232,7 @@ const CampaignContent = () => {
 
   const navigateToCampaignView = () => {
     const data = campaignContent?.campaign_data?.campaign_variables;
-    if(data){
+    if (data) {
       setCampaignInfo((prev) => ({
         ...prev,
         summary: data?.summary,
@@ -297,7 +297,7 @@ const CampaignContent = () => {
                 <button
                   onClick={() => {
                     setError(null);
-                    setRetryTrigger(prev => prev + 1);
+                    setRetryTrigger((prev) => prev + 1);
                   }}
                   className="ml-2 text-[#5145CD] underline"
                 >

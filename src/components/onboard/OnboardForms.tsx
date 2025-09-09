@@ -125,7 +125,7 @@ const Onboard = ({ edit = false }: any) => {
         entity_data: payload,
         brandId: String(businessInfo.id),
         isEdit: Boolean(edit),
-      }),
+      })
     );
 
     setCampaignInfo((prev: any) => ({

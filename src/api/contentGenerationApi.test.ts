@@ -8,7 +8,7 @@ vi.mock('../helpers/getServiceURL', () => ({
 
 describe('contentGenerationApi', () => {
   const mockFetch = vi.fn();
-  
+
   beforeEach(() => {
     vi.clearAllMocks();
     global.fetch = mockFetch;
@@ -22,7 +22,7 @@ describe('contentGenerationApi', () => {
           success: true,
           captions: [{ text: 'Test caption', score: 0.9 }],
         };
-        
+
         mockFetch.mockResolvedValueOnce({
           ok: true,
           json: async () => mockResponse,
@@ -70,7 +70,7 @@ describe('contentGenerationApi', () => {
 
         const callArgs = mockFetch.mock.calls[0];
         const body = JSON.parse(callArgs[1].body);
-        
+
         expect(body.hashtag_preferences).toEqual({
           suggested: ['#brand', '#product', '#lifestyle'],
           count: 3,
@@ -215,7 +215,7 @@ describe('contentGenerationApi', () => {
         );
 
         const body = JSON.parse(mockFetch.mock.calls[0][1].body);
-        
+
         expect(body.content_id).toBe('content-123');
         expect(body.caption_id).toBe('caption-456');
         expect(body.feedback).toBe('Make it different');
@@ -362,7 +362,12 @@ describe('contentGenerationApi', () => {
       });
 
       it('should handle all campaign types', async () => {
-        const campaignTypes = ['product_launch', 'brand_awareness', 'seasonal', 'engagement'] as const;
+        const campaignTypes = [
+          'product_launch',
+          'brand_awareness',
+          'seasonal',
+          'engagement',
+        ] as const;
 
         for (const campaignType of campaignTypes) {
           mockFetch.mockResolvedValueOnce({
@@ -468,14 +473,11 @@ describe('contentGenerationApi', () => {
 
         const result = await plannerApi.getUserPlans('token');
 
-        expect(mockFetch).toHaveBeenCalledWith(
-          'https://mock-service.com/api/v1/plans',
-          {
-            headers: {
-              Authorization: 'Bearer token',
-            },
-          }
-        );
+        expect(mockFetch).toHaveBeenCalledWith('https://mock-service.com/api/v1/plans', {
+          headers: {
+            Authorization: 'Bearer token',
+          },
+        });
 
         expect(result).toEqual(mockPlans);
       });

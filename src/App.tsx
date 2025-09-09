@@ -18,8 +18,6 @@ import VersionDisplay from './components/shared/VersionDisplay';
 function Fallback({ error }: { error: Error }) {
   const { profile } = useAuth();
 
-
-
   useEffect(() => {
     if (!profile?.token) return;
     if (posthog.__loaded) {

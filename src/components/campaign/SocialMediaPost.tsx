@@ -50,7 +50,7 @@ interface SocialMediaPostProps {
     post: number,
     imageIndex: number,
     imageUrl: string | null,
-    newText: string,
+    newText: string
   ) => void;
   selectedImages: number[];
   setSelectedImages: React.Dispatch<React.SetStateAction<number[]>>;
@@ -196,7 +196,7 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
           headers: {
             Authorization: `Bearer ${profile?.token}`,
           },
-        },
+        }
       );
 
       if (response.ok) {
@@ -381,10 +381,10 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
 
     try {
       setIsLoadingText(true);
-      
+
       // Determine scene type from image or content metadata
       const sceneType = currentPost.scene_type || 'lifestyle';
-      
+
       const captionData = await captionApi.generateCaptions(
         id, // content ID
         {
@@ -403,17 +403,17 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
       // Update the text with the best caption variant
       if (captionData.captions && captionData.captions.length > 0) {
         const bestCaption = captionData.captions[0]; // Usually sorted by score
-        
+
         // Update text and save to backend
         setText(bestCaption.text);
-        
+
         // Save the new caption to backend
         const endpointUrl = getServiceURL('content-gen');
         const selectedImageIndex = selectedImages[postIndex - 1] - 1;
-        
+
         const updatedTextVersions = [...(currentPost.text_versions || [])];
         updatedTextVersions[selectedImageIndex] = bestCaption.text;
-        
+
         await fetch(`${endpointUrl}/api/v1/contentgen/update-text-versions`, {
           method: 'POST',
           headers: {
@@ -430,7 +430,7 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
             selected_image_index: selectedImageIndex,
           }),
         });
-        
+
         // Update local state
         currentPost.text = bestCaption.text;
         currentPost.text_versions = updatedTextVersions;
@@ -446,16 +446,18 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
   };
 
   // Function to regenerate caption with modifications
-  const regenerateCaptionWithStyle = async (style: 'similar' | 'different' | 'shorter' | 'longer') => {
+  const regenerateCaptionWithStyle = async (
+    style: 'similar' | 'different' | 'shorter' | 'longer'
+  ) => {
     const currentPost = Array.isArray(content) ? content[postIndex - 1] : content;
     if (!currentPost || !profile?.token) return;
 
     try {
       setIsLoadingText(true);
-      
+
       // Get current caption ID if stored, otherwise generate new
       const captionId = currentPost.caption_id || 'temp-' + Date.now();
-      
+
       const captionData = await captionApi.regenerateCaption(
         id,
         captionId,
@@ -600,18 +602,28 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
                       className={`border-[1px] border-[#E4E4E4] py-2 px-2 hover:cursor-pointer bg-white flex justify-center items-center rounded-sm transition-colors ${
                         isLoadingText ? 'opacity-50 cursor-wait' : 'hover:bg-purple-50'
                       }`}
-                      title={isLoadingText ? "Generating..." : currentPost?.caption_id ? "Caption Variations" : "Generate AI Caption"}
+                      title={
+                        isLoadingText
+                          ? 'Generating...'
+                          : currentPost?.caption_id
+                            ? 'Caption Variations'
+                            : 'Generate AI Caption'
+                      }
                     >
                       {isLoadingText ? (
                         <CircularProgress size={20} sx={{ color: '#6C2BD9' }} />
                       ) : (
                         <>
                           <AutoAwesomeOutlinedIcon sx={{ color: '#6C2BD9', fontSize: 24 }} />
-                          {currentPost?.caption_id && <ArrowDropDownIcon sx={{ color: '#6C2BD9', fontSize: 18, marginLeft: -0.5 }} />}
+                          {currentPost?.caption_id && (
+                            <ArrowDropDownIcon
+                              sx={{ color: '#6C2BD9', fontSize: 18, marginLeft: -0.5 }}
+                            />
+                          )}
                         </>
                       )}
                     </div>
-                    
+
                     {/* Caption Variations Menu */}
                     <Menu
                       anchorEl={captionMenuAnchor}
@@ -626,7 +638,7 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
                         horizontal: 'left',
                       }}
                     >
-                      <MenuItem 
+                      <MenuItem
                         disabled={isLoadingText}
                         onClick={() => {
                           setCaptionMenuAnchor(null);
@@ -635,7 +647,7 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
                       >
                         Generate New
                       </MenuItem>
-                      <MenuItem 
+                      <MenuItem
                         disabled={isLoadingText}
                         onClick={() => {
                           setCaptionMenuAnchor(null);
@@ -644,7 +656,7 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
                       >
                         Similar Style
                       </MenuItem>
-                      <MenuItem 
+                      <MenuItem
                         disabled={isLoadingText}
                         onClick={() => {
                           setCaptionMenuAnchor(null);
@@ -653,7 +665,7 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
                       >
                         Different Style
                       </MenuItem>
-                      <MenuItem 
+                      <MenuItem
                         disabled={isLoadingText}
                         onClick={() => {
                           setCaptionMenuAnchor(null);
@@ -662,7 +674,7 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
                       >
                         Make Shorter
                       </MenuItem>
-                      <MenuItem 
+                      <MenuItem
                         disabled={isLoadingText}
                         onClick={() => {
                           setCaptionMenuAnchor(null);
@@ -674,7 +686,7 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
                     </Menu>
                   </>
                 )}
-                
+
                 {/* Manual Edit Button */}
                 <div
                   onClick={handleEdit}
@@ -838,7 +850,7 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
           </div>
         </DialogContent>
       </Dialog>
-      
+
       {/* Real-time Quality Score Display */}
       {edit && showQualityScore && text && (
         <div className="mt-4">

@@ -7,11 +7,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 const theme = createTheme();
 
 const renderWithTheme = (component: React.ReactElement) => {
-  return render(
-    <ThemeProvider theme={theme}>
-      {component}
-    </ThemeProvider>
-  );
+  return render(<ThemeProvider theme={theme}>{component}</ThemeProvider>);
 };
 
 describe('QualityScoreIndicator', () => {
@@ -21,28 +17,24 @@ describe('QualityScoreIndicator', () => {
 
   describe('Basic Rendering', () => {
     it('should not render when content is empty', () => {
-      const { container } = renderWithTheme(
-        <QualityScoreIndicator content="" />
-      );
+      const { container } = renderWithTheme(<QualityScoreIndicator content="" />);
       expect(container.firstChild).toBeNull();
     });
 
     it('should render when content is provided', async () => {
-      renderWithTheme(
-        <QualityScoreIndicator content="Test content for quality scoring" />
+      renderWithTheme(<QualityScoreIndicator content="Test content for quality scoring" />);
+
+      await waitFor(
+        () => {
+          expect(screen.getByText('Quality Score')).toBeInTheDocument();
+        },
+        { timeout: 3000 }
       );
-      
-      await waitFor(() => {
-        expect(screen.getByText('Quality Score')).toBeInTheDocument();
-      }, { timeout: 3000 });
     });
 
     it('should display component without crashing', () => {
-      const { container } = renderWithTheme(
-        <QualityScoreIndicator content="Test content" />
-      );
+      const { container } = renderWithTheme(<QualityScoreIndicator content="Test content" />);
       expect(container).toBeTruthy();
     });
   });
-
 });

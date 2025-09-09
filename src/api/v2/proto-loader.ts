@@ -1,6 +1,6 @@
 /**
  * Proto Loader for V2 API
- * 
+ *
  * Dynamically loads protobuf definitions at runtime using protobuf.js.
  * This follows the requirements specified in frontend-protobuf-requirements.md.
  */
@@ -87,12 +87,13 @@ export class ProtoLoader {
       'protos/prompt.proto',
       'protos/admin.proto',
       'protos/moderation.proto',
-      'protos/distribution.proto'
+      'protos/distribution.proto',
     ];
 
     // Check if we're in a Bazel environment with runfiles available
-    const hasRunfiles = typeof runfiles !== 'undefined' && runfiles && runfiles.resolveWorkspaceRelative;
-    
+    const hasRunfiles =
+      typeof runfiles !== 'undefined' && runfiles && runfiles.resolveWorkspaceRelative;
+
     // Only attempt to load proto files if we have a way to resolve them
     if (hasRunfiles) {
       for (const protoFile of protoFiles) {
@@ -104,7 +105,7 @@ export class ProtoLoader {
           // Continue loading other files even if one fails
         }
       }
-      
+
       // Resolve all references
       try {
         root.resolveAll();
@@ -126,11 +127,11 @@ export class ProtoLoader {
     const root = await this.loadProtos();
     const fullName = `${packageName}.${messageName}`;
     const messageType = root.lookupType(fullName);
-    
+
     if (!messageType) {
       throw new Error(`Message type ${fullName} not found in loaded protos`);
     }
-    
+
     return messageType;
   }
 
@@ -143,36 +144,32 @@ export class ProtoLoader {
     data: any
   ): Promise<protobuf.Message> {
     const messageType = await this.getMessageType(packageName, messageName);
-    
+
     // Create the message
     const message = messageType.create(data);
-    
+
     // Verify the message
     const error = messageType.verify(message);
     if (error) {
       throw new Error(`Invalid message: ${error}`);
     }
-    
+
     return message;
   }
 
   /**
    * Encode a message to binary format
    */
-  async encodeMessage(
-    packageName: string,
-    messageName: string,
-    data: any
-  ): Promise<Uint8Array> {
+  async encodeMessage(packageName: string, messageName: string, data: any): Promise<Uint8Array> {
     const messageType = await this.getMessageType(packageName, messageName);
-    
+
     // Create and verify the message
     const message = messageType.create(data);
     const error = messageType.verify(message);
     if (error) {
       throw new Error(`Invalid message: ${error}`);
     }
-    
+
     // Encode to binary
     return messageType.encode(message).finish();
   }
@@ -180,16 +177,12 @@ export class ProtoLoader {
   /**
    * Decode a binary message
    */
-  async decodeMessage(
-    packageName: string,
-    messageName: string,
-    buffer: Uint8Array
-  ): Promise<any> {
+  async decodeMessage(packageName: string, messageName: string, buffer: Uint8Array): Promise<any> {
     const messageType = await this.getMessageType(packageName, messageName);
-    
+
     // Decode the message
     const message = messageType.decode(buffer);
-    
+
     // Convert to plain object
     return messageType.toObject(message, {
       longs: String,
@@ -198,21 +191,17 @@ export class ProtoLoader {
       defaults: true,
       arrays: true,
       objects: true,
-      oneofs: true
+      oneofs: true,
     });
   }
 
   /**
    * Convert a message to JSON
    */
-  async messageToJson(
-    packageName: string,
-    messageName: string,
-    data: any
-  ): Promise<string> {
+  async messageToJson(packageName: string, messageName: string, data: any): Promise<string> {
     const message = await this.createMessage(packageName, messageName, data);
     const messageType = await this.getMessageType(packageName, messageName);
-    
+
     const jsonObj = messageType.toObject(message as any, {
       longs: String,
       enums: String,
@@ -220,9 +209,9 @@ export class ProtoLoader {
       defaults: true,
       arrays: true,
       objects: true,
-      oneofs: true
+      oneofs: true,
     });
-    
+
     return JSON.stringify(jsonObj);
   }
 

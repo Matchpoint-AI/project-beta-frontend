@@ -10,9 +10,7 @@ describe('LanguageSelector', () => {
   });
 
   it('renders with default English selection', () => {
-    render(
-      <LanguageSelector onLanguageChange={mockOnLanguageChange} />
-    );
+    render(<LanguageSelector onLanguageChange={mockOnLanguageChange} />);
 
     const button = document.getElementById('language-selector');
     expect(button).toBeInTheDocument();
@@ -21,23 +19,18 @@ describe('LanguageSelector', () => {
 
   it('renders with custom selected language', () => {
     const { container } = render(
-      <LanguageSelector 
-        selectedLanguage="es" 
-        onLanguageChange={mockOnLanguageChange} 
-      />
+      <LanguageSelector selectedLanguage="es" onLanguageChange={mockOnLanguageChange} />
     );
 
     const button = document.getElementById('language-selector');
     expect(button).toBeInTheDocument();
     // The component should render and be functional
-    // Test behavior rather than exact visual content 
+    // Test behavior rather than exact visual content
     expect(button).toHaveAttribute('type', 'button');
   });
 
   it('opens dropdown when clicked', async () => {
-    render(
-      <LanguageSelector onLanguageChange={mockOnLanguageChange} />
-    );
+    render(<LanguageSelector onLanguageChange={mockOnLanguageChange} />);
 
     const button = document.getElementById('language-selector');
     fireEvent.click(button);
@@ -51,17 +44,15 @@ describe('LanguageSelector', () => {
   });
 
   it('calls onLanguageChange when a language is selected', async () => {
-    render(
-      <LanguageSelector onLanguageChange={mockOnLanguageChange} />
-    );
+    render(<LanguageSelector onLanguageChange={mockOnLanguageChange} />);
 
     const button = document.getElementById('language-selector');
     expect(button).toBeInTheDocument();
-    
+
     fireEvent.click(button);
 
     // Wait a bit for the dropdown to potentially open
-    await new Promise(resolve => setTimeout(resolve, 100));
+    await new Promise((resolve) => setTimeout(resolve, 100));
 
     // Try to find dropdown and interact with it
     const dropdown = document.querySelector('[role="menu"]');
@@ -80,10 +71,7 @@ describe('LanguageSelector', () => {
 
   it('handles invalid selectedLanguage by defaulting to English', () => {
     render(
-      <LanguageSelector 
-        selectedLanguage="invalid-code" 
-        onLanguageChange={mockOnLanguageChange} 
-      />
+      <LanguageSelector selectedLanguage="invalid-code" onLanguageChange={mockOnLanguageChange} />
     );
 
     const button = document.getElementById('language-selector');
@@ -92,12 +80,21 @@ describe('LanguageSelector', () => {
 
   it('supports all required languages', async () => {
     const expectedLanguages = [
-      'en', 'es', 'fr', 'de', 'it', 'pt', 'ru', 'zh', 'ja', 'ko', 'ar', 'hi'
+      'en',
+      'es',
+      'fr',
+      'de',
+      'it',
+      'pt',
+      'ru',
+      'zh',
+      'ja',
+      'ko',
+      'ar',
+      'hi',
     ];
 
-    render(
-      <LanguageSelector onLanguageChange={mockOnLanguageChange} />
-    );
+    render(<LanguageSelector onLanguageChange={mockOnLanguageChange} />);
 
     const button = document.getElementById('language-selector');
     fireEvent.click(button);

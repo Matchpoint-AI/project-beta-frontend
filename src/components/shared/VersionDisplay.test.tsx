@@ -12,40 +12,40 @@ const mockImportMeta = {
   env: {
     MODE: 'development',
     NODE_ENV: 'development',
-    VITE_APP_ENV: 'dev'
-  }
+    VITE_APP_ENV: 'dev',
+  },
 };
 
 Object.defineProperty(globalThis, 'import', {
   value: {
-    meta: mockImportMeta
+    meta: mockImportMeta,
   },
-  writable: true
+  writable: true,
 });
 
 // Mock the version variable
 Object.defineProperty(globalThis, '__VITE_APP_VERSION__', {
   value: '1.2.3',
-  writable: true
+  writable: true,
 });
 
 describe('VersionDisplay', () => {
   // Mock window.location
   const mockLocation = {
-    hostname: 'localhost'
+    hostname: 'localhost',
   };
-  
+
   beforeEach(() => {
     // Reset environment variables before each test
     mockImportMeta.env.MODE = 'development';
     mockImportMeta.env.NODE_ENV = 'development';
     mockImportMeta.env.VITE_APP_ENV = 'dev';
-    
+
     // Reset window.location mock
     mockLocation.hostname = 'localhost';
     Object.defineProperty(window, 'location', {
       value: mockLocation,
-      writable: true
+      writable: true,
     });
   });
 
@@ -189,9 +189,9 @@ describe('VersionDisplay', () => {
       // Mock undefined version
       Object.defineProperty(globalThis, '__VITE_APP_VERSION__', {
         value: undefined,
-        writable: true
+        writable: true,
       });
-      
+
       render(<VersionDisplay />);
       expect(screen.getByText('vunknown')).toBeInTheDocument();
     });
@@ -199,9 +199,9 @@ describe('VersionDisplay', () => {
     it('should handle empty version string', () => {
       Object.defineProperty(globalThis, '__VITE_APP_VERSION__', {
         value: '',
-        writable: true
+        writable: true,
       });
-      
+
       render(<VersionDisplay />);
       expect(screen.getByText('v')).toBeInTheDocument();
     });
@@ -209,9 +209,9 @@ describe('VersionDisplay', () => {
     it('should not add double v prefix when version already starts with v', () => {
       Object.defineProperty(globalThis, '__VITE_APP_VERSION__', {
         value: 'v2.0.0',
-        writable: true
+        writable: true,
       });
-      
+
       render(<VersionDisplay />);
       expect(screen.getByText('v2.0.0')).toBeInTheDocument();
       // Ensure no double 'v' prefix
@@ -221,9 +221,9 @@ describe('VersionDisplay', () => {
     it('should add v prefix when version does not start with v', () => {
       Object.defineProperty(globalThis, '__VITE_APP_VERSION__', {
         value: '3.0.0',
-        writable: true
+        writable: true,
       });
-      
+
       render(<VersionDisplay />);
       expect(screen.getByText('v3.0.0')).toBeInTheDocument();
     });
@@ -233,7 +233,7 @@ describe('VersionDisplay', () => {
     it('should have the correct CSS classes', () => {
       render(<VersionDisplay />);
       const versionElement = screen.getByTestId('version-display');
-      
+
       expect(versionElement).toHaveClass('fixed');
       expect(versionElement).toHaveClass('bottom-2');
       expect(versionElement).toHaveClass('right-2');

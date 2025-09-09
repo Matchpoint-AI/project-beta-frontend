@@ -1,6 +1,6 @@
 /**
  * Base Proto Service for V2 API
- * 
+ *
  * Provides base functionality for all V2 API services using protobuf.
  * This implements the requirements from frontend-protobuf-requirements.md.
  */
@@ -51,11 +51,11 @@ export abstract class ProtoService {
     options?: RequestOptions
   ): Promise<TResponse> {
     const url = `${this.baseUrl}${endpoint}`;
-    
+
     // Prepare headers
     const headers: Record<string, string> = {
-      'Accept': 'application/x-protobuf, application/json',
-      ...options?.headers
+      Accept: 'application/x-protobuf, application/json',
+      ...options?.headers,
     };
 
     if (options?.token) {
@@ -64,7 +64,7 @@ export abstract class ProtoService {
 
     // Prepare request body if needed
     let body: BodyInit | undefined;
-    
+
     if (requestData && requestMessagePath) {
       try {
         // Encode request data as protobuf
@@ -73,7 +73,7 @@ export abstract class ProtoService {
           requestMessagePath.message,
           requestData
         );
-        
+
         body = encodedData;
         headers['Content-Type'] = 'application/x-protobuf';
       } catch (error) {
@@ -94,7 +94,7 @@ export abstract class ProtoService {
         method,
         headers,
         body,
-        signal: controller.signal
+        signal: controller.signal,
       });
 
       clearTimeout(timeoutId);
@@ -105,7 +105,7 @@ export abstract class ProtoService {
 
       // Parse response based on content type
       const contentType = response.headers.get('content-type');
-      
+
       if (contentType?.includes('application/x-protobuf')) {
         // Decode protobuf response
         const buffer = await response.arrayBuffer();
@@ -122,13 +122,13 @@ export abstract class ProtoService {
       }
     } catch (error) {
       clearTimeout(timeoutId);
-      
+
       if (error instanceof Error) {
         if (error.name === 'AbortError') {
           throw new Error(`Request timeout after ${timeout}ms`);
         }
       }
-      
+
       throw error;
     }
   }
@@ -214,10 +214,10 @@ export abstract class ProtoService {
    */
   private async handleErrorResponse(response: Response): Promise<never> {
     let errorMessage = `${this.serviceName} API error: ${response.status} ${response.statusText}`;
-    
+
     try {
       const contentType = response.headers.get('content-type');
-      
+
       if (contentType?.includes('application/json')) {
         const errorData = await response.json();
         if (errorData.detail) {
@@ -234,7 +234,7 @@ export abstract class ProtoService {
     } catch {
       // Ignore parsing errors, use default message
     }
-    
+
     throw new Error(errorMessage);
   }
 
@@ -262,14 +262,14 @@ export abstract class ProtoService {
     protoFields: Record<string, { data: any; package: string; message: string }>
   ): Promise<FormData> {
     const formData = new FormData();
-    
+
     // Add regular fields
     for (const [key, value] of Object.entries(fields)) {
       if (value !== undefined && value !== null) {
         formData.append(key, String(value));
       }
     }
-    
+
     // Add protobuf fields
     for (const [key, protoField] of Object.entries(protoFields)) {
       try {
@@ -278,14 +278,14 @@ export abstract class ProtoService {
           protoField.message,
           protoField.data
         );
-        
+
         const blob = new Blob([encoded], { type: 'application/x-protobuf' });
         formData.append(key, blob, `${key}.pb`);
       } catch (error) {
         console.error(`Failed to encode proto field ${key}:`, error);
       }
     }
-    
+
     return formData;
   }
 }

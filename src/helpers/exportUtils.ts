@@ -1,9 +1,9 @@
-import JSZip from "jszip";
-import { saveAs } from "file-saver";
-import { jsPDF } from "jspdf";
-import { Document, HeadingLevel, Packer, Paragraph } from "docx";
-import emojiRegex from "emoji-regex";
-import { getServiceURL } from "../helpers/getServiceURL";
+import JSZip from 'jszip';
+import { saveAs } from 'file-saver';
+import { jsPDF } from 'jspdf';
+import { Document, HeadingLevel, Packer, Paragraph } from 'docx';
+import emojiRegex from 'emoji-regex';
+import { getServiceURL } from '../helpers/getServiceURL';
 
 const fetchImageAsDataURL = async (url) => {
   const response = await fetch(url);
@@ -26,11 +26,11 @@ export const fetchAndCreatePDF = async (
   const params = new URLSearchParams({ campaign_id: id });
   try {
     const response = await fetch(`${endpointUrl}/api/v1/getPdfData?${params}`, {
-      method: "GET",
+      method: 'GET',
       headers: { Authorization: `Bearer ${token}` },
     });
 
-    if (!response.ok) throw new Error("Failed to fetch data");
+    if (!response.ok) throw new Error('Failed to fetch data');
 
     const data = await response.json();
     if (!data) return;
@@ -41,39 +41,29 @@ export const fetchAndCreatePDF = async (
       data.campaign_brief
     );
   } catch (error) {
-    console.error("Error fetching campaign data:", error);
+    console.error('Error fetching campaign data:', error);
   }
 };
 
-const createBrandProfilePDF = async (
-  clientRequest,
-  brandProfile,
-  campaignBrief
-) => {
+const createBrandProfilePDF = async (clientRequest, brandProfile, campaignBrief) => {
   const doc = new jsPDF();
 
   const mapColorsToReadable = (colors, convertedColors) => {
     return colors.map((hex, index) => {
       const convertedColor = convertedColors[index];
-      return convertedColor && convertedColor.name
-        ? `${hex} (${convertedColor.name})`
-        : hex; // Fallback to hex if name is not available
+      return convertedColor && convertedColor.name ? `${hex} (${convertedColor.name})` : hex; // Fallback to hex if name is not available
     });
   };
 
   // Fetch human-readable color names from the color API for brandProfile.colors
   const profileConvertedColors =
-    clientRequest.primary_brand_profile &&
-    clientRequest.primary_brand_profile.length > 0
+    clientRequest.primary_brand_profile && clientRequest.primary_brand_profile.length > 0
       ? await convertColors(clientRequest.primary_brand_profile)
       : [];
 
   const profileColors =
     clientRequest.primary_brand_profile && profileConvertedColors.length > 0
-      ? mapColorsToReadable(
-          clientRequest.primary_brand_profile,
-          profileConvertedColors
-        )
+      ? mapColorsToReadable(clientRequest.primary_brand_profile, profileConvertedColors)
       : clientRequest.primary_brand_profile; // Fallback to hex if no readable names are found
 
   const convertedColors =
@@ -87,29 +77,23 @@ const createBrandProfilePDF = async (
       : brandProfile.colors; // Fallback to hex if no readable names are found
   // Set title as Business Name from clientRequest (e.g., "Undefined Beauty")
   doc.setFontSize(20);
-  doc.setFont("helvetica", "bold");
+  doc.setFont('helvetica', 'bold');
   doc.text(`${clientRequest.business_name}`, 10, 10);
 
   // Client Request Section
   doc.setFontSize(14);
-  doc.setFont("helvetica", "bold");
-  doc.text("Client Request", 10, 20);
+  doc.setFont('helvetica', 'bold');
+  doc.text('Client Request', 10, 20);
 
   doc.setFontSize(12);
-  doc.setFont("helvetica", "normal");
+  doc.setFont('helvetica', 'normal');
   doc.text(`- Business Name: ${clientRequest.business_name}`, 10, 30);
   doc.text(`- Website URL: ${clientRequest.website_url}`, 10, 40);
-  doc.text(
-    `- Brand Guidelines PDF: ${clientRequest.brand_guidelines_pdf}`,
-    10,
-    50
-  );
+  doc.text(`- Brand Guidelines PDF: ${clientRequest.brand_guidelines_pdf}`, 10, 50);
   doc.text(`- Logo: ${clientRequest.logo}`, 10, 60);
   // Primary Brand Colors for clientRequest (with fetched readable color names)
   doc.text(
-    `- Primary Brand Colors: ${
-      profileColors.length ? profileColors.join(", ") : "Not Available"
-    }`,
+    `- Primary Brand Colors: ${profileColors.length ? profileColors.join(', ') : 'Not Available'}`,
     10,
     70
   );
@@ -117,55 +101,39 @@ const createBrandProfilePDF = async (
   doc.text(`- Campaign Purpose: ${clientRequest.campaign_purpose}`, 10, 90);
 
   // Target Audience
-  doc.setFont("helvetica", "bold");
-  doc.text("- Target Audience:", 10, 100);
-  doc.setFont("helvetica", "normal");
+  doc.setFont('helvetica', 'bold');
+  doc.text('- Target Audience:', 10, 100);
+  doc.setFont('helvetica', 'normal');
   doc.text(`    - Gender: ${clientRequest.target_purpose.gender}`, 10, 110);
-  doc.text(
-    `    - Race/Ethnicity: ${clientRequest.target_purpose.race_ethnicity}`,
-    10,
-    120
-  );
-  doc.text(
-    `    - Age Range: ${clientRequest.target_purpose.age_range.join(", ")}`,
-    10,
-    130
-  );
-  doc.text(
-    `    - Interests: ${clientRequest.target_purpose.interests.join(", ")}`,
-    10,
-    140
-  );
+  doc.text(`    - Race/Ethnicity: ${clientRequest.target_purpose.race_ethnicity}`, 10, 120);
+  doc.text(`    - Age Range: ${clientRequest.target_purpose.age_range.join(', ')}`, 10, 130);
+  doc.text(`    - Interests: ${clientRequest.target_purpose.interests.join(', ')}`, 10, 140);
 
-  doc.text(
-    `- Product/Service to Promote: ${clientRequest.product_service}`,
-    10,
-    150
-  );
+  doc.text(`- Product/Service to Promote: ${clientRequest.product_service}`, 10, 150);
 
   // Add a new page for the Brand Profile
   doc.addPage();
   doc.setFontSize(14);
-  doc.setFont("helvetica", "bold");
-  doc.text("Brand Profile", 10, 10);
+  doc.setFont('helvetica', 'bold');
+  doc.text('Brand Profile', 10, 10);
 
   // Industry and Vertical
   doc.setFontSize(12);
-  doc.setFont("helvetica", "bold");
+  doc.setFont('helvetica', 'bold');
   doc.text(`Industry: ${brandProfile.industry}`, 10, 20);
   doc.text(`Vertical: ${brandProfile.vertical}`, 10, 30);
 
   // Mission
   doc.setFontSize(12);
-  doc.setFont("helvetica", "bold");
-  doc.text("Mission", 10, 40);
-  doc.setFont("helvetica", "normal");
-  doc.text(brandProfile.mission.join(" "), 10, 50);
+  doc.setFont('helvetica', 'bold');
+  doc.text('Mission', 10, 40);
+  doc.setFont('helvetica', 'normal');
+  doc.text(brandProfile.mission.join(' '), 10, 50);
 
   // Values Section (Dynamically generated from values array)
-  doc.setFont("helvetica", "bold");
-  doc.text("Values", 10, 60);
-  doc.setFont("helvetica", "normal");
+  doc.setFont('helvetica', 'bold');
+  doc.text('Values', 10, 60);
+  doc.setFont('helvetica', 'normal');
 
   // Start positioning for the values
   let yOffset = 70; // Initial y position for the first value
@@ -175,21 +143,21 @@ const createBrandProfilePDF = async (
   });
 
   // Brand Persona
-  doc.setFont("helvetica", "bold");
-  doc.text("Brand Persona", 10, yOffset + 10);
-  doc.setFont("helvetica", "normal");
-  doc.text(brandProfile.brand_persona.join(", "), 10, yOffset + 20);
+  doc.setFont('helvetica', 'bold');
+  doc.text('Brand Persona', 10, yOffset + 10);
+  doc.setFont('helvetica', 'normal');
+  doc.text(brandProfile.brand_persona.join(', '), 10, yOffset + 20);
 
   // Tone of Voice
-  doc.setFont("helvetica", "bold");
-  doc.text("Tone of Voice", 10, yOffset + 30);
-  doc.setFont("helvetica", "normal");
-  doc.text(brandProfile.tone_of_voice.join(", "), 10, yOffset + 40);
+  doc.setFont('helvetica', 'bold');
+  doc.text('Tone of Voice', 10, yOffset + 30);
+  doc.setFont('helvetica', 'normal');
+  doc.text(brandProfile.tone_of_voice.join(', '), 10, yOffset + 40);
 
   // Colors Section with Human-Readable Color Names or Not Available
-  doc.setFont("helvetica", "bold");
-  doc.text("Colors", 10, yOffset + 50);
-  doc.setFont("helvetica", "normal");
+  doc.setFont('helvetica', 'bold');
+  doc.text('Colors', 10, yOffset + 50);
+  doc.setFont('helvetica', 'normal');
   if (colors.length > 0) {
     yOffset += 60;
     colors.forEach((color) => {
@@ -197,14 +165,14 @@ const createBrandProfilePDF = async (
       yOffset += 10; // Adjust y position for the next color
     });
   } else {
-    doc.text("Not Available", 10, yOffset + 60);
+    doc.text('Not Available', 10, yOffset + 60);
   }
 
   // Add a new page for the Campaign Brief
   doc.addPage();
   doc.setFontSize(14);
-  doc.setFont("helvetica", "bold");
-  doc.text("Campaign Brief", 10, 10);
+  doc.setFont('helvetica', 'bold');
+  doc.text('Campaign Brief', 10, 10);
 
   // Campaign Details
   doc.setFontSize(12);
@@ -212,59 +180,29 @@ const createBrandProfilePDF = async (
   doc.text(`- Brand: ${campaignBrief.brand}`, 10, 30);
 
   // Product Details
-  doc.text("- Product:", 10, 40);
+  doc.text('- Product:', 10, 40);
   doc.text(`    - Name: ${campaignBrief.product.name}`, 10, 50);
   doc.text(`    - Link: ${campaignBrief.product.link}`, 10, 60);
-  doc.text(
-    `    - Differentiators: ${campaignBrief.product.differentiators}`,
-    10,
-    70
-  );
-  doc.text(
-    `    - Primary Ingredients: ${campaignBrief.product.primary_ingredients}`,
-    10,
-    80
-  );
+  doc.text(`    - Differentiators: ${campaignBrief.product.differentiators}`, 10, 70);
+  doc.text(`    - Primary Ingredients: ${campaignBrief.product.primary_ingredients}`, 10, 80);
   doc.text(`    - Benefits: ${campaignBrief.product.benefits}`, 10, 90);
 
   // Target Audience
-  doc.setFont("helvetica", "bold");
-  doc.text("- Target Audience:", 10, 100);
-  doc.setFont("helvetica", "normal");
+  doc.setFont('helvetica', 'bold');
+  doc.text('- Target Audience:', 10, 100);
+  doc.setFont('helvetica', 'normal');
   doc.text(`    - Gender: ${campaignBrief.target_purpose.gender}`, 10, 110);
-  doc.text(
-    `    - Race/Ethnicity: ${campaignBrief.target_purpose.race_ethnicity}`,
-    10,
-    120
-  );
-  doc.text(
-    `    - Age Range: ${campaignBrief.target_purpose.age_range.join(", ")}`,
-    10,
-    130
-  );
-  doc.text(
-    `    - Interests: ${campaignBrief.target_purpose.interests.join(", ")}`,
-    10,
-    140
-  );
+  doc.text(`    - Race/Ethnicity: ${campaignBrief.target_purpose.race_ethnicity}`, 10, 120);
+  doc.text(`    - Age Range: ${campaignBrief.target_purpose.age_range.join(', ')}`, 10, 130);
+  doc.text(`    - Interests: ${campaignBrief.target_purpose.interests.join(', ')}`, 10, 140);
 
   // Campaign Purpose and Timing
-  doc.setFont("helvetica", "bold");
+  doc.setFont('helvetica', 'bold');
   doc.text(`- Campaign Purpose: ${campaignBrief.campaign_purpose}`, 10, 150);
-  doc.setFont("helvetica", "normal");
-  doc.text("- Campaign Timing:", 10, 160);
-  doc.text(
-    `    - Duration: ${
-      campaignBrief.campaign_timing.duration || "Not specified"
-    }`,
-    10,
-    170
-  );
-  doc.text(
-    `    - Posts per day: ${campaignBrief.campaign_timing.post_per_day}`,
-    10,
-    180
-  );
+  doc.setFont('helvetica', 'normal');
+  doc.text('- Campaign Timing:', 10, 160);
+  doc.text(`    - Duration: ${campaignBrief.campaign_timing.duration || 'Not specified'}`, 10, 170);
+  doc.text(`    - Posts per day: ${campaignBrief.campaign_timing.post_per_day}`, 10, 180);
 
   // Calculate the total deliverables
   const durationWeeks = campaignBrief.campaign_timing.duration || 0; // Duration in weeks
@@ -272,32 +210,28 @@ const createBrandProfilePDF = async (
   const totalDeliverables = durationWeeks * 7 * postsPerDay;
 
   // Deliverables Section
-  doc.setFont("helvetica", "bold");
-  doc.text("Deliverables", 10, 190);
-  doc.setFont("helvetica", "normal");
-  doc.text(
-    `- ${totalDeliverables} pieces of content (images and ad copy)`,
-    10,
-    200
-  );
+  doc.setFont('helvetica', 'bold');
+  doc.text('Deliverables', 10, 190);
+  doc.setFont('helvetica', 'normal');
+  doc.text(`- ${totalDeliverables} pieces of content (images and ad copy)`, 10, 200);
 
   // Generate the PDF and return as a blob
-  return doc.output("blob");
+  return doc.output('blob');
 };
 
 // Helper function to remove emojis from text
 const removeNewlines = (text) => {
-  return text.replace(/(\r\n|\n|\r)/gm, " ");
+  return text.replace(/(\r\n|\n|\r)/gm, ' ');
 };
 const stripEmojis = (str: string) => {
   const regex = emojiRegex();
-  return str.replace(regex, "").replace(/\s+/g, " ").trim();
+  return str.replace(regex, '').replace(/\s+/g, ' ').trim();
 };
 // Function to clean text by removing hidden characters and normalizing spaces
 const cleanText = (str: string) => {
   return str
-    .replace(/[\u200B\u200C\u200D\uFEFF\uFE0F]/g, "") // Remove zero-width spaces and other non-printable characters
-    .replace(/\s+/g, " ") // Replace multiple spaces with a single space
+    .replace(/[\u200B\u200C\u200D\uFEFF\uFE0F]/g, '') // Remove zero-width spaces and other non-printable characters
+    .replace(/\s+/g, ' ') // Replace multiple spaces with a single space
     .trim(); // Trim leading and trailing spaces
 };
 
@@ -316,17 +250,14 @@ const fetchImageDimensions = async (url) => {
   });
 };
 
-export const createImageThumbnailsPDF = async (
-  weeksData: any,
-  currentValues
-): Promise<Blob> => {
+export const createImageThumbnailsPDF = async (weeksData: any, currentValues): Promise<Blob> => {
   const doc = new jsPDF();
   const pageHeight = doc.internal.pageSize.height;
   const margin = 5; // Margin from the top and bottom of the page
   let previousDayIndex = null; // Track the last day index
 
   for (const [weekIndex, week] of weeksData.entries()) {
-    const actualWeekNumber = currentValues[weekIndex].split(" ")[1];
+    const actualWeekNumber = currentValues[weekIndex].split(' ')[1];
     doc.setFontSize(16);
     doc.text(`Week ${actualWeekNumber}`, 10, 10);
     let yOffset = 20; // Initial y position for the first element after the week title
@@ -382,14 +313,7 @@ export const createImageThumbnailsPDF = async (
             } else {
               scaledWidth = imageWidth * aspectRatio;
             }
-            doc.addImage(
-              dataURL,
-              "JPEG",
-              xOffset,
-              yOffset,
-              scaledWidth,
-              scaledHeight
-            );
+            doc.addImage(dataURL, 'JPEG', xOffset, yOffset, scaledWidth, scaledHeight);
             // xOffset += imageWidth + gap; // Increment x position for the next image
             xOffset += scaledWidth + gap; // Increment x position for the next image
           }
@@ -421,14 +345,14 @@ export const createImageThumbnailsPDF = async (
     }
   }
 
-  return doc.output("blob");
+  return doc.output('blob');
 };
 
 export const createWordDocument = async (weeksData, currentValues) => {
   const sections = [];
 
   for (const [weekIndex, week] of weeksData.entries()) {
-    const actualWeekNumber = currentValues[weekIndex].split(" ")[1];
+    const actualWeekNumber = currentValues[weekIndex].split(' ')[1];
     const weekChildren = [
       new Paragraph({
         text: `Week ${actualWeekNumber}`,
@@ -490,22 +414,18 @@ export const createWordDocument = async (weeksData, currentValues) => {
   }
 
   const doc = new Document({
-    creator: "Your Name",
-    title: "Your Document Title",
-    description: "Your Document Description",
+    creator: 'Your Name',
+    title: 'Your Document Title',
+    description: 'Your Document Description',
     sections: sections,
   });
 
   return await Packer.toBlob(doc);
 };
 
-export const organizeAndSavePosts = async (
-  weeksData,
-  bigFolder,
-  currentValues
-) => {
+export const organizeAndSavePosts = async (weeksData, bigFolder, currentValues) => {
   for (const [weekIndex, week] of weeksData.entries()) {
-    const actualWeekNumber = currentValues[weekIndex].split(" ")[1];
+    const actualWeekNumber = currentValues[weekIndex].split(' ')[1];
 
     const weekFolder = bigFolder.folder(`week_${actualWeekNumber}`);
 
@@ -519,19 +439,19 @@ export const organizeAndSavePosts = async (
 
         if (post.image_url.length === 1) {
           const dataURL = await fetchImageAsDataURL(post.image_url[0]);
-          const base64Data = dataURL.split(",")[1];
-          const mimeType = dataURL.split(";")[0].split(":")[1];
-          const extension = mimeType.split("/")[1];
+          const base64Data = dataURL.split(',')[1];
+          const mimeType = dataURL.split(';')[0].split(':')[1];
+          const extension = mimeType.split('/')[1];
           postFolder.file(`image_1.${extension}`, base64Data, {
             base64: true,
           });
         } else {
-          const imagesFolder = postFolder.folder("images");
+          const imagesFolder = postFolder.folder('images');
           for (const [index, image] of post.image_url.entries()) {
             const dataURL = await fetchImageAsDataURL(image);
-            const base64Data = dataURL.split(",")[1];
-            const mimeType = dataURL.split(";")[0].split(":")[1];
-            const extension = mimeType.split("/")[1];
+            const base64Data = dataURL.split(',')[1];
+            const mimeType = dataURL.split(';')[0].split(':')[1];
+            const extension = mimeType.split('/')[1];
             imagesFolder.file(`image_${index + 1}.${extension}`, base64Data, {
               base64: true,
             });
@@ -544,7 +464,7 @@ export const organizeAndSavePosts = async (
 
 const convertColors = async (colors) => {
   // Define the request body
-  const url = getServiceURL("llm");
+  const url = getServiceURL('llm');
   const requestBody = {
     hex_codes: colors, // Hex codes to send
   };
@@ -552,9 +472,9 @@ const convertColors = async (colors) => {
   try {
     // Make the fetch call to the FastAPI endpoint
     const response = await fetch(`${url}/api/v1/llm/convert-color`, {
-      method: "POST", // Use OPTIONS method based on the endpoint you defined
+      method: 'POST', // Use OPTIONS method based on the endpoint you defined
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(requestBody), // Convert request body to JSON
     });
@@ -564,6 +484,6 @@ const convertColors = async (colors) => {
     return data;
     // Handle the response (log it or use it)
   } catch (error) {
-    console.error("Error fetching the converted colors:", error);
+    console.error('Error fetching the converted colors:', error);
   }
 };

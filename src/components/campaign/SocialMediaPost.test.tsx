@@ -231,11 +231,11 @@ describe('SocialMediaPost Component', () => {
         renderWithAuth();
       });
       const image = screen.getByRole('img');
-      
+
       await act(async () => {
         fireEvent.load(image);
       });
-      
+
       await waitFor(() => {
         expect(screen.queryByRole('progressbar')).not.toBeInTheDocument();
       });
@@ -246,11 +246,11 @@ describe('SocialMediaPost Component', () => {
         renderWithAuth();
       });
       const image = screen.getByRole('img');
-      
+
       await act(async () => {
         fireEvent.error(image);
       });
-      
+
       await waitFor(() => {
         expect(screen.queryByRole('progressbar')).not.toBeInTheDocument();
       });
@@ -264,27 +264,27 @@ describe('SocialMediaPost Component', () => {
       fetchSpy
         .mockResolvedValueOnce({ ok: true, json: async () => ({}) }) // initial call
         .mockResolvedValueOnce({ ok: true, json: async () => ({}) }); // approval call
-      
+
       await act(async () => {
         renderWithAuth();
       });
-      
+
       // Wait for initial mount calls to complete
       await waitFor(() => {
         expect(fetchSpy).toHaveBeenCalled();
       });
-      
+
       const approveButton = screen.getByText('Approve Post');
       await act(async () => {
         fireEvent.click(approveButton);
       });
-      
+
       await waitFor(() => {
-        expect(fetchSpy.mock.calls.some(call => 
-          call[0].includes('/api/v1/contentgen/approve')
-        )).toBe(true);
+        expect(
+          fetchSpy.mock.calls.some((call) => call[0].includes('/api/v1/contentgen/approve'))
+        ).toBe(true);
       });
-      
+
       fetchSpy.mockRestore();
     });
 
@@ -292,11 +292,18 @@ describe('SocialMediaPost Component', () => {
       // Mock initial call
       (global.fetch as any)
         .mockResolvedValueOnce({ ok: true, json: async () => ({}) })
-        .mockImplementationOnce(() => 
-          new Promise(resolve => setTimeout(() => resolve({
-            ok: true,
-            json: async () => ({})
-          }), 100))
+        .mockImplementationOnce(
+          () =>
+            new Promise((resolve) =>
+              setTimeout(
+                () =>
+                  resolve({
+                    ok: true,
+                    json: async () => ({}),
+                  }),
+                100
+              )
+            )
         );
 
       await act(async () => {
@@ -324,21 +331,21 @@ describe('SocialMediaPost Component', () => {
       (global.fetch as any)
         .mockResolvedValueOnce({ ok: true, json: async () => ({}) })
         .mockResolvedValueOnce({ ok: true, json: async () => ({}) });
-      
+
       await act(async () => {
         renderWithAuth({ onApprovalUpdate: onApprovalUpdateMock });
       });
-      
+
       // Wait for initial mount
       await waitFor(() => {
         expect(global.fetch).toHaveBeenCalled();
       });
-      
+
       const approveButton = screen.getByText('Approve Post');
       await act(async () => {
         fireEvent.click(approveButton);
       });
-      
+
       await waitFor(() => {
         expect(onApprovalUpdateMock).toHaveBeenCalled();
       });
@@ -391,11 +398,12 @@ describe('SocialMediaPost Component', () => {
         renderWithAuth();
       });
       const buttons = screen.getAllByRole('button');
-      const editButton = buttons.find(btn => 
-        btn.getAttribute('aria-label')?.includes('edit') ||
-        btn.querySelector('[data-testid*="edit"]')
+      const editButton = buttons.find(
+        (btn) =>
+          btn.getAttribute('aria-label')?.includes('edit') ||
+          btn.querySelector('[data-testid*="edit"]')
       );
-      
+
       if (editButton) {
         await act(async () => {
           fireEvent.click(editButton);
@@ -412,7 +420,7 @@ describe('SocialMediaPost Component', () => {
       await act(async () => {
         renderWithAuth();
       });
-      
+
       // Wait for initial mount
       await waitFor(() => {
         expect(global.fetch).toHaveBeenCalled();
@@ -420,18 +428,18 @@ describe('SocialMediaPost Component', () => {
 
       const buttons = screen.getAllByRole('button');
       const editButton = buttons[3]; // Approximate position of edit button
-      
+
       await act(async () => {
         fireEvent.click(editButton);
       });
-      
+
       const textarea = screen.queryByRole('textbox');
       if (textarea) {
         await act(async () => {
           fireEvent.change(textarea, { target: { value: 'Updated text' } });
           fireEvent.click(editButton); // Same button toggles to save
         });
-        
+
         await waitFor(() => {
           expect(global.fetch).toHaveBeenCalledWith(
             expect.stringContaining('/api/v1/contentgen/update-text-versions'),
@@ -448,7 +456,7 @@ describe('SocialMediaPost Component', () => {
         ...mockContent,
         image_url: ['image1.jpg', 'image2.jpg'],
       };
-      
+
       await act(async () => {
         renderWithAuth({ content: multiImageContent });
       });
@@ -462,19 +470,19 @@ describe('SocialMediaPost Component', () => {
         ...mockContent,
         image_url: ['image1.jpg', 'image2.jpg'],
       };
-      
+
       await act(async () => {
-        renderWithAuth({ 
+        renderWithAuth({
           content: multiImageContent,
-          setSelectedImages: setSelectedImagesMock 
+          setSelectedImages: setSelectedImagesMock,
         });
       });
-      
+
       const page2Button = screen.getByText('2');
       await act(async () => {
         fireEvent.click(page2Button);
       });
-      
+
       // Check that the component handles the pagination
       expect(page2Button).toBeInTheDocument();
     });
@@ -531,7 +539,7 @@ describe('SocialMediaPost Component', () => {
           content: { ...mockContent, text: longText },
         });
       });
-      
+
       // Check that some form of the text is displayed
       expect(screen.getByText(longText, { exact: false })).toBeInTheDocument();
     });
@@ -561,7 +569,7 @@ describe('SocialMediaPost Component', () => {
 
       const buttons = screen.getAllByRole('button');
       const regenerateButton = buttons[2]; // Approximate position
-      
+
       await act(async () => {
         fireEvent.click(regenerateButton);
       });
@@ -570,10 +578,10 @@ describe('SocialMediaPost Component', () => {
       await waitFor(() => {
         expect(global.fetch).toHaveBeenCalledWith(
           expect.stringContaining('/api/v1/image_prompt'),
-          expect.objectContaining({ 
+          expect.objectContaining({
             headers: {
               Authorization: 'Bearer test-token',
-            }
+            },
           })
         );
       });
@@ -619,5 +627,4 @@ describe('SocialMediaPost Component', () => {
       expect(image.className).not.toContain('hidden');
     });
   });
-
 });

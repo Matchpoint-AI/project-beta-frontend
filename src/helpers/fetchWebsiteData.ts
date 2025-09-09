@@ -1,31 +1,26 @@
-import { getServiceURL } from "./getServiceURL";
+import { getServiceURL } from './getServiceURL';
 
 // /api/v1/fetchContent
-export const fetchWebsiteData = async (
-  url: string,
-  setProgressDescription: any
-) => {
-    const llm_url = getServiceURL('llm');
-    const response = await fetch(`${llm_url}/api/v1/llm/fetch-content`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ url }),
-    });
+export const fetchWebsiteData = async (url: string, setProgressDescription: any) => {
+  const llm_url = getServiceURL('llm');
+  const response = await fetch(`${llm_url}/api/v1/llm/fetch-content`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ url }),
+  });
 
-    const data = await response.json();
-    setProgressDescription("Extracting Physical Locations...");
-    //    https://llm-dev-247jfvwvka-uc.a.run.app
-    const get_locations = await fetch(
-      `${llm_url}/api/v1/llm/physical-locations`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          prompt: `
+  const data = await response.json();
+  setProgressDescription('Extracting Physical Locations...');
+  //    https://llm-dev-247jfvwvka-uc.a.run.app
+  const get_locations = await fetch(`${llm_url}/api/v1/llm/physical-locations`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      prompt: `
                     Please extract the physical locations from the provided HTML content. Return your findings in a JSON output following this structure:
                     {
                         "Physical_locations": [
@@ -39,16 +34,15 @@ export const fetchWebsiteData = async (
                         "Physical_locations": []
                     }
                 `,
-          htmlcontent: data,
-        }),
-      }
-    );
+      htmlcontent: data,
+    }),
+  });
 
-    const extract_location = await get_locations.json();
+  const extract_location = await get_locations.json();
 
-    const locations = extractPhysicalLocations(extract_location);
+  const locations = extractPhysicalLocations(extract_location);
 
-    return { data, locations };
+  return { data, locations };
 };
 
 function extractPhysicalLocations(jsonArray: string[]): string[] {
@@ -69,4 +63,3 @@ function extractPhysicalLocations(jsonArray: string[]): string[] {
 
   return combinedLocations;
 }
-

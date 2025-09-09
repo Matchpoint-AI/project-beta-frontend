@@ -29,7 +29,7 @@ function debounce<T extends (...args: any[]) => any>(
   wait: number
 ): T & { cancel: () => void } {
   let timeoutId: NodeJS.Timeout | null = null;
-  
+
   const debounced = (...args: Parameters<T>) => {
     if (timeoutId) {
       clearTimeout(timeoutId);
@@ -39,14 +39,14 @@ function debounce<T extends (...args: any[]) => any>(
       timeoutId = null;
     }, wait);
   };
-  
+
   debounced.cancel = () => {
     if (timeoutId) {
       clearTimeout(timeoutId);
       timeoutId = null;
     }
   };
-  
+
   return debounced as T & { cancel: () => void };
 }
 
@@ -154,80 +154,83 @@ export const QualityScoreIndicator: React.FC<QualityScoreIndicatorProps> = ({
   const [previousScore, setPreviousScore] = useState<number>(0);
 
   // Analyze content quality
-  const analyzeQuality = useCallback((text: string): QualityMetric[] => {
-    const results: QualityMetric[] = [];
+  const analyzeQuality = useCallback(
+    (text: string): QualityMetric[] => {
+      const results: QualityMetric[] = [];
 
-    // Length Check
-    const lengthScore = calculateLengthScore(text, contentType);
-    results.push({
-      name: 'Length',
-      score: lengthScore,
-      weight: 0.15,
-      description: 'Optimal content length for engagement',
-      suggestions: getLengthSuggestions(text, contentType),
-    });
+      // Length Check
+      const lengthScore = calculateLengthScore(text, contentType);
+      results.push({
+        name: 'Length',
+        score: lengthScore,
+        weight: 0.15,
+        description: 'Optimal content length for engagement',
+        suggestions: getLengthSuggestions(text, contentType),
+      });
 
-    // Keyword Density
-    const keywordScore = calculateKeywordScore(text, brandContext?.keywords || []);
-    results.push({
-      name: 'Keywords',
-      score: keywordScore,
-      weight: 0.20,
-      description: 'Brand keyword presence',
-      suggestions: getKeywordSuggestions(text, brandContext?.keywords || []),
-    });
+      // Keyword Density
+      const keywordScore = calculateKeywordScore(text, brandContext?.keywords || []);
+      results.push({
+        name: 'Keywords',
+        score: keywordScore,
+        weight: 0.2,
+        description: 'Brand keyword presence',
+        suggestions: getKeywordSuggestions(text, brandContext?.keywords || []),
+      });
 
-    // Readability
-    const readabilityScore = calculateReadabilityScore(text);
-    results.push({
-      name: 'Readability',
-      score: readabilityScore,
-      weight: 0.25,
-      description: 'Easy to read and understand',
-      suggestions: getReadabilitySuggestions(text),
-    });
+      // Readability
+      const readabilityScore = calculateReadabilityScore(text);
+      results.push({
+        name: 'Readability',
+        score: readabilityScore,
+        weight: 0.25,
+        description: 'Easy to read and understand',
+        suggestions: getReadabilitySuggestions(text),
+      });
 
-    // Engagement Potential
-    const engagementScore = calculateEngagementScore(text);
-    results.push({
-      name: 'Engagement',
-      score: engagementScore,
-      weight: 0.20,
-      description: 'Likely to drive interaction',
-      suggestions: getEngagementSuggestions(text),
-    });
+      // Engagement Potential
+      const engagementScore = calculateEngagementScore(text);
+      results.push({
+        name: 'Engagement',
+        score: engagementScore,
+        weight: 0.2,
+        description: 'Likely to drive interaction',
+        suggestions: getEngagementSuggestions(text),
+      });
 
-    // Tone Alignment
-    const toneScore = calculateToneScore(text, brandContext?.tone || 'neutral');
-    results.push({
-      name: 'Tone',
-      score: toneScore,
-      weight: 0.20,
-      description: 'Matches brand voice',
-      suggestions: getToneSuggestions(text, brandContext?.tone || 'neutral'),
-    });
+      // Tone Alignment
+      const toneScore = calculateToneScore(text, brandContext?.tone || 'neutral');
+      results.push({
+        name: 'Tone',
+        score: toneScore,
+        weight: 0.2,
+        description: 'Matches brand voice',
+        suggestions: getToneSuggestions(text, brandContext?.tone || 'neutral'),
+      });
 
-    return results;
-  }, [contentType, brandContext]);
+      return results;
+    },
+    [contentType, brandContext]
+  );
 
   // Debounced quality calculation
   const debouncedCalculate = useMemo(
     () =>
       debounce((text: string) => {
         setIsCalculating(true);
-        
+
         // Simulate async calculation
         setTimeout(() => {
           const newMetrics = analyzeQuality(text);
           const newScore = Math.round(
             newMetrics.reduce((acc, metric) => acc + metric.score * metric.weight, 0)
           );
-          
+
           setPreviousScore(overallScore);
           setOverallScore(newScore);
           setMetrics(newMetrics);
           setIsCalculating(false);
-          
+
           if (onScoreChange) {
             onScoreChange(newScore, newMetrics);
           }
@@ -247,22 +250,26 @@ export const QualityScoreIndicator: React.FC<QualityScoreIndicatorProps> = ({
   }, [content, debouncedCalculate]);
 
   // Score trend indicator
-  const scoreTrend = overallScore > previousScore ? 'up' : overallScore < previousScore ? 'down' : 'stable';
+  const scoreTrend =
+    overallScore > previousScore ? 'up' : overallScore < previousScore ? 'down' : 'stable';
 
   if (!content || content.length === 0) {
     return null;
   }
 
   const FloatingWrapper = position === 'floating' ? Box : React.Fragment;
-  const floatingProps = position === 'floating' ? {
-    sx: {
-      position: 'fixed',
-      bottom: 20,
-      right: 20,
-      zIndex: 1000,
-      maxWidth: 320,
-    }
-  } : {};
+  const floatingProps =
+    position === 'floating'
+      ? {
+          sx: {
+            position: 'fixed',
+            bottom: 20,
+            right: 20,
+            zIndex: 1000,
+            maxWidth: 320,
+          },
+        }
+      : {};
 
   return (
     <FloatingWrapper {...floatingProps}>
@@ -271,13 +278,13 @@ export const QualityScoreIndicator: React.FC<QualityScoreIndicatorProps> = ({
           <Box display="flex" alignItems="center" justifyContent="space-between" mb={2}>
             <Box display="flex" alignItems="center" gap={2}>
               <ScoreCircle score={overallScore}>
-                <Typography 
-                  variant="h5" 
-                  sx={{ 
-                    position: 'relative', 
-                    zIndex: 1, 
+                <Typography
+                  variant="h5"
+                  sx={{
+                    position: 'relative',
+                    zIndex: 1,
                     fontWeight: 'bold',
-                    color: 'white' 
+                    color: 'white',
                   }}
                 >
                   {isCalculating ? (
@@ -287,7 +294,7 @@ export const QualityScoreIndicator: React.FC<QualityScoreIndicatorProps> = ({
                   )}
                 </Typography>
               </ScoreCircle>
-              
+
               <Box>
                 <Typography variant="subtitle2" sx={{ opacity: 0.9 }}>
                   Quality Score
@@ -297,8 +304,7 @@ export const QualityScoreIndicator: React.FC<QualityScoreIndicatorProps> = ({
                     size="small"
                     icon={getScoreIcon(overallScore)}
                     label={
-                      overallScore >= 80 ? 'Excellent' :
-                      overallScore >= 60 ? 'Good' : 'Needs Work'
+                      overallScore >= 80 ? 'Excellent' : overallScore >= 60 ? 'Good' : 'Needs Work'
                     }
                     sx={{
                       backgroundColor: 'rgba(255, 255, 255, 0.2)',
@@ -342,7 +348,7 @@ export const QualityScoreIndicator: React.FC<QualityScoreIndicatorProps> = ({
                       <Typography variant="caption" fontWeight="bold">
                         {metric.score}%
                       </Typography>
-                      <Tooltip 
+                      <Tooltip
                         title={
                           <Box>
                             <Typography variant="caption">{metric.description}</Typography>
@@ -389,9 +395,9 @@ function calculateLengthScore(text: string, type: string): number {
     prompt: { min: 50, max: 150 },
     description: { min: 150, max: 500 },
   };
-  
+
   const range = optimalRanges[type] || optimalRanges.caption;
-  
+
   if (length < range.min) {
     return Math.max(0, (length / range.min) * 80);
   } else if (length > range.max) {
@@ -402,19 +408,19 @@ function calculateLengthScore(text: string, type: string): number {
 
 function calculateKeywordScore(text: string, keywords: string[]): number {
   if (!keywords || keywords.length === 0) return 75;
-  
+
   const lowerText = text.toLowerCase();
-  const foundKeywords = keywords.filter(kw => lowerText.includes(kw.toLowerCase()));
+  const foundKeywords = keywords.filter((kw) => lowerText.includes(kw.toLowerCase()));
   const score = (foundKeywords.length / keywords.length) * 100;
-  
+
   return Math.min(100, Math.max(0, score));
 }
 
 function calculateReadabilityScore(text: string): number {
-  const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 0);
-  const words = text.split(/\s+/).filter(w => w.length > 0);
+  const sentences = text.split(/[.!?]+/).filter((s) => s.trim().length > 0);
+  const words = text.split(/\s+/).filter((w) => w.length > 0);
   const avgWordsPerSentence = words.length / (sentences.length || 1);
-  
+
   // Simple readability scoring
   if (avgWordsPerSentence < 10) return 95;
   if (avgWordsPerSentence < 15) return 85;
@@ -425,19 +431,19 @@ function calculateReadabilityScore(text: string): number {
 
 function calculateEngagementScore(text: string): number {
   let score = 70; // Base score
-  
+
   // Check for engagement elements
   if (text.includes('?')) score += 10; // Questions
   if (text.match(/!+/)) score += 5; // Excitement
   if (text.match(/#\w+/)) score += 5; // Hashtags
   if (text.match(/@\w+/)) score += 5; // Mentions
   if (text.match(/https?:\/\//)) score += 5; // Links
-  
+
   // Check for call-to-actions
   const ctaWords = ['click', 'visit', 'shop', 'discover', 'learn', 'join', 'get', 'try'];
   const lowerText = text.toLowerCase();
-  if (ctaWords.some(word => lowerText.includes(word))) score += 10;
-  
+  if (ctaWords.some((word) => lowerText.includes(word))) score += 10;
+
   return Math.min(100, score);
 }
 
@@ -450,44 +456,44 @@ function calculateToneScore(text: string, targetTone: string): number {
     urgent: ['now', 'today', 'limited', 'hurry', 'fast'],
     neutral: [],
   };
-  
+
   const indicators = toneIndicators[targetTone] || toneIndicators.neutral;
   if (indicators.length === 0) return 80;
-  
+
   const lowerText = text.toLowerCase();
-  const matches = indicators.filter(word => lowerText.includes(word));
-  
-  return 70 + (matches.length * 10);
+  const matches = indicators.filter((word) => lowerText.includes(word));
+
+  return 70 + matches.length * 10;
 }
 
 // Suggestion functions
 function getLengthSuggestions(text: string, type: string): string[] {
   const length = text.length;
   const suggestions: string[] = [];
-  
+
   const optimalRanges = {
     caption: { min: 100, max: 300 },
     prompt: { min: 50, max: 150 },
     description: { min: 150, max: 500 },
   };
-  
+
   const range = optimalRanges[type] || optimalRanges.caption;
-  
+
   if (length < range.min) {
     suggestions.push(`Add ${range.min - length} more characters for optimal length`);
   } else if (length > range.max) {
     suggestions.push(`Consider reducing by ${length - range.max} characters`);
   }
-  
+
   return suggestions;
 }
 
 function getKeywordSuggestions(text: string, keywords: string[]): string[] {
   if (!keywords || keywords.length === 0) return [];
-  
+
   const lowerText = text.toLowerCase();
-  const missingKeywords = keywords.filter(kw => !lowerText.includes(kw.toLowerCase()));
-  
+  const missingKeywords = keywords.filter((kw) => !lowerText.includes(kw.toLowerCase()));
+
   if (missingKeywords.length > 0) {
     return [`Consider including: ${missingKeywords.slice(0, 3).join(', ')}`];
   }
@@ -495,10 +501,10 @@ function getKeywordSuggestions(text: string, keywords: string[]): string[] {
 }
 
 function getReadabilitySuggestions(text: string): string[] {
-  const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 0);
-  const words = text.split(/\s+/).filter(w => w.length > 0);
+  const sentences = text.split(/[.!?]+/).filter((s) => s.trim().length > 0);
+  const words = text.split(/\s+/).filter((w) => w.length > 0);
   const avgWordsPerSentence = words.length / (sentences.length || 1);
-  
+
   if (avgWordsPerSentence > 20) {
     return ['Break up long sentences for better readability'];
   }
@@ -510,37 +516,37 @@ function getReadabilitySuggestions(text: string): string[] {
 
 function getEngagementSuggestions(text: string): string[] {
   const suggestions: string[] = [];
-  
+
   if (!text.includes('?')) {
     suggestions.push('Add a question to encourage engagement');
   }
   if (!text.match(/#\w+/)) {
     suggestions.push('Include relevant hashtags');
   }
-  
+
   const ctaWords = ['click', 'visit', 'shop', 'discover', 'learn', 'join'];
   const lowerText = text.toLowerCase();
-  if (!ctaWords.some(word => lowerText.includes(word))) {
+  if (!ctaWords.some((word) => lowerText.includes(word))) {
     suggestions.push('Add a clear call-to-action');
   }
-  
+
   return suggestions.slice(0, 2);
 }
 
 function getToneSuggestions(text: string, targetTone: string): string[] {
   const suggestions: string[] = [];
-  
+
   const toneGuides = {
     professional: 'Use more formal language and industry terms',
     casual: 'Make it more conversational and relaxed',
     friendly: 'Add warmth with friendly greetings or thanks',
     urgent: 'Create urgency with time-sensitive language',
   };
-  
+
   if (toneGuides[targetTone]) {
     suggestions.push(toneGuides[targetTone]);
   }
-  
+
   return suggestions;
 }
 
