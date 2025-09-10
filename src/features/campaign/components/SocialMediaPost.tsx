@@ -92,7 +92,7 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
   const [limitReached, setLimitReached] = useState(false);
   const [captionMenuAnchor, setCaptionMenuAnchor] = useState<null | HTMLElement>(null);
   const captionMenuOpen = Boolean(captionMenuAnchor);
-  const [currentQualityScore, setCurrentQualityScore] = useState<number>(0);
+  const [_currentQualityScore, setCurrentQualityScore] = useState<number>(0);
   const [showQualityScore, setShowQualityScore] = useState(false);
 
   const showCancelUI = hovering || loading;
@@ -337,7 +337,7 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
     }
   };
 
-  const handleReselectText = async (index) => {
+  const handleReselectText = async (index: number) => {
     try {
       setIsLoadingText(true);
       const endpointUrl = getServiceURL('content-gen');
@@ -370,7 +370,7 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
     }
   };
 
-  function truncateText(text: string, limit: number = 300): string {
+  function _truncateText(text: string, limit: number = 300): string {
     const newText = text.length > limit ? text.slice(0, limit) + '...' : text;
     return newText;
   }
@@ -390,7 +390,7 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
         id, // content ID
         {
           image_description: currentPost.image_prompt || '',
-          scene_type: sceneType as any,
+          scene_type: sceneType as 'lifestyle' | 'product' | 'brand' | 'event',
           brand_voice: brandName,
           target_audience: currentPost.target_audience,
           hashtags: currentPost.hashtags || [],
@@ -835,7 +835,7 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
           <div className="text-center">
             <h2 className="text-xl font-bold text-purple-600 mb-4">Regeneration Limit Reached</h2>
             <p className="text-gray-700 mb-6">
-              You've hit your regeneration limit for this content. We'll keep you posted when
+              You&apos;ve hit your regeneration limit for this content. We&apos;ll keep you posted when
               Matchpoint Unlimited—with more regenerations—is ready for you.
             </p>
 

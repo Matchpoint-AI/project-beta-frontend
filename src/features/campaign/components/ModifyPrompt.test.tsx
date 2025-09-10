@@ -49,7 +49,7 @@ describe('ModifyPrompt', () => {
 
   describe('splitPrompt function', () => {
     it('should handle prompts with "A realistic photograph of" prefix', () => {
-      const { container } = render(<ModifyPrompt {...defaultProps} />);
+      render(<ModifyPrompt {...defaultProps} />);
 
       // Access the splitPrompt function through the component's logic
       const testPrompt = 'A realistic photograph of young professionals in an office';

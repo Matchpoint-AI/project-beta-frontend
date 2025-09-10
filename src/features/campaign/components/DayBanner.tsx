@@ -20,7 +20,7 @@ interface DayBannerProps {
       image_url: string[];
       approved: boolean;
       posted: boolean;
-      [key: string]: any;
+      [key: string]: unknown;
     }>;
     dayIndex: number;
   };
@@ -60,7 +60,7 @@ const DayBanner = ({
   const [fullLoading, setFullLoading] = useState(false);
   const { profile } = useAuth();
   const [startIndex, setStartIndex] = useState(0);
-  const scrollContainerRef = useRef<any>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [selectedImages, setSelectedImages] = useState(
     content.posts.map((post) =>
       post.text_versions ? post.text_versions.findIndex((text) => text === post.text) + 1 : 1
@@ -134,7 +134,7 @@ const DayBanner = ({
     return moment.tz.zone(timezone) !== null;
   };
 
-  const handleApprove = async (week: number, day: number, content: any) => {
+  const handleApprove = async (week: number, day: number, content: { posts: Array<{ image_url: string[]; text: string }> }) => {
     const endpointUrl = getServiceURL('content-gen');
     const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const validTimezone = validateTimezone(userTimezone) ? userTimezone : 'UTC';
@@ -145,7 +145,7 @@ const DayBanner = ({
       day: day + 1,
       approved: true,
       timezone: validTimezone,
-      posts: content.posts.reduce((acc: any, item: any, index: number) => {
+      posts: content.posts.reduce((acc: Record<string, { selected_image: string; text: string }>, item: { image_url: string[]; text: string }, index: number) => {
         const postKey = `post_${index + 1}`;
         const selectedIndex = (selectedImages[index] || 1) - 1;
         acc[postKey] = {

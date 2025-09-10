@@ -145,7 +145,7 @@ describe('CampaignContent Component', () => {
 
   it('should render campaign content when data is available', async () => {
     // Mock successful API responses
-    (global.fetch as any)
+    (global.fetch as unknown as jest.Mock)
       .mockResolvedValueOnce({
         ok: true,
         json: async () => mockCampaignData,
@@ -176,7 +176,7 @@ describe('CampaignContent Component', () => {
 
   it('should navigate to campaign brief when header is clicked', async () => {
     // Mock successful API responses
-    (global.fetch as any)
+    (global.fetch as unknown as jest.Mock)
       .mockResolvedValueOnce({
         ok: true,
         json: async () => mockCampaignData,

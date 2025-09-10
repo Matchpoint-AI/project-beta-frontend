@@ -45,6 +45,8 @@ const CustomInput = ({ options, setOptions, limit }: CustomInputProps) => {
         },
       }}
       renderChip={(Component, key, props: { index: number; label: string }) => {
+        // eslint-disable-next-line react/prop-types
+        const { index, label } = props;
         return (
           <div className="ml-1" key={key}>
             <Chip
@@ -64,14 +66,14 @@ const CustomInput = ({ options, setOptions, limit }: CustomInputProps) => {
                     fontSize: '1px',
                   }}
                   onDelete={() => {
-                    handleDelete(props?.index);
+                    handleDelete(index);
                   }}
                 >
                   {/* <Close /> */}
                 </ChipDelete>
               }
             >
-              {props?.label}
+              {label}
             </Chip>
           </div>
         );

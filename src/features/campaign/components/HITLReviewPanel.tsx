@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 import { FaCheck, FaTimes, FaEdit, FaRedo, FaEye, FaEyeSlash } from 'react-icons/fa';
 // import { MdCompare, MdHistory } from 'react-icons/md';
-import { useAuth } from '../../../features/auth/context/AuthContext';
+// import { useAuth } from '../../../features/auth/context/AuthContext'; // Removed unused import
 import ErrorToast from '../../../components/shared/ErrorToast';
 
 export interface ContentItem {
@@ -59,7 +59,7 @@ const HITLReviewPanel: React.FC<HITLReviewPanelProps> = ({
   const [loading, setLoading] = useState<{ [key: string]: boolean }>({});
   const [error, setError] = useState<string | null>(null);
 
-  const { } = useAuth();
+  // const { } = useAuth(); // Removed empty destructuring
 
   const handleApprove = useCallback(
     async (itemId: string) => {

@@ -28,7 +28,7 @@ interface Day {
 
 type Week = Day[];
 
-export const structureData = (data: Record<string, Record<string, any>>): Week[] => {
+export const structureData = (data: Record<string, Record<string, unknown>>): Week[] => {
   // Transform the object into an array of weeks
   return Object.keys(data)
     .sort()

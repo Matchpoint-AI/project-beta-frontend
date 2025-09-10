@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { BrowserRouter } from 'react-router-dom';
 import Dashboard from './Dashboard';
@@ -20,7 +20,7 @@ vi.mock('../../../components/shared/Sidebar', () => ({
 }));
 
 vi.mock('../components/CampaignsList', () => ({
-  default: ({ campaigns, campaignType, setCampaignType }: any) => (
+  default: ({ campaigns, campaignType }: { campaigns: Array<Record<string, unknown>>; campaignType: string; setCampaignType?: (type: string) => void }) => (
     <div data-testid="campaigns-list">
       <span data-testid="campaign-count">{campaigns.length}</span>
       <span data-testid="campaign-type">{campaignType}</span>

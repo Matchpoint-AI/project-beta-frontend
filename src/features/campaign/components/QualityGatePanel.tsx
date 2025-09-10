@@ -15,7 +15,7 @@ import {
 } from '@mui/material';
 import { FaExclamationTriangle, FaCheckCircle, FaInfoCircle } from 'react-icons/fa';
 import { MdExpandMore, MdRefresh } from 'react-icons/md';
-import { useAuth } from '../../../features/auth/context/AuthContext';
+// import { useAuth } from '../../../features/auth/context/AuthContext'; // Removed unused import
 
 export interface QualityCheck {
   id: string;
@@ -62,7 +62,7 @@ const QualityGatePanel: React.FC<QualityGatePanelProps> = ({
   const [result, setResult] = useState<QualityGateResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const { } = useAuth();
+  // const { } = useAuth(); // Removed empty destructuring
 
   // Mock quality gate analysis - in production, this would call the actual quality gate service
   const performQualityCheck = useCallback(async (): Promise<QualityGateResult> => {
