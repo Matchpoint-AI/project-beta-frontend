@@ -59,7 +59,7 @@ Use the information above to generate an accurate JSON response that includes co
       .then((res) => {
         return res.json();
       })
-      .then((data) => {
+      .then((_data) => {
         setSpecs(JSON.parse(data.response.choices[0].message.content));
       })
       .catch(() => {

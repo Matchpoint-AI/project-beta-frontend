@@ -11,7 +11,7 @@ import OnboardStepsBar from '../onboard/OnboardStepsBar';
 import { useAuth } from '../../features/auth/context/AuthContext';
 import { getServiceURL } from '../../helpers/getServiceURL';
 import BusinessForm from '../onboard/BusinessForm';
-import ErrorToast from '../shared/ErrorToast';
+import ErrorToast from '../../shared/components/feedback/ErrorToast';
 import StepContainer from '../onboard/StepContainer';
 import handleNavigate from '../../helpers/handleNavigate';
 
@@ -172,8 +172,7 @@ const Onboard = ({ edit = false }: any) => {
         setSaveAndStart(false);
         setCurrentStep(4);
       })
-      .catch((error) => {
-        console.error('Error posting data:', error);
+      .catch((_error) => {
         setErrorSaving(true);
         setSaveAndStart(false);
       });

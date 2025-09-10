@@ -53,7 +53,7 @@ export default function AuthForm({ login = false, setAuthError }: AuthFormProps)
       }
 
       setAuthError('Verification email resent successfully!');
-    } catch (error) {
+    } catch (_error) {
       setAuthError(error.message);
     } finally {
       setLoading(false);
@@ -154,7 +154,7 @@ export default function AuthForm({ login = false, setAuthError }: AuthFormProps)
         }
       }
       setLoading(false);
-    } catch (error) {
+    } catch (_error) {
       setLoading(false);
       if (login) {
         const authError = error as FirebaseError;

@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { FormEventHandler, useContext, useEffect, useState } from 'react';
-import FileInput from '../../../components/FileInput';
+import FileInput from '../../../shared/components/inputs/FileInput';
 import { BrandContext } from '../context/BrandContext';
-import ColorPicker from '../../../components/shared/ColorPicker';
+import ColorPicker from '../../../shared/components/ui/ColorPicker';
 import FormsContainer from '../../../components/shared/FormsContainer';
-import ColorSpan from '../../../components/ColorSpan';
+import ColorSpan from '../../../shared/components/ui/ColorSpan';
 import * as pdfjsLib from 'pdfjs-dist';
 import pdfWorker from 'pdfjs-dist/build/pdf.worker.mjs?worker&url';
 import CircularProgress from '@mui/material/CircularProgress';
-import BackButton from '../../../components/shared/Buttons/BackButton';
-import NextButton from '../../../components/shared/Buttons/NextButton';
+import BackButton from '../../../shared/components/buttons/BackButton';
+import NextButton from '../../../shared/components/buttons/NextButton';
 import { getServiceURL } from '../../../helpers/getServiceURL';
 import { LuPlus } from 'react-icons/lu';
 import { trackBrandGuideUpload } from '../../../helpers/analytics';

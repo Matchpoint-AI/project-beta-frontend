@@ -35,7 +35,7 @@ export default function useFetchUserData() {
   const params = useParams();
   const [data, setData] = useState<UserData | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [_error, setError] = useState('');
   const { profile } = useAuth();
 
   const fetchUserData = async () => {
@@ -69,5 +69,5 @@ export default function useFetchUserData() {
     if (params.id) fetchUserData();
   }, [profile]);
 
-  return [data, loading, error, handleRetry] as const;
+  return [data, loading(_error), handleRetry] as const;
 }

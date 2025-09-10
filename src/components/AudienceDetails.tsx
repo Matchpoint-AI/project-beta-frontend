@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { SparklesMessage } from './shared/SparklesMessage';
+import { SparklesMessage } from '../shared/components/ui/SparklesMessage';
 import EditBlock from './shared/EditBlock';
-import ChipComponent from './ChipComponent';
+import ChipComponent from '../shared/components/ui/ChipComponent';
 import ChipsEditBlock from './onboard/ChipsEditBlock';
 
 interface AudienceEmotionsProps {
   values: string[];
-  setValues: (values: string[]) => void;
+  setValues: React.Dispatch<React.SetStateAction<string[]>>;
   title: string;
   description?: string;
   genre: 'emotion' | 'interests';

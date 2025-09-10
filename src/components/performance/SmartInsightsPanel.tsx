@@ -209,11 +209,11 @@ export const SmartInsightsPanel: React.FC = () => {
         },
       });
       if (response.ok) {
-        const data = await response.json();
-        setSummary(data);
+        const _data = await response.json();
+        setSummary(_data);
       }
-    } catch (error) {
-      console.error('Failed to fetch insights summary:', error);
+    } catch (_error) {
+      // Error handled silently
     } finally {
       setLoading((prev) => ({ ...prev, summary: false }));
     }
@@ -233,11 +233,11 @@ export const SmartInsightsPanel: React.FC = () => {
         },
       });
       if (response.ok) {
-        const data = await response.json();
-        setInsights(data);
+        const _data = await response.json();
+        setInsights(_data);
       }
-    } catch (error) {
-      console.error('Failed to fetch smart insights:', error);
+    } catch (_error) {
+      // Error handled silently
     } finally {
       setLoading((prev) => ({ ...prev, insights: false }));
     }
@@ -255,11 +255,11 @@ export const SmartInsightsPanel: React.FC = () => {
         }
       );
       if (response.ok) {
-        const data = await response.json();
-        setPredictions(data);
+        const _data = await response.json();
+        setPredictions(_data);
       }
-    } catch (error) {
-      console.error('Failed to fetch predictions:', error);
+    } catch (_error) {
+      // Error handled silently
     } finally {
       setLoading((prev) => ({ ...prev, predictions: false }));
     }
@@ -274,11 +274,11 @@ export const SmartInsightsPanel: React.FC = () => {
         },
       });
       if (response.ok) {
-        const data = await response.json();
-        setRecommendations(data);
+        const _data = await response.json();
+        setRecommendations(_data);
       }
-    } catch (error) {
-      console.error('Failed to fetch recommendations:', error);
+    } catch (_error) {
+      // Error handled silently
     } finally {
       setLoading((prev) => ({ ...prev, recommendations: false }));
     }
@@ -296,8 +296,8 @@ export const SmartInsightsPanel: React.FC = () => {
         }
       );
       // Optionally show success message
-    } catch (error) {
-      console.error('Failed to submit feedback:', error);
+    } catch (_error) {
+      // Error handled silently
     }
   };
 

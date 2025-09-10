@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ChipComponent from '../ChipComponent';
+import ChipComponent from '../../shared/components/ui/ChipComponent';
 
 interface AgeDropdownProps {
   options: string[];
@@ -19,7 +19,6 @@ const AgeDropdown: React.FC<AgeDropdownProps> = ({
   const handleOptionClick = (option: string) => {
     const found = selectedOption.includes(option);
     if (found === true) return;
-    console.log('selectedOption === ', selectedOption);
     const found2 = selectedOption.includes('All Ages');
     if (found2 === true) return;
     if (selectedOption.length === 2) return;

@@ -36,7 +36,7 @@ interface BackButtonProps {
   onClick: () => void;
 }
 
-vi.mock('../shared/Buttons/BackButton', () => ({
+vi.mock('../../shared/components/buttons/BackButton', () => ({
   default: ({ onClick }: BackButtonProps) => (
     <button onClick={onClick} data-testid="back-button">
       Back
@@ -49,7 +49,7 @@ interface ApproveButtonProps {
   onClick: () => void;
 }
 
-vi.mock('../shared/Buttons/ApproveButton', () => ({
+vi.mock('../../shared/components/buttons/ApproveButton', () => ({
   default: ({ onClick }: ApproveButtonProps) => (
     <button onClick={onClick} data-testid="approve-button">
       Approve
@@ -161,6 +161,12 @@ describe('CampaignBriefForm', () => {
 
   const mockBusinessInfo = {
     name: 'Test Business',
+    website: 'https://test.com',
+    product_features: ['Feature 1', 'Feature 2'],
+    product_description: 'Test product description',
+    product_link: 'https://test.com/product',
+    start_date: '2024-01-01',
+    durationNum: 4,
     logo: 'test-logo.png',
   };
 
@@ -179,7 +185,12 @@ describe('CampaignBriefForm', () => {
     return render(
       <BrandContext.Provider value={{ businessInfo: mockBusinessInfo, setBusinessInfo: vi.fn() }}>
         <CampaignContext.Provider
-          value={{ campaignInfo: mockCampaignInfo, setCampaignInfo: vi.fn() }}
+          value={{
+            campaignInfo: mockCampaignInfo,
+            setCampaignInfo: vi.fn(),
+            campaignId: 'test-campaign-id',
+            setCampaignId: vi.fn(),
+          }}
         >
           {component}
         </CampaignContext.Provider>
@@ -203,7 +214,7 @@ describe('CampaignBriefForm', () => {
             ],
           },
         }),
-    }) as jest.Mock;
+    }) as unknown as jest.Mock;
   });
 
   it('renders campaign brief form correctly', () => {

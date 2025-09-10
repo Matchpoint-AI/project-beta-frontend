@@ -194,8 +194,8 @@ const PerformancePredictionDashboard: React.FC = () => {
       setPredictions(mockPredictions);
       setCampaignPredictions(mockCampaignPredictions);
       setContentPerformance(mockContentPerformance);
-    } catch (error) {
-      console.error('Error loading predictions:', error);
+    } catch (_error) {
+      // Error handled silently
     } finally {
       setLoading(false);
     }

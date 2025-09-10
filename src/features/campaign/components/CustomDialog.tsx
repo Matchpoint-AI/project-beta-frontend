@@ -1,9 +1,9 @@
 import React, { FC, useContext } from 'react';
-import AudienceForm from '../Forms/AudienceForm';
+import AudienceForm from '../../../components/Forms/AudienceForm';
 // import CampaignSetupCompleteDialog from "./CampaignSetupCompleteDialog";
-import PurposeForm from '../Forms/PurposeForm';
-import ServiceForm from '../onboard/ServiceForm';
-import TimingForm from '../Forms/TimingForm';
+import PurposeForm from '../../../components/Forms/PurposeForm';
+import ServiceForm from '../../../components/onboard/ServiceForm';
+import TimingForm from '../../../components/Forms/TimingForm';
 import { CampaignContext } from '../../../context/CampaignContext';
 
 interface CustomDialogProps {
@@ -33,7 +33,6 @@ const CustomDialog: FC<CustomDialogProps> = ({
     setIsOpen(0);
     // setCurrentStep(5);
   };
-  console.log('opening the cusotm dialog');
   const handleNext = () => {
     setIsOpen(0);
     // setStep(step + 1);

@@ -24,7 +24,7 @@ import {
 import { styled } from '@mui/material/styles';
 
 // Simple debounce implementation
-function debounce<T extends (...args: any[]) => any>(
+function debounce<T extends (...args: unknown[]) => unknown>(
   func: T,
   wait: number
 ): T & { cancel: () => void } {
@@ -51,7 +51,7 @@ function debounce<T extends (...args: any[]) => any>(
 }
 
 // Styled components for visual appeal
-const QualityCard = styled(Card)(({ theme }) => ({
+const QualityCard = styled(Card)(({ theme: _theme }) => ({
   background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
   color: 'white',
   borderRadius: 12,
@@ -93,7 +93,7 @@ const ScoreCircle = styled(Box)<{ score: number }>(({ score }) => ({
   },
 }));
 
-const MetricBar = styled(LinearProgress)(({ theme }) => ({
+const MetricBar = styled(LinearProgress)(({ theme: _theme }) => ({
   height: 6,
   borderRadius: 3,
   backgroundColor: 'rgba(255, 255, 255, 0.2)',
@@ -338,7 +338,7 @@ export const QualityScoreIndicator: React.FC<QualityScoreIndicatorProps> = ({
 
           <Collapse in={expanded || !showDetails}>
             <Box sx={{ mt: 2 }}>
-              {metrics.map((metric, index) => (
+              {metrics.map((metric, _index) => (
                 <Box key={metric.name} sx={{ mb: 1.5 }}>
                   <Box display="flex" justifyContent="space-between" alignItems="center" mb={0.5}>
                     <Typography variant="caption" sx={{ opacity: 0.9 }}>
@@ -354,8 +354,8 @@ export const QualityScoreIndicator: React.FC<QualityScoreIndicatorProps> = ({
                             <Typography variant="caption">{metric.description}</Typography>
                             {metric.suggestions && metric.suggestions.length > 0 && (
                               <Box mt={1}>
-                                {metric.suggestions.map((suggestion, i) => (
-                                  <Typography key={i} variant="caption" display="block">
+                                {metric.suggestions.map((suggestion, _i) => (
+                                  <Typography key={_i} variant="caption" display="block">
                                     • {suggestion}
                                   </Typography>
                                 ))}

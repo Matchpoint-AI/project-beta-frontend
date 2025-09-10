@@ -13,9 +13,9 @@ import {
 } from '../../../helpers/exportUtils';
 import WeekSelector from './WeekSelector';
 import ExportButton from './ExportButton';
-import ErrorDisplay from '../ErrorDisplay';
+import ErrorDisplay from '../../../shared/components/feedback/ErrorDisplay';
 // import ApproveButton from '../ApproveButton';
-import ErrorToast from '../../../components/shared/ErrorToast';
+import ErrorToast from '../../../shared/components/feedback/ErrorToast';
 import ExportPopup from './ExportPopup';
 import { capitalizeFirstLetterOfEachWord, structureData } from '../../../helpers/formatters';
 import posthog from '../../../helpers/posthog';
@@ -108,7 +108,6 @@ const ExportComponent = ({ campaign }: { campaign: CampaignInfoType }) => {
   };
   const fetchWeeksData = async () => {
     try {
-      console.log('id === ', id);
       const params = new URLSearchParams({
         campaign_id: id as string,
       });
@@ -124,14 +123,12 @@ const ExportComponent = ({ campaign }: { campaign: CampaignInfoType }) => {
 
       const data = await response.json();
       if (data.length === 0 || data.arr[0].length === 0) return;
-      console.log('data from fetch === ', data);
       // setContentId(data.id);
       const data2 = structureData(data.arr);
-      console.log('data after structure === ', data2);
       return { weeks: data2, contentId: data.id };
       // setWeeksData(data2);
-    } catch (error) {
-      console.error('Error fetching data:', error);
+    } catch (_error) {
+      // Error handled silently
     }
   };
 
@@ -147,8 +144,6 @@ const ExportComponent = ({ campaign }: { campaign: CampaignInfoType }) => {
 
       const { weeks: weeksData, contentId } = fetchedData;
       // const { weeks: weeksData, id } = await fetchWeeksData();
-      console.log('weeks === ', weeksData);
-      console.log('id === ', id);
       // return;
       const data = weeksData
         .filter((_, weekIndex) => currentValues.includes(`Week ${weekIndex + 1}`))
@@ -214,10 +209,10 @@ const ExportComponent = ({ campaign }: { campaign: CampaignInfoType }) => {
         });
 
         if (!response.ok) {
-          console.error('Failed to track exported posts');
+          // Error handled silently
         }
-      } catch (error) {
-        console.error('Error tracking exported posts:', error);
+      } catch (_error) {
+        // Error handled silently
       }
       if (posthog.__loaded) {
         posthog.capture('Content Exported', {
@@ -227,8 +222,7 @@ const ExportComponent = ({ campaign }: { campaign: CampaignInfoType }) => {
       }
 
       setShowPopup(true); // Show the popup after successful export
-    } catch (error) {
-      console.error('Error during export:', error);
+    } catch (_error) {
       setError('An error occurred during export.');
     }
   };
@@ -254,7 +248,6 @@ const ExportComponent = ({ campaign }: { campaign: CampaignInfoType }) => {
       setError('Specify Week Content To Be Approved');
       return;
     }
-    console.log('currentValues === ', currentValues);
     const transformedWeeks = currentValues.map((week) => week.toLowerCase().replace(' ', '_'));
     setLoading(true);
     const endpointUrl = getServiceURL('data');
@@ -275,13 +268,11 @@ const ExportComponent = ({ campaign }: { campaign: CampaignInfoType }) => {
         throw new Error('Failed to approve all posts.');
       }
 
-      const data = await response.json();
-      console.log('Approval Success:', data);
+      const _data = await response.json();
       setSuccess(true);
       setErrorText('You Can Export The Specified Week');
       setErrorSaving(true); // Display error toast
-    } catch (error) {
-      console.error('Error:', error);
+    } catch (_error) {
       setSuccess(false);
       setErrorSaving(true); // Display error toast
       setErrorText('An Error Occurred, Try Again Later!!');

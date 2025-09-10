@@ -2,7 +2,7 @@
  * Cost Optimization API Client
  *
  * Provides methods to interact with the cost optimization tracking backend service.
- * Handles authentication, error handling, and data transformation for the frontend.
+ * Handles authentication(_error) handling, and data transformation for the frontend.
  */
 
 import { getToken } from '../features/auth/utils/authFetch';
@@ -138,7 +138,7 @@ export async function fetchCostOptimizationData(
 
     const data = await response.json();
     return transformDashboardData(data);
-  } catch (error) {
+  } catch (_error) {
     if (error instanceof CostOptimizationApiError) {
       throw error;
     }
@@ -179,7 +179,7 @@ export async function trackApiUsage(usageData: TrackUsageData): Promise<void> {
         errorBody
       );
     }
-  } catch (error) {
+  } catch (_error) {
     if (error instanceof CostOptimizationApiError) {
       throw error;
     }
@@ -232,7 +232,7 @@ export async function fetchModelComparison(
     }
 
     return await response.json();
-  } catch (error) {
+  } catch (_error) {
     if (error instanceof CostOptimizationApiError) {
       throw error;
     }
@@ -281,7 +281,7 @@ export async function exportCostData(startDate?: string, endDate?: string): Prom
     }
 
     return await response.blob();
-  } catch (error) {
+  } catch (_error) {
     if (error instanceof CostOptimizationApiError) {
       throw error;
     }
@@ -328,7 +328,7 @@ export async function updateOptimizationSettings(settings: {
         errorBody
       );
     }
-  } catch (error) {
+  } catch (_error) {
     if (error instanceof CostOptimizationApiError) {
       throw error;
     }
@@ -381,14 +381,20 @@ function transformDashboardData(data: unknown): CostDashboardData {
           >)
         : {},
     daily_savings: Array.isArray(safeData?.daily_savings)
-      ? (safeData.daily_savings as Array<{ date: string; daily_savings: number }>)
+      ? (safeData.daily_savings as Array<{
+          date: string;
+          daily_savings: number;
+          cumulative_savings: number;
+          baseline_cost: number;
+          optimized_cost: number;
+        }>)
       : [],
     optimization_recommendations: Array.isArray(safeData?.optimization_recommendations)
       ? (safeData.optimization_recommendations as Array<{
-          type: string;
-          description: string;
+          recommendation: string;
           potential_savings: number;
-          implementation_effort: string;
+          difficulty: 'low' | 'medium' | 'high';
+          impact: 'low' | 'medium' | 'high';
         }>)
       : [],
   };

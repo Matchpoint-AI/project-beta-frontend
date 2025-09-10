@@ -4,14 +4,14 @@ import scrapeBrandWebsite from '../../features/brand/utils/scrapeBrandWebsite';
 // import { ConnectInstagram } from "./ConnectToInstagram";
 import { ScrapeWebsiteBtn } from '../ScrapeWebsiteBtn';
 import isUrl from 'is-url';
-import BusinessFormInput from '../shared/Inputs/BusinessFormInput';
-import ErrorToast from '../shared/ErrorToast';
+import BusinessFormInput from '../../shared/components/inputs/BusinessFormInput';
+import ErrorToast from '../../shared/components/feedback/ErrorToast';
 
 export default function WebsiteScrapingForm() {
   const { businessInfo, setBusinessInfo } = useContext(BrandContext);
   const [runValidation, setRunValidation] = useState(0);
-  const [nameError, setNameError] = useState({ count: 0, error: false });
-  const [websiteError, setWebsiteError] = useState({ count: 0, error: false });
+  const [nameError, setNameError] = useState({ count: 0, _error: false });
+  const [websiteError, setWebsiteError] = useState({ count: 0, _error: false });
   const [progressDescription, setProgressDescription] = useState('');
   const [scrapingError, setScrapingError] = useState(false);
 

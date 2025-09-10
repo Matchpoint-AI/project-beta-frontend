@@ -1,9 +1,9 @@
 import React, { FormEventHandler, useCallback, useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import updateUserProfile from '../../../helpers/updateUserProfile';
-import ErrorToast from '../shared/ErrorToast';
+import ErrorToast from '../../../shared/components/feedback/ErrorToast';
 import { CircularProgress } from '@mui/material';
-import EditProfileInput from '../EditProfileInput';
+import EditProfileInput from '../../../shared/components/inputs/EditProfileInput';
 
 export default function UserProfileForm({ edit }: { edit: boolean }) {
   const { profile, setProfile } = useAuth();
@@ -55,8 +55,7 @@ export default function UserProfileForm({ edit }: { edit: boolean }) {
         setRequestError(null);
         setTimeout(() => setRequestError(''), 2000);
       }
-    } catch (error) {
-      console.log(error);
+    } catch (_error) {
       setRequestError((error as Error).message);
     }
     setSubmiting(false);

@@ -7,11 +7,11 @@ import { CampaignContext } from '../../context/CampaignContext';
 import CustomDialog from '../../features/campaign/components/CustomDialog';
 import { useNavigate } from 'react-router-dom';
 import FormsContainer from '../shared/FormsContainer';
-import BackButton from '../shared/Buttons/BackButton';
-import ApproveButton from '../shared/Buttons/ApproveButton';
+import BackButton from '../../shared/components/buttons/BackButton';
+import ApproveButton from '../../shared/components/buttons/ApproveButton';
 import CampaignSetupCompleteDialog from '../../features/campaign/components/CampaignSetupCompleteDialog';
 import { getServiceURL } from '../../helpers/getServiceURL';
-import { SparklesMessage } from '../shared/SparklesMessage';
+import { SparklesMessage } from '../../shared/components/ui/SparklesMessage';
 import CampaignBriefTimingBlock from '../../features/campaign/components/CampaignBriefTimingBlock';
 import dayjs from 'dayjs';
 import { MdEdit } from 'react-icons/md';
@@ -102,16 +102,13 @@ Get ${campaignInfo?.audienceGender} who are interested in ${
       }),
     })
       .then((response) => response.json())
-      .then((data) => {
+      .then((_data) => {
         const { choices } = data.response;
         const { content } = choices[0].message;
-        console.log(content);
         setCampaignSummary(content);
         setCampaignInfo((prev: any) => ({ ...prev, summary: content }));
       })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
+      .catch((_error) => {});
   };
 
   const editTable = [1, 3, 2, 4];
@@ -128,7 +125,6 @@ Get ${campaignInfo?.audienceGender} who are interested in ${
     setCampaignInfo({});
     handleNavigate(profile?.id ?? '', '/dashboard', navigate);
   };
-  console.log(campaignInfo);
 
   return (
     <>

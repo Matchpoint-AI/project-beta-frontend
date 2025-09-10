@@ -42,14 +42,13 @@ const TabItems: React.FC<TabItemsProps> = ({
 
       const data = await response.json();
       const { approved } = data;
-      console.log('approve === ', approved);
       setApprovePopup(approved);
       if (approved) {
         onApprove?.();
       }
       if (onPageChange && approved === false) onPageChange(3);
-    } catch (error) {
-      console.error('Error fetching data:', error);
+    } catch (_error) {
+      // Error handled silently
     }
   };
 

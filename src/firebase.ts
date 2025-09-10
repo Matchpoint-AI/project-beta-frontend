@@ -1,6 +1,6 @@
 import { initializeApp, FirebaseApp } from 'firebase/app';
 import { getAuth, Auth, User } from 'firebase/auth';
-import { collection, Firestore, getDocs, getFirestore } from 'firebase/firestore';
+import { Firestore, getFirestore } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 
 export const useAuthentication = () => {
@@ -27,7 +27,7 @@ export const useAuthentication = () => {
     setApp(fbApp);
     setDb(dbApp);
     setAuth(authObj);
-  }, [app, setApp, auth, setAuth, db, setDb, user, setUser]);
+  }, []);
 
   return { app, auth, db, user };
 };

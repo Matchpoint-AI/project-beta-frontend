@@ -6,7 +6,7 @@ interface PaginationImageProps {
   currentPage: number;
   onPageChange: (page: number) => void;
   approved: boolean;
-  images: any[];
+  images: string[];
 }
 
 const PaginationImage: React.FC<PaginationImageProps> = ({

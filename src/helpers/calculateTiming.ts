@@ -115,8 +115,7 @@ export const displayPeriod = (startDate: string, duration: string): string => {
     } else {
       return `Week ${weekNumber} of ${durationValue}, ${dateRange}`;
     }
-  } catch (error) {
-    console.error('Error calculating display period:', error);
+  } catch (_error) {
     return 'Timing not selected';
   }
 };
@@ -196,7 +195,7 @@ const getGMTOffset = (timeZone: string): string => {
     const gmtPart = parts.find((part) => part.type === 'timeZoneName')?.value;
 
     return gmtPart || 'GMT'; // Fallback to GMT if undetectable
-  } catch (error) {
+  } catch (_error) {
     return 'GMT'; // Fallback in case of error
   }
 };
