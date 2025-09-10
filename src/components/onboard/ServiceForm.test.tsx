@@ -5,6 +5,11 @@ import ServiceForm from './ServiceForm';
 import { BrandContext } from '../../context/BrandContext';
 import { CampaignContext } from '../../context/CampaignContext';
 
+// Extend window interface for test mocks
+interface TestWindow extends Window {
+  __mockScrapeProduct: ReturnType<typeof vi.fn>;
+}
+
 // Mock the scrapeProduct helper using local import
 vi.mock('./scrapeProduct', () => ({
   default: vi.fn(),
@@ -27,7 +32,7 @@ vi.mock('../../features/auth/context/AuthContext', () => ({
 
 // Mock the NextButton component
 vi.mock('../shared/Buttons/NextButton', () => ({
-  default: ({ text, formId, disabled }: any) => (
+  default: ({ text, formId, disabled }: { text: string; formId: string; disabled: boolean }) => (
     <button type="submit" form={formId} disabled={disabled} data-testid="next-button">
       {text}
     </button>
@@ -36,7 +41,7 @@ vi.mock('../shared/Buttons/NextButton', () => ({
 
 // Mock the BackButton component
 vi.mock('../shared/Buttons/BackButton', () => ({
-  default: ({ onClick }: any) => (
+  default: ({ onClick }: { onClick: () => void }) => (
     <button onClick={onClick} data-testid="back-button">
       Back
     </button>
@@ -45,7 +50,11 @@ vi.mock('../shared/Buttons/BackButton', () => ({
 
 // Mock the Dropdown component
 vi.mock('../shared/Dropdown', () => ({
-  default: ({ options, currentValue, onUpdateContext }: any) => (
+  default: ({ options, currentValue, onUpdateContext }: { 
+    options: string[];
+    currentValue: string;
+    onUpdateContext: (value: string, index: number) => void;
+  }) => (
     <select
       value={currentValue}
       onChange={(e) => onUpdateContext(e.target.value, 1)}
@@ -62,7 +71,7 @@ vi.mock('../shared/Dropdown', () => ({
 
 // Mock the KeyFeatures component
 vi.mock('./KeyFeatures', () => ({
-  default: ({ pros }: any) => (
+  default: ({ pros }: { pros: string[] }) => (
     <div data-testid="key-features">
       {pros.map((pro: string, index: number) => (
         <div key={index} data-testid={`feature-${index}`}>
@@ -80,7 +89,11 @@ vi.mock('../WebsiteOwnership', () => ({
 
 // Mock the ErrorToast component
 vi.mock('../shared/ErrorToast', () => ({
-  default: ({ open, onClose, message }: any) =>
+  default: ({ open, onClose, message }: { 
+    open: boolean;
+    onClose: () => void;
+    message: string;
+  }) =>
     open ? (
       <div data-testid="error-toast" onClick={onClose}>
         {message}
@@ -90,17 +103,21 @@ vi.mock('../shared/ErrorToast', () => ({
 
 // Mock the SparklesMessage component
 vi.mock('../shared/SparklesMessage', () => ({
-  SparklesMessage: ({ children }: any) => <div data-testid="sparkles-message">{children}</div>,
+  SparklesMessage: ({ children }: { children: React.ReactNode }) => <div data-testid="sparkles-message">{children}</div>,
 }));
 
 // Mock the FormsContainer component
 vi.mock('../shared/FormsContainer', () => ({
-  default: ({ children }: any) => <div data-testid="forms-container">{children}</div>,
+  default: ({ children }: { children: React.ReactNode }) => <div data-testid="forms-container">{children}</div>,
 }));
 
 // Mock the FormInputBox component
 vi.mock('../shared/FormInputBox', () => ({
-  default: ({ children, styles, color }: any) => (
+  default: ({ children, styles, color }: { 
+    children: React.ReactNode;
+    styles?: { backgroundColor?: string };
+    color: string;
+  }) => (
     <div
       className="bg-gray-50 border rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5 flex items-center justify-center gap-2"
       style={{ borderColor: color, backgroundColor: styles?.backgroundColor || 'white' }}
@@ -152,7 +169,7 @@ describe('ServiceForm', () => {
 
   beforeAll(() => {
     // Provide a global mock for scrapeProduct
-    (window as any).__mockScrapeProduct = vi.fn().mockResolvedValue({
+    (window as TestWindow).__mockScrapeProduct = vi.fn().mockResolvedValue({
       name: 'Test Product',
       description: 'Test Description',
       product_features: ['Feature 1', 'Feature 2'],
@@ -162,7 +179,7 @@ describe('ServiceForm', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     // Reset the mock implementation for each test
-    (window as any).__mockScrapeProduct.mockResolvedValue({
+    (window as TestWindow).__mockScrapeProduct.mockResolvedValue({
       name: 'Test Product',
       description: 'Test Description',
       product_features: ['Feature 1', 'Feature 2'],
@@ -253,7 +270,7 @@ describe('ServiceForm', () => {
   });
 
   it('handles product scraping error', async () => {
-    (window as any).__mockScrapeProduct.mockRejectedValue(new Error('Scraping failed'));
+    (window as TestWindow).__mockScrapeProduct.mockRejectedValue(new Error('Scraping failed'));
     renderWithProviders(
       <ServiceForm
         handleNext={mockHandleNext}
@@ -310,7 +327,7 @@ describe('ServiceForm', () => {
   });
 
   it('handles empty product features gracefully', async () => {
-    (window as any).__mockScrapeProduct.mockResolvedValue({
+    (window as TestWindow).__mockScrapeProduct.mockResolvedValue({
       name: 'Test Product',
       description: 'Test Description',
       product_features: [],

@@ -336,7 +336,7 @@ const ServiceForm = ({ handleNext, handleBack, review = false, setService }: Ser
             )}
             {productLink && !productName && !loading && !scrapeSuccess && (
               <p className="text-[#6B7280] text-sm mt-2">
-                Click "Generate" to extract product information from the URL
+                Click &quot;Generate&quot; to extract product information from the URL
               </p>
             )}
           </div>

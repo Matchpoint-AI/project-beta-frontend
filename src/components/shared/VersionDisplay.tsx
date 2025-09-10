@@ -28,7 +28,7 @@ const VersionDisplay: React.FC<VersionDisplayProps> = ({ className = '' }) => {
   const hostname = typeof window !== 'undefined' ? window.location.hostname : '';
   const isDev = hostname.includes('dev.matchpointai.com') || hostname.includes('localhost');
   const isStaging = hostname.includes('staging.matchpointai.com');
-  const isProd = hostname.includes('matchpointai.com') && !isDev && !isStaging;
+  const _isProd = hostname.includes('matchpointai.com') && !isDev && !isStaging;
 
   // Show version only in development and staging environments
   // Hide in production for security/UX reasons

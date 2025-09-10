@@ -82,7 +82,7 @@ const InstaConnect: React.FC<InstaConnectProps> = ({
       }),
     })
       .then((response) => response.json())
-      .then((data: unknown) => {})
+      .then((_data: unknown) => {})
       .catch((error) => {
         console.error('Error:', error);
         setError('Failed to save redirect URI');

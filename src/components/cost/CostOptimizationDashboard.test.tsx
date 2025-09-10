@@ -21,17 +21,17 @@ vi.mock('../../api/costOptimizationApi', () => ({
 
 // Mock Chart.js components
 vi.mock('react-chartjs-2', () => ({
-  Line: vi.fn(({ data, options }) => (
+  Line: vi.fn(({ data: _data, options: _options }) => (
     <div data-testid="line-chart" data-chart-type="line">
       Mock Line Chart
     </div>
   )),
-  Bar: vi.fn(({ data, options }) => (
+  Bar: vi.fn(({ data: _data, options: _options }) => (
     <div data-testid="bar-chart" data-chart-type="bar">
       Mock Bar Chart
     </div>
   )),
-  Doughnut: vi.fn(({ data, options }) => (
+  Doughnut: vi.fn(({ data: _data, options: _options }) => (
     <div data-testid="doughnut-chart" data-chart-type="doughnut">
       Mock Doughnut Chart
     </div>
@@ -213,7 +213,7 @@ describe('CostOptimizationDashboard', () => {
 
   describe('Initial Loading', () => {
     it('should show loading spinner initially', () => {
-      (costOptimizationApi.getDashboardData as any).mockImplementation(() => new Promise(() => {}));
+      (costOptimizationApi.getDashboardData as jest.MockedFunction<typeof costOptimizationApi.getDashboardData>).mockImplementation(() => new Promise(() => {}));
 
       render(<CostOptimizationDashboard />);
 
@@ -222,7 +222,7 @@ describe('CostOptimizationDashboard', () => {
     });
 
     it('should call API with default parameters', async () => {
-      (costOptimizationApi.getDashboardData as any).mockResolvedValue(mockDashboardData);
+      (costOptimizationApi.getDashboardData as jest.MockedFunction<typeof costOptimizationApi.getDashboardData>).mockResolvedValue(mockDashboardData);
 
       render(<CostOptimizationDashboard />);
 
@@ -234,7 +234,7 @@ describe('CostOptimizationDashboard', () => {
 
   describe('Data Display', () => {
     beforeEach(async () => {
-      (costOptimizationApi.getDashboardData as any).mockResolvedValue(mockDashboardData);
+      (costOptimizationApi.getDashboardData as jest.MockedFunction<typeof costOptimizationApi.getDashboardData>).mockResolvedValue(mockDashboardData);
     });
 
     it('should display dashboard title and description', async () => {
@@ -359,7 +359,7 @@ describe('CostOptimizationDashboard', () => {
 
   describe('User Interactions', () => {
     beforeEach(async () => {
-      (costOptimizationApi.getDashboardData as any).mockResolvedValue(mockDashboardData);
+      (costOptimizationApi.getDashboardData as jest.MockedFunction<typeof costOptimizationApi.getDashboardData>).mockResolvedValue(mockDashboardData);
     });
 
     it('should handle time range selection', async () => {
@@ -411,7 +411,7 @@ describe('CostOptimizationDashboard', () => {
   describe('Error Handling', () => {
     it('should display error message on API failure', async () => {
       const errorMessage = 'Failed to load dashboard data';
-      (costOptimizationApi.getDashboardData as any).mockRejectedValue(new Error(errorMessage));
+      (costOptimizationApi.getDashboardData as jest.MockedFunction<typeof costOptimizationApi.getDashboardData>).mockRejectedValue(new Error(errorMessage));
 
       render(<CostOptimizationDashboard />);
 
@@ -425,7 +425,7 @@ describe('CostOptimizationDashboard', () => {
 
     it('should handle retry after error', async () => {
       const errorMessage = 'Network error';
-      (costOptimizationApi.getDashboardData as any)
+      (costOptimizationApi.getDashboardData as jest.MockedFunction<typeof costOptimizationApi.getDashboardData>)
         .mockRejectedValueOnce(new Error(errorMessage))
         .mockResolvedValueOnce(mockDashboardData);
 
@@ -448,7 +448,7 @@ describe('CostOptimizationDashboard', () => {
     });
 
     it('should handle unknown error types', async () => {
-      (costOptimizationApi.getDashboardData as any).mockRejectedValue('String error');
+      (costOptimizationApi.getDashboardData as jest.MockedFunction<typeof costOptimizationApi.getDashboardData>).mockRejectedValue('String error');
 
       render(<CostOptimizationDashboard />);
 
@@ -460,7 +460,7 @@ describe('CostOptimizationDashboard', () => {
 
   describe('Data Formatting', () => {
     beforeEach(async () => {
-      (costOptimizationApi.getDashboardData as any).mockResolvedValue(mockDashboardData);
+      (costOptimizationApi.getDashboardData as jest.MockedFunction<typeof costOptimizationApi.getDashboardData>).mockResolvedValue(mockDashboardData);
     });
 
     it('should format currency values correctly', async () => {
@@ -502,7 +502,7 @@ describe('CostOptimizationDashboard', () => {
 
   describe('Responsive Design', () => {
     beforeEach(async () => {
-      (costOptimizationApi.getDashboardData as any).mockResolvedValue(mockDashboardData);
+      (costOptimizationApi.getDashboardData as jest.MockedFunction<typeof costOptimizationApi.getDashboardData>).mockResolvedValue(mockDashboardData);
     });
 
     it('should apply responsive grid classes', async () => {
@@ -522,7 +522,7 @@ describe('CostOptimizationDashboard', () => {
 
   describe('Accessibility', () => {
     beforeEach(async () => {
-      (costOptimizationApi.getDashboardData as any).mockResolvedValue(mockDashboardData);
+      (costOptimizationApi.getDashboardData as jest.MockedFunction<typeof costOptimizationApi.getDashboardData>).mockResolvedValue(mockDashboardData);
     });
 
     it('should have proper heading structure', async () => {
@@ -557,11 +557,11 @@ describe('CostOptimizationDashboard', () => {
 
   describe('Chart Data Preparation', () => {
     beforeEach(async () => {
-      (costOptimizationApi.getDashboardData as any).mockResolvedValue(mockDashboardData);
+      (costOptimizationApi.getDashboardData as jest.MockedFunction<typeof costOptimizationApi.getDashboardData>).mockResolvedValue(mockDashboardData);
     });
 
     it('should prepare line chart data correctly', async () => {
-      const { Line } = require('react-chartjs-2');
+      const { Line } = await import('react-chartjs-2');
 
       render(<CostOptimizationDashboard />);
 
@@ -578,7 +578,7 @@ describe('CostOptimizationDashboard', () => {
     });
 
     it('should prepare bar chart data correctly', async () => {
-      const { Bar } = require('react-chartjs-2');
+      const { Bar } = await import('react-chartjs-2');
 
       render(<CostOptimizationDashboard />);
 
@@ -593,7 +593,7 @@ describe('CostOptimizationDashboard', () => {
     });
 
     it('should prepare doughnut chart data correctly', async () => {
-      const { Doughnut } = require('react-chartjs-2');
+      const { Doughnut } = await import('react-chartjs-2');
 
       render(<CostOptimizationDashboard />);
 
@@ -615,7 +615,7 @@ describe('CostOptimizationDashboard', () => {
         optimization_metrics: [],
       };
 
-      (costOptimizationApi.getDashboardData as any).mockResolvedValue(emptyData);
+      (costOptimizationApi.getDashboardData as jest.MockedFunction<typeof costOptimizationApi.getDashboardData>).mockResolvedValue(emptyData);
 
       render(<CostOptimizationDashboard />);
 
@@ -638,7 +638,7 @@ describe('CostOptimizationDashboard', () => {
         ],
       };
 
-      (costOptimizationApi.getDashboardData as any).mockResolvedValue(incompleteData);
+      (costOptimizationApi.getDashboardData as jest.MockedFunction<typeof costOptimizationApi.getDashboardData>).mockResolvedValue(incompleteData);
 
       render(<CostOptimizationDashboard />);
 
@@ -655,7 +655,7 @@ describe('CostOptimizationDashboard', () => {
         total_absolute_savings: -500.0,
       };
 
-      (costOptimizationApi.getDashboardData as any).mockResolvedValue(negativeData);
+      (costOptimizationApi.getDashboardData as jest.MockedFunction<typeof costOptimizationApi.getDashboardData>).mockResolvedValue(negativeData);
 
       render(<CostOptimizationDashboard />);
 

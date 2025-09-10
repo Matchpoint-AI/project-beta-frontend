@@ -26,7 +26,6 @@ import {
 import { Line, Bar, Doughnut } from 'react-chartjs-2';
 import {
   DollarSign,
-  TrendingDown,
   TrendingUp,
   Target,
   AlertTriangle,
@@ -57,14 +56,6 @@ ChartJS.register(
   ArcElement
 );
 
-interface OptimizationType {
-  VISION_MODEL_SWITCH: 'vision_model_switch';
-  GEMINI_ROUTING: 'gemini_routing';
-  FLUX_HIGH_VOLUME: 'flux_high_volume';
-  IMAGEN_TEXT_CLARITY: 'imagen_text_clarity';
-  SMART_ROUTER_V2: 'smart_router_v2';
-  SCENE_MIX_BANDITS: 'scene_mix_bandits';
-}
 
 interface CostOptimizationMetrics {
   optimization_type: string;
@@ -198,7 +189,7 @@ export const CostOptimizationDashboard: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedTimeRange, setSelectedTimeRange] = useState(30);
-  const [selectedOptimization, setSelectedOptimization] = useState<string | null>(null);
+  const [_selectedOptimization, setSelectedOptimization] = useState<string | null>(null);
 
   useEffect(() => {
     fetchDashboardData();

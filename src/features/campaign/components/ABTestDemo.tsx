@@ -7,8 +7,6 @@ import {
   Typography,
   Grid,
   Chip,
-  IconButton,
-  Tooltip,
 } from '@mui/material';
 import { FaFlask, FaPlay, FaChartBar } from 'react-icons/fa';
 import ABTestVariantComparison from './ABTestVariantComparison';
@@ -109,7 +107,7 @@ const ABTestDemo: React.FC = () => {
     setIsComparisonOpen(false);
   };
 
-  const handleSaveVariant = async (variantId: string, content: any, notes?: string) => {
+  const handleSaveVariant = async (variantId: string, content: unknown, notes?: string) => {
     // Simulate API call
     console.log('Saving variant:', { variantId, content, notes });
 
@@ -303,7 +301,7 @@ const ABTestDemo: React.FC = () => {
             Variant Previews
           </Typography>
           <Grid container spacing={2}>
-            {demoData.variants.map((variant, index) => (
+            {demoData.variants.map((variant, _index) => (
               <Grid item xs={12} md={4} key={variant.id}>
                 <Card variant="outlined">
                   <CardContent>

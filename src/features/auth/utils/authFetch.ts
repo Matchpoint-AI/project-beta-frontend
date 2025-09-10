@@ -129,14 +129,14 @@ export const serviceAuthFetch = async (
 export const authApi = {
   get: (url: string, options?: AuthFetchOptions) => authFetch(url, { ...options, method: 'GET' }),
 
-  post: (url: string, body?: any, options?: AuthFetchOptions) =>
+  post: (url: string, body?: unknown, options?: AuthFetchOptions) =>
     authFetch(url, {
       ...options,
       method: 'POST',
       body: typeof body === 'string' ? body : JSON.stringify(body),
     }),
 
-  put: (url: string, body?: any, options?: AuthFetchOptions) =>
+  put: (url: string, body?: unknown, options?: AuthFetchOptions) =>
     authFetch(url, {
       ...options,
       method: 'PUT',
@@ -146,7 +146,7 @@ export const authApi = {
   delete: (url: string, options?: AuthFetchOptions) =>
     authFetch(url, { ...options, method: 'DELETE' }),
 
-  patch: (url: string, body?: any, options?: AuthFetchOptions) =>
+  patch: (url: string, body?: unknown, options?: AuthFetchOptions) =>
     authFetch(url, {
       ...options,
       method: 'PATCH',
@@ -160,7 +160,7 @@ export const authApi = {
 export const dataApi = {
   get: (path: string, options?: AuthFetchOptions) =>
     serviceAuthFetch('data', path, { ...options, method: 'GET' }),
-  post: (path: string, body?: any, options?: AuthFetchOptions) =>
+  post: (path: string, body?: unknown, options?: AuthFetchOptions) =>
     serviceAuthFetch('data', path, {
       ...options,
       method: 'POST',
@@ -171,7 +171,7 @@ export const dataApi = {
 export const contentGenApi = {
   get: (path: string, options?: AuthFetchOptions) =>
     serviceAuthFetch('content-gen', path, { ...options, method: 'GET' }),
-  post: (path: string, body?: any, options?: AuthFetchOptions) =>
+  post: (path: string, body?: unknown, options?: AuthFetchOptions) =>
     serviceAuthFetch('content-gen', path, {
       ...options,
       method: 'POST',
@@ -182,7 +182,7 @@ export const contentGenApi = {
 export const llmApi = {
   get: (path: string, options?: AuthFetchOptions) =>
     serviceAuthFetch('llm', path, { ...options, method: 'GET' }),
-  post: (path: string, body?: any, options?: AuthFetchOptions) =>
+  post: (path: string, body?: unknown, options?: AuthFetchOptions) =>
     serviceAuthFetch('llm', path, {
       ...options,
       method: 'POST',
@@ -194,7 +194,7 @@ export const llmApi = {
 export const campaignManagerApi = {
   get: (path: string, options?: AuthFetchOptions) =>
     serviceAuthFetch('campaign-manager', path, { ...options, method: 'GET' }),
-  post: (path: string, body?: any, options?: AuthFetchOptions) =>
+  post: (path: string, body?: unknown, options?: AuthFetchOptions) =>
     serviceAuthFetch('campaign-manager', path, {
       ...options,
       method: 'POST',

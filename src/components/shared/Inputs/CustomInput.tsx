@@ -4,6 +4,7 @@ import ChipDelete from '@mui/joy/ChipDelete';
 import { MuiChipsInput } from 'mui-chips-input';
 // import { IoClose } from "react-icons/io5";
 import React, { Dispatch } from 'react';
+import PropTypes from 'prop-types';
 
 interface CustomInputProps {
   options: string[];
@@ -78,6 +79,12 @@ const CustomInput = ({ options, setOptions, limit }: CustomInputProps) => {
       }}
     />
   );
+};
+
+CustomInput.propTypes = {
+  options: PropTypes.arrayOf(PropTypes.string).isRequired,
+  setOptions: PropTypes.func.isRequired,
+  limit: PropTypes.number.isRequired,
 };
 
 export default CustomInput;

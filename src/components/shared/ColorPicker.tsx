@@ -2,18 +2,21 @@ import React from 'react';
 import { ChangeEventHandler, useState } from 'react';
 import { HexColorPicker } from 'react-colorful';
 import * as convert from 'color-convert';
+import { BusinessInfo } from '../../context/BrandContext';
+
+interface ColorCodeInputProps {
+  onChange: (value: string | number, type?: string) => void;
+  value: string | number;
+  type: string;
+  className?: string;
+}
 
 function ColorCodeInput({
   onChange,
   value,
   type,
   className,
-}: {
-  onChange: Function;
-  value: string | number;
-  type: string;
-  className?: string;
-}) {
+}: ColorCodeInputProps) {
   const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     if (type === 'hex') onChange(e.target.value);
     else onChange(Number(e.target.value), type);
@@ -36,19 +39,21 @@ function ColorCodeInput({
   );
 }
 
+interface ColorPickerProps {
+  selectedColors: string[];
+  selectColor: (updater: (colors: string[]) => string[]) => void;
+  saveColor: (updater: (businessInfo: BusinessInfo) => BusinessInfo) => void;
+  className?: string;
+  conseilPicker: (visible: boolean) => void;
+}
+
 export default function ColorPicker({
   selectedColors,
   selectColor,
   saveColor,
   className,
   conseilPicker,
-}: {
-  selectedColors: string[];
-  selectColor: Function;
-  saveColor: Function;
-  className?: string;
-  conseilPicker: Function;
-}) {
+}: ColorPickerProps) {
   // const [selectedColors, setSelectedColors] = useState<any>([]);
   const [rgbColor, setRgbColor] = useState<number[]>([255, 255, 255]);
   const [hexColor, setHexColor] = useState('#ffffff');
@@ -85,14 +90,14 @@ export default function ColorPicker({
   const handleSaveColor = () => {
     if (selectedColors.length >= 2) return;
 
-    saveColor((old: any) => {
+    saveColor((old: BusinessInfo) => {
       const businessObj = { ...old };
 
       if (businessObj.brandColors) businessObj.brandColors.push(hexColor);
       else businessObj.brandColors = [hexColor];
       return businessObj;
     });
-    selectColor((old: any) => [...old, hexColor]);
+    selectColor((old: string[]) => [...old, hexColor]);
     conseilPicker(false);
   };
 

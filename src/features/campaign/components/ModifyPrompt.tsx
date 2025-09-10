@@ -1,6 +1,6 @@
 import React, { FormEventHandler, useEffect, useState } from 'react';
 import { useAuth } from '../../../features/auth/context/AuthContext';
-import { Button, Dialog, DialogContent, TextareaAutosize, TextField } from '@mui/material';
+import { Button, Dialog, DialogContent, TextField } from '@mui/material';
 import { getServiceURL } from '../../../helpers/getServiceURL';
 import Cookies from 'universal-cookie';
 import { PiArrowsClockwiseBold } from 'react-icons/pi';
@@ -12,14 +12,14 @@ interface ModifyPromptProps {
   day: number;
   post: number;
   content_id: string;
-  image: any;
+  image: unknown;
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   regenerate: (prompt: string) => void;
   totalAllowed: number;
 }
 
-const PurpleButton = styled(Button)(({ theme }) => ({
+const PurpleButton = styled(Button)(({ theme: _theme }) => ({
   backgroundColor: '#5145CD',
   color: 'white',
   padding: '0.5rem 2rem',
@@ -35,7 +35,7 @@ const PurpleButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-const CancelButton = styled(Button)(({ ...rest }) => ({
+const CancelButton = styled(Button)(({ ...rest: _rest }) => ({
   backgroundColor: '#fce4ec',
   color: '#ad1457',
   padding: '0.5rem 2rem',
@@ -47,7 +47,7 @@ const CancelButton = styled(Button)(({ ...rest }) => ({
   },
 }));
 
-const StyledTextField = styled(TextField)(({ theme }) => ({
+const StyledTextField = styled(TextField)(({ theme: _theme }) => ({
   '& .MuiOutlinedInput-root': {
     backgroundColor: '#f5f5f5',
     '& fieldset': {
@@ -76,7 +76,7 @@ export default function ModifyPrompt({
   regenerate,
   open,
   image,
-  totalAllowed,
+  totalAllowed: _totalAllowed,
 }: ModifyPromptProps) {
   const [prompt, setPrompt] = useState('');
   const [submited, setSubmited] = useState(false);

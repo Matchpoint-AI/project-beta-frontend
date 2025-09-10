@@ -6,7 +6,7 @@ interface CampaignBriefBlockProps {
   title: string;
   description: string;
   children: React.ReactNode;
-  onClick?: () => any | void;
+  onClick?: () => void;
   edit?: boolean;
 }
 

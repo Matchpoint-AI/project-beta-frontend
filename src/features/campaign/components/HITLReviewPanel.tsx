@@ -10,7 +10,7 @@ import {
   Chip,
 } from '@mui/material';
 import { FaCheck, FaTimes, FaEdit, FaRedo, FaEye, FaEyeSlash } from 'react-icons/fa';
-import { MdCompare, MdHistory } from 'react-icons/md';
+// import { MdCompare, MdHistory } from 'react-icons/md';
 import { useAuth } from '../../../features/auth/context/AuthContext';
 import ErrorToast from '../../../components/shared/ErrorToast';
 
@@ -49,7 +49,7 @@ const HITLReviewPanel: React.FC<HITLReviewPanelProps> = ({
   onRegenerate,
   onClose,
   isOpen,
-  campaignId,
+  campaignId: _campaignId,
 }) => {
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
   const [editingItem, setEditingItem] = useState<string | null>(null);

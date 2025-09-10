@@ -53,6 +53,7 @@ export default function ErrorToast({
           )}
         </div>
         <div className="px-6 pb-6">
+          <h3 className="text-center text-lg font-semibold text-gray-900 mb-2">{title}</h3>
           <p className="text-center text-gray-700">{message}</p>
         </div>
         {buttonText ? (

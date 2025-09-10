@@ -3,7 +3,7 @@ import React from 'react';
 import { MdCalendarToday } from 'react-icons/md';
 import { GoClock } from 'react-icons/go';
 import { FaRegBuilding } from 'react-icons/fa6';
-import CampaignReviewButton from '../dashboard/CampaignReviewButton';
+// import CampaignReviewButton from '../dashboard/CampaignReviewButton';
 import { FaExternalLinkAlt } from 'react-icons/fa';
 
 interface CampaignHeaderProps {
@@ -12,7 +12,7 @@ interface CampaignHeaderProps {
   timeFrame: string;
   currentTab: number;
   postingSchdule: string;
-  handleNavigate: any;
+  handleNavigate: () => void;
 }
 
 const CampaignHeader: React.FC<CampaignHeaderProps> = ({
