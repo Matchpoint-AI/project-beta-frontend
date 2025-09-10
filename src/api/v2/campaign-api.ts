@@ -47,7 +47,7 @@ export interface GetCampaignResponse {
     brand_id?: string;
     created_at?: string;
     updated_at?: string;
-    metadata?: Record<string, any>;
+    metadata?: Record<string, unknown>;
   };
 }
 
@@ -66,7 +66,7 @@ export interface GetCampaignContentResponse {
         content: string;
         media_urls: string[];
         scheduled_at?: string;
-        metadata?: Record<string, any>;
+        metadata?: Record<string, unknown>;
       }>;
     }>;
     total_posts: number;
@@ -112,7 +112,7 @@ export interface CreateCampaignRequest {
   target_audience?: string;
   duration_weeks?: number;
   start_date?: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 }
 
 export interface CreateCampaignResponse {
@@ -130,7 +130,7 @@ export interface UpdateCampaignRequest {
   name?: string;
   objective?: string;
   target_audience?: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 }
 
 export interface UpdateCampaignResponse {
@@ -374,4 +374,3 @@ export class CampaignApiV2 extends ProtoService {
 
 // Export singleton instance
 export const campaignApiV2 = new CampaignApiV2();
-

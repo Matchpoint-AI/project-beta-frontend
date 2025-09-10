@@ -1,4 +1,4 @@
-import React, { useState, useContext, useCallback, useEffect } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import {
   Box,
   Button,
@@ -15,7 +15,6 @@ import {
   Alert,
   CircularProgress,
   Collapse,
-  FormHelperText,
 } from '@mui/material';
 import { LuPlus, LuTrash2, LuChevronDown, LuChevronUp } from 'react-icons/lu';
 import { AuthContext } from '../../features/auth/context/AuthContext';
@@ -57,7 +56,7 @@ interface BrandKnowledge {
   products: ProductDetails[];
   approved_scenes: string[];
   avoid_list: string[];
-  guardrails: Record<string, any>;
+  guardrails: Record<string, unknown>;
 }
 
 interface BrandKnowledgeFormProps {
@@ -173,13 +172,11 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
   });
 
   // Input states for adding items
-  const [newTrait, setNewTrait] = useState('');
+  // Removed unused state variables: newTrait, setNewTrait, newStyleTag, setNewStyleTag, colorPickerVisible, setColorPickerVisible
   const [newVoiceAttribute, setNewVoiceAttribute] = useState('');
-  const [newStyleTag, setNewStyleTag] = useState('');
   const [newCompositionPref, setNewCompositionPref] = useState('');
   const [newApprovedScene, setNewApprovedScene] = useState('');
   const [newAvoidItem, setNewAvoidItem] = useState('');
-  const [colorPickerVisible, setColorPickerVisible] = useState(false);
   const [newColor, setNewColor] = useState('#000000');
 
   // Load existing brand knowledge on mount
@@ -321,7 +318,11 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
     }));
   };
 
-  const updateProduct = (index: number, field: keyof ProductDetails, value: any) => {
+  const updateProduct = (
+    index: number,
+    field: keyof ProductDetails,
+    value: string | string[] | Array<{ name: string; purpose: string }>
+  ) => {
     setFormData((prev) => ({
       ...prev,
       products: prev.products.map((product, i) =>
@@ -413,7 +414,7 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
         throw new Error(errorData.detail || 'Failed to save brand knowledge');
       }
 
-      const result = await response.json();
+      await response.json(); // Consume response body
       setSuccess(true);
 
       if (onSave) {
@@ -449,8 +450,8 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
         Brand Knowledge Base
       </Typography>
       <Typography variant="body2" color="textSecondary" paragraph>
-        Define your brand's personality, visual style, and product details to enhance AI-generated
-        content.
+        Define your brand&apos;s personality, visual style, and product details to enhance
+        AI-generated content.
       </Typography>
 
       {error && (
@@ -887,7 +888,7 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
 
             {formData.products.length === 0 && (
               <Typography variant="body2" color="textSecondary" sx={{ textAlign: 'center', py: 3 }}>
-                No products added yet. Click "Add Product" to get started.
+                No products added yet. Click &quot;Add Product&quot; to get started.
               </Typography>
             )}
           </Box>
@@ -1041,4 +1042,3 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
 };
 
 export default BrandKnowledgeForm;
-

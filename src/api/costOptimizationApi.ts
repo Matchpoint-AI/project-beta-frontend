@@ -82,14 +82,14 @@ interface TrackUsageData {
   quality_score?: number;
   status: 'success' | 'failure';
   error_message?: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 }
 
 class CostOptimizationApiError extends Error {
   constructor(
     message: string,
     public status?: number,
-    public details?: any
+    public details?: unknown
   ) {
     super(message);
     this.name = 'CostOptimizationApiError';
@@ -345,22 +345,52 @@ export async function updateOptimizationSettings(settings: {
  * @param data - Raw data from the API
  * @returns Transformed dashboard data
  */
-function transformDashboardData(data: any): CostDashboardData {
+function transformDashboardData(data: unknown): CostDashboardData {
   // Handle case where data might be wrapped in a response object
-  const dashboardData = data.data || data;
+  const isWrappedResponse = typeof data === 'object' && data !== null && 'data' in data;
+  const dashboardData = isWrappedResponse ? (data as { data: unknown }).data : data;
+  const safeData = dashboardData as Record<string, unknown>;
 
   return {
-    period_start: dashboardData.period_start || new Date().toISOString(),
-    period_end: dashboardData.period_end || new Date().toISOString(),
-    total_baseline_cost: dashboardData.total_baseline_cost || 0,
-    total_optimized_cost: dashboardData.total_optimized_cost || 0,
-    total_absolute_savings: dashboardData.total_absolute_savings || 0,
-    total_percentage_savings: dashboardData.total_percentage_savings || 0,
-    projected_annual_savings: dashboardData.projected_annual_savings || 0,
-    optimization_metrics: dashboardData.optimization_metrics || [],
-    current_model_distribution: dashboardData.current_model_distribution || {},
-    daily_savings: dashboardData.daily_savings || [],
-    optimization_recommendations: dashboardData.optimization_recommendations || [],
+    period_start:
+      typeof safeData?.period_start === 'string' ? safeData.period_start : new Date().toISOString(),
+    period_end:
+      typeof safeData?.period_end === 'string' ? safeData.period_end : new Date().toISOString(),
+    total_baseline_cost:
+      typeof safeData?.total_baseline_cost === 'number' ? safeData.total_baseline_cost : 0,
+    total_optimized_cost:
+      typeof safeData?.total_optimized_cost === 'number' ? safeData.total_optimized_cost : 0,
+    total_absolute_savings:
+      typeof safeData?.total_absolute_savings === 'number' ? safeData.total_absolute_savings : 0,
+    total_percentage_savings:
+      typeof safeData?.total_percentage_savings === 'number'
+        ? safeData.total_percentage_savings
+        : 0,
+    projected_annual_savings:
+      typeof safeData?.projected_annual_savings === 'number'
+        ? safeData.projected_annual_savings
+        : 0,
+    optimization_metrics: Array.isArray(safeData?.optimization_metrics)
+      ? (safeData.optimization_metrics as CostOptimizationMetrics[])
+      : [],
+    current_model_distribution:
+      typeof safeData?.current_model_distribution === 'object'
+        ? (safeData.current_model_distribution as Record<
+            string,
+            { requests: number; cost: number; percentage: number }
+          >)
+        : {},
+    daily_savings: Array.isArray(safeData?.daily_savings)
+      ? (safeData.daily_savings as Array<{ date: string; daily_savings: number }>)
+      : [],
+    optimization_recommendations: Array.isArray(safeData?.optimization_recommendations)
+      ? (safeData.optimization_recommendations as Array<{
+          type: string;
+          description: string;
+          potential_savings: number;
+          implementation_effort: string;
+        }>)
+      : [],
   };
 }
 
