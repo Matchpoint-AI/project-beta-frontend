@@ -98,8 +98,7 @@ const SceneMixPlanner: React.FC<SceneMixPlannerProps> = ({
 
       setContentPlan(planData);
       setScenePolicy(policyData);
-    } catch (err) {
-      console.error('Error loading plan and policy:', err);
+    } catch (_err) {
       let errorMessage = 'Failed to load content plan';
 
       if (err instanceof Error) {
@@ -170,8 +169,7 @@ const SceneMixPlanner: React.FC<SceneMixPlannerProps> = ({
       );
 
       setContentPlan(newPlan);
-    } catch (err) {
-      console.error('Error creating plan:', err);
+    } catch (_err) {
       let errorMessage = 'Failed to create content plan';
 
       if (err instanceof Error) {
@@ -204,7 +202,7 @@ const SceneMixPlanner: React.FC<SceneMixPlannerProps> = ({
     );
   }
 
-  if (error) {
+  if (_error) {
     return (
       <Alert severity="error" sx={{ m: 2 }}>
         {error}

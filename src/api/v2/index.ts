@@ -62,9 +62,7 @@ export async function initializeV2Api(): Promise<void> {
   try {
     // Preload proto definitions
     await protoLoader.loadProtos();
-    console.log('V2 API initialized successfully');
-  } catch (error) {
-    console.error('Failed to initialize V2 API:', error);
+  } catch (_error) {
     // Don't throw - allow app to continue
   }
 }

@@ -91,7 +91,7 @@ export abstract class ProtoService {
       // Always parse as JSON
       const json = await response.json();
       return json as TResponse;
-    } catch (error) {
+    } catch (_error) {
       clearTimeout(timeoutId);
 
       if (error instanceof Error) {

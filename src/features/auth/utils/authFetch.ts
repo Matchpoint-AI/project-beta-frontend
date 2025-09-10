@@ -32,7 +32,8 @@ export const getAuthToken = (): string | null => {
           return profile.token;
         }
       } catch (e) {
-        console.error('Failed to parse profile from localStorage:', e);
+        // Error handled silently
+        // Failed to parse profile from localStorage
       }
     }
 
@@ -46,13 +47,14 @@ export const getAuthToken = (): string | null => {
             return profile.token;
           }
         } catch (e) {
-          console.error('Failed to parse profile from sessionStorage:', e);
+          // Error handled silently
+          // Failed to parse profile from sessionStorage
         }
       }
     }
-  } catch (error) {
+  } catch (_error) {
+    // Error handled silently
     // Handle cases where localStorage/sessionStorage access is blocked
-    console.error('Failed to access storage:', error);
   }
 
   return null;
@@ -85,12 +87,7 @@ export const authFetch = async (url: string, options: AuthFetchOptions = {}): Pr
   }
 
   // Log the request for debugging (only in development)
-  if (process.env.NODE_ENV === 'development') {
-    console.log(`[AuthFetch] ${fetchOptions.method || 'GET'} ${url}`, {
-      hasAuth: !!token && !skipAuth,
-      headers: Object.fromEntries(headers.entries()),
-    });
-  }
+  // Debugging logs removed
 
   // Make the fetch request with auth headers
   const response = await fetch(url, {
@@ -99,12 +96,7 @@ export const authFetch = async (url: string, options: AuthFetchOptions = {}): Pr
   });
 
   // Log response status for debugging
-  if (process.env.NODE_ENV === 'development') {
-    console.log(`[AuthFetch] Response: ${response.status} ${response.statusText}`);
-    if (response.status === 401) {
-      console.error('[AuthFetch] 401 Unauthorized - Token may be invalid or missing');
-    }
-  }
+  // Debugging logs removed
 
   return response;
 };

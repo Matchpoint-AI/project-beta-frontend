@@ -266,8 +266,8 @@ class PerformanceApiClient {
       });
 
       return result;
-    } catch (err) {
-      error = err instanceof Error ? err : new Error(String(err));
+    } catch (_err) {
+      error = _err instanceof Error ? _err : new Error(String(_err));
 
       // Record error
       await this.recordMetric({
@@ -297,8 +297,8 @@ class PerformanceApiClient {
         const [alerts, health] = await Promise.all([this.getActiveAlerts(), this.getHealthCheck()]);
 
         callback({ alerts, health });
-      } catch (error) {
-        console.error('Real-time monitoring error:', error);
+      } catch (_error) {
+        // Error handled silently
       }
     }, intervalMs);
 

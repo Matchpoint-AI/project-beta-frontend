@@ -95,7 +95,6 @@ const ContentLibrary = ({
         });
 
         if (!response.ok) {
-          console.error('Failed to fetch data');
           return;
         }
 
@@ -138,8 +137,7 @@ const ContentLibrary = ({
           if (pollingInterval) clearInterval(pollingInterval);
         }
         setLoading(false);
-      } catch (error) {
-        console.error('Error fetching data:', error);
+      } catch (_error) {
         setLoading(false);
       }
     };

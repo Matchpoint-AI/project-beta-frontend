@@ -57,9 +57,8 @@ export function UsersContextProvider({ children }: { children: React.ReactNode }
       if (users.length === 0) setUsers(data.users);
       else setUsers((old) => [...old, ...data.users]);
       if (data.totalUsers > 0) setTotal(data.totalUsers);
-    } catch (err) {
+    } catch (_err) {
       setError('Failed to fetch users');
-      console.error('Error fetching users:', err);
     }
   };
 

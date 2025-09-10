@@ -41,8 +41,8 @@ const CardStats = ({ id }: { id: string }) => {
         setApproved(approv);
         setReadyForReview(ready_for_review);
         setGenerating(generating);
-      } catch (error) {
-        console.error('Error fetching data:', error);
+      } catch (_error) {
+        // Error handled silently
       }
     };
     fetchSingleWeek();

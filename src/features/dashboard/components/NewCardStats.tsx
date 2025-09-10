@@ -4,7 +4,16 @@ import { GoClock } from 'react-icons/go';
 import { FaCheckCircle } from 'react-icons/fa';
 import { RiExportLine } from 'react-icons/ri';
 
-const NewCardStats = ({ id, stats }: { id: string; stats: any }) => {
+interface Stats {
+  total_content?: number;
+  generating?: number;
+  ready_for_review?: number;
+  approved?: number;
+  published?: number;
+  exported?: number;
+}
+
+const NewCardStats = ({ id: _id, stats }: { id: string; stats: Stats }) => {
   return (
     <div className="flex sm:flex-row flex-col  items-start gap-4 w-full">
       <div className="flex flex-row gap-4 items-center justify-center">

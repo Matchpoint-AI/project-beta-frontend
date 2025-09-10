@@ -8,21 +8,25 @@ vi.mock('./getServiceURL', () => ({
 
 // Mock convertToChipsArray to return the input array
 vi.mock('./convertToChips', () => ({
-  default: (arr: any[]) => arr,
+  default: (arr: unknown[]) => arr,
 }));
 
 global.fetch = vi.fn();
 
 describe('scrapeBrandWebsite', () => {
-  const baseBusinessInfo = { website: 'https://example.com' } as any;
+  const baseBusinessInfo = { website: 'https://example.com' } as Record<string, unknown>;
   const setBusinessInfo = vi.fn();
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
 
   afterEach(() => {
     vi.clearAllMocks();
   });
 
   it('should set brandColors to [] if colors is undefined', async () => {
-    (fetch as any).mockResolvedValueOnce({
+    (fetch as unknown as jest.Mock).mockResolvedValueOnce({
       json: async () => ({
         Brand_mission: 'm',
         Brand_vision: 'v',
@@ -54,7 +58,7 @@ describe('scrapeBrandWebsite', () => {
   });
 
   it('should set brandColors to [] if colors is null', async () => {
-    (fetch as any).mockResolvedValueOnce({
+    (fetch as unknown as jest.Mock).mockResolvedValueOnce({
       json: async () => ({
         Brand_mission: 'm',
         Brand_vision: 'v',
@@ -82,7 +86,7 @@ describe('scrapeBrandWebsite', () => {
   });
 
   it('should set brandColors to [] if colors is missing', async () => {
-    (fetch as any).mockResolvedValueOnce({
+    (fetch as unknown as jest.Mock).mockResolvedValueOnce({
       json: async () => ({
         Brand_mission: 'm',
         Brand_vision: 'v',
@@ -110,7 +114,7 @@ describe('scrapeBrandWebsite', () => {
   });
 
   it('should set brandColors to first three colors if present', async () => {
-    (fetch as any).mockResolvedValueOnce({
+    (fetch as unknown as jest.Mock).mockResolvedValueOnce({
       json: async () => ({
         Brand_mission: 'm',
         Brand_vision: 'v',

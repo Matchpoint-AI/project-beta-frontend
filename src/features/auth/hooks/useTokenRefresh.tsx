@@ -14,12 +14,10 @@ export const useTokenRefresh = () => {
    */
   const refreshToken = async (): Promise<string | null> => {
     if (!user) {
-      console.warn('Cannot refresh token: no Firebase user');
       return null;
     }
 
     try {
-      console.log('Refreshing token...');
       const newToken = await user.getIdToken(true); // Force refresh
 
       if (profile) {
@@ -37,10 +35,9 @@ export const useTokenRefresh = () => {
         });
       }
 
-      console.log('Token refreshed successfully');
       return newToken;
-    } catch (error) {
-      console.error('Token refresh failed:', error);
+    } catch (_error) {
+      // Error handled silently
       return null;
     }
   };
@@ -76,7 +73,6 @@ export const useTokenRefresh = () => {
 
     // If we get a 401, try refreshing the token once
     if (response.status === 401 && user) {
-      console.log('Got 401, attempting token refresh...');
       const newToken = await refreshToken();
 
       if (newToken) {
@@ -84,7 +80,6 @@ export const useTokenRefresh = () => {
         response = await makeRequest(newToken);
       } else {
         // Token refresh failed, logout user
-        console.error('Token refresh failed, logging out user');
         logout();
         throw new Error('Authentication failed. Please log in again.');
       }

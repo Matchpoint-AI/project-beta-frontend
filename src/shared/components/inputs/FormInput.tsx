@@ -41,8 +41,6 @@ export default function FormInput({
         });
       } else {
         setError({ error: false });
-        console.log('subject === ', subject);
-        console.log('value === ', value);
         saveInput(subject, value);
       }
     },

@@ -25,11 +25,19 @@ const mockCampaignContextValue = {
     purposeAbout: "Our business's brand",
   },
   setCampaignInfo: mockSetCampaignInfo,
+  campaignId: 'test-campaign-id',
+  setCampaignId: vi.fn(),
 };
 
 const mockBrandContextValue = {
   businessInfo: {
     name: 'Test Business',
+    website: 'https://test.com',
+    product_features: ['Feature 1', 'Feature 2'],
+    product_description: 'Test product description',
+    product_link: 'https://test.com/product',
+    start_date: '2024-01-01',
+    durationNum: 4,
     industry: 'Technology',
     vertical: 'SaaS',
   },
@@ -40,9 +48,12 @@ const mockAuthContextValue = {
   profile: {
     id: 'test-user-id',
     email: 'test@example.com',
+    name: 'Test User',
+    role: 'USER',
   },
-  user: null,
-  loading: false,
+  setProfile: vi.fn(),
+  isAuthenticated: true,
+  isLoading: false,
   login: vi.fn(),
   logout: vi.fn(),
 };

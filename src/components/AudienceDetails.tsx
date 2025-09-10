@@ -6,7 +6,7 @@ import ChipsEditBlock from './onboard/ChipsEditBlock';
 
 interface AudienceEmotionsProps {
   values: string[];
-  setValues: (values: string[]) => void;
+  setValues: React.Dispatch<React.SetStateAction<string[]>>;
   title: string;
   description?: string;
   genre: 'emotion' | 'interests';

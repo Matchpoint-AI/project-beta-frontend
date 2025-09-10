@@ -30,7 +30,6 @@ const CampaignSetupCompleteDialog: React.FC<Props> = ({ setCurrentStep, open }) 
   const navigate = useNavigate();
 
   const updateStatus = (startDate: any) => {
-    console.log('start === ', startDate);
     if (!startDate) {
       // If no start date provided, default to Inactive
       return 'Inactive';
@@ -124,14 +123,13 @@ const CampaignSetupCompleteDialog: React.FC<Props> = ({ setCurrentStep, open }) 
     })
       .then((response) => {
         if (!response.ok) {
-          return response.json().then((err) => {
+          return response.json().then((_err) => {
             throw new Error(err.detail || 'Failed to create campaign');
           });
         }
         return response.json();
       })
-      .then((data) => {
-        console.log('Data posted successfully:', data);
+      .then((_data) => {
         if (posthog.__loaded) {
           posthog.capture('Campaign Created', {
             distinct_id: profile?.id,
@@ -140,23 +138,16 @@ const CampaignSetupCompleteDialog: React.FC<Props> = ({ setCurrentStep, open }) 
         }
         startCampaignContentGeneration();
       })
-      .catch((error) => {
-        console.error('Error posting data:', error);
+      .catch((_error) => {
         setError('Failed to create campaign. Please check your campaign details and try again.');
       });
 
     const startCampaignContentGeneration = async () => {
-      console.log('=== SCENE MIX GENERATION START ===');
-      console.log('Campaign ID:', campaignId);
-      console.log('Campaign Name:', campaignInfo?.name);
-
       // Wait for campaign to propagate (increased to prevent 404 errors)
-      console.log('Waiting 8 seconds for campaign to propagate in backend...');
       await new Promise((resolve) => setTimeout(resolve, 8000));
 
       try {
         // Step 1: Create Scene Mix Policy for the campaign
-        console.log('Step 1/3: Creating Scene Mix policy...');
 
         // Map purpose to intent
         const purposeToIntent: Record<
@@ -243,10 +234,8 @@ const CampaignSetupCompleteDialog: React.FC<Props> = ({ setCurrentStep, open }) 
           },
           profile?.token || ''
         );
-        console.log('Step 1/3 COMPLETE: Scene Mix policy created:', policyData);
 
         // Step 2: Create content plan using Scene Mix Planner
-        console.log('Step 2/3: Creating content plan...');
 
         // Map campaign purpose to campaign type
         const purposeToCampaignType: Record<
@@ -281,10 +270,8 @@ const CampaignSetupCompleteDialog: React.FC<Props> = ({ setCurrentStep, open }) 
           },
           profile?.token || ''
         );
-        console.log('Step 2/3 COMPLETE: Content plan created:', planData);
 
         // Step 3: Trigger content generation with Scene Mix plan
-        console.log('Step 3/3: Triggering Scene Mix content generation...');
         const baseParams = {
           campaign_id: campaignId,
           use_scene_mix: 'true', // Flag to use new Scene Mix generation
@@ -298,7 +285,6 @@ const CampaignSetupCompleteDialog: React.FC<Props> = ({ setCurrentStep, open }) 
 
         const params = new URLSearchParams(baseParams);
         const generateUrl = `${getServiceURL('content-gen')}/api/v1/contentgen/generate?${params.toString()}`;
-        console.log('Calling content generation endpoint:', generateUrl);
 
         // Always include auth headers for content-gen service
         const response = await fetch(generateUrl, {
@@ -310,21 +296,16 @@ const CampaignSetupCompleteDialog: React.FC<Props> = ({ setCurrentStep, open }) 
           },
         });
 
-        console.log('Content generation response status:', response.status);
-
         if (!response.ok) {
           const errorText = await response.text();
-          console.error('Content generation failed:', response.status, errorText);
           throw new Error(
             `Failed to start content generation: ${response.status} - ${errorText || response.statusText}`
           );
         }
 
-        const responseData = await response.json();
-        console.log('Scene Mix content generation started successfully:', responseData);
+        const _responseData = await response.json();
         return;
-      } catch (error) {
-        console.error('Scene Mix generation failed:', error);
+      } catch (_error) {
         // Don't fall back to legacy - we want Scene Mix to work properly
         // This ensures we fix Scene Mix issues rather than masking them
         setError(

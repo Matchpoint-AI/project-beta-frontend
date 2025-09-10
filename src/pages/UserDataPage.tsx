@@ -22,7 +22,7 @@ export type Messages = {
 };
 
 export default function UserDataPage() {
-  const [data, loading, error, handleRetry] = useFetchUserData();
+  const [data, loading, _error, handleRetry] = useFetchUserData();
   const { profile } = useAuth();
   const [openContentWin, setOpenContentWin] = useState(false);
   const [content, setContent] = useState<Post[][][]>([]);

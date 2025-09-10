@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor, cleanup } from '@testing-library/react';
+import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { BrowserRouter } from 'react-router-dom';
 import CampaignsList from './CampaignsList';
@@ -17,7 +17,7 @@ vi.mock('../shared/Sidebar', () => ({
 }));
 
 vi.mock('../PromotionComponent', () => ({
-  default: ({ campaign, status }: any) => (
+  default: ({ campaign, status }: { campaign: { campaign_id: string }; status: string }) => (
     <div data-testid="promotion-component">
       <span data-testid="campaign-id">{campaign.campaign_id}</span>
       <span data-testid="campaign-status">{status}</span>
@@ -26,7 +26,15 @@ vi.mock('../PromotionComponent', () => ({
 }));
 
 vi.mock('../shared/Dropdown', () => ({
-  default: ({ currentValue, onUpdateContext, options }: any) => (
+  default: ({
+    currentValue,
+    onUpdateContext,
+    options,
+  }: {
+    currentValue: string;
+    onUpdateContext: (value: string) => void;
+    options: string[];
+  }) => (
     <select
       data-testid="campaign-filter-dropdown"
       value={currentValue}
@@ -118,9 +126,9 @@ const createMockCampaign = (id: string, status: string, timestamp?: string) => (
 });
 
 const renderWithContext = (
-  campaigns: any[] = [],
+  campaigns: Array<Record<string, unknown>> = [],
   campaignType = 'All',
-  setCampaignType = vi.fn()
+  _setCampaignType = vi.fn()
 ) => {
   return render(
     <BrowserRouter>
@@ -130,7 +138,7 @@ const renderWithContext = (
             <CampaignsList
               campaigns={campaigns}
               campaignType={campaignType}
-              setCampaignType={setCampaignType}
+              setCampaignType={_setCampaignType}
             />
           </BrandContext.Provider>
         </CampaignContext.Provider>

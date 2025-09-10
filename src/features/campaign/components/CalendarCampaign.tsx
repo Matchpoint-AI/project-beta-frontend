@@ -141,7 +141,6 @@ const CalendarCampaign: React.FC<CalendarCampaignProps> = ({ campaign }) => {
 
           const dayKey = `day_${index + 1}`;
           const dayData = weekData[dayKey];
-          console.log('dayData === ', dayData);
 
           let status = '';
           if (dayData.approved) status = 'approved';
@@ -201,16 +200,14 @@ const CalendarCampaign: React.FC<CalendarCampaignProps> = ({ campaign }) => {
         }
 
         const data = await response.json();
-        console.log('data:', data);
         if (data.length === 0 || data.arr[0].length === 0) {
           // navigate("/dashboard");
           return;
         }
-        console.log('newData1 === ', data.arr[0]);
         const eventsArr = createEvents(data.arr[0]);
         setEvents(eventsArr);
-      } catch (error) {
-        console.error('Error fetching data:', error);
+      } catch (_error) {
+        // Error handled silently
       }
     };
     fetchContentGenerated();

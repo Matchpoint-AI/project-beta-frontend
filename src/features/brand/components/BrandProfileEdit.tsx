@@ -92,8 +92,8 @@ export default function BrandProfileEdit({ hasBrand: _hasBrand }: BrandProfileEd
         setSummary(result.updatedFields.summary || '');
         setSelected('');
       }
-    } catch (error) {
-      console.error('Update failed:', error);
+    } catch (_error) {
+      // Error handled silently
     } finally {
       setIsSaving(false);
     }

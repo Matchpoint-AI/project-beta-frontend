@@ -40,12 +40,12 @@ export function useV2Api() {
           isInitialized: true,
           isLoading: false,
         }));
-      } catch (error) {
+      } catch (_error) {
         setState((prev) => ({
           ...prev,
           isInitialized: false,
           isLoading: false,
-          error: error as Error,
+          error: _error as Error,
         }));
       }
     };
@@ -80,7 +80,7 @@ export function useV2Api() {
      * Create a new campaign
      */
     create: useCallback(
-      async (data: any) => {
+      async (data: Record<string, unknown>) => {
         const token = await getToken();
         return campaignApiV2.createCampaign(data, token);
       },
@@ -91,7 +91,7 @@ export function useV2Api() {
      * Update campaign
      */
     update: useCallback(
-      async (campaignId: string, data: any) => {
+      async (campaignId: string, data: Record<string, unknown>) => {
         const token = await getToken();
         return campaignApiV2.updateCampaign(campaignId, data, token);
       },
@@ -113,7 +113,7 @@ export function useV2Api() {
      * Generate content for campaign
      */
     generateContent: useCallback(
-      async (campaignId: string, options?: any) => {
+      async (campaignId: string, options?: Record<string, unknown>) => {
         const token = await getToken();
         return campaignApiV2.generateContent(campaignId, options || {}, token);
       },
@@ -135,7 +135,7 @@ export function useV2Api() {
      * List campaigns
      */
     list: useCallback(
-      async (filters?: any) => {
+      async (filters?: Record<string, unknown>) => {
         const token = await getToken();
         return campaignApiV2.getUserCampaigns(token, filters);
       },
@@ -149,7 +149,7 @@ export function useV2Api() {
      * Create brand
      */
     create: useCallback(
-      async (data: any) => {
+      async (data: Record<string, unknown>) => {
         const token = await getToken();
         return brandApiV2.createBrand(data, token);
       },
@@ -171,7 +171,7 @@ export function useV2Api() {
      * Update brand
      */
     update: useCallback(
-      async (brandId: string, data: any) => {
+      async (brandId: string, data: Record<string, unknown>) => {
         const token = await getToken();
         return brandApiV2.updateBrand(brandId, data, token);
       },
@@ -193,7 +193,7 @@ export function useV2Api() {
      * List brands
      */
     list: useCallback(
-      async (filters?: any) => {
+      async (filters?: Record<string, unknown>) => {
         const token = await getToken();
         return brandApiV2.getUserBrands(token, filters);
       },
@@ -204,7 +204,7 @@ export function useV2Api() {
      * Crawl website
      */
     crawlWebsite: useCallback(
-      async (data: any) => {
+      async (data: Record<string, unknown>) => {
         const token = await getToken();
         return brandApiV2.crawlWebsite(data, token);
       },
@@ -248,8 +248,7 @@ export function useV2Api() {
  *       try {
  *         const result = await v2Api.campaign.list();
  *         setCampaigns(result.campaigns);
- *       } catch (error) {
- *         console.error('Failed to load campaigns:', error);
+ *       } catch (_error) {
  *       } finally {
  *         setLoading(false);
  *       }
