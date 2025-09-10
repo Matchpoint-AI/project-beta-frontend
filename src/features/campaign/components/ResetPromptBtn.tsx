@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { getServiceURL } from '../../../helpers/getServiceURL';
-import ErrorToast from '../../../components/shared/ErrorToast';
+import ErrorToast from '../../../shared/components/feedback/ErrorToast';
 import { CircularProgress } from '@mui/material';
 
 export default function ResetPromptBtn({
@@ -18,10 +18,6 @@ export default function ResetPromptBtn({
   const [error, setError] = useState('');
 
   const onPromptReset = async () => {
-    console.log({
-      version,
-      target,
-    });
     setError('');
     setLoading(true);
     const endpointUrl = `${getServiceURL('content-gen')}/api/v1/app_prompts`;

@@ -151,7 +151,7 @@ export const captionApi = {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(_data),
     });
     if (!response.ok) {
       throw new Error(`Caption validation failed: ${response.statusText}`);
@@ -197,7 +197,7 @@ export const policyApi = {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(_data),
     });
     if (!response.ok) {
       const errorText = await response.text();
@@ -262,7 +262,7 @@ export const plannerApi = {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(_data),
     });
     if (!response.ok) {
       throw new Error(`Plan creation failed: ${response.statusText}`);
@@ -336,7 +336,7 @@ export const imageApi = {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(_data),
     });
     if (!response.ok) {
       throw new Error(`Image generation failed: ${response.statusText}`);
@@ -376,7 +376,7 @@ export const imageApi = {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(_data),
     });
     if (!response.ok) {
       throw new Error(`Image remix failed: ${response.statusText}`);

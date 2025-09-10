@@ -25,10 +25,8 @@ const DisplayContent = () => {
       const data = await response.json();
       // Add null safety checks for nested properties
       const upscaledUrls = data?.results?.[0]?.final_result?.response?.data?.upscaled_urls || [];
-      console.log('Upscaled URLs:', upscaledUrls);
       return upscaledUrls;
-    } catch (error) {
-      console.error('Error retrieving content:', error);
+    } catch (_error) {
       throw error; // Re-throw to allow handling in calling code
     }
   };
@@ -37,9 +35,7 @@ const DisplayContent = () => {
 
   useEffect(() => {
     // Fetch URLs when the component mounts
-    getUpscaledUrls()
-      .then((urls) => setUpscaledUrls(urls))
-      .catch((error) => console.error('Error fetching URLs:', error));
+    getUpscaledUrls().then((urls) => setUpscaledUrls(urls));
   }, []); // Empty dependency array to run only once on mount
 
   return (

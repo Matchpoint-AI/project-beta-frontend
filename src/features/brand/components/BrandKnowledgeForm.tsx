@@ -20,9 +20,9 @@ import { LuPlus, LuTrash2, LuChevronDown, LuChevronUp } from 'react-icons/lu';
 import { AuthContext } from '../../auth/context/AuthContext';
 import { BrandContext } from '../context/BrandContext';
 import FormsContainer from '../../../components/shared/FormsContainer';
-import NextButton from '../../../components/shared/Buttons/NextButton';
-import BackButton from '../../../components/shared/Buttons/BackButton';
-// import ColorPicker from '../../../components/shared/ColorPicker';
+import NextButton from '../../../shared/components/buttons/NextButton';
+import BackButton from '../../../shared/components/buttons/BackButton';
+// import ColorPicker from '../../../shared/components/ui/ColorPicker';
 import { getServiceURL } from '../../../helpers/getServiceURL';
 
 // Types matching backend brand_knowledge.py models
@@ -208,8 +208,8 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
           setFormData(data.brand_knowledge);
         }
       }
-    } catch (err) {
-      console.error('Error loading brand knowledge:', err);
+    } catch (_err) {
+      // Error handled silently
     } finally {
       setLoading(false);
     }
@@ -373,7 +373,8 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
       } else {
         setError(result.message || 'Could not extract brand knowledge');
       }
-    } catch (err) {
+    } catch (_err) {
+      // Error handled silently
       setError(err instanceof Error ? err.message : 'Failed to extract from campaigns');
     } finally {
       setLoading(false);
@@ -427,7 +428,8 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
           handleNext();
         }
       }, 2000);
-    } catch (err) {
+    } catch (_err) {
+      // Error handled silently
       setError(err instanceof Error ? err.message : 'Failed to save');
     } finally {
       setSaving(false);

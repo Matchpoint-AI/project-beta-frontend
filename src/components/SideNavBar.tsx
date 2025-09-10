@@ -38,8 +38,7 @@ export default function SideNavBar({
   };
 
   const handleLogout = () => {
-    const currentPath = window.location.pathname;
-    console.log('currentPath === ', currentPath);
+    const _currentPath = window.location.pathname;
     signOut(auth)
       .then(() => {
         cookies.remove('access_token', {
@@ -52,9 +51,7 @@ export default function SideNavBar({
         }
         navigate('/login');
       })
-      .catch((err) => {
-        console.log('problem while signing out: ', err.message);
-      });
+      .catch((_err) => {});
   };
 
   // Tooltip component

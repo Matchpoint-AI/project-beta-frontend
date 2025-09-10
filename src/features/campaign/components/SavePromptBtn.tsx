@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import PurpleButton from '../../../components/shared/Buttons/PurpleButton';
+import PurpleButton from '../../../shared/components/buttons/PurpleButton';
 import { CircularProgress } from '@mui/material';
-import ErrorToast from '../../../components/shared/ErrorToast';
+import ErrorToast from '../../../shared/components/feedback/ErrorToast';
 import { getServiceURL } from '../../../helpers/getServiceURL';
 import { useAuth } from '../../../features/auth/context/AuthContext';
 

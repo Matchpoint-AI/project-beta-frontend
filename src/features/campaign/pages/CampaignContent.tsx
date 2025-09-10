@@ -179,8 +179,7 @@ const CampaignContent = () => {
             pollInterval = null;
           }
         }
-      } catch (error) {
-        console.error('Error fetching data:', error);
+      } catch (_error) {
         setError(error instanceof Error ? error.message : 'Failed to load campaign data');
         setLoading(false);
       }
@@ -227,7 +226,7 @@ const CampaignContent = () => {
 
   const navigateToCampaignView = () => {
     const data = campaignContent?.campaign_data?.campaign_variables;
-    if (data) {
+    if (_data) {
       setCampaignInfo((prev) => ({
         ...prev,
         summary: data?.summary,

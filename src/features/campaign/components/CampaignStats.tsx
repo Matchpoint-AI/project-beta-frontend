@@ -4,7 +4,7 @@ import { Week } from '../../types/ContentLibrary';
 // import { getServiceURL } from "../../../helpers/getServiceURL";
 // import { useParams } from "react-router-dom";
 // import { CampaignContext } from "../../../context/CampaignContext";
-// import Dropdown from "../../../components/shared/Dropdown";
+// import Dropdown from "../../../shared/components/ui/Dropdown";
 
 interface CampaignStatsProps {
   weeksData: Week[];

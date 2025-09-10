@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { FormEventHandler, useContext, useEffect, useState } from 'react';
 import { CampaignContext } from '../../context/CampaignContext';
-import Dropdown from '../shared/Dropdown';
+import Dropdown from '../../shared/components/ui/Dropdown';
 
 import dayjs, { Dayjs } from 'dayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import FormsContainer from '../shared/FormsContainer';
-import BackButton from '../shared/Buttons/BackButton';
-import NextButton from '../shared/Buttons/NextButton';
+import BackButton from '../../shared/components/buttons/BackButton';
+import NextButton from '../../shared/components/buttons/NextButton';
 import posthog from '../../helpers/posthog';
 import { useAuth } from '../../features/auth/context/AuthContext';
 
@@ -172,9 +172,7 @@ const TimingForm = ({ handleNext, handleBack, setTiming, review = false }: Timin
 
   useEffect(() => {
     if (campaignInfo.startDate === undefined) return;
-    console.log('oldDate === ', campaignInfo.startDate);
     const oldDate = dayjs(campaignInfo.startDate);
-    console.log('oldDateDayjs === ', oldDate);
     setValue(oldDate);
   }, []);
 
@@ -210,7 +208,6 @@ const TimingForm = ({ handleNext, handleBack, setTiming, review = false }: Timin
                     // Disable dates before today
                     return dayjs(date).isBefore(dayjs().add(1, 'day'), 'day');
                   }}
-                  // onClick={(e) => console.log("clicked icon")}
                 />
               </LocalizationProvider>
             </div>

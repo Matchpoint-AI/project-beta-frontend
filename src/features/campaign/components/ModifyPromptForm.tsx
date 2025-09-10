@@ -1,7 +1,7 @@
 import React, { FormEventHandler, useEffect, useState } from 'react';
 import { useAuth } from '../../../features/auth/context/AuthContext';
 import { CircularProgress, Dialog, DialogContent } from '@mui/material';
-import PurpleButton from '../../../components/shared/Buttons/PurpleButton';
+import PurpleButton from '../../../shared/components/buttons/PurpleButton';
 import { getServiceURL } from '../../../helpers/getServiceURL';
 
 interface ModifyPromptFormProps {
@@ -40,7 +40,6 @@ export default function ModifyPromptForm(props: ModifyPromptFormProps) {
       });
       setSubmited(false);
     } catch (e) {
-      console.log(e);
       setSubmited(false);
     }
   };

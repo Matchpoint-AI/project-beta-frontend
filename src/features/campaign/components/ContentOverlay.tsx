@@ -6,7 +6,7 @@ import { IoIosArrowBack } from 'react-icons/io';
 import { IoIosArrowForward } from 'react-icons/io';
 import { getServiceURL } from '../../../helpers/getServiceURL';
 import { CircularProgress, Dialog, DialogContent } from '@mui/material';
-import ErrorToast from '../../../components/shared/ErrorToast';
+import ErrorToast from '../../../shared/components/feedback/ErrorToast';
 import moment from 'moment-timezone';
 
 interface Post {
@@ -102,7 +102,6 @@ const ContentOverlay = ({
       onApprovalUpdate();
       closeOverlay();
     } catch (error: unknown) {
-      console.error('Error fetching data:', error);
       setErrorText((error as Error)?.message || 'An unknown error occurred');
       setErrorSaving(true);
     } finally {

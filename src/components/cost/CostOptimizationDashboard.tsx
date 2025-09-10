@@ -200,8 +200,8 @@ export const CostOptimizationDashboard: React.FC = () => {
       setError(null);
       const data = await costOptimizationApi.getDashboardData(selectedTimeRange);
       setDashboardData(data);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to load cost dashboard data');
+    } catch (_err) {
+      setError(_err instanceof Error ? _err.message : 'Failed to load cost dashboard data');
     } finally {
       setLoading(false);
     }
@@ -370,7 +370,7 @@ export const CostOptimizationDashboard: React.FC = () => {
       ),
       datasets: [
         {
-          data: models.map(([, data]) => data.percentage),
+          data: models.map(([, _data]) => _data.percentage),
           backgroundColor: [
             '#10B981', // emerald
             '#3B82F6', // blue

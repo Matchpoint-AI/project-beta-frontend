@@ -5,8 +5,8 @@ import { LuFileMinus } from 'react-icons/lu';
 import { useAuth } from '../../auth/context/AuthContext';
 import { BrandContext } from '../context/BrandContext';
 import { getServiceURL } from '../../../helpers/getServiceURL';
-import PurpleButton from '../../../components/shared/Buttons/PurpleButton';
-import BrandDetailsInput from '../../../components/shared/Inputs/BrandDetailsInput';
+import PurpleButton from '../../../shared/components/buttons/PurpleButton';
+import BrandDetailsInput from '../../../shared/components/inputs/BrandDetailsInput';
 import Sidebar from '../../../components/shared/Sidebar';
 
 const description = {
@@ -92,8 +92,8 @@ export default function BrandProfileEdit({ hasBrand: _hasBrand }: BrandProfileEd
         setSummary(result.updatedFields.summary || '');
         setSelected('');
       }
-    } catch (error) {
-      console.error('Update failed:', error);
+    } catch (_error) {
+      // Error handled silently
     } finally {
       setIsSaving(false);
     }

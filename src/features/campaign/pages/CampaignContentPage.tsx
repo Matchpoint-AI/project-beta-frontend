@@ -7,7 +7,7 @@ import { CircularProgress } from '@mui/material';
 import { RiErrorWarningLine } from 'react-icons/ri';
 
 export default function CampaignContentPage() {
-  const [data, loading, error, handleRetry] = useFetchUserData();
+  const [data, loading, _error, handleRetry] = useFetchUserData();
 
   return (
     <div className="w-full h-full">
@@ -19,7 +19,7 @@ export default function CampaignContentPage() {
             <h1 className="text-2xl font-semibold leading-9 text-gradient">Fetching user data</h1>
           </div>
         )}
-        {!loading && error && (
+        {!loading && _error && (
           <div className="w-full min-h-screen flex flex-col gap-5 justify-center items-center">
             <RiErrorWarningLine size={64} color="#F05252" />
             <h1 className="font-medium md:text-[42px] sm:text-[32px] text-[28px] text-center text-[#30175A]">
@@ -38,9 +38,17 @@ export default function CampaignContentPage() {
             </button>
           </div>
         )}
-        {!loading && !error && (
+        {!loading && !_error && (
           <div className="md:ml-[80px] flex-grow flex flex-col gap-8 p-8 md:mt-8 mt-[80px]">
-            <UserDataBlocks data={data} viewContent={async () => {}} viewThread={async () => {}} />
+            <UserDataBlocks
+              data={data}
+              viewContent={async () => {
+                // Empty implementation - no content viewing functionality
+              }}
+              viewThread={async () => {
+                // Empty implementation - no thread viewing functionality
+              }}
+            />
           </div>
         )}
       </div>

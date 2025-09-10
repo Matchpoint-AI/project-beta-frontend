@@ -130,9 +130,9 @@ const renderWithAuth = (props = {}) => {
 describe('SocialMediaPost Component', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    (global.fetch as any).mockClear();
+    (global.fetch as unknown as jest.Mock).mockClear();
     // Reset fetch to default mock implementation
-    (global.fetch as any).mockImplementation(() =>
+    (global.fetch as unknown as jest.Mock).mockImplementation(() =>
       Promise.resolve({
         ok: true,
         json: async () => ({}),
@@ -291,7 +291,7 @@ describe('SocialMediaPost Component', () => {
 
     it('should show loading state during approval', async () => {
       // Mock initial call
-      (global.fetch as any)
+      (global.fetch as unknown as jest.Mock)
         .mockResolvedValueOnce({ ok: true, json: async () => ({}) })
         .mockImplementationOnce(
           () =>
@@ -329,7 +329,7 @@ describe('SocialMediaPost Component', () => {
 
     it('should call onApprovalUpdate callback on success', async () => {
       const onApprovalUpdateMock = vi.fn();
-      (global.fetch as any)
+      (global.fetch as unknown as jest.Mock)
         .mockResolvedValueOnce({ ok: true, json: async () => ({}) })
         .mockResolvedValueOnce({ ok: true, json: async () => ({}) });
 
@@ -354,7 +354,7 @@ describe('SocialMediaPost Component', () => {
 
     it('should handle approval errors', async () => {
       const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
-      (global.fetch as any)
+      (global.fetch as unknown as jest.Mock)
         .mockResolvedValueOnce({ ok: true, json: async () => ({}) })
         .mockResolvedValueOnce({
           ok: false,
@@ -414,7 +414,7 @@ describe('SocialMediaPost Component', () => {
     });
 
     it('should save text changes when save is clicked', async () => {
-      (global.fetch as any)
+      (global.fetch as unknown as jest.Mock)
         .mockResolvedValueOnce({ ok: true, json: async () => ({}) })
         .mockResolvedValueOnce({ ok: true, json: async () => ({}) });
 
@@ -510,7 +510,7 @@ describe('SocialMediaPost Component', () => {
   describe('When handling edge cases', () => {
     it('should handle missing post data gracefully', async () => {
       await act(async () => {
-        renderWithAuth({ content: null as any });
+        renderWithAuth({ content: null as unknown });
       });
       expect(screen.getByText('Post 1')).toBeInTheDocument();
     });
@@ -548,7 +548,7 @@ describe('SocialMediaPost Component', () => {
 
   describe('When regenerating content', () => {
     it('should call regenerate API when regenerate button is clicked', async () => {
-      (global.fetch as any)
+      (global.fetch as unknown as jest.Mock)
         .mockResolvedValueOnce({ ok: true, json: async () => ({}) })
         .mockResolvedValueOnce({
           ok: true,
@@ -596,7 +596,7 @@ describe('SocialMediaPost Component', () => {
         image_url: ['image1.jpg', 'image2.jpg', 'image3.jpg'],
       };
       // Test wrapper to provide real state for selectedImages
-      const TestWrapper = (props) => {
+      const TestWrapper = (props: Record<string, unknown>) => {
         const [selectedImages, setSelectedImages] = React.useState([1]);
         return (
           <AuthContext.Provider value={mockAuthContext}>

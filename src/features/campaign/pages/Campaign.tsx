@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import CampaignStepsBar from '../components/CampaignStepsBar';
 import CustomComponent from '../components/CustomComponent';
-import ErrorToast from '../../../components/shared/ErrorToast';
+import ErrorToast from '../../../shared/components/feedback/ErrorToast';
 import AudienceForm from '../../../components/Forms/AudienceForm';
 import CampaignBriefForm from '../../../components/Forms/CampaignBriefForm';
 import PurposeForm from '../../../components/Forms/PurposeForm';
@@ -101,7 +101,6 @@ const Campaign = () => {
           logo: data[0].biz_variables.brand_logo,
         });
       } else {
-        console.log('returning to onboard');
         setError(true);
         setTimeout(() => {
           handleNavigate(profile?.id || '', '/onboard', navigate);

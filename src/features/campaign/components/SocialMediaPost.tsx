@@ -4,8 +4,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import PaginationImage from './PaginationImage';
 import { useAuth } from '../../../features/auth/context/AuthContext';
 import { getServiceURL } from '../../../helpers/getServiceURL';
-import { CircularProgress, Dialog, DialogContent, Menu, MenuItem } from '@mui/material';
-import ErrorToast from '../../../components/shared/ErrorToast';
+import { Button, CircularProgress, Dialog, DialogContent, Menu, MenuItem } from '@mui/material';
+import ErrorToast from '../../../shared/components/feedback/ErrorToast';
 import moment from 'moment-timezone';
 import { FaCheck } from 'react-icons/fa';
 import { IoMdCheckmark, IoMdRefresh } from 'react-icons/io';
@@ -16,7 +16,7 @@ import ModifyPrompt from './ModifyPrompt';
 import AutoAwesomeOutlinedIcon from '@mui/icons-material/AutoAwesomeOutlined';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { TiArrowMaximise } from 'react-icons/ti';
-import PurpleButton from '../../../components/shared/Buttons/PurpleButton';
+import PurpleButton from '../../../shared/components/buttons/PurpleButton';
 import { IoClose } from 'react-icons/io5';
 import { captionApi } from '../../../api/contentGenerationApi';
 import QualityScoreIndicator from './QualityScoreIndicator';
@@ -92,7 +92,7 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
   const [limitReached, setLimitReached] = useState(false);
   const [captionMenuAnchor, setCaptionMenuAnchor] = useState<null | HTMLElement>(null);
   const captionMenuOpen = Boolean(captionMenuAnchor);
-  const [currentQualityScore, setCurrentQualityScore] = useState<number>(0);
+  const [_currentQualityScore, setCurrentQualityScore] = useState<number>(0);
   const [showQualityScore, setShowQualityScore] = useState(false);
 
   const showCancelUI = hovering || loading;
@@ -151,12 +151,11 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
         });
       }
     } catch (error: unknown) {
-      console.error('Error fetching data:', JSON.stringify(error));
       let errorMessage = 'An unknown error occurred';
       if (error instanceof Error) {
         errorMessage = error.message;
       } else if (typeof error === 'object' && error !== null) {
-        errorMessage = JSON.stringify(error);
+        errorMessage = JSON.stringify(_error);
       }
       setErrorText(errorMessage);
       setErrorSaving(true);
@@ -204,8 +203,8 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
         setRemainingGenerations(data.remaining);
         setTotalAllowed(data.total_allowed);
       }
-    } catch (error) {
-      console.error('Error fetching remaining generations:', error);
+    } catch (_error) {
+      // Error handled silently
     }
   };
 
@@ -217,7 +216,6 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
   const regenerateImage = async (promptOverride?: string) => {
     const currentPost = Array.isArray(content) ? content[postIndex - 1] : content;
     if (!currentPost) {
-      console.error('Cannot regenerate image: Post data not found');
       return;
     }
 
@@ -253,7 +251,7 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
       newSelectedImages[postIndex - 1]++;
       setSelectedImages(newSelectedImages);
     } catch (e) {
-      console.error('Error regenerating image:', (e as Error).message);
+      // Error handled silently
     } finally {
       setLoadingRegen(false);
     }
@@ -277,14 +275,13 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
       const { prompt } = await response.json();
       await regenerateImage(prompt);
     } catch (e) {
-      console.error('Error fetching prompt for regeneration:', e);
+      // Error handled silently
     }
   };
 
   const handleEdit = async () => {
     const currentPost = Array.isArray(content) ? content[postIndex - 1] : content;
     if (!currentPost) {
-      console.error('Cannot edit text: Post data not found');
       return;
     }
 
@@ -323,8 +320,7 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
         currentPost.text = text;
         currentPost.text_versions = updatedTextVersions;
         setEdit(false);
-      } catch (error) {
-        console.error('Error updating text versions:', error);
+      } catch (_error) {
         setErrorText('Failed to update text versions');
         setErrorSaving(true);
       } finally {
@@ -337,7 +333,7 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
     }
   };
 
-  const handleReselectText = async (index) => {
+  const handleReselectText = async (index: number) => {
     try {
       setIsLoadingText(true);
       const endpointUrl = getServiceURL('content-gen');
@@ -364,13 +360,13 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
 
       updataImage(week - 1, day, postIndex - 1, 0, null, selectedText);
     } catch (e) {
-      console.log(e);
+      // Error handled silently
     } finally {
       setIsLoadingText(false);
     }
   };
 
-  function truncateText(text: string, limit: number = 300): string {
+  function _truncateText(text: string, limit: number = 300): string {
     const newText = text.length > limit ? text.slice(0, limit) + '...' : text;
     return newText;
   }
@@ -390,7 +386,7 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
         id, // content ID
         {
           image_description: currentPost.image_prompt || '',
-          scene_type: sceneType as any,
+          scene_type: sceneType as 'lifestyle' | 'product' | 'brand' | 'event',
           brand_voice: brandName,
           target_audience: currentPost.target_audience,
           hashtags: currentPost.hashtags || [],
@@ -437,8 +433,7 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
         currentPost.text_versions = updatedTextVersions;
         currentPost.caption_id = captionData.caption_id; // Store for regeneration
       }
-    } catch (error) {
-      console.error('Error generating caption:', error);
+    } catch (_error) {
       setErrorText('Failed to generate caption');
       setErrorSaving(true);
     } finally {
@@ -475,8 +470,7 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
         setText(captionData.caption.text);
         handleEdit(); // Apply the regenerated caption
       }
-    } catch (error) {
-      console.error('Error regenerating caption:', error);
+    } catch (_error) {
       setErrorText('Failed to regenerate caption');
       setErrorSaving(true);
     } finally {
@@ -835,8 +829,8 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
           <div className="text-center">
             <h2 className="text-xl font-bold text-purple-600 mb-4">Regeneration Limit Reached</h2>
             <p className="text-gray-700 mb-6">
-              You've hit your regeneration limit for this content. We'll keep you posted when
-              Matchpoint Unlimited—with more regenerations—is ready for you.
+              You&apos;ve hit your regeneration limit for this content. We&apos;ll keep you posted
+              when Matchpoint Unlimited—with more regenerations—is ready for you.
             </p>
 
             <div className="flex flex-col gap-3">

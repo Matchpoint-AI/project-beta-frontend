@@ -55,8 +55,8 @@ const getTokenExpiration = (token: string): number | null => {
     );
     const payload = JSON.parse(jsonPayload);
     return payload.exp ? payload.exp * 1000 : null; // Convert to milliseconds
-  } catch (error) {
-    console.error('Failed to decode token:', error);
+  } catch (_error) {
+    // Failed to decode token
     return null;
   }
 };
@@ -85,12 +85,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   // Memoized token refresh function to prevent unnecessary re-renders
   const performTokenRefresh = useCallback(async (): Promise<string | null> => {
     if (!user) {
-      console.warn('Cannot refresh token: no Firebase user');
       return null;
     }
 
     try {
-      console.log('Performing token refresh...');
       const newToken = await user.getIdToken(true); // Force refresh
 
       // Update profile with new token
@@ -107,10 +105,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         maxAge: 30 * 24 * 60 * 60, // 30 days
       });
 
-      console.log('Token refresh completed successfully');
       return newToken;
-    } catch (error) {
-      console.error('Token refresh failed:', error);
+    } catch (_error) {
+      // Token refresh failed
       return null;
     }
   }, [user, profile]);
@@ -146,7 +143,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       sameSite: 'lax', // Changed from 'strict' to 'lax' for better compatibility
     });
 
-    console.log('Cookie set:', cookies.get('token')); // Debug log
+    // Cookie set
 
     if (newProfile.hasBrand) {
       navigate('/dashboard');
@@ -158,11 +155,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const validateToken = async () => {
     try {
       setIsLoading(true);
-      console.log('Starting token validation...');
-
       // If we have a Firebase user, always use their token
       if (user) {
-        console.log('Firebase user found, using Firebase token');
         const token = await user.getIdToken(true);
         const response = await fetch(`${getServiceURL('data')}/api/v1/user`, {
           headers: {
@@ -186,17 +180,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           maxAge: 30 * 24 * 60 * 60, // 30 days
         });
 
-        console.log('Cookie set from Firebase:', cookies.get('token')); // Debug log
+        // Cookie set from Firebase
         setIsLoading(false);
         return;
       }
 
       // If no Firebase user, try using stored token
       const storedToken = cookies.get('token');
-      console.log('Stored token exists:', !!storedToken); // Debug log
 
       if (!storedToken) {
-        console.log('No stored token found, redirecting to login');
         setProfile(null);
         setIsLoading(false);
         if (location.pathname !== '/login' && location.pathname !== '/signup') {
@@ -212,7 +204,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       });
 
       if (!response.ok) {
-        console.log('Token validation failed with status:', response.status);
         // Only clear token and navigate if we're on a protected route
         if (location.pathname !== '/login' && location.pathname !== '/signup') {
           cookies.remove('token', { path: '/' });
@@ -226,7 +217,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const data = await response.json();
       const newProfile = { ...data, token: storedToken };
       setProfile(newProfile);
-      console.log('Token validation successful, profile set');
 
       // Refresh the token in the cookie
       cookies.set('token', storedToken, {
@@ -236,8 +226,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         maxAge: 30 * 24 * 60 * 60, // 30 days
       });
       setIsLoading(false);
-    } catch (error) {
-      console.error('Token validation error:', error);
+    } catch (_error) {
       // Only clear token and navigate if we're on a protected route
       if (location.pathname !== '/login' && location.pathname !== '/signup') {
         cookies.remove('token', { path: '/' });
@@ -263,9 +252,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       // Check if token is expiring soon
       if (isTokenExpiringSoon(currentToken)) {
-        console.log('Token expiring soon, refreshing immediately...');
-        performTokenRefresh().catch((error) => {
-          console.error('Immediate token refresh failed:', error);
+        performTokenRefresh().catch((_error) => {
           logout();
         });
         return;
@@ -278,12 +265,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         const timeUntilExpiry = expiration - now;
         const refreshTime = Math.max(timeUntilExpiry - 10 * 60 * 1000, 5 * 60 * 1000); // Refresh 10 min before expiry, but at least 5 min from now
 
-        console.log(`Scheduling token refresh in ${Math.round(refreshTime / 60000)} minutes`);
-
         const refreshTimeout = setTimeout(async () => {
           const newToken = await performTokenRefresh();
           if (!newToken) {
-            console.error('Scheduled token refresh failed, logging out');
             logout();
           }
         }, refreshTime);
@@ -300,7 +284,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       async () => {
         const currentToken = profile.token;
         if (currentToken && isTokenExpiringSoon(currentToken)) {
-          console.log('Backup refresh triggered for expiring token');
           const newToken = await performTokenRefresh();
           if (!newToken) {
             logout();

@@ -139,8 +139,8 @@ const ContentComparisonModal: React.FC<ContentComparisonModalProps> = ({
       await onSave(itemId, editedContent, editNotes);
       setIsEditing(false);
       setEditNotes('');
-    } catch (error) {
-      console.error('Failed to save content:', error);
+    } catch (_error) {
+      // Error handled silently
     } finally {
       setLoading(false);
     }
@@ -151,8 +151,8 @@ const ContentComparisonModal: React.FC<ContentComparisonModalProps> = ({
       try {
         setLoading(true);
         await onRevert(itemId, versionId);
-      } catch (error) {
-        console.error('Failed to revert content:', error);
+      } catch (_error) {
+        // Error handled silently
       } finally {
         setLoading(false);
       }

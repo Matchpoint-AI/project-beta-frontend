@@ -23,11 +23,17 @@ vi.mock('@mui/material', async () => {
   const actual = await vi.importActual('@mui/material');
   return {
     ...actual,
-    Dialog: ({ open, children }: any) =>
+    Dialog: ({ open, children }: { open?: boolean; children?: React.ReactNode }) =>
       open ? <div data-testid="hitl-dialog">{children}</div> : null,
-    DialogContent: ({ children }: any) => <div data-testid="hitl-dialog-content">{children}</div>,
-    Card: ({ children }: any) => <div data-testid="hitl-card">{children}</div>,
-    Accordion: ({ children }: any) => <div data-testid="hitl-accordion">{children}</div>,
+    DialogContent: ({ children }: { children?: React.ReactNode }) => (
+      <div data-testid="hitl-dialog-content">{children}</div>
+    ),
+    Card: ({ children }: { children?: React.ReactNode }) => (
+      <div data-testid="hitl-card">{children}</div>
+    ),
+    Accordion: ({ children }: { children?: React.ReactNode }) => (
+      <div data-testid="hitl-accordion">{children}</div>
+    ),
   };
 });
 

@@ -1,11 +1,10 @@
 import JSZip from 'jszip';
-import { saveAs } from 'file-saver';
 import { jsPDF } from 'jspdf';
 import { Document, HeadingLevel, Packer, Paragraph } from 'docx';
 import emojiRegex from 'emoji-regex';
 import { getServiceURL } from '../helpers/getServiceURL';
 
-const fetchImageAsDataURL = async (url) => {
+const fetchImageAsDataURL = async (url: string): Promise<string> => {
   const response = await fetch(url);
   const blob = await response.blob();
   return new Promise((resolve, reject) => {
@@ -40,15 +39,19 @@ export const fetchAndCreatePDF = async (
       data.brand_profile,
       data.campaign_brief
     );
-  } catch (error) {
-    console.error('Error fetching campaign data:', error);
+  } catch (_error) {
+    // Error fetching campaign data
   }
 };
 
-const createBrandProfilePDF = async (clientRequest, brandProfile, campaignBrief) => {
+const createBrandProfilePDF = async (
+  clientRequest: Record<string, unknown>,
+  brandProfile: Record<string, unknown>,
+  campaignBrief: Record<string, unknown>
+) => {
   const doc = new jsPDF();
 
-  const mapColorsToReadable = (colors, convertedColors) => {
+  const mapColorsToReadable = (colors: string[], convertedColors: Array<{ name?: string }>) => {
     return colors.map((hex, index) => {
       const convertedColor = convertedColors[index];
       return convertedColor && convertedColor.name ? `${hex} (${convertedColor.name})` : hex; // Fallback to hex if name is not available
@@ -137,7 +140,7 @@ const createBrandProfilePDF = async (clientRequest, brandProfile, campaignBrief)
 
   // Start positioning for the values
   let yOffset = 70; // Initial y position for the first value
-  brandProfile.values.forEach((value, index) => {
+  brandProfile.values.forEach((value) => {
     doc.text(`- ${value}`, 10, yOffset);
     yOffset += 10; // Move down for the next value
   });
@@ -160,7 +163,7 @@ const createBrandProfilePDF = async (clientRequest, brandProfile, campaignBrief)
   doc.setFont('helvetica', 'normal');
   if (colors.length > 0) {
     yOffset += 60;
-    colors.forEach((color) => {
+    colors.forEach((color, _index) => {
       doc.text(`- ${color}`, 10, yOffset);
       yOffset += 10; // Adjust y position for the next color
     });
@@ -220,7 +223,7 @@ const createBrandProfilePDF = async (clientRequest, brandProfile, campaignBrief)
 };
 
 // Helper function to remove emojis from text
-const removeNewlines = (text) => {
+const removeNewlines = (text: string): string => {
   return text.replace(/(\r\n|\n|\r)/gm, ' ');
 };
 const stripEmojis = (str: string) => {
@@ -230,7 +233,7 @@ const stripEmojis = (str: string) => {
 // Function to clean text by removing hidden characters and normalizing spaces
 const cleanText = (str: string) => {
   return str
-    .replace(/[\u200B\u200C\u200D\uFEFF\uFE0F]/g, '') // Remove zero-width spaces and other non-printable characters
+    .replace(/\u200B|\u200C|\u200D|\uFEFF|\uFE0F/g, '') // Remove zero-width spaces and other non-printable characters
     .replace(/\s+/g, ' ') // Replace multiple spaces with a single space
     .trim(); // Trim leading and trailing spaces
 };
@@ -242,7 +245,7 @@ const cleanAndStripEmojis = (str: string) => {
   return finalText;
 };
 
-const fetchImageDimensions = async (url) => {
+const fetchImageDimensions = async (url: string): Promise<{ width: number; height: number }> => {
   return new Promise((resolve) => {
     const img = new Image();
     img.onload = () => resolve({ width: img.width, height: img.height });
@@ -250,7 +253,15 @@ const fetchImageDimensions = async (url) => {
   });
 };
 
-export const createImageThumbnailsPDF = async (weeksData: any, currentValues): Promise<Blob> => {
+export const createImageThumbnailsPDF = async (
+  weeksData: Array<
+    Array<{
+      dayIndex: number;
+      posts: Array<{ approved: boolean; postIndex: number; image_url: string[]; text: string }>;
+    }>
+  >,
+  currentValues: string[]
+): Promise<Blob> => {
   const doc = new jsPDF();
   const pageHeight = doc.internal.pageSize.height;
   const margin = 5; // Margin from the top and bottom of the page
@@ -323,8 +334,8 @@ export const createImageThumbnailsPDF = async (weeksData: any, currentValues): P
           yOffset += scaledHeight + 10; // Move y position below the images
           doc.setFontSize(10);
           const textWidth = 180; // Maximum width for the text
-          const data = removeNewlines(post.text);
-          const finalText = cleanAndStripEmojis(data);
+          const _data = removeNewlines(post.text);
+          const finalText = cleanAndStripEmojis(_data);
 
           const splitText = doc.splitTextToSize(finalText, textWidth);
 
@@ -348,7 +359,10 @@ export const createImageThumbnailsPDF = async (weeksData: any, currentValues): P
   return doc.output('blob');
 };
 
-export const createWordDocument = async (weeksData, currentValues) => {
+export const createWordDocument = async (
+  weeksData: Array<Array<{ dayIndex: number; posts: Array<{ postIndex: number; text: string }> }>>,
+  currentValues: string[]
+) => {
   const sections = [];
 
   for (const [weekIndex, week] of weeksData.entries()) {
@@ -423,7 +437,13 @@ export const createWordDocument = async (weeksData, currentValues) => {
   return await Packer.toBlob(doc);
 };
 
-export const organizeAndSavePosts = async (weeksData, bigFolder, currentValues) => {
+export const organizeAndSavePosts = async (
+  weeksData: Array<
+    Array<{ dayIndex: number; posts: Array<{ postIndex: number; image_url: string[] }> }>
+  >,
+  bigFolder: JSZip,
+  currentValues: string[]
+) => {
   for (const [weekIndex, week] of weeksData.entries()) {
     const actualWeekNumber = currentValues[weekIndex].split(' ')[1];
 
@@ -462,7 +482,7 @@ export const organizeAndSavePosts = async (weeksData, bigFolder, currentValues) 
   }
 };
 
-const convertColors = async (colors) => {
+const convertColors = async (colors: string[]): Promise<Array<{ name?: string }>> => {
   // Define the request body
   const url = getServiceURL('llm');
   const requestBody = {
@@ -483,7 +503,7 @@ const convertColors = async (colors) => {
     const data = await response.json();
     return data;
     // Handle the response (log it or use it)
-  } catch (error) {
-    console.error('Error fetching the converted colors:', error);
+  } catch (_error) {
+    // Error fetching the converted colors
   }
 };

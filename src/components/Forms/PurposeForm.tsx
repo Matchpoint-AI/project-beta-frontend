@@ -1,9 +1,9 @@
 import React, { FormEventHandler, useContext, useEffect, useRef, useState } from 'react';
 import { CampaignContext } from '../../context/CampaignContext';
 import FormsContainer from '../shared/FormsContainer';
-import NextButton from '../shared/Buttons/NextButton';
+import NextButton from '../../shared/components/buttons/NextButton';
 import WebsiteOwnership from '../WebsiteOwnership';
-import CampaignFormInput from '../shared/Inputs/CampaignFormInput';
+import CampaignFormInput from '../../shared/components/inputs/CampaignFormInput';
 import Dropdown from '../../features/campaign/components/CampaignDropdown';
 import LanguageSelector from '../../features/campaign/components/LanguageSelector';
 import { BrandContext } from '../../features/brand/context/BrandContext';

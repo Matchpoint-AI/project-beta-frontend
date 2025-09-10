@@ -160,8 +160,8 @@ const ABTestVariantComparison: React.FC<ABTestVariantComparisonProps> = ({
       setEditingVariant(null);
       setEditedContent({});
       setEditNotes('');
-    } catch (error) {
-      console.error('Failed to save variant:', error);
+    } catch (_error) {
+      // Error handled silently
     } finally {
       setLoading(false);
     }

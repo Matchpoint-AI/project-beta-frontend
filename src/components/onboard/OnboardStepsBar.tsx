@@ -1,5 +1,5 @@
 import PhoneNavIcons from '../shared/PhoneNavIcons';
-import ProgressBar from '../ProgressBar';
+import ProgressBar from '../../shared/components/ui/ProgressBar';
 import StepComponent from './StepComponent';
 import React, { useEffect } from 'react';
 
@@ -18,9 +18,7 @@ export default function OnboardStepsBar({
     "Let's make sure we’ve gotten to know you well",
   ];
 
-  useEffect(() => {
-    console.log('steps bar');
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <>

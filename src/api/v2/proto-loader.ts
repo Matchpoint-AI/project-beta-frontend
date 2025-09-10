@@ -68,8 +68,8 @@ export class ProtoLoader {
    * Encode a message - converts to JSON string then to Uint8Array
    */
   async encodeMessage(
-    packageName: string,
-    messageName: string,
+    _packageName: string,
+    _messageName: string,
     data: unknown
   ): Promise<Uint8Array> {
     const jsonString = JSON.stringify(data);
@@ -81,8 +81,8 @@ export class ProtoLoader {
    * Decode a message - converts from Uint8Array to JSON
    */
   async decodeMessage(
-    packageName: string,
-    messageName: string,
+    _packageName: string,
+    _messageName: string,
     buffer: Uint8Array
   ): Promise<unknown> {
     const decoder = new TextDecoder();
@@ -93,14 +93,14 @@ export class ProtoLoader {
   /**
    * Convert a message to JSON
    */
-  async messageToJson(packageName: string, messageName: string, data: unknown): Promise<string> {
-    return JSON.stringify(data);
+  async messageToJson(_packageName: string, _messageName: string, _data: unknown): Promise<string> {
+    return JSON.stringify(_data);
   }
 
   /**
    * Parse JSON to a message
    */
-  async jsonToMessage(packageName: string, messageName: string, json: string): Promise<unknown> {
+  async jsonToMessage(_packageName: string, _messageName: string, json: string): Promise<unknown> {
     return JSON.parse(json);
   }
 

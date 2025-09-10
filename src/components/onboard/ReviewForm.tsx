@@ -1,6 +1,6 @@
 import React, { FormEventHandler, useContext, useEffect, useState } from 'react';
 import { BrandContext } from '../../features/brand/context/BrandContext';
-import BackButton from '../shared/Buttons/BackButton';
+import BackButton from '../../shared/components/buttons/BackButton';
 import { getServiceURL } from '../../helpers/getServiceURL';
 import { CircularProgress } from '@mui/material';
 import FormsContainer from '../shared/FormsContainer';
@@ -80,7 +80,7 @@ const ReviewForm = ({ setFormStep, handleBack, handleSave, saving }: ReviewFormP
       }),
     })
       .then((response) => response.json())
-      .then((data) => {
+      .then((_data) => {
         const { choices } = data.response;
         const { content } = choices[0].message;
         setSummary(content);
@@ -90,9 +90,7 @@ const ReviewForm = ({ setFormStep, handleBack, handleSave, saving }: ReviewFormP
           summary: content,
         });
       })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
+      .catch((_error) => {});
   };
 
   const checkSelectedTickets = () => {
