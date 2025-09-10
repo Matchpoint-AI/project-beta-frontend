@@ -1,0 +1,44 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    environment:
+      - NODE_ENV=test
+      - API_URL=${API_URL:-http://localhost:8080}
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+      start_period: 10s
+    networks:
+      - e2e-network
+
+  tests:
+    image: mcr.microsoft.com/playwright:v1.55.0-noble
+    volumes:
+      - .:/work
+    working_dir: /work
+    environment:
+      - BASE_URL=http://app
+      - MOCK_API=true
+      - CI=true
+    depends_on:
+      app:
+        condition: service_healthy
+    command: >
+      sh -c "
+        npm ci &&
+        npx playwright test
+      "
+    networks:
+      - e2e-network
+
+networks:
+  e2e-network:
+    driver: bridge
