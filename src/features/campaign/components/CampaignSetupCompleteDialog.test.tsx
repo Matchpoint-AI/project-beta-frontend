@@ -42,10 +42,10 @@ describe('CampaignSetupCompleteDialog - Default Values', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     global.fetch = vi.fn();
-    (useAuth as any<typeof useAuth>).mockReturnValue({
+    (useAuth as any).mockReturnValue({
       profile: { id: 'test-user-id', token: 'test-token' },
     });
-    (useNavigate as any<typeof useNavigate>).mockReturnValue(vi.fn());
+    (useNavigate as any).mockReturnValue(vi.fn());
   });
 
   it('should provide default values for undefined campaign fields', async () => {
@@ -128,10 +128,10 @@ describe('CampaignSetupCompleteDialog - Scene Mix Integration', () => {
     vi.clearAllMocks();
     vi.resetAllMocks();
     global.fetch = vi.fn();
-    (useAuth as any<typeof useAuth>).mockReturnValue({
+    (useAuth as any).mockReturnValue({
       profile: { id: 'test-user-id', token: 'test-token' },
     });
-    (useNavigate as any<typeof useNavigate>).mockReturnValue(vi.fn());
+    (useNavigate as any).mockReturnValue(vi.fn());
     // Reset the API mocks
     (policyApi.createPolicy as any<typeof policyApi.createPolicy>).mockReset();
     (plannerApi.createPlan as any<typeof plannerApi.createPlan>).mockReset();
