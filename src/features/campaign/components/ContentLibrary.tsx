@@ -1,4 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { Week, Day, Post } from '../../../types/ContentLibrary';
+
+interface Stats {
+  approved: number;
+  ready_for_review: number;
+}
 import { useParams } from 'react-router-dom';
 import { useAuth } from '../../../features/auth/context/AuthContext';
 import ContentOverlay from './ContentOverlay';
@@ -25,7 +31,7 @@ const ContentLibrary = ({
   const [totalPages, setTotalPages] = useState(0);
   const [brandName, setBrandName] = useState('');
   const [startDate, setStartDate] = useState('');
-  const [weeksContent, setWeeksContent] = useState<any>([]);
+  const [weeksContent, setWeeksContent] = useState<Week[]>([]);
   const [text, setText] = useState('');
   const [generatedContentId, setGeneratedContentId] = useState('');
   const [loading, setLoading] = useState(true); // Add a loading state
@@ -51,13 +57,13 @@ const ContentLibrary = ({
   ) => {
     if (!newImage && newText) {
       setWeeksContent((old) => {
-        const arr = Array.from(old) as any;
+        const arr = Array.from(old) as Week[];
         arr[week][day].posts[post].text = newText;
         return arr;
       });
     } else {
       setWeeksContent((old) => {
-        const arr = Array.from(old) as any;
+        const arr = Array.from(old) as Week[];
         arr[week][day]['posts'][post]['image_url']?.push(newImage);
         arr[week][day].posts[post].selected_image = newImage;
         arr[week][day].posts[post].text = newText;
@@ -109,7 +115,7 @@ const ContentLibrary = ({
           if (!prevContent.length) return newData; // Initial fetch, set directly
 
           // Merge new data with existing content
-          const updatedContent = prevContent.map((week: any, weekIndex: number) =>
+          const updatedContent = prevContent.map((week: Week, weekIndex: number) =>
             week.map((day, dayIndex) => ({
               ...day,
               posts: day?.posts.map((post, postIndex) =>
@@ -167,13 +173,13 @@ const ContentLibrary = ({
           // Count how many are currently unapproved
           const unapprovedCount = dayPosts.filter((p) => !p.approved).length;
           updatedContent[weekIndex][dayIndex].posts = updatedContent[weekIndex][dayIndex].posts.map(
-            (post: any) => ({
+            (post: Post) => ({
               ...post,
               approved: isApproved,
             })
           );
           updatedContent[weekIndex][dayIndex].approved = isApproved;
-          setStats((prevStats: any) => ({
+          setStats((prevStats: Stats) => ({
             ...prevStats,
             approved: prevStats.approved + unapprovedCount,
             ready_for_review: prevStats.ready_for_review - unapprovedCount,
@@ -185,13 +191,13 @@ const ContentLibrary = ({
           }
           updatedContent[weekIndex][dayIndex].posts[postIndex].approved = isApproved;
           if (isApproved === true) {
-            setStats((prevStats: any) => ({
+            setStats((prevStats: Stats) => ({
               ...prevStats, // Spread the previous state to keep all other values
               approved: prevStats.approved + 1, // Increment only the approved field
               ready_for_review: prevStats.ready_for_review - 1,
             }));
           } else {
-            setStats((prevStats: any) => ({
+            setStats((prevStats: Stats) => ({
               ...prevStats, // Spread the previous state to keep all other values
               approved: prevStats.approved - 1, // Increment only the approved field
               ready_for_review: prevStats.ready_for_review + 1,
@@ -235,7 +241,7 @@ const ContentLibrary = ({
             Array.from({ length: 7 }).map((_, index) => <SkeletonSocialMediaPost key={index} />)
           : weeksContent.length > 0 &&
             weeksContent[currentPage - 1] &&
-            weeksContent[currentPage - 1]?.map((val: any, index: number) => (
+            weeksContent[currentPage - 1]?.map((val: Day, index: number) => (
               <DayBanner
                 brandName={brandName}
                 content={val}

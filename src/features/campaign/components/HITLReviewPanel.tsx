@@ -59,7 +59,7 @@ const HITLReviewPanel: React.FC<HITLReviewPanelProps> = ({
   const [loading, setLoading] = useState<{ [key: string]: boolean }>({});
   const [error, setError] = useState<string | null>(null);
 
-  const { profile } = useAuth();
+  const { } = useAuth();
 
   const handleApprove = useCallback(
     async (itemId: string) => {
@@ -184,8 +184,8 @@ const HITLReviewPanel: React.FC<HITLReviewPanelProps> = ({
     }
 
     // Simple diff display - in production, use a proper diff library
-    const original = item.originalContent.split(' ');
-    const current = item.content.split(' ');
+    const _original = item.originalContent.split(' ');
+    const _current = item.content.split(' ');
 
     return (
       <Box sx={{ mb: 1 }}>
