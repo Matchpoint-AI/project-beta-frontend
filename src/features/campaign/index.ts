@@ -1,4 +1,5 @@
 // Campaign feature exports
+// Components
 export { default as ABTestDemo } from './components/ABTestDemo';
 export { default as CampaignStepsBar } from './components/CampaignStepsBar';
 export { default as CustomComponent } from './components/CustomComponent';
@@ -23,3 +24,8 @@ export { default as QualityScoreIndicator } from './components/QualityScoreIndic
 export { default as ModifyPrompt } from './components/ModifyPrompt';
 export { default as ContentLibrary } from './components/ContentLibrary';
 export { default as CampaignStats } from './components/CampaignStats';
+export { default as CampaignBriefTimingBlock } from './components/CampaignBriefTimingBlock';
+export { default as CampaignObjective } from './components/CampaignObjective';
+export { default as CampaignSchedule } from './components/CampaignSchedule';
+export { default as StepComponentCampaign } from './components/StepComponentCampaign';
+export { default as UserCampaignsData } from './components/UserCampaignsData';

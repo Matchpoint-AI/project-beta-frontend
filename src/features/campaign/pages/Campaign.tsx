@@ -1,20 +1,21 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { CampaignStepsBar, CustomComponent } from '../features/campaign';
-import ErrorToast from '../components/shared/ErrorToast';
-import AudienceForm from '../components/Forms/AudienceForm';
-import CampaignBriefForm from '../components/Forms/CampaignBriefForm';
-import PurposeForm from '../components/Forms/PurposeForm';
-import ServiceForm from '../components/onboard/ServiceForm';
-import TimingForm from '../components/Forms/TimingForm';
-import Sidebar from '../components/shared/Sidebar';
-import { useAuth } from '../features/auth/context/AuthContext';
-import { BrandContext } from '../context/BrandContext';
-import { CampaignContext } from '../context/CampaignContext';
-import { getServiceURL } from '../helpers/getServiceURL';
-import { displayPeriod } from '../helpers/calculateTiming';
-import handleNavigate from '../helpers/handleNavigate';
-import { trackCampaignBriefCreation, trackFeatureUsage } from '../helpers/analytics';
+import CampaignStepsBar from '../components/CampaignStepsBar';
+import CustomComponent from '../components/CustomComponent';
+import ErrorToast from '../../../components/shared/ErrorToast';
+import AudienceForm from '../../../components/Forms/AudienceForm';
+import CampaignBriefForm from '../../../components/Forms/CampaignBriefForm';
+import PurposeForm from '../../../components/Forms/PurposeForm';
+import ServiceForm from '../../../components/onboard/ServiceForm';
+import TimingForm from '../../../components/Forms/TimingForm';
+import Sidebar from '../../../components/shared/Sidebar';
+import { useAuth } from '../../auth/context/AuthContext';
+import { BrandContext } from '../../../context/BrandContext';
+import { CampaignContext } from '../../../context/CampaignContext';
+import { getServiceURL } from '../../../helpers/getServiceURL';
+import { displayPeriod } from '../../../helpers/calculateTiming';
+import handleNavigate from '../../../helpers/handleNavigate';
+import { trackCampaignBriefCreation, trackFeatureUsage } from '../../../helpers/analytics';
 
 interface CampaignInfo {
   currentStep?: number;

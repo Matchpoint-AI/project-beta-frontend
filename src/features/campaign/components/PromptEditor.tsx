@@ -3,7 +3,7 @@ import ResetPromptBtn from './ResetPromptBtn';
 import Dropdown from '../../../components/shared/Dropdown';
 import { useAuth } from '../../../features/auth/context/AuthContext';
 import SavePromptBtn from './SavePromptBtn';
-import { Prompt } from '../../pages/PromptSettings';
+import { Prompt } from '../../../pages/PromptSettings';
 
 interface PromptEditorProps {
   promptsArr: Prompt[];

@@ -3,7 +3,7 @@ import Dialog from '@mui/material/Dialog';
 import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
 import { CircularProgress } from '@mui/material';
-import { Messages } from '../../pages/UserDataPage';
+import { Messages } from '../../../pages/UserDataPage';
 import { ClearIcon } from '@mui/x-date-pickers/icons';
 import { getServiceURL } from '../../../helpers/getServiceURL';
 import { useAuth } from '../../../features/auth/context/AuthContext';
