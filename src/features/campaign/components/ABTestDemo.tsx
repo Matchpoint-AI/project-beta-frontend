@@ -1,13 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Button,
-  Box,
-  Card,
-  CardContent,
-  Typography,
-  Grid,
-  Chip,
-} from '@mui/material';
+import { Button, Box, Card, CardContent, Typography, Grid, Chip } from '@mui/material';
 import { FaFlask, FaPlay, FaChartBar } from 'react-icons/fa';
 import ABTestVariantComparison from './ABTestVariantComparison';
 
