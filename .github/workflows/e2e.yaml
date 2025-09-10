@@ -7,8 +7,38 @@ on:
     branches: [main]
 
 jobs:
+  # Basic validation checks - must pass before building image
+  validation:
+    name: Validation Checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check formatting
+        run: npm run format:check
+
+      - name: Run linting
+        run: npm run lint
+
+      - name: Type checking
+        run: npm run type-check
+
+      - name: Run unit tests
+        run: npm run test:run
+
   build-app:
     name: Build Application
+    needs: validation # Only build if validation passes
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -40,7 +70,7 @@ jobs:
 
   e2e-tests:
     name: E2E Tests (${{ matrix.browser }} - Shard ${{ matrix.shard }})
-    needs: build-app
+    needs: [validation, build-app] # Must pass validation and have built app
     runs-on: ubuntu-latest
     container:
       image: mcr.microsoft.com/playwright:v1.55.0-noble
@@ -189,6 +219,7 @@ jobs:
 
   smoke-tests:
     name: Smoke Tests (Quick Validation)
+    needs: validation # Only run smoke tests if validation passes
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code

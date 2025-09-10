@@ -35,14 +35,23 @@ on:
     branches: [main]
 
 jobs:
+  validation:
+    runs-on: ubuntu-latest
+    steps:
+      - Check formatting (prettier)
+      - Run linting (eslint)
+      - Type checking (tsc)
+      - Run unit tests (vitest)
+
   build-app:
+    needs: validation # Only build if validation passes
     runs-on: ubuntu-latest
     steps:
       - Build application Docker image
       - Save image as artifact
 
   e2e-tests:
-    needs: build-app
+    needs: [validation, build-app] # Must pass all checks
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -579,10 +588,22 @@ docker-compose -f docker-compose.e2e.yml run tests npx playwright test --debug
 
 #### Progressive Testing Strategy
 
-1. **Smoke Tests on Every Push**: Quick validation of critical paths (2-3 min)
-2. **Full Suite on PRs**: Complete test coverage before merge (10-15 min)
-3. **Extended Tests Nightly**: Including performance and cross-browser tests
-4. **Production Smoke Tests**: Post-deployment validation
+1. **Validation First**: All basic checks (format, lint, types, unit tests) must pass before E2E
+2. **Smoke Tests on Every Push**: Quick validation of critical paths (2-3 min)
+3. **Full Suite on PRs**: Complete test coverage before merge (10-15 min)
+4. **Extended Tests Nightly**: Including performance and cross-browser tests
+5. **Production Smoke Tests**: Post-deployment validation
+
+#### Fail-Fast Approach
+
+Following project-beta-api's pattern, the workflow is designed to fail fast:
+
+- **Format/Lint/Type Check**: ~2 minutes, catches basic issues immediately
+- **Unit Tests**: ~3 minutes, validates business logic
+- **Docker Build**: ~5 minutes, only runs if validation passes
+- **E2E Tests**: ~15 minutes, only runs if build succeeds
+
+This prevents wasting CI resources on expensive E2E tests when basic validation fails.
 
 #### Failure Handling
 
