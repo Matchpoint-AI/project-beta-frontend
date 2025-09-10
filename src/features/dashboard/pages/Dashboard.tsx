@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import Sidebar from '../../../components/shared/Sidebar';
 import { useAuth } from '../../auth/context/AuthContext';
 import { getServiceURL } from '../../../helpers/getServiceURL';
-import { BrandContext } from '../../../context/BrandContext';
+import { BrandContext } from '../../brand/context/BrandContext';
 import { CircularProgress } from '@mui/material';
 import { RiErrorWarningLine } from 'react-icons/ri';
 import CampaignsList from '../components/CampaignsList';

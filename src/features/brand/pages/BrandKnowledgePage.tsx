@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Container, Typography, Box, Stepper, Step, StepLabel } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import BrandKnowledgeForm from '../components/Forms/BrandKnowledgeForm';
+import BrandKnowledgeForm from '../components/BrandKnowledgeForm';
 
 const steps = ['Extract Knowledge', 'Review & Edit', 'Save & Apply'];
 

@@ -10,7 +10,7 @@ import ServiceForm from '../../../components/onboard/ServiceForm';
 import TimingForm from '../../../components/Forms/TimingForm';
 import Sidebar from '../../../components/shared/Sidebar';
 import { useAuth } from '../../auth/context/AuthContext';
-import { BrandContext } from '../../../context/BrandContext';
+import { BrandContext } from '../../brand/context/BrandContext';
 import { CampaignContext } from '../../../context/CampaignContext';
 import { getServiceURL } from '../../../helpers/getServiceURL';
 import { displayPeriod } from '../../../helpers/calculateTiming';

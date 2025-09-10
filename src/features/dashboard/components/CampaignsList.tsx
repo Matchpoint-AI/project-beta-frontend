@@ -4,7 +4,7 @@ import Dropdown from '../../../components/shared/Dropdown';
 import PromotionComponent from '../../../components/PromotionComponent';
 import { useNavigate } from 'react-router-dom';
 import { CampaignContext } from '../../../context/CampaignContext';
-import { BrandContext } from '../../../context/BrandContext';
+import { BrandContext } from '../../brand/context/BrandContext';
 import handleNavigate from '../../../helpers/handleNavigate';
 import { useAuth } from '../../auth/context/AuthContext';
 

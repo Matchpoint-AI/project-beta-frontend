@@ -14,8 +14,8 @@ export type { ProtoServiceConfig, RequestOptions } from './proto-service';
 // API Services
 export { campaignApiV2, CampaignStatus, GenerationStatus } from './campaign-api';
 export type { CampaignApiV2 } from './campaign-api';
-export { brandApiV2 } from './brand-api';
-export type { BrandApiV2 } from './brand-api';
+export { brandApiV2 } from '../../features/brand/api/brand-api';
+export type { BrandApiV2 } from '../../features/brand/api/brand-api';
 
 // Re-export types for convenience
 export type {
@@ -49,7 +49,7 @@ export type {
   CrawlWebsiteResponse,
   ExtractBrandInfoRequest,
   ExtractBrandInfoResponse,
-} from './brand-api';
+} from '../../features/brand/api/brand-api';
 
 /**
  * Initialize V2 API system

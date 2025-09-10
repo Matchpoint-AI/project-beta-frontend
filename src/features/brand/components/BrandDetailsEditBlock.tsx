@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
-import BrandDetailsInput from './shared/Inputs/BrandDetailsInput';
-import { Chip } from '../helpers/convertToChips';
-import PurpleButton from './shared/Buttons/PurpleButton';
+import BrandDetailsInput from '../../../components/shared/Inputs/BrandDetailsInput';
+import { Chip } from '../../../helpers/convertToChips';
+import PurpleButton from '../../../components/shared/Buttons/PurpleButton';
 import { BrandContext } from '../context/BrandContext';
 
 interface BrandDetailsEditBlockProps {

@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
-import { BrandContext } from '../../context/BrandContext';
-import scrapeBrandWebsite from '../../helpers/scrapeBrandWebsite';
+import { BrandContext } from '../../features/brand/context/BrandContext';
+import scrapeBrandWebsite from '../../features/brand/utils/scrapeBrandWebsite';
 // import { ConnectInstagram } from "./ConnectToInstagram";
 import { ScrapeWebsiteBtn } from '../ScrapeWebsiteBtn';
 import isUrl from 'is-url';
