@@ -8,7 +8,7 @@ interface Props {
 }
 
 const CampaignObjective: React.FC<Props> = ({ title, objective, onEdit }) => {
-  const { campaignInfo }: any = useContext(CampaignContext);
+  const { campaignInfo }: { campaignInfo: unknown } = useContext(CampaignContext);
 
   return (
     <div className="flex items-center gap-4 mb-2 p-4 bg-gray-100 rounded-md">

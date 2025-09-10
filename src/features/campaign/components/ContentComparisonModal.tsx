@@ -18,7 +18,7 @@ import {
   Switch,
   FormControlLabel,
 } from '@mui/material';
-import { FaSave, FaTimes, FaUndo, FaRedo, FaCopy } from 'react-icons/fa';
+import { FaSave, FaTimes, FaUndo, FaCopy } from 'react-icons/fa';
 import { MdFullscreen, MdFullscreenExit } from 'react-icons/md';
 
 interface ContentVersion {

@@ -6,7 +6,6 @@ import React from 'react';
 import { render, screen, waitFor, fireEvent, within } from '@testing-library/react';
 import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
 import PerformancePredictionDashboard from './PerformancePredictionDashboard';
-import { performanceApi } from '../../api/performanceApi';
 import { useAuth } from '../../features/auth/context/AuthContext';
 
 // Mock the dependencies
@@ -23,7 +22,7 @@ describe('PerformancePredictionDashboard', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    (useAuth as any).mockReturnValue({
+    (useAuth as jest.MockedFunction<typeof useAuth>).mockReturnValue({
       profile: mockProfile,
       isAuthenticated: true,
     });
@@ -245,7 +244,7 @@ describe('PerformancePredictionDashboard', () => {
   });
 
   it('handles missing authentication gracefully', async () => {
-    (useAuth as any).mockReturnValue({
+    (useAuth as jest.MockedFunction<typeof useAuth>).mockReturnValue({
       profile: null,
       isAuthenticated: false,
     });
@@ -263,7 +262,7 @@ describe('PerformancePredictionDashboard', () => {
 
     await waitFor(() => {
       const highConfidenceChips = screen.getAllByText(/8[5-9]% confidence|9\d% confidence/);
-      const mediumConfidenceChips = screen.getAllByText(/7[0-9]% confidence|8[0-4]% confidence/);
+      const _mediumConfidenceChips = screen.getAllByText(/7[0-9]% confidence|8[0-4]% confidence/);
 
       // At least some high confidence predictions should exist
       expect(highConfidenceChips.length).toBeGreaterThan(0);

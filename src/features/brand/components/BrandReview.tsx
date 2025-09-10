@@ -5,7 +5,12 @@ import { BrandContext } from '../context/BrandContext';
 import Sidebar from '../../../components/shared/Sidebar';
 import { FaEdit } from 'react-icons/fa';
 
-export default function BrandReview({ toggleEdit, hasBrand }: any) {
+interface BrandReviewProps {
+  toggleEdit: () => void;
+  hasBrand: boolean;
+}
+
+export default function BrandReview({ toggleEdit, hasBrand }: BrandReviewProps) {
   const { businessInfo } = useContext(BrandContext);
 
   return (

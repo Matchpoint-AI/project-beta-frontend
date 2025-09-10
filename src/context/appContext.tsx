@@ -3,7 +3,7 @@ import useIntegrationApi, { getAvailableIntegrations } from '../api/api-integrat
 
 type TAppContext = {
   integrations: {
-    data: any;
+    data: unknown;
     loading: boolean;
     error: string | null;
     triggerRequest: () => void;

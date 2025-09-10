@@ -18,8 +18,13 @@ vi.mock('react-router-dom', () => ({
 }));
 
 // Mock the FormsContainer component
+interface FormsContainerProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
 vi.mock('../shared/FormsContainer', () => ({
-  default: ({ children, className }: any) => (
+  default: ({ children, className }: FormsContainerProps) => (
     <div className={className} data-testid="forms-container">
       {children}
     </div>
@@ -27,8 +32,12 @@ vi.mock('../shared/FormsContainer', () => ({
 }));
 
 // Mock the BackButton component
+interface BackButtonProps {
+  onClick: () => void;
+}
+
 vi.mock('../shared/Buttons/BackButton', () => ({
-  default: ({ onClick }: any) => (
+  default: ({ onClick }: BackButtonProps) => (
     <button onClick={onClick} data-testid="back-button">
       Back
     </button>
@@ -36,8 +45,12 @@ vi.mock('../shared/Buttons/BackButton', () => ({
 }));
 
 // Mock the ApproveButton component
+interface ApproveButtonProps {
+  onClick: () => void;
+}
+
 vi.mock('../shared/Buttons/ApproveButton', () => ({
-  default: ({ onClick }: any) => (
+  default: ({ onClick }: ApproveButtonProps) => (
     <button onClick={onClick} data-testid="approve-button">
       Approve
     </button>
@@ -45,8 +58,14 @@ vi.mock('../shared/Buttons/ApproveButton', () => ({
 }));
 
 // Mock other components
+interface CampaignSetupCompleteDialogProps {
+  open: boolean;
+  onClose: () => void;
+  setCurrentStep: (step: number) => void;
+}
+
 vi.mock('../campaign/CampaignSetupCompleteDialog', () => ({
-  default: ({ open, onClose, setCurrentStep }: any) =>
+  default: ({ open, onClose, setCurrentStep: _setCurrentStep }: CampaignSetupCompleteDialogProps) =>
     open ? (
       <div data-testid="campaign-setup-complete-dialog" onClick={onClose}>
         Campaign Setup Complete
@@ -54,8 +73,13 @@ vi.mock('../campaign/CampaignSetupCompleteDialog', () => ({
     ) : null,
 }));
 
+interface CustomDialogProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
 vi.mock('../campaign/CustomDialog', () => ({
-  default: ({ isOpen, onClose }: any) =>
+  default: ({ isOpen, onClose }: CustomDialogProps) =>
     isOpen ? (
       <div data-testid="custom-dialog" onClick={onClose}>
         Custom Dialog
@@ -63,8 +87,13 @@ vi.mock('../campaign/CustomDialog', () => ({
     ) : null,
 }));
 
+interface CampaignBriefTimingBlockProps {
+  title: string;
+  children: React.ReactNode;
+}
+
 vi.mock('../CampaignBriefTimingBlock', () => ({
-  default: ({ title, children }: any) => (
+  default: ({ title, children }: CampaignBriefTimingBlockProps) => (
     <div data-testid="timing-block">
       <h3>{title}</h3>
       {children}
@@ -72,8 +101,13 @@ vi.mock('../CampaignBriefTimingBlock', () => ({
   ),
 }));
 
+interface CampaignDetailsBlockProps {
+  title: string;
+  text: string;
+}
+
 vi.mock('../campaign/CampaignDetailsBlock', () => ({
-  default: ({ title, text }: any) => (
+  default: ({ title, text }: CampaignDetailsBlockProps) => (
     <div data-testid="campaign-details-block">
       <h4>{title}</h4>
       <p>{text}</p>
@@ -91,10 +125,10 @@ vi.mock('../CampaignSchedule', () => ({
 
 // Mock dayjs
 vi.mock('dayjs', () => ({
-  default: (date?: any) => ({
-    format: (format: string) => '01/01/24',
+  default: (_date?: string | Date | number) => ({
+    format: (_format: string) => '01/01/24',
     add: () => ({
-      format: (format: string) => '01/15/24',
+      format: (_format: string) => '01/15/24',
     }),
   }),
 }));
@@ -165,7 +199,7 @@ describe('CampaignBriefForm', () => {
             ],
           },
         }),
-    });
+    }) as jest.Mock;
   });
 
   it('renders campaign brief form correctly', () => {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Day, Week } from '../../types/ContentLibrary';
+import { Week } from '../../types/ContentLibrary';
 // import { useAuth } from "../../../features/auth/context/AuthContext";
 // import { getServiceURL } from "../../../helpers/getServiceURL";
 // import { useParams } from "react-router-dom";

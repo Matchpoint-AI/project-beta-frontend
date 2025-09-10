@@ -13,8 +13,6 @@ import {
   Chip,
   IconButton,
   Tooltip,
-  Switch,
-  FormControlLabel,
   Grid,
   LinearProgress,
   Avatar,
@@ -25,7 +23,7 @@ import {
   InputLabel,
 } from '@mui/material';
 import { FaSave, FaTimes, FaCopy, FaPlay, FaPause } from 'react-icons/fa';
-import { MdFullscreen, MdFullscreenExit, MdThumbUp, MdThumbDown } from 'react-icons/md';
+import { MdFullscreen, MdFullscreenExit, MdThumbUp } from 'react-icons/md';
 import { TrendingUp, TrendingDown, TrendingFlat } from '@mui/icons-material';
 
 interface PerformanceMetrics {
@@ -73,7 +71,7 @@ interface ABTestVariantComparisonProps {
   isOpen: boolean;
   onClose: () => void;
   testConfig: ABTestConfig;
-  onSaveVariant: (variantId: string, content: any, notes?: string) => Promise<void>;
+  onSaveVariant: (variantId: string, content: unknown, notes?: string) => Promise<void>;
   onUpdateTrafficAllocation: (allocations: { [variantId: string]: number }) => Promise<void>;
   onStartTest: () => Promise<void>;
   onPauseTest: () => Promise<void>;
@@ -87,11 +85,11 @@ const ABTestVariantComparison: React.FC<ABTestVariantComparisonProps> = ({
   onClose,
   testConfig,
   onSaveVariant,
-  onUpdateTrafficAllocation,
+  onUpdateTrafficAllocation: _onUpdateTrafficAllocation,
   onStartTest,
   onPauseTest,
   onDeclareWinner,
-  onCreateVariant,
+  onCreateVariant: _onCreateVariant,
   title = 'A/B Test Variant Comparison',
 }) => {
   const [selectedVariants, setSelectedVariants] = useState<string[]>([]);
@@ -99,9 +97,9 @@ const ABTestVariantComparison: React.FC<ABTestVariantComparisonProps> = ({
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [editingVariant, setEditingVariant] = useState<string | null>(null);
-  const [editedContent, setEditedContent] = useState<any>({});
+  const [editedContent, setEditedContent] = useState<Record<string, unknown>>({});
   const [editNotes, setEditNotes] = useState('');
-  const [newVariantDialogOpen, setNewVariantDialogOpen] = useState(false);
+  const [_newVariantDialogOpen, _setNewVariantDialogOpen] = useState(false);
 
   // Auto-select first two variants for comparison
   React.useEffect(() => {
@@ -110,7 +108,7 @@ const ABTestVariantComparison: React.FC<ABTestVariantComparisonProps> = ({
     }
   }, [testConfig.variants, selectedVariants]);
 
-  const selectedVariantObjects = useMemo(() => {
+  const _selectedVariantObjects = useMemo(() => {
     return selectedVariants
       .map((id) => testConfig.variants.find((v) => v.id === id))
       .filter(Boolean) as ABTestVariant[];
@@ -501,7 +499,7 @@ const ABTestVariantComparison: React.FC<ABTestVariantComparisonProps> = ({
               <InputLabel>View Mode</InputLabel>
               <Select
                 value={viewMode}
-                onChange={(e) => setViewMode(e.target.value as any)}
+                onChange={(e) => setViewMode(e.target.value as 'comparison' | 'performance' | 'traffic')}
                 label="View Mode"
               >
                 <MenuItem value="comparison">Comparison</MenuItem>

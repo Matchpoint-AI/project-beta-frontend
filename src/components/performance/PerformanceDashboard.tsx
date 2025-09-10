@@ -13,7 +13,7 @@ import {
   Legend,
   ArcElement,
 } from 'chart.js';
-import { Line, Bar, Doughnut } from 'react-chartjs-2';
+import { Bar, Doughnut } from 'react-chartjs-2';
 import { AlertTriangle, TrendingUp, TrendingDown, Minus, Activity } from 'lucide-react';
 
 import { performanceApi } from '../../api/performanceApi';
@@ -116,7 +116,7 @@ const AlertBadge: React.FC<{ severity: Alert['severity'] }> = ({ severity }) => 
 
 export const PerformanceDashboard: React.FC = () => {
   const [selectedTimeRange, setSelectedTimeRange] = useState(24);
-  const [selectedMetricType, setSelectedMetricType] = useState<string>('');
+  const [_selectedMetricType, _setSelectedMetricType] = useState<string>('');
 
   // State for data
   const [metricsSummaries, setMetricsSummaries] = useState<Record<string, MetricsSummary>>({});

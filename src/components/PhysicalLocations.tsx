@@ -1,19 +1,19 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { SparklesMessage } from './shared/SparklesMessage';
 import ZipCodeInput from './shared/Inputs/ZipCodeInput';
-import { BrandContext } from '../features/brand/context/BrandContext';
+import { BrandContext, BusinessInfo } from '../features/brand/context/BrandContext';
 
 interface PhysicalLocationsProps {
   physicalLocations: string[];
-  setPhysicalLocations: any;
+  setPhysicalLocations: (locations: string[]) => void;
 }
 
 export default function NoPhysicalLocations(props: PhysicalLocationsProps) {
-  const { businessInfo, setBusinessInfo }: any = useContext(BrandContext);
+  const { businessInfo, setBusinessInfo } = useContext(BrandContext);
   const [checkZip, setCheckZip] = useState<boolean>(false);
 
   const handleCheckBox = async () => {
-    setBusinessInfo((prev: any) => ({
+    setBusinessInfo((prev: BusinessInfo) => ({
       ...prev,
       checkZip: !checkZip,
     }));
@@ -62,13 +62,13 @@ export default function NoPhysicalLocations(props: PhysicalLocationsProps) {
 
 export function PhysicalLocationsFound(props: PhysicalLocationsProps) {
   const [checkZip, setCheckZip] = useState<boolean>(false);
-  const { businessInfo, setBusinessInfo }: any = useContext(BrandContext);
+  const { businessInfo, setBusinessInfo } = useContext(BrandContext);
 
   const handleCheckBox = async () => {
-    setBusinessInfo((prev: any) => {
-      prev.checkZip = !checkZip;
-      return prev;
-    });
+    setBusinessInfo((prev: BusinessInfo) => ({
+      ...prev,
+      checkZip: !checkZip,
+    }));
     setCheckZip(!checkZip);
   };
 

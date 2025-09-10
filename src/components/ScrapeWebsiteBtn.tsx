@@ -3,10 +3,15 @@ import { CircularProgress } from '@mui/material';
 import { BrandContext } from '../features/brand/context/BrandContext';
 import { SparklesMessage } from './shared/SparklesMessage';
 
+interface ErrorState {
+  error: boolean;
+  message?: string;
+}
+
 interface ScrapeWebsiteBtnProps {
   handleSubmit: () => void;
-  nameError: any;
-  websiteError: any;
+  nameError: ErrorState;
+  websiteError: ErrorState;
   progressDescription: string;
   scrapingError: boolean;
 }

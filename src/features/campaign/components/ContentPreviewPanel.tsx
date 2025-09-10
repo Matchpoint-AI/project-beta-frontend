@@ -1,21 +1,16 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Box,
   Card,
   CardContent,
   Typography,
   IconButton,
-  Tabs,
-  Tab,
   Paper,
-  Divider,
   Button,
   ButtonGroup,
   Chip,
   Grid,
-  Tooltip,
   Zoom,
-  Fade,
   CircularProgress,
   useTheme,
   alpha,
@@ -37,7 +32,7 @@ import {
   FaLinkedinIn,
   FaPinterestP,
 } from 'react-icons/fa';
-import { IoMdCheckmark } from 'react-icons/io';
+// import { IoMdCheckmark } from 'react-icons/io';
 import { BiRefresh } from 'react-icons/bi';
 import AutoAwesomeOutlinedIcon from '@mui/icons-material/AutoAwesomeOutlined';
 

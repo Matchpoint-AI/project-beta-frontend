@@ -4,11 +4,8 @@
 
 import React, { useState, useEffect } from 'react';
 import {
-  FaTrendingUp as TrendingUp,
-  FaTrendingDown as TrendingDown,
   FaExclamationCircle as AlertCircle,
   FaBullseye as Target,
-  FaCalendarAlt as Calendar,
   FaUsers as Users,
   FaHeart as Heart,
   FaCommentAlt as MessageCircle,
@@ -20,7 +17,6 @@ import {
   FaChevronDown as ChevronDown,
 } from 'react-icons/fa';
 import { CircularProgress, LinearProgress, Chip } from '@mui/material';
-import { performanceApi } from '../../api/performanceApi';
 import { useAuth } from '../../features/auth/context/AuthContext';
 
 // Performance visualization component without external chart dependencies
@@ -59,7 +55,7 @@ const PerformancePredictionDashboard: React.FC = () => {
   const { profile } = useAuth();
   const [loading, setLoading] = useState(true);
   const [timeRange, setTimeRange] = useState('7d');
-  const [selectedMetric, setSelectedMetric] = useState('engagement');
+  const [_selectedMetric, _setSelectedMetric] = useState('engagement');
   const [predictions, setPredictions] = useState<PredictionMetric[]>([]);
   const [campaignPredictions, setCampaignPredictions] = useState<CampaignPrediction[]>([]);
   const [contentPerformance, setContentPerformance] = useState<ContentPerformance[]>([]);

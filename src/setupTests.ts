@@ -29,9 +29,9 @@ try {
 // Polyfill for crypto.getRandomValues
 Object.defineProperty(globalThis, 'crypto', {
   value: {
-    getRandomValues: (arr: any) => {
-      if (typeof require !== 'undefined') {
-        const crypto = require('crypto');
+    getRandomValues: (arr: Uint8Array | Uint16Array | Uint32Array) => {
+      if (typeof globalThis !== 'undefined' && globalThis.require) {
+        const crypto = globalThis.require('crypto');
         if (crypto.randomFillSync) {
           crypto.randomFillSync(arr);
           return arr;
@@ -44,8 +44,8 @@ Object.defineProperty(globalThis, 'crypto', {
       return arr;
     },
     randomUUID: () => {
-      if (typeof require !== 'undefined') {
-        const crypto = require('crypto');
+      if (typeof globalThis !== 'undefined' && globalThis.require) {
+        const crypto = globalThis.require('crypto');
         if (crypto.randomUUID) {
           return crypto.randomUUID();
         }
