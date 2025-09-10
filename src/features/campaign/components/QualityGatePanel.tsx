@@ -55,14 +55,14 @@ const QualityGatePanel: React.FC<QualityGatePanelProps> = ({
   itemId,
   itemType,
   content,
-  metadata,
+  metadata: _metadata,
   onRecheck,
   className,
 }) => {
   const [result, setResult] = useState<QualityGateResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const { profile } = useAuth();
+  const { } = useAuth();
 
   // Mock quality gate analysis - in production, this would call the actual quality gate service
   const performQualityCheck = useCallback(async (): Promise<QualityGateResult> => {

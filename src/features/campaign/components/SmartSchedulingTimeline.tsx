@@ -28,7 +28,6 @@ import {
   TrendingUp,
   Edit,
   Add,
-  Delete,
   Analytics,
   SmartToy,
   Info,
@@ -83,7 +82,7 @@ const addTime = (date: Date, amount: number, unit: 'week' | 'day'): Date => {
   return newDate;
 };
 
-const subtractTime = (date: Date, amount: number, unit: 'day'): Date => {
+const subtractTime = (date: Date, amount: number, _unit: 'day'): Date => {
   const newDate = new Date(date);
   newDate.setDate(newDate.getDate() - amount);
   return newDate;
@@ -136,7 +135,7 @@ const STATUS_COLORS = {
 };
 
 const SmartSchedulingTimeline: React.FC<TimelineProps> = ({
-  campaignId,
+  campaignId: _campaignId,
   startDate,
   duration,
   postsPerWeek,
@@ -158,7 +157,7 @@ const SmartSchedulingTimeline: React.FC<TimelineProps> = ({
   const generateOptimalSchedule = useCallback((): ScheduleEvent[] => {
     const schedule: ScheduleEvent[] = [];
     const start = parseDate(startDate);
-    const postingTimes = getPostingScheduleArray(postsPerWeek);
+    const _postingTimes = getPostingScheduleArray(postsPerWeek);
 
     // AI-optimized time slots based on engagement data
     const aiOptimizedTimes = [

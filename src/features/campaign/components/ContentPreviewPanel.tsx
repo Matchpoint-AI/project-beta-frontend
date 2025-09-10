@@ -122,7 +122,7 @@ const ContentPreviewPanel: React.FC<ContentPreviewPanelProps> = ({
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const PlatformIcon = platformStyles[selectedPlatform].icon;
+  const _PlatformIcon = platformStyles[selectedPlatform].icon;
   const platformColor = platformStyles[selectedPlatform].color;
   const maxChars = platformStyles[selectedPlatform].maxChars;
 

@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import PaginationImage from './PaginationImage';
 import { useAuth } from '../../../features/auth/context/AuthContext';
 import { getServiceURL } from '../../../helpers/getServiceURL';
-import { Button, CircularProgress, Dialog, DialogContent, Menu, MenuItem } from '@mui/material';
+import { CircularProgress, Dialog, DialogContent, Menu, MenuItem } from '@mui/material';
 import ErrorToast from '../../../components/shared/ErrorToast';
 import moment from 'moment-timezone';
 import { FaCheck } from 'react-icons/fa';
@@ -58,7 +58,7 @@ interface SocialMediaPostProps {
 const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
   const {
     day,
-    setOpen,
+    setOpen: _setOpen,
     content,
     id,
     week,

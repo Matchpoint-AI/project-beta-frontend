@@ -1,3 +1,4 @@
+import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 import LanguageSelector from './LanguageSelector';
@@ -18,7 +19,7 @@ describe('LanguageSelector', () => {
   });
 
   it('renders with custom selected language', () => {
-    const { container } = render(
+    render(
       <LanguageSelector selectedLanguage="es" onLanguageChange={mockOnLanguageChange} />
     );
 
