@@ -1,1 +1,56 @@
-{"version":"1.6.1","results":[[":src/components/cost/CostOptimizationDashboard.test.tsx",{"duration":0,"failed":true}],[":src/features/campaign/components/SocialMediaPost.test.tsx",{"duration":0,"failed":true}],[":src/api/contentGenerationApi.test.ts",{"duration":10,"failed":false}],[":src/components/performance/SmartInsightsPanel.test.tsx",{"duration":0,"failed":true}],[":src/features/campaign/components/CampaignSetupCompleteDialog.test.tsx",{"duration":0,"failed":true}],[":src/components/onboard/ServiceForm.test.tsx",{"duration":400,"failed":false}],[":src/components/performance/PerformancePredictionDashboard.test.tsx",{"duration":0,"failed":true}],[":src/features/campaign/components/ModifyPrompt.test.tsx",{"duration":848,"failed":false}],[":src/components/shared/VersionDisplay.test.tsx",{"duration":331,"failed":true}],[":src/features/campaign/components/ContentPreviewPanel.test.tsx",{"duration":6070,"failed":false}],[":src/components/Forms/CampaignBriefForm.test.tsx",{"duration":0,"failed":true}],[":src/features/dashboard/components/CampaignsList.test.tsx",{"duration":0,"failed":true}],[":src/features/campaign/pages/CampaignContent.test.tsx",{"duration":0,"failed":true}],[":src/components/PromotionComponent.test.tsx",{"duration":0,"failed":true}],[":src/features/dashboard/pages/Dashboard.test.tsx",{"duration":0,"failed":true}],[":src/components/Forms/PurposeForm.test.tsx",{"duration":0,"failed":true}],[":src/helpers/scrapeBrandWebsite.test.ts",{"duration":3,"failed":false}],[":src/features/campaign/components/HITLReview.test.tsx",{"duration":97,"failed":false}],[":src/features/campaign/components/LanguageSelector.test.tsx",{"duration":226,"failed":false}],[":src/features/auth/context/AuthContext.test.tsx",{"duration":0,"failed":true}],[":src/features/campaign/components/SmartSchedulingTimeline.test.tsx",{"duration":58,"failed":false}],[":src/utils/errorBoundary.test.tsx",{"duration":59,"failed":false}],[":src/features/campaign/components/QualityScoreIndicator.test.tsx",{"duration":3220,"failed":true}],[":src/App.test.tsx",{"duration":0,"failed":true}]]}
+{
+  "version": "1.6.1",
+  "results": [
+    [":src/components/cost/CostOptimizationDashboard.test.tsx", { "duration": 0, "failed": true }],
+    [
+      ":src/features/campaign/components/SocialMediaPost.test.tsx",
+      { "duration": 0, "failed": true }
+    ],
+    [":src/api/contentGenerationApi.test.ts", { "duration": 10, "failed": false }],
+    [":src/components/performance/SmartInsightsPanel.test.tsx", { "duration": 0, "failed": true }],
+    [
+      ":src/features/campaign/components/CampaignSetupCompleteDialog.test.tsx",
+      { "duration": 0, "failed": true }
+    ],
+    [":src/components/onboard/ServiceForm.test.tsx", { "duration": 400, "failed": false }],
+    [
+      ":src/components/performance/PerformancePredictionDashboard.test.tsx",
+      { "duration": 0, "failed": true }
+    ],
+    [
+      ":src/features/campaign/components/ModifyPrompt.test.tsx",
+      { "duration": 848, "failed": false }
+    ],
+    [":src/components/shared/VersionDisplay.test.tsx", { "duration": 331, "failed": true }],
+    [
+      ":src/features/campaign/components/ContentPreviewPanel.test.tsx",
+      { "duration": 6070, "failed": false }
+    ],
+    [":src/components/Forms/CampaignBriefForm.test.tsx", { "duration": 0, "failed": true }],
+    [
+      ":src/features/dashboard/components/CampaignsList.test.tsx",
+      { "duration": 0, "failed": true }
+    ],
+    [":src/features/campaign/pages/CampaignContent.test.tsx", { "duration": 0, "failed": true }],
+    [":src/components/PromotionComponent.test.tsx", { "duration": 0, "failed": true }],
+    [":src/features/dashboard/pages/Dashboard.test.tsx", { "duration": 0, "failed": true }],
+    [":src/components/Forms/PurposeForm.test.tsx", { "duration": 0, "failed": true }],
+    [":src/helpers/scrapeBrandWebsite.test.ts", { "duration": 3, "failed": false }],
+    [":src/features/campaign/components/HITLReview.test.tsx", { "duration": 97, "failed": false }],
+    [
+      ":src/features/campaign/components/LanguageSelector.test.tsx",
+      { "duration": 226, "failed": false }
+    ],
+    [":src/features/auth/context/AuthContext.test.tsx", { "duration": 0, "failed": true }],
+    [
+      ":src/features/campaign/components/SmartSchedulingTimeline.test.tsx",
+      { "duration": 58, "failed": false }
+    ],
+    [":src/utils/errorBoundary.test.tsx", { "duration": 59, "failed": false }],
+    [
+      ":src/features/campaign/components/QualityScoreIndicator.test.tsx",
+      { "duration": 3220, "failed": true }
+    ],
+    [":src/App.test.tsx", { "duration": 0, "failed": true }]
+  ]
+}
