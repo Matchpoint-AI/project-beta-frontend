@@ -6,16 +6,22 @@ import {
 } from 'firebase/auth';
 import { useAuthentication } from '../../firebase';
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import posthog from '../../helpers/posthog';
 import { useAuth } from '../context/AuthContext';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import { getServiceURL } from '../../helpers/getServiceURL';
 import { FirebaseError } from 'firebase/app';
 import registerUser from '../../helpers/registerUser';
 import { CircularProgress } from '@mui/material';
 
-export default function AuthForm({ login = false, setAuthError }) {
+interface AuthFormProps {
+  login?: boolean;
+  setAuthError: (error: string | React.ReactElement) => void;
+}
+
+export default function AuthForm({ login = false, setAuthError }: AuthFormProps) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -25,7 +31,7 @@ export default function AuthForm({ login = false, setAuthError }) {
   const [confirmPass, setConfirmPass] = useState('');
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false); // Loading state
-  const navigate = useNavigate();
+  // const navigate = useNavigate(); // Removed unused variable
   const cookies = new Cookies();
   const data_url = getServiceURL('data');
 
@@ -312,3 +318,8 @@ export default function AuthForm({ login = false, setAuthError }) {
     </form>
   );
 }
+
+AuthForm.propTypes = {
+  login: PropTypes.bool,
+  setAuthError: PropTypes.func.isRequired,
+};

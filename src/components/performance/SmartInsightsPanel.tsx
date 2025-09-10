@@ -4,10 +4,8 @@ import React, { useState, useEffect } from 'react';
 import {
   AlertTriangle,
   TrendingUp,
-  TrendingDown,
   Lightbulb,
   Target,
-  Clock,
   CheckCircle,
   XCircle,
   Info,
@@ -16,7 +14,6 @@ import {
   Settings,
 } from 'lucide-react';
 
-import { performanceApi } from '../../api/performanceApi';
 
 interface SmartInsight {
   id: string;
@@ -32,7 +29,7 @@ interface SmartInsight {
   recommendations: string[];
   automated_actions: string[];
   related_metrics: string[];
-  metadata: Record<string, any>;
+  metadata: Record<string, unknown>;
   created_at: string;
 }
 
@@ -749,7 +746,7 @@ export const SmartInsightsPanel: React.FC = () => {
             return (
               <button
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id as any)}
+                onClick={() => setActiveTab(tab.id as 'insights' | 'predictions' | 'recommendations' | 'summary')}
                 className={`flex items-center gap-2 py-2 px-1 border-b-2 font-medium text-sm ${
                   activeTab === tab.id
                     ? 'border-blue-500 text-blue-600'

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAuth } from '../../features/auth/context/AuthContext';
 import ContentOverlay from './ContentOverlay';
@@ -17,8 +17,8 @@ const ContentLibrary = ({
   campaign,
   setStats,
 }: {
-  campaign: any;
-  setStats: React.Dispatch<React.SetStateAction<any>>;
+  campaign: unknown;
+  setStats: React.Dispatch<React.SetStateAction<unknown>>;
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [open, setOpen] = React.useState(0);

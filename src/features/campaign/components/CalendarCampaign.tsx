@@ -1,7 +1,7 @@
 // Calendar.tsx
 
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { Calendar, momentLocalizer, ToolbarProps } from 'react-big-calendar';
+import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import CampaignToolBar from './CampaignToolBar';

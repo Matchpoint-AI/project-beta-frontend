@@ -8,7 +8,17 @@ import { FirebaseError } from 'firebase/app';
 import posthog from '../helpers/posthog';
 import { useAuth } from '../features/auth/context/AuthContext';
 
-export default function PasswordResetForm({ setOpenToast }: { setOpenToast: any }) {
+interface ToastState {
+  open: boolean;
+  error: boolean;
+  message: string;
+}
+
+interface PasswordResetFormProps {
+  setOpenToast: (toast: ToastState) => void;
+}
+
+export default function PasswordResetForm({ setOpenToast }: PasswordResetFormProps) {
   const [params] = useSearchParams();
   const { auth } = useAuthentication();
   const [password, setPassword] = useState('');
@@ -41,7 +51,7 @@ export default function PasswordResetForm({ setOpenToast }: { setOpenToast: any 
       if (!code) return navigate('/reset-password');
 
       verifyPasswordResetCode(auth!, code)
-        .then((email) => {
+        .then((_email) => {
           confirmPasswordReset(auth!, code, password)
             .then(() => {
               setOpenToast({

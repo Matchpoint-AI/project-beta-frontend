@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor, cleanup } from '@testing-library/react';
+import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { BrowserRouter } from 'react-router-dom';
 import PromotionComponent from './PromotionComponent';
@@ -15,12 +15,31 @@ vi.mock('./dashboard/CardStats', () => ({
   default: ({ id }: { id: string }) => <div data-testid="card-stats">Stats for {id}</div>,
 }));
 
+interface Campaign {
+  campaign_id: string;
+  thread_id?: string;
+  campaign_data?: {
+    campaign_variables?: {
+      [key: string]: unknown;
+    };
+  };
+}
+
+interface CampaignReviewButtonProps {
+  campaign: Campaign;
+}
+
 vi.mock('./dashboard/CampaignReviewButton', () => ({
-  default: ({ campaign }: any) => <button data-testid="review-button">Review Campaign</button>,
+  default: ({ campaign: _campaign }: CampaignReviewButtonProps) => <button data-testid="review-button">Review Campaign</button>,
 }));
 
+interface CampaignThreadWinProps {
+  open: boolean;
+  onClose: () => void;
+}
+
 vi.mock('./campaign/CampaignThreadWin', () => ({
-  default: ({ open, onClose }: any) =>
+  default: ({ open, onClose: _onClose }: CampaignThreadWinProps) =>
     open ? <div data-testid="thread-win">Thread Window</div> : null,
 }));
 
@@ -35,13 +54,19 @@ vi.mock('../hooks/useFetchThreadMessages', () => ({
   ],
 }));
 
+interface LinkProps {
+  to: string;
+  children: React.ReactNode;
+  [key: string]: unknown;
+}
+
 const mockNavigate = vi.fn();
 vi.mock('react-router-dom', async () => {
   const actual = await vi.importActual('react-router-dom');
   return {
     ...actual,
     useNavigate: () => mockNavigate,
-    Link: ({ to, children, ...props }: any) => (
+    Link: ({ to, children, ...props }: LinkProps) => (
       <a href={to} data-testid="campaign-link" {...props}>
         {children}
       </a>
