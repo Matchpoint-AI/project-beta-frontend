@@ -14,7 +14,6 @@ import {
   Settings,
 } from 'lucide-react';
 
-
 interface SmartInsight {
   id: string;
   insight_type: string;
@@ -746,7 +745,9 @@ export const SmartInsightsPanel: React.FC = () => {
             return (
               <button
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id as 'insights' | 'predictions' | 'recommendations' | 'summary')}
+                onClick={() =>
+                  setActiveTab(tab.id as 'insights' | 'predictions' | 'recommendations' | 'summary')
+                }
                 className={`flex items-center gap-2 py-2 px-1 border-b-2 font-medium text-sm ${
                   activeTab === tab.id
                     ? 'border-blue-500 text-blue-600'

@@ -12,7 +12,7 @@ import {
 import { FaCheck, FaTimes, FaEdit, FaRedo, FaEye, FaEyeSlash } from 'react-icons/fa';
 // import { MdCompare, MdHistory } from 'react-icons/md';
 import { useAuth } from '../../../features/auth/context/AuthContext';
-import ErrorToast from '../../../components/shared/ErrorToast';
+import ErrorToast from '../../../shared/components/feedback/ErrorToast';
 
 export interface ContentItem {
   id: string;
@@ -59,7 +59,7 @@ const HITLReviewPanel: React.FC<HITLReviewPanelProps> = ({
   const [loading, setLoading] = useState<{ [key: string]: boolean }>({});
   const [error, setError] = useState<string | null>(null);
 
-  const { } = useAuth();
+  const {} = useAuth();
 
   const handleApprove = useCallback(
     async (itemId: string) => {

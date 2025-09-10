@@ -36,7 +36,7 @@ interface BackButtonProps {
   onClick: () => void;
 }
 
-vi.mock('../shared/Buttons/BackButton', () => ({
+vi.mock('../../shared/components/buttons/BackButton', () => ({
   default: ({ onClick }: BackButtonProps) => (
     <button onClick={onClick} data-testid="back-button">
       Back
@@ -49,7 +49,7 @@ interface ApproveButtonProps {
   onClick: () => void;
 }
 
-vi.mock('../shared/Buttons/ApproveButton', () => ({
+vi.mock('../../shared/components/buttons/ApproveButton', () => ({
   default: ({ onClick }: ApproveButtonProps) => (
     <button onClick={onClick} data-testid="approve-button">
       Approve
@@ -65,7 +65,11 @@ interface CampaignSetupCompleteDialogProps {
 }
 
 vi.mock('../campaign/CampaignSetupCompleteDialog', () => ({
-  default: ({ open, onClose, setCurrentStep: _setCurrentStep }: CampaignSetupCompleteDialogProps) =>
+  default: ({
+    open,
+    onClose,
+    setCurrentStep: _setCurrentStep,
+  }: CampaignSetupCompleteDialogProps) =>
     open ? (
       <div data-testid="campaign-setup-complete-dialog" onClick={onClose}>
         Campaign Setup Complete

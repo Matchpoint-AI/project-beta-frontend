@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 // import CampaignReviewButton from "./CampaignReviewButton";
 // import { useAuth } from "../../../features/auth/context/AuthContext";
 // import { getServiceURL } from "../../../helpers/getServiceURL";
-import InstaConnect from '../../../components/shared/Buttons/InstaConnect';
+import InstaConnect from '../../../shared/components/buttons/InstaConnect';
 import TabItems from './TabItems';
 // import CardStats from "./CardStats";
 import NewCardStats from '../dashboard/NewCardStats';

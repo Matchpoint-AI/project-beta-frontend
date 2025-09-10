@@ -13,9 +13,9 @@ import {
 } from '../../../helpers/exportUtils';
 import WeekSelector from './WeekSelector';
 import ExportButton from './ExportButton';
-import ErrorDisplay from '../ErrorDisplay';
+import ErrorDisplay from '../../../shared/components/feedback/ErrorDisplay';
 // import ApproveButton from '../ApproveButton';
-import ErrorToast from '../../../components/shared/ErrorToast';
+import ErrorToast from '../../../shared/components/feedback/ErrorToast';
 import ExportPopup from './ExportPopup';
 import { capitalizeFirstLetterOfEachWord, structureData } from '../../../helpers/formatters';
 import posthog from '../../../helpers/posthog';

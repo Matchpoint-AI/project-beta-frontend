@@ -30,7 +30,9 @@ interface CampaignReviewButtonProps {
 }
 
 vi.mock('./dashboard/CampaignReviewButton', () => ({
-  default: ({ campaign: _campaign }: CampaignReviewButtonProps) => <button data-testid="review-button">Review Campaign</button>,
+  default: ({ campaign: _campaign }: CampaignReviewButtonProps) => (
+    <button data-testid="review-button">Review Campaign</button>
+  ),
 }));
 
 interface CampaignThreadWinProps {

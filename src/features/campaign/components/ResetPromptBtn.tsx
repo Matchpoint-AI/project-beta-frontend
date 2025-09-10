@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { getServiceURL } from '../../../helpers/getServiceURL';
-import ErrorToast from '../../../components/shared/ErrorToast';
+import ErrorToast from '../../../shared/components/feedback/ErrorToast';
 import { CircularProgress } from '@mui/material';
 
 export default function ResetPromptBtn({

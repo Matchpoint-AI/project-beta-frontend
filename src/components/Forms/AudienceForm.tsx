@@ -3,11 +3,11 @@ import React, { FormEventHandler, useContext, useEffect, useState } from 'react'
 import { BrandContext } from '../../features/brand/context/BrandContext';
 import { CampaignContext } from '../../context/CampaignContext';
 import AgeDropdown from '../shared/AgeDropdown';
-import Dropdown from '../shared/Dropdown';
+import Dropdown from '../../shared/components/ui/Dropdown';
 // import CustomInput from "../shared/Inputs/CustomInput";
 import FormsContainer from '../shared/FormsContainer';
-import BackButton from '../shared/Buttons/BackButton';
-import NextButton from '../shared/Buttons/NextButton';
+import BackButton from '../../shared/components/buttons/BackButton';
+import NextButton from '../../shared/components/buttons/NextButton';
 import { getServiceURL } from '../../helpers/getServiceURL';
 import AudienceDetails from '../AudienceDetails';
 import posthog from '../../helpers/posthog';
