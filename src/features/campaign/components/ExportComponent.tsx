@@ -35,7 +35,7 @@ const ExportComponent = ({ campaign }: { campaign: CampaignInfoType }) => {
   // const [weeksData, setWeeksData] = useState([]);
   const [error, setError] = useState('');
   const [double, setDouble] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [_loading, _setLoading] = useState(false);
   const [errorSaving, setErrorSaving] = useState(false);
   const [errorText, setErrorText] = useState('');
   // const [contentId, setContentId] = useState("");
@@ -248,7 +248,7 @@ const ExportComponent = ({ campaign }: { campaign: CampaignInfoType }) => {
     setLoadingModalOpen(false);
   };
 
-  const handleApproveAll = async () => {
+  const _handleApproveAll = async () => {
     setError('');
     if (currentValues.length === 0) {
       setError('Specify Week Content To Be Approved');

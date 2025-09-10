@@ -5,7 +5,7 @@ import Chip from '@mui/joy/Chip';
 import ChipDelete from '@mui/joy/ChipDelete';
 // import Close from "@mui/icons-material/Close";
 import { useContext } from 'react';
-import { BrandContext } from '../../../context/BrandContext';
+import { BrandContext } from '../../../features/brand/context/BrandContext';
 
 interface ZipCodeInputProps {
   currentValues: string[] | undefined;

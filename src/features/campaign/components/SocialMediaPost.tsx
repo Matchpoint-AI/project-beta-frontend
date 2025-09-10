@@ -58,7 +58,7 @@ interface SocialMediaPostProps {
 const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
   const {
     day,
-    setOpen,
+    setOpen: _setOpen,
     content,
     id,
     week,

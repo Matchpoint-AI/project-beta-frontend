@@ -2,7 +2,7 @@ import React, { useState, useContext, ChangeEventHandler, useEffect } from 'reac
 import FormInputBox from './FormInputBox';
 import { LinkSymbol } from '../ui/LinkSymbol';
 import ClearIcon from '@mui/icons-material/Clear';
-import { BrandContext } from '../../../context/BrandContext';
+import { BrandContext } from '../../../features/brand/context/BrandContext';
 import { useAuth } from '../../../features/auth/context/AuthContext';
 
 interface FormErrorState {

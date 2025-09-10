@@ -4,7 +4,7 @@ import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { BrowserRouter } from 'react-router-dom';
 import CampaignsList from './CampaignsList';
 import { AuthContext } from '../../auth/context/AuthContext';
-import { BrandContext } from '../../../context/BrandContext';
+import { BrandContext } from '../../brand/context/BrandContext';
 import { CampaignContext } from '../../../context/CampaignContext';
 
 // Mock the modules

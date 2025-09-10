@@ -2,9 +2,9 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Sidebar from '../shared/Sidebar';
-import { BrandContext } from '../../context/BrandContext';
+import { BrandContext } from '../../features/brand/context/BrandContext';
 import CustomComponent from '../campaign/CustomComponent';
-import BrandForm from '../onboard/BrandForm';
+import BrandForm from '../../features/brand/components/BrandForm';
 import ReviewForm from '../onboard/ReviewForm';
 import { CampaignContext } from '../../context/CampaignContext';
 import OnboardStepsBar from '../onboard/OnboardStepsBar';

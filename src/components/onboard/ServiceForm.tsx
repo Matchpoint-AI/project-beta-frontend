@@ -9,7 +9,7 @@ import React, {
 } from 'react';
 import Dropdown from '../../shared/components/ui/Dropdown';
 import { CampaignContext } from '../../context/CampaignContext';
-import { BrandContext } from '../../context/BrandContext';
+import { BrandContext } from '../../features/brand/context/BrandContext';
 import FormsContainer from '../shared/FormsContainer';
 import WebsiteOwnership from '../WebsiteOwnership';
 import NextButton from '../../shared/components/buttons/NextButton';

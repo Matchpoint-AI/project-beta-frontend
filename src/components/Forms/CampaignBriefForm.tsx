@@ -2,7 +2,7 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useContext, useEffect, useState } from 'react';
-import { BrandContext } from '../../context/BrandContext';
+import { BrandContext } from '../../features/brand/context/BrandContext';
 import { CampaignContext } from '../../context/CampaignContext';
 import CustomDialog from '../../features/campaign/components/CustomDialog';
 import { useNavigate } from 'react-router-dom';

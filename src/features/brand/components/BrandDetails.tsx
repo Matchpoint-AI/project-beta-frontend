@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
-import { SparklesMessage } from '../../shared/components/ui/SparklesMessage';
+import { SparklesMessage } from '../../../shared/components/ui/SparklesMessage';
 import BrandDetailsBlock from './BrandDetailsBlock';
 import BrandMissionBlock from './BrandMissionBlock';
-import { BrandContext } from '../../context/BrandContext';
+import { BrandContext } from '../context/BrandContext';
 
 export default function BrandDetails() {
   const { businessInfo } = useContext(BrandContext);

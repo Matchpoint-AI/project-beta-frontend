@@ -17,13 +17,13 @@ import {
   Collapse,
 } from '@mui/material';
 import { LuPlus, LuTrash2, LuChevronDown, LuChevronUp } from 'react-icons/lu';
-import { AuthContext } from '../../features/auth/context/AuthContext';
-import { BrandContext } from '../../context/BrandContext';
-import FormsContainer from '../shared/FormsContainer';
-import NextButton from '../../shared/components/buttons/NextButton';
-import BackButton from '../../shared/components/buttons/BackButton';
-// import ColorPicker from '../../shared/components/ui/ColorPicker';
-import { getServiceURL } from '../../helpers/getServiceURL';
+import { AuthContext } from '../../auth/context/AuthContext';
+import { BrandContext } from '../context/BrandContext';
+import FormsContainer from '../../../components/shared/FormsContainer';
+import NextButton from '../../../shared/components/buttons/NextButton';
+import BackButton from '../../../shared/components/buttons/BackButton';
+// import ColorPicker from '../../../shared/components/ui/ColorPicker';
+import { getServiceURL } from '../../../helpers/getServiceURL';
 
 // Types matching backend brand_knowledge.py models
 interface BrandPersonality {

@@ -1,18 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { FormEventHandler, useContext, useEffect, useState } from 'react';
-import FileInput from '../../shared/components/inputs/FileInput';
-import { BrandContext } from '../../context/BrandContext';
-import ColorPicker from '../../shared/components/ui/ColorPicker';
-import FormsContainer from '../shared/FormsContainer';
-import ColorSpan from '../../shared/components/ui/ColorSpan';
+import FileInput from '../../../shared/components/inputs/FileInput';
+import { BrandContext } from '../context/BrandContext';
+import ColorPicker from '../../../shared/components/ui/ColorPicker';
+import FormsContainer from '../../../components/shared/FormsContainer';
+import ColorSpan from '../../../shared/components/ui/ColorSpan';
 import * as pdfjsLib from 'pdfjs-dist';
 import pdfWorker from 'pdfjs-dist/build/pdf.worker.mjs?worker&url';
 import CircularProgress from '@mui/material/CircularProgress';
-import BackButton from '../../shared/components/buttons/BackButton';
-import NextButton from '../../shared/components/buttons/NextButton';
-import { getServiceURL } from '../../helpers/getServiceURL';
+import BackButton from '../../../shared/components/buttons/BackButton';
+import NextButton from '../../../shared/components/buttons/NextButton';
+import { getServiceURL } from '../../../helpers/getServiceURL';
 import { LuPlus } from 'react-icons/lu';
-import { trackBrandGuideUpload } from '../../helpers/analytics';
+import { trackBrandGuideUpload } from '../../../helpers/analytics';
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker;
 
