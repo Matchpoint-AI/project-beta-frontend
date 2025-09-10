@@ -19,6 +19,7 @@
     "@uiw/react-color": "^2.3.0",
     "axios": "^1.7.7",
     "canvas": "3.0.1",
+    "chart.js": "^4.5.0",
     "color-convert": "^2.0.1",
     "css-loader": "^7.1.2",
     "dayjs": "^1.11.12",
@@ -33,6 +34,7 @@
     "is-url": "^1.2.4",
     "jspdf": "^2.5.2",
     "jszip": "^3.10.1",
+    "lucide-react": "^0.543.0",
     "moment": "^2.30.1",
     "moment-timezone": "^0.5.46",
     "mui-chips-input": "^2.1.5",
@@ -47,6 +49,7 @@
     "rc-steps": "^6.0.1",
     "react": "^18.2.0",
     "react-big-calendar": "^1.13.4",
+    "react-chartjs-2": "^5.3.0",
     "react-colorful": "^5.6.1",
     "react-datepicker": "^6.8.0",
     "react-dom": "^18.2.0",
@@ -88,9 +91,6 @@
   "devDependencies": {
     "@bazel/rollup": "^5.8.1",
     "@bazel/runfiles": "^5.8.1",
-    "@vitest/coverage-v8": "^1.2.0",
-    "vitest": "^1.2.0",
-    "prettier": "^3.2.4",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^14.5.2",
@@ -107,6 +107,7 @@
     "@typescript-eslint/eslint-plugin": "6.21.0",
     "@typescript-eslint/parser": "6.21.0",
     "@vitejs/plugin-react": "^4.2.1",
+    "@vitest/coverage-v8": "^1.2.0",
     "autoprefixer": "^10.4.19",
     "buffer": "^6.0.3",
     "esbuild": "^0.23.0",
@@ -121,12 +122,14 @@
     "jest-environment-jsdom": "29.3.1",
     "jest-junit": "16.0.0",
     "jest-transform-stub": "2.0.0",
+    "prettier": "^3.2.4",
     "ts-node": "^10.9.2",
     "tsconfig-to-swcconfig": "^2.8.1",
     "tsx": "^4.19.3",
     "typescript": "^5.6.3",
     "vite": "^5.4.10",
-    "vite-plugin-svgr": "^4.2.0"
+    "vite-plugin-svgr": "^4.2.0",
+    "vitest": "^1.2.0"
   },
   "pnpm": {
     "onlyBuiltDependencies": [

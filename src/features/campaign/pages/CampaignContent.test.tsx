@@ -3,38 +3,38 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { BrowserRouter } from 'react-router-dom';
 import CampaignContent from './CampaignContent';
-import { AuthContext } from '../features/auth/context/AuthContext';
-import { CampaignContext } from '../context/CampaignContext';
-import handleNavigate from '../helpers/handleNavigate';
+import { AuthContext } from '../../auth/context/AuthContext';
+import { CampaignContext } from '../../../context/CampaignContext';
+import handleNavigate from '../../../helpers/handleNavigate';
 
 // Mock the modules
-vi.mock('../helpers/getServiceURL', () => ({
+vi.mock('../../../helpers/getServiceURL', () => ({
   getServiceURL: vi.fn(() => 'http://localhost:8080'),
 }));
 
-vi.mock('../helpers/calculateTiming', () => ({
+vi.mock('../../../helpers/calculateTiming', () => ({
   displayDuration: vi.fn(() => 'Dec 1 - Dec 28, 2024'),
   getPostingSchedule: vi.fn(() => 'Daily'),
 }));
 
-vi.mock('../helpers/formatters', () => ({
+vi.mock('../../../helpers/formatters', () => ({
   capitalizeFirstLetterOfEachWord: vi.fn((str) => str),
 }));
 
-vi.mock('../helpers/analytics', () => ({
+vi.mock('../../../helpers/analytics', () => ({
   trackContentReview: vi.fn(),
   trackCampaignPublish: vi.fn(),
 }));
 
-vi.mock('../helpers/handleNavigate', () => ({
+vi.mock('../../../helpers/handleNavigate', () => ({
   default: vi.fn(),
 }));
 
-vi.mock('../components/shared/Sidebar', () => ({
+vi.mock('../../../components/shared/Sidebar', () => ({
   default: () => <div data-testid="sidebar">Sidebar</div>,
 }));
 
-vi.mock('../components/campaign/CampaignHeader', () => ({
+vi.mock('../components/CampaignHeader', () => ({
   default: ({ handleNavigate }: { handleNavigate: () => void }) => (
     <div data-testid="campaign-header" onClick={handleNavigate}>
       Campaign Header
@@ -42,15 +42,15 @@ vi.mock('../components/campaign/CampaignHeader', () => ({
   ),
 }));
 
-vi.mock('../components/campaign/ButtonGroup', () => ({
+vi.mock('../components/ButtonGroup', () => ({
   default: () => <div data-testid="button-group">Button Group</div>,
 }));
 
-vi.mock('../components/campaign/ApprovePopup', () => ({
+vi.mock('../components/ApprovePopup', () => ({
   default: () => <div data-testid="approve-popup">Approve Popup</div>,
 }));
 
-vi.mock('../components/campaign/TabWrapper', () => ({
+vi.mock('../components/TabWrapper', () => ({
   default: () => <div data-testid="tab-wrapper">Tab Wrapper</div>,
 }));
 
