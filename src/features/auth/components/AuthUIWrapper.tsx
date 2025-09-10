@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import AuthForm from './AuthForm';
-import ErrorToast from '../shared/ErrorToast';
+import ErrorToast from '../../../shared/components/feedback/ErrorToast';
 
 const AuthUIWrapper = ({ login = false }: { login: boolean }) => {
   const [authError, setAuthError] = useState<string | React.JSX.Element>('');

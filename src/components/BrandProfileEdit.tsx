@@ -5,8 +5,8 @@ import { LuFileMinus } from 'react-icons/lu';
 import { useAuth } from '../features/auth/context/AuthContext';
 import { BrandContext } from '../context/BrandContext';
 import { getServiceURL } from '../helpers/getServiceURL';
-import PurpleButton from './shared/Buttons/PurpleButton';
-import BrandDetailsInput from './shared/Inputs/BrandDetailsInput';
+import PurpleButton from '../shared/components/buttons/PurpleButton';
+import BrandDetailsInput from '../shared/components/inputs/BrandDetailsInput';
 import Sidebar from './shared/Sidebar';
 
 const description = {

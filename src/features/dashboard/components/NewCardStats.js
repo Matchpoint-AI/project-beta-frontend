@@ -1,0 +1,127 @@
+import { jsx as _jsx, jsxs as _jsxs } from 'react/jsx-runtime';
+import { GoClock } from 'react-icons/go';
+import { FaCheckCircle } from 'react-icons/fa';
+import { RiExportLine } from 'react-icons/ri';
+var NewCardStats = function (_a) {
+  var id = _a.id,
+    stats = _a.stats;
+  return _jsxs('div', {
+    className: 'flex sm:flex-row flex-col  items-start gap-4 w-full',
+    children: [
+      _jsxs('div', {
+        className: 'flex flex-row gap-4 items-center justify-center',
+        children: [
+          _jsxs('div', {
+            className: 'text-center flex items-center justify-center gap-3',
+            children: [
+              _jsx('p', {
+                className: 'text-[#6B7280] font-semibold text-xs',
+                children: 'Total Content',
+              }),
+              _jsxs('p', {
+                className:
+                  'text-xs font-bold bg-[#E1EFFE] text-[#1E429F] w-10 h-6 rounded-md flex items-center justify-evenly',
+                children: [
+                  _jsx('img', { src: '/collection.svg' }),
+                  stats === null || stats === void 0 ? void 0 : stats.total_content,
+                ],
+              }),
+            ],
+          }),
+          _jsxs('div', {
+            className: 'text-center flex justify-center items-center gap-3',
+            children: [
+              _jsx('p', {
+                className: 'text-[#6B7280] font-semibold text-xs',
+                children: 'Generating',
+              }),
+              _jsxs('p', {
+                className:
+                  'text-xs font-bold bg-[#FBD5D5] text-[#8E4B10] w-10 h-6 rounded-md flex items-center justify-evenly',
+                children: [
+                  _jsx('img', { src: '/ai.svg' }),
+                  stats === null || stats === void 0 ? void 0 : stats.generating,
+                ],
+              }),
+            ],
+          }),
+        ],
+      }),
+      _jsxs('div', {
+        className: 'flex flex-row items-center justify-center gap-4',
+        children: [
+          _jsxs('div', {
+            className: 'text-center flex justify-center items-center gap-3',
+            children: [
+              _jsx('p', {
+                className: 'text-[#6B7280] font-semibold text-xs',
+                children: 'Ready For Review',
+              }),
+              _jsxs('p', {
+                className:
+                  'text-xs font-bold bg-[#FDF6B2] text-[#8E4B10] w-10 h-6 rounded-md flex items-center justify-evenly',
+                children: [
+                  _jsx(GoClock, {}),
+                  stats === null || stats === void 0 ? void 0 : stats.ready_for_review,
+                ],
+              }),
+            ],
+          }),
+          _jsxs('div', {
+            className: 'text-center flex items-center justify-center gap-3',
+            children: [
+              _jsx('p', {
+                className: 'text-[#6B7280] font-semibold text-xs',
+                children: 'Approved',
+              }),
+              _jsxs('p', {
+                className:
+                  'text-xs font-bold bg-[#DEF7EC] text-[#03543F] w-10 h-6 rounded-md flex items-center justify-evenly',
+                children: [
+                  _jsx(FaCheckCircle, { className: 'text-[#0E9F6E]' }),
+                  stats === null || stats === void 0 ? void 0 : stats.approved,
+                ],
+              }),
+            ],
+          }),
+        ],
+      }),
+      _jsx('div', {
+        className: 'flex flex-row items-center justify-center gap-4',
+        children: _jsxs('div', {
+          className: 'text-center flex justify-center items-center gap-3',
+          children: [
+            _jsx('p', { className: 'text-[#6B7280] font-semibold text-xs', children: 'Published' }),
+            _jsxs('p', {
+              className:
+                'text-xs font-bold bg-[#82FFC9] text-[#046C4E] w-10 h-6 rounded-md flex items-center justify-evenly',
+              children: [
+                _jsx('img', { src: '/publish.svg', className: 'w-[10px] h-[10px]' }),
+                stats === null || stats === void 0 ? void 0 : stats.published,
+              ],
+            }),
+          ],
+        }),
+      }),
+      _jsx('div', {
+        className: 'flex flex-row items-center justify-center gap-4',
+        children: _jsxs('div', {
+          className: 'text-center flex justify-center items-center gap-3',
+          children: [
+            _jsx('p', { className: 'text-[#6B7280] font-semibold text-xs', children: 'Exported' }),
+            _jsxs('p', {
+              className:
+                'text-xs font-bold bg-[#f9ff82] text-[#6c6c04] w-10 h-6 rounded-md flex items-center justify-evenly',
+              children: [
+                _jsx(RiExportLine, { className: 'w-[14px] h-[14px]' }),
+                stats === null || stats === void 0 ? void 0 : stats.exported,
+              ],
+            }),
+          ],
+        }),
+      }),
+    ],
+  });
+};
+export default NewCardStats;
+//# sourceMappingURL=NewCardStats.js.map

@@ -1,8 +1,8 @@
 import React, { ChangeEventHandler, useContext, useEffect, useState } from 'react';
 import { BrandContext } from '../../context/BrandContext';
 import EditBlock from '../shared/EditBlock';
-import BrandDetailsInput from '../shared/Inputs/BrandDetailsInput';
-import PurpleButton from '../shared/Buttons/PurpleButton';
+import BrandDetailsInput from '../../shared/components/inputs/BrandDetailsInput';
+import PurpleButton from '../../shared/components/buttons/PurpleButton';
 
 export default function BrandIndustryBlock() {
   const [industry, setIndustry] = useState('');

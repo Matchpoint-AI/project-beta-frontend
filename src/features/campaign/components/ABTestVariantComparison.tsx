@@ -499,7 +499,9 @@ const ABTestVariantComparison: React.FC<ABTestVariantComparisonProps> = ({
               <InputLabel>View Mode</InputLabel>
               <Select
                 value={viewMode}
-                onChange={(e) => setViewMode(e.target.value as 'comparison' | 'performance' | 'traffic')}
+                onChange={(e) =>
+                  setViewMode(e.target.value as 'comparison' | 'performance' | 'traffic')
+                }
                 label="View Mode"
               >
                 <MenuItem value="comparison">Comparison</MenuItem>

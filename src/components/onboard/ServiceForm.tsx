@@ -7,17 +7,17 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import Dropdown from '../shared/Dropdown';
+import Dropdown from '../../shared/components/ui/Dropdown';
 import { CampaignContext } from '../../context/CampaignContext';
 import { BrandContext } from '../../context/BrandContext';
 import FormsContainer from '../shared/FormsContainer';
 import WebsiteOwnership from '../WebsiteOwnership';
-import NextButton from '../shared/Buttons/NextButton';
-import BackButton from '../shared/Buttons/BackButton';
+import NextButton from '../../shared/components/buttons/NextButton';
+import BackButton from '../../shared/components/buttons/BackButton';
 import KeyFeatures from '../onboard/KeyFeatures';
-import FormInputBox from '../shared/FormInputBox';
-import { SparklesMessage } from '../shared/SparklesMessage';
-import ErrorToast from '../shared/ErrorToast';
+import FormInputBox from '../../shared/components/inputs/FormInputBox';
+import { SparklesMessage } from '../../shared/components/ui/SparklesMessage';
+import ErrorToast from '../../shared/components/feedback/ErrorToast';
 import { CircularProgress } from '@mui/material';
 import { useAuth } from '../../features/auth/context/AuthContext';
 import scrapeProductDefault from './scrapeProduct';

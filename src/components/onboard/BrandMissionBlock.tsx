@@ -1,8 +1,8 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { BrandContext } from '../../context/BrandContext';
 import EditBlock from '../shared/EditBlock';
-import BrandDetailsInput from '../shared/Inputs/BrandDetailsInput';
-import PurpleButton from '../shared/Buttons/PurpleButton';
+import BrandDetailsInput from '../../shared/components/inputs/BrandDetailsInput';
+import PurpleButton from '../../shared/components/buttons/PurpleButton';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function BrandMissionBlock() {

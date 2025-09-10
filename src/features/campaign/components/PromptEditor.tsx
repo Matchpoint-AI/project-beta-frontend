@@ -1,6 +1,6 @@
 import React, { ChangeEventHandler, useEffect, useRef, useState } from 'react';
 import ResetPromptBtn from './ResetPromptBtn';
-import Dropdown from '../../../components/shared/Dropdown';
+import Dropdown from '../../../shared/components/ui/Dropdown';
 import { useAuth } from '../../../features/auth/context/AuthContext';
 import SavePromptBtn from './SavePromptBtn';
 import { Prompt } from '../../../pages/PromptSettings';
