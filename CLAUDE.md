@@ -123,6 +123,86 @@ Before creating a pull request, ensure your code meets the following standards:
    npm test
    ```
 
+### Test Writing Guidelines
+
+All tests in this project **MUST** follow the AAA (Arrange-Act-Assert) pattern for clarity and maintainability:
+
+#### AAA Pattern Structure
+
+```typescript
+describe('ComponentName', () => {
+  it('should do something specific', () => {
+    // Arrange - Set up test data, mocks, and initial state
+    const mockData = { id: 1, name: 'Test' };
+    const mockCallback = jest.fn();
+    
+    // Act - Execute the action being tested
+    const result = render(<Component data={mockData} onClick={mockCallback} />);
+    fireEvent.click(screen.getByRole('button'));
+    
+    // Assert - Verify the expected outcome
+    expect(mockCallback).toHaveBeenCalledTimes(1);
+    expect(screen.getByText('Test')).toBeInTheDocument();
+  });
+});
+```
+
+#### AAA Pattern Requirements
+
+1. **Clear Section Separation**: Use blank lines to separate Arrange, Act, and Assert sections
+2. **Comments**: Add `// Arrange`, `// Act`, and `// Assert` comments for complex tests
+3. **Single Responsibility**: Each test should test one specific behavior
+4. **Descriptive Names**: Test names should clearly describe what is being tested
+5. **Minimal Arrange**: Keep setup code focused on what's needed for the specific test
+
+#### Example Test Following AAA Pattern
+
+```typescript
+describe('UserProfile', () => {
+  it('should display user name when data is loaded', async () => {
+    // Arrange
+    const mockUser = { 
+      id: '123', 
+      name: 'John Doe', 
+      email: 'john@example.com' 
+    };
+    const mockFetch = jest.fn().mockResolvedValue(mockUser);
+    
+    // Act
+    render(<UserProfile userId="123" fetchUser={mockFetch} />);
+    await waitFor(() => screen.getByText('John Doe'));
+    
+    // Assert
+    expect(mockFetch).toHaveBeenCalledWith('123');
+    expect(screen.getByText('John Doe')).toBeInTheDocument();
+    expect(screen.getByText('john@example.com')).toBeInTheDocument();
+  });
+
+  it('should show error message when fetch fails', async () => {
+    // Arrange
+    const mockError = new Error('Network error');
+    const mockFetch = jest.fn().mockRejectedValue(mockError);
+    
+    // Act
+    render(<UserProfile userId="123" fetchUser={mockFetch} />);
+    await waitFor(() => screen.getByText('Error loading profile'));
+    
+    // Assert
+    expect(mockFetch).toHaveBeenCalledWith('123');
+    expect(screen.getByText('Error loading profile')).toBeInTheDocument();
+    expect(screen.queryByText('John Doe')).not.toBeInTheDocument();
+  });
+});
+```
+
+#### Benefits of AAA Pattern
+
+- **Readability**: Tests are easy to understand at a glance
+- **Maintainability**: Clear structure makes tests easier to update
+- **Debugging**: Failures are easier to diagnose when sections are clear
+- **Consistency**: All tests follow the same pattern across the codebase
+- **Documentation**: Tests serve as living documentation of component behavior
+
 ### Important Notes
 
 - The CI pipeline will automatically check formatting, linting, types, and tests

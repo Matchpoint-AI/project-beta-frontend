@@ -64,6 +64,12 @@ export default defineConfig({
         '**/mockData',
         '**/__mocks__',
       ],
+      thresholds: {
+        statements: 90,
+        branches: 90,
+        functions: 90,
+        lines: 90,
+      },
     },
     // Use threads pool which is more stable than forks
     pool: 'threads',

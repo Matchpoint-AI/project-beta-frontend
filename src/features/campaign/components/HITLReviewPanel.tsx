@@ -11,8 +11,8 @@ import {
 } from '@mui/material';
 import { FaCheck, FaTimes, FaEdit, FaRedo, FaEye, FaEyeSlash } from 'react-icons/fa';
 // import { MdCompare, MdHistory } from 'react-icons/md';
-// import { useAuth } from '../../../features/auth/context/AuthContext'; // Removed unused import
-import ErrorToast from '../../../components/shared/ErrorToast';
+import { useAuth } from '../../../features/auth/context/AuthContext';
+import ErrorToast from '../../../shared/components/feedback/ErrorToast';
 
 export interface ContentItem {
   id: string;
@@ -59,7 +59,7 @@ const HITLReviewPanel: React.FC<HITLReviewPanelProps> = ({
   const [loading, setLoading] = useState<{ [key: string]: boolean }>({});
   const [error, setError] = useState<string | null>(null);
 
-  // const { } = useAuth(); // Removed empty destructuring
+  const {} = useAuth();
 
   const handleApprove = useCallback(
     async (itemId: string) => {
@@ -67,7 +67,7 @@ const HITLReviewPanel: React.FC<HITLReviewPanelProps> = ({
         setLoading((prev) => ({ ...prev, [itemId]: true }));
         setError(null);
         await onApprove(itemId);
-      } catch (_err) {
+      } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to approve item');
       } finally {
         setLoading((prev) => ({ ...prev, [itemId]: false }));
@@ -83,7 +83,7 @@ const HITLReviewPanel: React.FC<HITLReviewPanelProps> = ({
         setError(null);
         await onReject(itemId, feedback[itemId]);
         setFeedback((prev) => ({ ...prev, [itemId]: '' }));
-      } catch (_err) {
+      } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to reject item');
       } finally {
         setLoading((prev) => ({ ...prev, [itemId]: false }));
@@ -109,7 +109,7 @@ const HITLReviewPanel: React.FC<HITLReviewPanelProps> = ({
         await onEdit(itemId, editContent);
         setEditingItem(null);
         setEditContent('');
-      } catch (_err) {
+      } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to edit item');
       } finally {
         setLoading((prev) => ({ ...prev, [itemId]: false }));
@@ -132,7 +132,7 @@ const HITLReviewPanel: React.FC<HITLReviewPanelProps> = ({
 
         await onRegenerate(itemId, targetedChanges);
         setFeedback((prev) => ({ ...prev, [itemId]: '' }));
-      } catch (_err) {
+      } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to regenerate item');
       } finally {
         setLoading((prev) => ({ ...prev, [itemId]: false }));

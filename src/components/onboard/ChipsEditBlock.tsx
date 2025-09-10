@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
-import BrandDetailsInput from '../shared/Inputs/BrandDetailsInput';
-import PurpleButton from '../shared/Buttons/PurpleButton';
+import BrandDetailsInput from '../../shared/components/inputs/BrandDetailsInput';
+import PurpleButton from '../../shared/components/buttons/PurpleButton';
 // import { TbArrowBackUp } from "react-icons/tb";
 import { CampaignContext } from '../../context/CampaignContext';
 

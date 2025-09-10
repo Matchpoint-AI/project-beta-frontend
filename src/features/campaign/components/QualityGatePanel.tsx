@@ -15,7 +15,7 @@ import {
 } from '@mui/material';
 import { FaExclamationTriangle, FaCheckCircle, FaInfoCircle } from 'react-icons/fa';
 import { MdExpandMore, MdRefresh } from 'react-icons/md';
-// import { useAuth } from '../../../features/auth/context/AuthContext'; // Removed unused import
+import { useAuth } from '../../../features/auth/context/AuthContext';
 
 export interface QualityCheck {
   id: string;
@@ -62,7 +62,7 @@ const QualityGatePanel: React.FC<QualityGatePanelProps> = ({
   const [result, setResult] = useState<QualityGateResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  // const { } = useAuth(); // Removed empty destructuring
+  const {} = useAuth();
 
   // Mock quality gate analysis - in production, this would call the actual quality gate service
   const performQualityCheck = useCallback(async (): Promise<QualityGateResult> => {
@@ -206,7 +206,7 @@ const QualityGatePanel: React.FC<QualityGatePanelProps> = ({
       const checkResult = onRecheck ? await onRecheck(itemId) : await performQualityCheck();
 
       setResult(checkResult);
-    } catch (_err) {
+    } catch (err) {
       setError(err instanceof Error ? err.message : 'Quality check failed');
     } finally {
       setLoading(false);
@@ -267,7 +267,7 @@ const QualityGatePanel: React.FC<QualityGatePanelProps> = ({
     );
   }
 
-  if (_error) {
+  if (error) {
     return (
       <Card className={className}>
         <CardContent>

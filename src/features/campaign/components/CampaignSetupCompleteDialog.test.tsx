@@ -380,7 +380,7 @@ describe('CampaignSetupCompleteDialog - Scene Mix Integration', () => {
 
     // Find the content generation call
     const contentGenCall = (global.fetch as jest.MockedFunction<typeof fetch>).mock.calls.find(
-      (call: unknown[]) => call[0].includes('/contentgen/generate')
+      (call: any) => call[0].includes('/contentgen/generate')
     );
 
     expect(contentGenCall).toBeDefined();
@@ -433,9 +433,7 @@ describe('CampaignSetupCompleteDialog - Scene Mix Integration', () => {
 
     // Verify legacy generation was called
     const legacyCall = (global.fetch as jest.MockedFunction<typeof fetch>).mock.calls.find(
-      (call: unknown[]) =>
-        (call[0] as string).includes('/contentgen/generate') &&
-        !(call[0] as string).includes('use_scene_mix')
+      (call: any) => call[0].includes('/contentgen/generate') && !call[0].includes('use_scene_mix')
     );
 
     expect(legacyCall).toBeDefined();

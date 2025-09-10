@@ -1,6 +1,6 @@
 // WeekSelector.tsx
 import React from 'react';
-import MyAutoComplete from '../../../components/shared/Inputs/MyAutoComplete';
+import MyAutoComplete from '../../../shared/components/inputs/MyAutoComplete';
 
 const WeekSelector = ({
   options,

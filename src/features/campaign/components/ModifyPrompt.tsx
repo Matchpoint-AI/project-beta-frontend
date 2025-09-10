@@ -35,7 +35,7 @@ const PurpleButton = styled(Button)(({ theme: _theme }) => ({
   },
 }));
 
-const CancelButton = styled(Button)(() => ({
+const CancelButton = styled(Button)(({ ...rest }) => ({
   backgroundColor: '#fce4ec',
   color: '#ad1457',
   padding: '0.5rem 2rem',
@@ -159,7 +159,7 @@ export default function ModifyPrompt({
             return;
           }
         } catch (fluxError) {
-          // Error handled silently
+          console.error('Flux generation failed, falling back to legacy:', fluxError);
         }
       }
 
@@ -191,12 +191,14 @@ export default function ModifyPrompt({
       regenerate(prompt);
       setOpen(false);
     } catch (e) {
+      console.error('Error:', e);
       setSubmited(false);
     }
   };
 
   const getImagePrompt = async () => {
     if (!profile?.token) {
+      console.warn('No authentication token available');
       return;
     }
 
@@ -216,6 +218,7 @@ export default function ModifyPrompt({
 
       if (!response.ok) {
         if (response.status === 401) {
+          console.warn('Authentication failed - token may be invalid or expired');
           // Clear the token and redirect to login
           const cookies = new Cookies();
           cookies.remove('access_token');
@@ -227,8 +230,8 @@ export default function ModifyPrompt({
 
       const { prompt } = await response.json();
       setPrompt(prompt);
-    } catch (_error) {
-      // Error handled silently
+    } catch (error) {
+      console.error('Error fetching image prompt:', error);
     }
   };
 
@@ -259,8 +262,8 @@ export default function ModifyPrompt({
         const data = await response.json();
         setRemainingGenerations(data.remaining);
       }
-    } catch (_error) {
-      // Error handled silently
+    } catch (error) {
+      console.error('Error fetching remaining generations:', error);
     }
   };
 

@@ -31,7 +31,7 @@ vi.mock('../../features/auth/context/AuthContext', () => ({
 }));
 
 // Mock the NextButton component
-vi.mock('../shared/Buttons/NextButton', () => ({
+vi.mock('../../shared/components/buttons/NextButton', () => ({
   default: ({ text, formId, disabled }: { text: string; formId: string; disabled: boolean }) => (
     <button type="submit" form={formId} disabled={disabled} data-testid="next-button">
       {text}
@@ -40,7 +40,7 @@ vi.mock('../shared/Buttons/NextButton', () => ({
 }));
 
 // Mock the BackButton component
-vi.mock('../shared/Buttons/BackButton', () => ({
+vi.mock('../../shared/components/buttons/BackButton', () => ({
   default: ({ onClick }: { onClick: () => void }) => (
     <button onClick={onClick} data-testid="back-button">
       Back
@@ -49,7 +49,7 @@ vi.mock('../shared/Buttons/BackButton', () => ({
 }));
 
 // Mock the Dropdown component
-vi.mock('../shared/Dropdown', () => ({
+vi.mock('../../shared/components/ui/Dropdown', () => ({
   default: ({
     options,
     currentValue,
@@ -92,7 +92,7 @@ vi.mock('../WebsiteOwnership', () => ({
 }));
 
 // Mock the ErrorToast component
-vi.mock('../shared/ErrorToast', () => ({
+vi.mock('../../shared/components/feedback/ErrorToast', () => ({
   default: ({ open, onClose, message }: { open: boolean; onClose: () => void; message: string }) =>
     open ? (
       <div data-testid="error-toast" onClick={onClose}>
@@ -116,7 +116,7 @@ vi.mock('../shared/FormsContainer', () => ({
 }));
 
 // Mock the FormInputBox component
-vi.mock('../shared/FormInputBox', () => ({
+vi.mock('../../shared/components/inputs/FormInputBox', () => ({
   default: ({
     children,
     styles,
