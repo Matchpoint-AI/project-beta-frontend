@@ -5,16 +5,8 @@
  * the V2 API while handling loading states and errors.
  */
 import { useState, useEffect, useCallback } from 'react';
+import { getAuth } from 'firebase/auth';
 import { initializeV2Api, campaignApiV2, brandApiV2 } from '../api/v2';
-
-// Conditionally import firebase auth
-let auth: any;
-try {
-  auth = require('../firebase-config').auth;
-} catch {
-  // Firebase might not be initialized in test environment
-  auth = { currentUser: null };
-}
 
 /**
  * Hook state interface
@@ -63,6 +55,7 @@ export function useV2Api() {
 
   // Get current user token
   const getToken = useCallback(async (): Promise<string> => {
+    const auth = getAuth();
     const user = auth.currentUser;
     if (!user) {
       throw new Error('User not authenticated');

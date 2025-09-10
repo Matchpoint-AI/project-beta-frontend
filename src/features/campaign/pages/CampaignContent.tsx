@@ -12,8 +12,6 @@ import TabWrapper from '../components/campaign/TabWrapper';
 import { trackContentReview, trackCampaignPublish } from '../helpers/analytics';
 import { CampaignContext, CampaignInfoType } from '../context/CampaignContext';
 import type { Campaign } from '../components/campaign/TabWrapper';
-import CampaignReviewButton from '../components/dashboard/CampaignReviewButton';
-import { Button } from '@mui/material';
 import handleNavigate from '../helpers/handleNavigate';
 
 const CampaignContent = () => {

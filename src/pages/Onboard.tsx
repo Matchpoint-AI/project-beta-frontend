@@ -1,15 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useAuth } from '../features/auth/context/AuthContext';
 import OnboardForms from '../components/onboard/OnboardForms';
-import BrandReview from '../components/onboard/BrandReview';
-import { trackOnboardingStep, trackOnboardingComplete } from '../helpers/analytics';
 import BrandProfileEdit from '../components/BrandProfileEdit';
 import { CircularProgress } from '@mui/material';
 
 const Onboard = () => {
   const { profile, isLoading } = useAuth();
-  const [startTime] = useState(Date.now());
   const [editSavedBrand, toggleEdit] = useState(false);
   if (isLoading) {
     return (
