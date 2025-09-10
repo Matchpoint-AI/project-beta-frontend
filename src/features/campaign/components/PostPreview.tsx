@@ -3,7 +3,7 @@ import PaginationImage from './PaginationImage';
 import { BsThreeDots } from 'react-icons/bs';
 import InstagramIcons from '../InstagramIcons';
 import Options from '../../../components/shared/Options';
-import { BrandContext } from '../../../context/BrandContext';
+import { BrandContext } from '../../brand/context/BrandContext';
 import ModifyPromptForm from './ModifyPromptForm';
 import { TiArrowMaximise } from 'react-icons/ti';
 import AutoAwesomeOutlinedIcon from '@mui/icons-material/AutoAwesomeOutlined';

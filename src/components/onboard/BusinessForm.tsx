@@ -1,15 +1,15 @@
 import React, { FormEventHandler, useContext, useEffect, useState } from 'react';
 
 import FormsContainer from '../shared/FormsContainer';
-import { BrandContext } from '../../context/BrandContext';
+import { BrandContext } from '../../features/brand/context/BrandContext';
 import WebsiteOwnership from '../WebsiteOwnership';
 import NextButton from '../shared/Buttons/NextButton';
 import IndustryVertical from '../onboard/IndustryVertical';
 import WebsiteScrapingForm from '../onboard/WebsiteScrapingForm';
-import BrandDetails from '../onboard/BrandDetails';
+import BrandDetails from '../../features/brand/components/BrandDetails';
 // import { ConnectInstagram } from "../ConnectToInstagram";
 import InstaConnect from '../shared/Buttons/InstaConnect';
-import type { Selectable } from '../../context/BrandContext';
+import type { Selectable } from '../../features/brand/context/BrandContext';
 
 export default function BusinessForm({ handleNext }: { handleNext: () => void }) {
   const { businessInfo } = useContext(BrandContext);

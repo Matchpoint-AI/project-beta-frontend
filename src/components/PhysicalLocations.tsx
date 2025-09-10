@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { SparklesMessage } from './SparklesMessage';
-import ZipCodeInput from './Inputs/ZipCodeInput';
-import { BrandContext, BusinessInfo } from '../context/BrandContext';
+import { SparklesMessage } from './shared/SparklesMessage';
+import ZipCodeInput from './shared/Inputs/ZipCodeInput';
+import { BrandContext, BusinessInfo } from '../features/brand/context/BrandContext';
 
 interface PhysicalLocationsProps {
   physicalLocations: string[];

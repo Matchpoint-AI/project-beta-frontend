@@ -1,11 +1,11 @@
 import React, { FormEventHandler, useContext, useEffect, useState } from 'react';
-import { BrandContext } from '../../context/BrandContext';
+import { BrandContext } from '../../features/brand/context/BrandContext';
 import BackButton from '../shared/Buttons/BackButton';
 import { getServiceURL } from '../../helpers/getServiceURL';
 import { CircularProgress } from '@mui/material';
 import FormsContainer from '../shared/FormsContainer';
-import BrandDetailsReview from '../BrandDetailsReview';
-import type { Selectable } from '../../context/BrandContext';
+import BrandDetailsReview from '../../features/brand/components/BrandDetailsReview';
+import type { Selectable } from '../../features/brand/context/BrandContext';
 
 interface ReviewFormProps {
   setFormStep: (step: number) => void;

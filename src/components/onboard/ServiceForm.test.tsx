@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { vi, describe, it, expect, beforeEach, beforeAll } from 'vitest';
 import ServiceForm from './ServiceForm';
-import { BrandContext } from '../../context/BrandContext';
+import { BrandContext } from '../../features/brand/context/BrandContext';
 import { CampaignContext } from '../../context/CampaignContext';
 
 // Extend window interface for test mocks

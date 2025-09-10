@@ -1,11 +1,11 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { BrandContext } from '../../context/BrandContext';
-import EditBlock from '../shared/EditBlock';
-import ChipComponent from '../ChipComponent';
-import { Chip } from '../../helpers/convertToChips';
-import BrandDetailsEditBlock from '../BrandDetailsEditBlock';
+import { BrandContext } from '../context/BrandContext';
+import EditBlock from '../../../components/shared/EditBlock';
+import ChipComponent from '../../../components/ChipComponent';
+import { Chip } from '../../../helpers/convertToChips';
+import BrandDetailsEditBlock from './BrandDetailsEditBlock';
 import ReportProblemOutlinedIcon from '@mui/icons-material/ReportProblemOutlined';
-import { Selectable } from '../../context/BrandContext';
+import { Selectable } from '../context/BrandContext';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 interface BrandDetailsBlockProps {

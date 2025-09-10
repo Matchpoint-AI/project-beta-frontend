@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { FormEventHandler, useContext, useEffect, useState } from 'react';
-import { BrandContext } from '../../context/BrandContext';
+import { BrandContext } from '../../features/brand/context/BrandContext';
 import { CampaignContext } from '../../context/CampaignContext';
 import AgeDropdown from '../shared/AgeDropdown';
 import Dropdown from '../shared/Dropdown';
