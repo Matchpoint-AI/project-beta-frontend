@@ -3,7 +3,7 @@ import RequestInput from '../interfaces/RequestInput';
 // The function to make an authorized POST request
 async function makeAuthorizedPostRequest(
   endpoint: string,
-  audience: string,
+  _audience: string,
   data: RequestInput
 ): Promise<Response> {
   // Prepare the headers

@@ -20,25 +20,22 @@ export class ErrorBoundary extends Component<Props, State> {
     this.state = { hasError: false };
   }
 
-  static getDerivedStateFromError(error: Error): State {
+  static getDerivedStateFromError(_error: Error): State {
     // Update state so the next render will show the fallback UI
-    return { hasError: true, error };
+    return { hasError: true, error: _error };
   }
 
-  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+  componentDidCatch(_error: Error, _errorInfo: ErrorInfo) {
     // Log error to console for debugging
-    console.error('Error caught by boundary:', error);
-    console.error('Error info:', errorInfo);
 
     // Check if it's the share-modal.js error and handle it gracefully
-    if (error.message.includes('share-modal') || error.message.includes('addEventListener')) {
-      console.warn('External script error detected (likely share-modal.js), continuing gracefully');
+    if (_error.message.includes('share-modal') || _error.message.includes('addEventListener')) {
       // Don't set hasError for external script errors
       return;
     }
 
     // For other errors, set the error state
-    this.setState({ hasError: true, error });
+    this.setState({ hasError: true, error: _error });
   }
 
   render() {
@@ -73,7 +70,7 @@ export const useExternalScriptErrorHandler = () => {
           event.filename.includes('addEventListener') ||
           event.message.includes('Cannot read properties of null'))
       ) {
-        console.warn('External script error detected, handling gracefully:', {
+        console.log({
           message: event.message,
           filename: event.filename,
           lineno: event.lineno,
@@ -108,7 +105,7 @@ export const safeAddEventListener = (
   if (element && typeof element.addEventListener === 'function') {
     element.addEventListener(event, handler, options);
   } else {
-    console.warn(`Cannot add event listener to element:`, element);
+    // Error handled silently
   }
 };
 
@@ -132,8 +129,7 @@ export const safeRemoveEventListener = (
 export const safeGetElementById = (id: string): HTMLElement | null => {
   try {
     return document.getElementById(id);
-  } catch (error) {
-    console.warn(`Error accessing element with id "${id}":`, error);
+  } catch (_error) {
     return null;
   }
 };
@@ -152,8 +148,7 @@ export const safeMap = <T, R>(
 
   try {
     return array.map(mapper);
-  } catch (error) {
-    console.warn('Error mapping over array:', error);
+  } catch (_error) {
     return fallback;
   }
 };

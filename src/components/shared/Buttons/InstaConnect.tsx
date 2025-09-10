@@ -83,8 +83,7 @@ const InstaConnect: React.FC<InstaConnectProps> = ({
     })
       .then((response) => response.json())
       .then((_data: unknown) => {})
-      .catch((error) => {
-        console.error('Error:', error);
+      .catch((_error) => {
         setError('Failed to save redirect URI');
       });
   }, [profile]);
@@ -95,7 +94,7 @@ const InstaConnect: React.FC<InstaConnectProps> = ({
     }
   }, [data]);
 
-  if (error) {
+  if (_error) {
     return <div className="text-red-500">{error}</div>;
   }
 
@@ -437,8 +436,7 @@ const PublishApproved: React.FC<PublishApprovedProps> = ({ stats, startDate, dur
 
       const data = await response.json();
       return data;
-    } catch (error) {
-      console.error('Error updating postingDate:', error);
+    } catch (_error) {
       throw error; // re-throw to let handlePublish catch it
     }
   };
@@ -458,8 +456,8 @@ const PublishApproved: React.FC<PublishApprovedProps> = ({ stats, startDate, dur
           const data = await response.json();
           setPublished(data.published || false);
         }
-      } catch (error) {
-        console.error('Error checking publish status:', error);
+      } catch (_error) {
+        // Error handled silently
       }
     };
 
@@ -514,8 +512,8 @@ const PublishApproved: React.FC<PublishApprovedProps> = ({ stats, startDate, dur
         setMessage('Something Went Wrong! Try again Later');
         setIsOpen(true);
       }
-    } catch (error) {
-      console.error('Error:', error);
+    } catch (_error) {
+      // Error handled silently
     } finally {
       setLoading(false);
       setDateOpen(false);
@@ -691,7 +689,7 @@ function Unconnected({ onConnect, publish }: { onConnect: () => void; publish: b
         onConnect(); // Inform parent component that authentication succeeded
       }
     } catch (err: unknown) {
-      console.error('Authentication failed:', (err as Error)?.message);
+      // Error handled silently
     }
   };
 

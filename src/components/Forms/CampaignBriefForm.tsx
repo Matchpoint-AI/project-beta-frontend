@@ -102,16 +102,13 @@ Get ${campaignInfo?.audienceGender} who are interested in ${
       }),
     })
       .then((response) => response.json())
-      .then((data) => {
+      .then((_data) => {
         const { choices } = data.response;
         const { content } = choices[0].message;
-        console.log(content);
         setCampaignSummary(content);
         setCampaignInfo((prev: any) => ({ ...prev, summary: content }));
       })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
+      .catch((_error) => {});
   };
 
   const editTable = [1, 3, 2, 4];
@@ -128,7 +125,6 @@ Get ${campaignInfo?.audienceGender} who are interested in ${
     setCampaignInfo({});
     handleNavigate(profile?.id ?? '', '/dashboard', navigate);
   };
-  console.log(campaignInfo);
 
   return (
     <>

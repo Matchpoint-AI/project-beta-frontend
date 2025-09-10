@@ -172,9 +172,7 @@ const TimingForm = ({ handleNext, handleBack, setTiming, review = false }: Timin
 
   useEffect(() => {
     if (campaignInfo.startDate === undefined) return;
-    console.log('oldDate === ', campaignInfo.startDate);
     const oldDate = dayjs(campaignInfo.startDate);
-    console.log('oldDateDayjs === ', oldDate);
     setValue(oldDate);
   }, []);
 
@@ -210,7 +208,6 @@ const TimingForm = ({ handleNext, handleBack, setTiming, review = false }: Timin
                     // Disable dates before today
                     return dayjs(date).isBefore(dayjs().add(1, 'day'), 'day');
                   }}
-                  // onClick={(e) => console.log("clicked icon")}
                 />
               </LocalizationProvider>
             </div>

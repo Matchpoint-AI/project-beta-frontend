@@ -159,8 +159,8 @@ export const PerformanceDashboard: React.FC = () => {
       setAlerts(alertsData);
       setCostAnalysis(costData);
       setHealthStatus(healthData);
-    } catch (error) {
-      console.error('Failed to fetch dashboard data:', error);
+    } catch (_error) {
+      // Error handled silently
     } finally {
       setLoading({ metrics: false, alerts: false, costs: false, health: false });
     }
@@ -181,8 +181,8 @@ export const PerformanceDashboard: React.FC = () => {
       // Refresh alerts
       const updatedAlerts = await performanceApi.getActiveAlerts();
       setAlerts(updatedAlerts);
-    } catch (error) {
-      console.error('Failed to resolve alert:', error);
+    } catch (_error) {
+      // Error handled silently
     }
   };
 

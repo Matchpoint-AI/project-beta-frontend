@@ -65,7 +65,11 @@ interface CampaignSetupCompleteDialogProps {
 }
 
 vi.mock('../campaign/CampaignSetupCompleteDialog', () => ({
-  default: ({ open, onClose, setCurrentStep: _setCurrentStep }: CampaignSetupCompleteDialogProps) =>
+  default: ({
+    open,
+    onClose,
+    setCurrentStep: _setCurrentStep,
+  }: CampaignSetupCompleteDialogProps) =>
     open ? (
       <div data-testid="campaign-setup-complete-dialog" onClick={onClose}>
         Campaign Setup Complete
@@ -157,6 +161,12 @@ describe('CampaignBriefForm', () => {
 
   const mockBusinessInfo = {
     name: 'Test Business',
+    website: 'https://test.com',
+    product_features: ['Feature 1', 'Feature 2'],
+    product_description: 'Test product description',
+    product_link: 'https://test.com/product',
+    start_date: '2024-01-01',
+    durationNum: 4,
     logo: 'test-logo.png',
   };
 
@@ -175,7 +185,12 @@ describe('CampaignBriefForm', () => {
     return render(
       <BrandContext.Provider value={{ businessInfo: mockBusinessInfo, setBusinessInfo: vi.fn() }}>
         <CampaignContext.Provider
-          value={{ campaignInfo: mockCampaignInfo, setCampaignInfo: vi.fn() }}
+          value={{
+            campaignInfo: mockCampaignInfo,
+            setCampaignInfo: vi.fn(),
+            campaignId: 'test-campaign-id',
+            setCampaignId: vi.fn(),
+          }}
         >
           {component}
         </CampaignContext.Provider>
@@ -199,7 +214,7 @@ describe('CampaignBriefForm', () => {
             ],
           },
         }),
-    }) as jest.Mock;
+    }) as unknown as jest.Mock;
   });
 
   it('renders campaign brief form correctly', () => {

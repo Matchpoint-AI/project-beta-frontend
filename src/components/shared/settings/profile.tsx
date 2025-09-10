@@ -13,14 +13,11 @@ export default function UserProfile() {
 
     signOut(auth)
       .then(() => {
-        console.log('user has signed out');
         localStorage.clear();
         sessionStorage.clear();
         navigate('/login');
       })
-      .catch((err) => {
-        console.log('problem while signing out: ', err.message);
-      });
+      .catch((_err) => {});
   };
 
   return (

@@ -40,12 +40,12 @@ export function useV2Api() {
           isInitialized: true,
           isLoading: false,
         }));
-      } catch (error) {
+      } catch (_error) {
         setState((prev) => ({
           ...prev,
           isInitialized: false,
           isLoading: false,
-          error: error as Error,
+          error: _error as Error,
         }));
       }
     };
@@ -248,8 +248,7 @@ export function useV2Api() {
  *       try {
  *         const result = await v2Api.campaign.list();
  *         setCampaigns(result.campaigns);
- *       } catch (error) {
- *         console.error('Failed to load campaigns:', error);
+ *       } catch (_error) {
  *       } finally {
  *         setLoading(false);
  *       }

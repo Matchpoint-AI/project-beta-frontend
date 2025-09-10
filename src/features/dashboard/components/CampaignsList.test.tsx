@@ -26,7 +26,15 @@ vi.mock('../PromotionComponent', () => ({
 }));
 
 vi.mock('../shared/Dropdown', () => ({
-  default: ({ currentValue, onUpdateContext, options }: { currentValue: string; onUpdateContext: (value: string) => void; options: string[] }) => (
+  default: ({
+    currentValue,
+    onUpdateContext,
+    options,
+  }: {
+    currentValue: string;
+    onUpdateContext: (value: string) => void;
+    options: string[];
+  }) => (
     <select
       data-testid="campaign-filter-dropdown"
       value={currentValue}

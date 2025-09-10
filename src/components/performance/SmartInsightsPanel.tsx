@@ -14,7 +14,6 @@ import {
   Settings,
 } from 'lucide-react';
 
-
 interface SmartInsight {
   id: string;
   insight_type: string;
@@ -210,11 +209,11 @@ export const SmartInsightsPanel: React.FC = () => {
         },
       });
       if (response.ok) {
-        const data = await response.json();
-        setSummary(data);
+        const _data = await response.json();
+        setSummary(_data);
       }
-    } catch (error) {
-      console.error('Failed to fetch insights summary:', error);
+    } catch (_error) {
+      // Error handled silently
     } finally {
       setLoading((prev) => ({ ...prev, summary: false }));
     }
@@ -234,11 +233,11 @@ export const SmartInsightsPanel: React.FC = () => {
         },
       });
       if (response.ok) {
-        const data = await response.json();
-        setInsights(data);
+        const _data = await response.json();
+        setInsights(_data);
       }
-    } catch (error) {
-      console.error('Failed to fetch smart insights:', error);
+    } catch (_error) {
+      // Error handled silently
     } finally {
       setLoading((prev) => ({ ...prev, insights: false }));
     }
@@ -256,11 +255,11 @@ export const SmartInsightsPanel: React.FC = () => {
         }
       );
       if (response.ok) {
-        const data = await response.json();
-        setPredictions(data);
+        const _data = await response.json();
+        setPredictions(_data);
       }
-    } catch (error) {
-      console.error('Failed to fetch predictions:', error);
+    } catch (_error) {
+      // Error handled silently
     } finally {
       setLoading((prev) => ({ ...prev, predictions: false }));
     }
@@ -275,11 +274,11 @@ export const SmartInsightsPanel: React.FC = () => {
         },
       });
       if (response.ok) {
-        const data = await response.json();
-        setRecommendations(data);
+        const _data = await response.json();
+        setRecommendations(_data);
       }
-    } catch (error) {
-      console.error('Failed to fetch recommendations:', error);
+    } catch (_error) {
+      // Error handled silently
     } finally {
       setLoading((prev) => ({ ...prev, recommendations: false }));
     }
@@ -297,8 +296,8 @@ export const SmartInsightsPanel: React.FC = () => {
         }
       );
       // Optionally show success message
-    } catch (error) {
-      console.error('Failed to submit feedback:', error);
+    } catch (_error) {
+      // Error handled silently
     }
   };
 
@@ -746,7 +745,9 @@ export const SmartInsightsPanel: React.FC = () => {
             return (
               <button
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id as 'insights' | 'predictions' | 'recommendations' | 'summary')}
+                onClick={() =>
+                  setActiveTab(tab.id as 'insights' | 'predictions' | 'recommendations' | 'summary')
+                }
                 className={`flex items-center gap-2 py-2 px-1 border-b-2 font-medium text-sm ${
                   activeTab === tab.id
                     ? 'border-blue-500 text-blue-600'

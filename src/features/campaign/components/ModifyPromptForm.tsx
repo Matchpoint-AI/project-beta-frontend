@@ -40,7 +40,6 @@ export default function ModifyPromptForm(props: ModifyPromptFormProps) {
       });
       setSubmited(false);
     } catch (e) {
-      console.log(e);
       setSubmited(false);
     }
   };

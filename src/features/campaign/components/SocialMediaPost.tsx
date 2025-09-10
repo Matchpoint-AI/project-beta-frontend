@@ -151,12 +151,11 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
         });
       }
     } catch (error: unknown) {
-      console.error('Error fetching data:', JSON.stringify(error));
       let errorMessage = 'An unknown error occurred';
       if (error instanceof Error) {
         errorMessage = error.message;
       } else if (typeof error === 'object' && error !== null) {
-        errorMessage = JSON.stringify(error);
+        errorMessage = JSON.stringify(_error);
       }
       setErrorText(errorMessage);
       setErrorSaving(true);
@@ -204,8 +203,8 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
         setRemainingGenerations(data.remaining);
         setTotalAllowed(data.total_allowed);
       }
-    } catch (error) {
-      console.error('Error fetching remaining generations:', error);
+    } catch (_error) {
+      // Error handled silently
     }
   };
 
@@ -217,7 +216,6 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
   const regenerateImage = async (promptOverride?: string) => {
     const currentPost = Array.isArray(content) ? content[postIndex - 1] : content;
     if (!currentPost) {
-      console.error('Cannot regenerate image: Post data not found');
       return;
     }
 
@@ -253,7 +251,7 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
       newSelectedImages[postIndex - 1]++;
       setSelectedImages(newSelectedImages);
     } catch (e) {
-      console.error('Error regenerating image:', (e as Error).message);
+      // Error handled silently
     } finally {
       setLoadingRegen(false);
     }
@@ -277,14 +275,13 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
       const { prompt } = await response.json();
       await regenerateImage(prompt);
     } catch (e) {
-      console.error('Error fetching prompt for regeneration:', e);
+      // Error handled silently
     }
   };
 
   const handleEdit = async () => {
     const currentPost = Array.isArray(content) ? content[postIndex - 1] : content;
     if (!currentPost) {
-      console.error('Cannot edit text: Post data not found');
       return;
     }
 
@@ -323,8 +320,7 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
         currentPost.text = text;
         currentPost.text_versions = updatedTextVersions;
         setEdit(false);
-      } catch (error) {
-        console.error('Error updating text versions:', error);
+      } catch (_error) {
         setErrorText('Failed to update text versions');
         setErrorSaving(true);
       } finally {
@@ -364,7 +360,7 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
 
       updataImage(week - 1, day, postIndex - 1, 0, null, selectedText);
     } catch (e) {
-      console.log(e);
+      // Error handled silently
     } finally {
       setIsLoadingText(false);
     }
@@ -437,8 +433,7 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
         currentPost.text_versions = updatedTextVersions;
         currentPost.caption_id = captionData.caption_id; // Store for regeneration
       }
-    } catch (error) {
-      console.error('Error generating caption:', error);
+    } catch (_error) {
       setErrorText('Failed to generate caption');
       setErrorSaving(true);
     } finally {
@@ -475,8 +470,7 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
         setText(captionData.caption.text);
         handleEdit(); // Apply the regenerated caption
       }
-    } catch (error) {
-      console.error('Error regenerating caption:', error);
+    } catch (_error) {
       setErrorText('Failed to regenerate caption');
       setErrorSaving(true);
     } finally {
@@ -835,8 +829,8 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
           <div className="text-center">
             <h2 className="text-xl font-bold text-purple-600 mb-4">Regeneration Limit Reached</h2>
             <p className="text-gray-700 mb-6">
-              You&apos;ve hit your regeneration limit for this content. We&apos;ll keep you posted when
-              Matchpoint Unlimited—with more regenerations—is ready for you.
+              You&apos;ve hit your regeneration limit for this content. We&apos;ll keep you posted
+              when Matchpoint Unlimited—with more regenerations—is ready for you.
             </p>
 
             <div className="flex flex-col gap-3">

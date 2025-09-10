@@ -237,7 +237,12 @@ describe('contentGenerationApi', () => {
             json: async () => ({ success: true }),
           });
 
-          await captionApi.regenerateCaption('content-123', 'caption-456', { style }, 'test-token');
+          await captionApi.regenerateCaption(
+            'content-123',
+            'caption-456',
+            { style: style as 'similar' | 'different' | 'shorter' | 'longer' },
+            'test-token'
+          );
 
           const body = JSON.parse(mockFetch.mock.calls[0][1].body);
           expect(body.feedback).toBe(expectedFeedback);

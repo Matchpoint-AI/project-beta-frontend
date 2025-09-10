@@ -66,17 +66,13 @@ const AudienceForm = ({ handleNext, handleBack, review = false }: AudienceFormPr
       }),
     })
       .then((response) => response.json())
-      .then((data) => {
+      .then((_data) => {
         const { choices } = data.response;
         const { content } = choices[0].message;
-        console.log(content);
         const arrays = content.match(/\[.*?\]/g);
         if (arrays && arrays.length === 2) {
           const array1 = JSON.parse(arrays[0]);
           const array2 = JSON.parse(arrays[1]);
-
-          console.log(array1);
-          console.log(array2);
 
           setAudienceEmotion(array1.slice(0, 3));
           setAudienceInterests(array2.slice(0, 3));
@@ -88,9 +84,7 @@ const AudienceForm = ({ handleNext, handleBack, review = false }: AudienceFormPr
           // Assuming you have another state or function to handle the second array
         }
       })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
+      .catch((_error) => {});
   }, []);
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
@@ -202,7 +196,6 @@ const AudienceForm = ({ handleNext, handleBack, review = false }: AudienceFormPr
                 currentValues={audienceAgeRange}
                 options={options}
                 onUpdateContext={(value: string[]) => {
-                  console.log('values === ', value);
                   setAudienceAgeRage(value);
                 }}
               />

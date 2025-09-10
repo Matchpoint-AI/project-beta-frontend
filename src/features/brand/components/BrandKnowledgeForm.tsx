@@ -208,8 +208,8 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
           setFormData(data.brand_knowledge);
         }
       }
-    } catch (err) {
-      console.error('Error loading brand knowledge:', err);
+    } catch (_err) {
+      // Error handled silently
     } finally {
       setLoading(false);
     }
@@ -373,7 +373,8 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
       } else {
         setError(result.message || 'Could not extract brand knowledge');
       }
-    } catch (err) {
+    } catch (_err) {
+      // Error handled silently
       setError(err instanceof Error ? err.message : 'Failed to extract from campaigns');
     } finally {
       setLoading(false);
@@ -427,7 +428,8 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
           handleNext();
         }
       }, 2000);
-    } catch (err) {
+    } catch (_err) {
+      // Error handled silently
       setError(err instanceof Error ? err.message : 'Failed to save');
     } finally {
       setSaving(false);

@@ -172,8 +172,7 @@ const Onboard = ({ edit = false }: any) => {
         setSaveAndStart(false);
         setCurrentStep(4);
       })
-      .catch((error) => {
-        console.error('Error posting data:', error);
+      .catch((_error) => {
         setErrorSaving(true);
         setSaveAndStart(false);
       });

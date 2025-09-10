@@ -39,12 +39,16 @@ export const fetchAndCreatePDF = async (
       data.brand_profile,
       data.campaign_brief
     );
-  } catch (error) {
-    console.error('Error fetching campaign data:', error);
+  } catch (_error) {
+    // Error fetching campaign data
   }
 };
 
-const createBrandProfilePDF = async (clientRequest: Record<string, unknown>, brandProfile: Record<string, unknown>, campaignBrief: Record<string, unknown>) => {
+const createBrandProfilePDF = async (
+  clientRequest: Record<string, unknown>,
+  brandProfile: Record<string, unknown>,
+  campaignBrief: Record<string, unknown>
+) => {
   const doc = new jsPDF();
 
   const mapColorsToReadable = (colors: string[], convertedColors: Array<{ name?: string }>) => {
@@ -249,7 +253,15 @@ const fetchImageDimensions = async (url: string): Promise<{ width: number; heigh
   });
 };
 
-export const createImageThumbnailsPDF = async (weeksData: Array<Array<{ dayIndex: number; posts: Array<{ approved: boolean; postIndex: number; image_url: string[]; text: string }> }>>, currentValues: string[]): Promise<Blob> => {
+export const createImageThumbnailsPDF = async (
+  weeksData: Array<
+    Array<{
+      dayIndex: number;
+      posts: Array<{ approved: boolean; postIndex: number; image_url: string[]; text: string }>;
+    }>
+  >,
+  currentValues: string[]
+): Promise<Blob> => {
   const doc = new jsPDF();
   const pageHeight = doc.internal.pageSize.height;
   const margin = 5; // Margin from the top and bottom of the page
@@ -322,8 +334,8 @@ export const createImageThumbnailsPDF = async (weeksData: Array<Array<{ dayIndex
           yOffset += scaledHeight + 10; // Move y position below the images
           doc.setFontSize(10);
           const textWidth = 180; // Maximum width for the text
-          const data = removeNewlines(post.text);
-          const finalText = cleanAndStripEmojis(data);
+          const _data = removeNewlines(post.text);
+          const finalText = cleanAndStripEmojis(_data);
 
           const splitText = doc.splitTextToSize(finalText, textWidth);
 
@@ -347,7 +359,10 @@ export const createImageThumbnailsPDF = async (weeksData: Array<Array<{ dayIndex
   return doc.output('blob');
 };
 
-export const createWordDocument = async (weeksData: Array<Array<{ dayIndex: number; posts: Array<{ postIndex: number; text: string }> }>>, currentValues: string[]) => {
+export const createWordDocument = async (
+  weeksData: Array<Array<{ dayIndex: number; posts: Array<{ postIndex: number; text: string }> }>>,
+  currentValues: string[]
+) => {
   const sections = [];
 
   for (const [weekIndex, week] of weeksData.entries()) {
@@ -422,7 +437,13 @@ export const createWordDocument = async (weeksData: Array<Array<{ dayIndex: numb
   return await Packer.toBlob(doc);
 };
 
-export const organizeAndSavePosts = async (weeksData: Array<Array<{ dayIndex: number; posts: Array<{ postIndex: number; image_url: string[] }> }>>, bigFolder: JSZip, currentValues: string[]) => {
+export const organizeAndSavePosts = async (
+  weeksData: Array<
+    Array<{ dayIndex: number; posts: Array<{ postIndex: number; image_url: string[] }> }>
+  >,
+  bigFolder: JSZip,
+  currentValues: string[]
+) => {
   for (const [weekIndex, week] of weeksData.entries()) {
     const actualWeekNumber = currentValues[weekIndex].split(' ')[1];
 
@@ -482,7 +503,7 @@ const convertColors = async (colors: string[]): Promise<Array<{ name?: string }>
     const data = await response.json();
     return data;
     // Handle the response (log it or use it)
-  } catch (error) {
-    console.error('Error fetching the converted colors:', error);
+  } catch (_error) {
+    // Error fetching the converted colors
   }
 };

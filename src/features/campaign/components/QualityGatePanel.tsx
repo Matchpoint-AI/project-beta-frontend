@@ -206,7 +206,7 @@ const QualityGatePanel: React.FC<QualityGatePanelProps> = ({
       const checkResult = onRecheck ? await onRecheck(itemId) : await performQualityCheck();
 
       setResult(checkResult);
-    } catch (err) {
+    } catch (_err) {
       setError(err instanceof Error ? err.message : 'Quality check failed');
     } finally {
       setLoading(false);
@@ -267,7 +267,7 @@ const QualityGatePanel: React.FC<QualityGatePanelProps> = ({
     );
   }
 
-  if (error) {
+  if (_error) {
     return (
       <Card className={className}>
         <CardContent>

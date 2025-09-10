@@ -66,7 +66,6 @@ const StepCampaignComponent: React.FC<StepCampaignProps> = ({
 
   const handleSave = async () => {
     setSaving(true);
-    console.log('Saving ...');
     const info = campaignInfo as ExtendedCampaignInfoType;
     let campaignId;
     let apiEndpoint = '/api/v1/data';
@@ -111,10 +110,9 @@ const StepCampaignComponent: React.FC<StepCampaignProps> = ({
             ...prev,
             product_features: features,
           }));
-          console.log('LLM-generated product features:', features);
         }
-      } catch (err) {
-        console.error('Failed to generate product features via LLM:', err);
+      } catch (_err) {
+        // Error handled silently
       }
     }
     // --- End LLM product feature generation ---
@@ -199,8 +197,7 @@ const StepCampaignComponent: React.FC<StepCampaignProps> = ({
         }
         return response.json();
       })
-      .then((data) => {
-        console.log('Data posted successfully:', data);
+      .then((_data) => {
         setCampaignInfo({});
         setTimeout(() => {
           // setMessage(newMessage);
@@ -208,9 +205,7 @@ const StepCampaignComponent: React.FC<StepCampaignProps> = ({
           handleNavigate(profile.id, '/dashboard', navigate);
         }, 3000);
       })
-      .catch((error) => {
-        console.error('Error posting data:', error);
-      });
+      .catch((_error) => {});
   };
   return (
     <div className="flex flex-col justify-center">

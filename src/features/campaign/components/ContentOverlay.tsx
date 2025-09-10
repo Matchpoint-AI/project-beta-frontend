@@ -102,7 +102,6 @@ const ContentOverlay = ({
       onApprovalUpdate();
       closeOverlay();
     } catch (error: unknown) {
-      console.error('Error fetching data:', error);
       setErrorText((error as Error)?.message || 'An unknown error occurred');
       setErrorSaving(true);
     } finally {

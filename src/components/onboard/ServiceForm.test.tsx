@@ -50,7 +50,11 @@ vi.mock('../shared/Buttons/BackButton', () => ({
 
 // Mock the Dropdown component
 vi.mock('../shared/Dropdown', () => ({
-  default: ({ options, currentValue, onUpdateContext }: { 
+  default: ({
+    options,
+    currentValue,
+    onUpdateContext,
+  }: {
     options: string[];
     currentValue: string;
     onUpdateContext: (value: string, index: number) => void;
@@ -89,11 +93,7 @@ vi.mock('../WebsiteOwnership', () => ({
 
 // Mock the ErrorToast component
 vi.mock('../shared/ErrorToast', () => ({
-  default: ({ open, onClose, message }: { 
-    open: boolean;
-    onClose: () => void;
-    message: string;
-  }) =>
+  default: ({ open, onClose, message }: { open: boolean; onClose: () => void; message: string }) =>
     open ? (
       <div data-testid="error-toast" onClick={onClose}>
         {message}
@@ -103,17 +103,25 @@ vi.mock('../shared/ErrorToast', () => ({
 
 // Mock the SparklesMessage component
 vi.mock('../shared/SparklesMessage', () => ({
-  SparklesMessage: ({ children }: { children: React.ReactNode }) => <div data-testid="sparkles-message">{children}</div>,
+  SparklesMessage: ({ children }: { children: React.ReactNode }) => (
+    <div data-testid="sparkles-message">{children}</div>
+  ),
 }));
 
 // Mock the FormsContainer component
 vi.mock('../shared/FormsContainer', () => ({
-  default: ({ children }: { children: React.ReactNode }) => <div data-testid="forms-container">{children}</div>,
+  default: ({ children }: { children: React.ReactNode }) => (
+    <div data-testid="forms-container">{children}</div>
+  ),
 }));
 
 // Mock the FormInputBox component
 vi.mock('../shared/FormInputBox', () => ({
-  default: ({ children, styles, color }: { 
+  default: ({
+    children,
+    styles,
+    color,
+  }: {
     children: React.ReactNode;
     styles?: { backgroundColor?: string };
     color: string;

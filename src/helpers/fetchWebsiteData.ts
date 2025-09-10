@@ -1,7 +1,10 @@
 import { getServiceURL } from './getServiceURL';
 
 // /api/v1/fetchContent
-export const fetchWebsiteData = async (url: string, setProgressDescription: (description: string) => void) => {
+export const fetchWebsiteData = async (
+  url: string,
+  setProgressDescription: (description: string) => void
+) => {
   const llm_url = getServiceURL('llm');
   const response = await fetch(`${llm_url}/api/v1/llm/fetch-content`, {
     method: 'POST',

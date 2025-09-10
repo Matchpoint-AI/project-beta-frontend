@@ -67,7 +67,7 @@ const HITLReviewPanel: React.FC<HITLReviewPanelProps> = ({
         setLoading((prev) => ({ ...prev, [itemId]: true }));
         setError(null);
         await onApprove(itemId);
-      } catch (err) {
+      } catch (_err) {
         setError(err instanceof Error ? err.message : 'Failed to approve item');
       } finally {
         setLoading((prev) => ({ ...prev, [itemId]: false }));
@@ -83,7 +83,7 @@ const HITLReviewPanel: React.FC<HITLReviewPanelProps> = ({
         setError(null);
         await onReject(itemId, feedback[itemId]);
         setFeedback((prev) => ({ ...prev, [itemId]: '' }));
-      } catch (err) {
+      } catch (_err) {
         setError(err instanceof Error ? err.message : 'Failed to reject item');
       } finally {
         setLoading((prev) => ({ ...prev, [itemId]: false }));
@@ -109,7 +109,7 @@ const HITLReviewPanel: React.FC<HITLReviewPanelProps> = ({
         await onEdit(itemId, editContent);
         setEditingItem(null);
         setEditContent('');
-      } catch (err) {
+      } catch (_err) {
         setError(err instanceof Error ? err.message : 'Failed to edit item');
       } finally {
         setLoading((prev) => ({ ...prev, [itemId]: false }));
@@ -132,7 +132,7 @@ const HITLReviewPanel: React.FC<HITLReviewPanelProps> = ({
 
         await onRegenerate(itemId, targetedChanges);
         setFeedback((prev) => ({ ...prev, [itemId]: '' }));
-      } catch (err) {
+      } catch (_err) {
         setError(err instanceof Error ? err.message : 'Failed to regenerate item');
       } finally {
         setLoading((prev) => ({ ...prev, [itemId]: false }));

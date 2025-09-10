@@ -20,7 +20,14 @@ vi.mock('../../../components/shared/Sidebar', () => ({
 }));
 
 vi.mock('../components/CampaignsList', () => ({
-  default: ({ campaigns, campaignType }: { campaigns: Array<Record<string, unknown>>; campaignType: string; setCampaignType?: (type: string) => void }) => (
+  default: ({
+    campaigns,
+    campaignType,
+  }: {
+    campaigns: Array<Record<string, unknown>>;
+    campaignType: string;
+    setCampaignType?: (type: string) => void;
+  }) => (
     <div data-testid="campaigns-list">
       <span data-testid="campaign-count">{campaigns.length}</span>
       <span data-testid="campaign-type">{campaignType}</span>

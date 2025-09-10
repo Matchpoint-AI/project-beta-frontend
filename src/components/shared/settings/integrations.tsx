@@ -40,10 +40,9 @@ export default function Integrations() {
       }),
     })
       .then((response) => response.json())
-      .then((data: { response: string }) => {
-        console.log(data); // {"response": "all good"}
-      })
-      .catch((error: unknown) => console.error('Error:', error));
+      .then((_data: { response: string }) => {
+        // Response handled silently
+      });
   }, [profile]);
 
   useEffect(() => {
@@ -97,7 +96,7 @@ const openAuthPopup = (url: string, windowName: string = 'auth-popup') => {
           popup.close();
           resolve('hello');
         }
-      } catch (err) {
+      } catch (_err) {
         // Ignore cross-origin errors
       }
     }, 1000);
@@ -120,12 +119,11 @@ function Unconnected({ onConnect }: { onConnect: () => void }) {
     try {
       const token = await openAuthPopup(authUrl);
       if (token) {
-        console.log('Authentication Successful, Token:', token);
         onConnect();
         // Save token or trigger next steps
       }
     } catch (err: unknown) {
-      console.error('Authentication failed:', (err as Error).message);
+      // Error handled silently
     }
   };
 

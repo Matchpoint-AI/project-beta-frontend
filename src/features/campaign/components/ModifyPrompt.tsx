@@ -159,7 +159,7 @@ export default function ModifyPrompt({
             return;
           }
         } catch (fluxError) {
-          console.error('Flux generation failed, falling back to legacy:', fluxError);
+          // Error handled silently
         }
       }
 
@@ -191,14 +191,12 @@ export default function ModifyPrompt({
       regenerate(prompt);
       setOpen(false);
     } catch (e) {
-      console.error('Error:', e);
       setSubmited(false);
     }
   };
 
   const getImagePrompt = async () => {
     if (!profile?.token) {
-      console.warn('No authentication token available');
       return;
     }
 
@@ -218,7 +216,6 @@ export default function ModifyPrompt({
 
       if (!response.ok) {
         if (response.status === 401) {
-          console.warn('Authentication failed - token may be invalid or expired');
           // Clear the token and redirect to login
           const cookies = new Cookies();
           cookies.remove('access_token');
@@ -230,8 +227,8 @@ export default function ModifyPrompt({
 
       const { prompt } = await response.json();
       setPrompt(prompt);
-    } catch (error) {
-      console.error('Error fetching image prompt:', error);
+    } catch (_error) {
+      // Error handled silently
     }
   };
 
@@ -262,8 +259,8 @@ export default function ModifyPrompt({
         const data = await response.json();
         setRemainingGenerations(data.remaining);
       }
-    } catch (error) {
-      console.error('Error fetching remaining generations:', error);
+    } catch (_error) {
+      // Error handled silently
     }
   };
 
@@ -285,7 +282,9 @@ export default function ModifyPrompt({
             <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent mb-2">
               Regenerate Your Image
             </h1>
-            <p className="text-gray-700 font-bold text-md">Let&apos;s regenerate your image together.</p>
+            <p className="text-gray-700 font-bold text-md">
+              Let&apos;s regenerate your image together.
+            </p>
           </div>
 
           <div className="mb-4">
@@ -351,8 +350,8 @@ export default function ModifyPrompt({
           <div className="relative text-center">
             <h2 className="text-xl font-bold text-purple-600 mb-4">Regeneration Limit Reached</h2>
             <p className="text-gray-700 mb-6">
-              You&apos;ve hit your regeneration limit for this content. We&apos;ll keep you posted when
-              Matchpoint Unlimited—with more regenerations—is ready for you.{' '}
+              You&apos;ve hit your regeneration limit for this content. We&apos;ll keep you posted
+              when Matchpoint Unlimited—with more regenerations—is ready for you.{' '}
             </p>
 
             <div className="flex flex-col gap-3">

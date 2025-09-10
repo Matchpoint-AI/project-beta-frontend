@@ -19,9 +19,7 @@ describe('LanguageSelector', () => {
   });
 
   it('renders with custom selected language', () => {
-    render(
-      <LanguageSelector selectedLanguage="es" onLanguageChange={mockOnLanguageChange} />
-    );
+    render(<LanguageSelector selectedLanguage="es" onLanguageChange={mockOnLanguageChange} />);
 
     const button = document.getElementById('language-selector');
     expect(button).toBeInTheDocument();

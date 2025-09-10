@@ -160,8 +160,8 @@ const ABTestVariantComparison: React.FC<ABTestVariantComparisonProps> = ({
       setEditingVariant(null);
       setEditedContent({});
       setEditNotes('');
-    } catch (error) {
-      console.error('Failed to save variant:', error);
+    } catch (_error) {
+      // Error handled silently
     } finally {
       setLoading(false);
     }
@@ -499,7 +499,9 @@ const ABTestVariantComparison: React.FC<ABTestVariantComparisonProps> = ({
               <InputLabel>View Mode</InputLabel>
               <Select
                 value={viewMode}
-                onChange={(e) => setViewMode(e.target.value as 'comparison' | 'performance' | 'traffic')}
+                onChange={(e) =>
+                  setViewMode(e.target.value as 'comparison' | 'performance' | 'traffic')
+                }
                 label="View Mode"
               >
                 <MenuItem value="comparison">Comparison</MenuItem>

@@ -134,7 +134,11 @@ const DayBanner = ({
     return moment.tz.zone(timezone) !== null;
   };
 
-  const handleApprove = async (week: number, day: number, content: { posts: Array<{ image_url: string[]; text: string }> }) => {
+  const handleApprove = async (
+    week: number,
+    day: number,
+    content: { posts: Array<{ image_url: string[]; text: string }> }
+  ) => {
     const endpointUrl = getServiceURL('content-gen');
     const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const validTimezone = validateTimezone(userTimezone) ? userTimezone : 'UTC';
@@ -145,15 +149,22 @@ const DayBanner = ({
       day: day + 1,
       approved: true,
       timezone: validTimezone,
-      posts: content.posts.reduce((acc: Record<string, { selected_image: string; text: string }>, item: { image_url: string[]; text: string }, index: number) => {
-        const postKey = `post_${index + 1}`;
-        const selectedIndex = (selectedImages[index] || 1) - 1;
-        acc[postKey] = {
-          selected_image: item.image_url[selectedIndex],
-          text: item.text,
-        };
-        return acc;
-      }, {}),
+      posts: content.posts.reduce(
+        (
+          acc: Record<string, { selected_image: string; text: string }>,
+          item: { image_url: string[]; text: string },
+          index: number
+        ) => {
+          const postKey = `post_${index + 1}`;
+          const selectedIndex = (selectedImages[index] || 1) - 1;
+          acc[postKey] = {
+            selected_image: item.image_url[selectedIndex],
+            text: item.text,
+          };
+          return acc;
+        },
+        {}
+      ),
     };
     try {
       const response = await fetch(endpointUrl + `/api/v1/contentgen/approve`, {
@@ -174,8 +185,7 @@ const DayBanner = ({
       handleApprovalUpdate(currentPage - 1, day, null, true);
 
       // closeOverlay();
-    } catch (error) {
-      console.error('Error fetching data:', error);
+    } catch (_error) {
       // setErrorText(error.message);
       // setErrorSaving(true);
     } finally {
