@@ -59,7 +59,7 @@ const HITLReviewPanel: React.FC<HITLReviewPanelProps> = ({
   const [loading, setLoading] = useState<{ [key: string]: boolean }>({});
   const [error, setError] = useState<string | null>(null);
 
-  const { } = useAuth();
+  const {} = useAuth();
 
   const handleApprove = useCallback(
     async (itemId: string) => {

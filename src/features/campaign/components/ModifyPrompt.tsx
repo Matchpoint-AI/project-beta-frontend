@@ -35,7 +35,7 @@ const PurpleButton = styled(Button)(({ theme: _theme }) => ({
   },
 }));
 
-const CancelButton = styled(Button)(({ ...rest: _rest }) => ({
+const CancelButton = styled(Button)(({ ...rest }) => ({
   backgroundColor: '#fce4ec',
   color: '#ad1457',
   padding: '0.5rem 2rem',
@@ -285,7 +285,9 @@ export default function ModifyPrompt({
             <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent mb-2">
               Regenerate Your Image
             </h1>
-            <p className="text-gray-700 font-bold text-md">Let&apos;s regenerate your image together.</p>
+            <p className="text-gray-700 font-bold text-md">
+              Let&apos;s regenerate your image together.
+            </p>
           </div>
 
           <div className="mb-4">
@@ -351,8 +353,8 @@ export default function ModifyPrompt({
           <div className="relative text-center">
             <h2 className="text-xl font-bold text-purple-600 mb-4">Regeneration Limit Reached</h2>
             <p className="text-gray-700 mb-6">
-              You&apos;ve hit your regeneration limit for this content. We&apos;ll keep you posted when
-              Matchpoint Unlimited—with more regenerations—is ready for you.{' '}
+              You&apos;ve hit your regeneration limit for this content. We&apos;ll keep you posted
+              when Matchpoint Unlimited—with more regenerations—is ready for you.{' '}
             </p>
 
             <div className="flex flex-col gap-3">

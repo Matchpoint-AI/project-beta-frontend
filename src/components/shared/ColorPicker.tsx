@@ -11,12 +11,7 @@ interface ColorCodeInputProps {
   className?: string;
 }
 
-function ColorCodeInput({
-  onChange,
-  value,
-  type,
-  className,
-}: ColorCodeInputProps) {
+function ColorCodeInput({ onChange, value, type, className }: ColorCodeInputProps) {
   const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     if (type === 'hex') onChange(e.target.value);
     else onChange(Number(e.target.value), type);

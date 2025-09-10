@@ -65,7 +65,11 @@ interface CampaignSetupCompleteDialogProps {
 }
 
 vi.mock('../campaign/CampaignSetupCompleteDialog', () => ({
-  default: ({ open, onClose, setCurrentStep: _setCurrentStep }: CampaignSetupCompleteDialogProps) =>
+  default: ({
+    open,
+    onClose,
+    setCurrentStep: _setCurrentStep,
+  }: CampaignSetupCompleteDialogProps) =>
     open ? (
       <div data-testid="campaign-setup-complete-dialog" onClick={onClose}>
         Campaign Setup Complete
