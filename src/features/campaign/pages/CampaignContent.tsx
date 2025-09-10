@@ -8,9 +8,7 @@ import { CampaignHeader, ButtonGroup, ApprovePopup, TabWrapper } from '../featur
 import { capitalizeFirstLetterOfEachWord } from '../helpers/formatters';
 import { trackContentReview, trackCampaignPublish } from '../helpers/analytics';
 import { CampaignContext, CampaignInfoType } from '../context/CampaignContext';
-import type { Campaign } from '../features/campaign/components/TabWrapper';
-import { CampaignReviewButton } from '../features/dashboard';
-import { Button } from '@mui/material';
+import type { Campaign } from '../components/TabWrapper';
 import handleNavigate from '../helpers/handleNavigate';
 
 const CampaignContent = () => {
