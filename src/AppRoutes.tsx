@@ -17,7 +17,7 @@ import settings from './components/shared/settings';
 import ManageUsers from './pages/ManageUsers';
 import UserDataPage from './pages/UserDataPage';
 import PrivacyPolicy from './pages/PrivacyPolicy';
-import ABTestDemo from './features/campaign/components/ABTestDemo';
+import { ABTestDemo } from './features/campaign';
 
 export default function AppRoutes() {
   const { profile } = useAuth();

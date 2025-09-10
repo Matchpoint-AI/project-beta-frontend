@@ -1,9 +1,9 @@
 // TabItems.tsx
 
 import React from 'react';
-import { getServiceURL } from '../../helpers/getServiceURL';
+import { getServiceURL } from '../../../helpers/getServiceURL';
 import { useParams } from 'react-router-dom';
-import { useAuth } from '../../features/auth/context/AuthContext';
+import { useAuth } from '../../../features/auth/context/AuthContext';
 import { MdCalendarToday } from 'react-icons/md';
 import { PiExportBold } from 'react-icons/pi';
 import { MdAutoAwesome } from 'react-icons/md';

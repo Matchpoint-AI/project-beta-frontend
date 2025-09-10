@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { IoClose } from 'react-icons/io5';
 import PostPreview from './PostPreview';
-import { useAuth } from '../../features/auth/context/AuthContext';
+import { useAuth } from '../../../features/auth/context/AuthContext';
 import { IoIosArrowBack } from 'react-icons/io';
 import { IoIosArrowForward } from 'react-icons/io';
-import { getServiceURL } from '../../helpers/getServiceURL';
+import { getServiceURL } from '../../../helpers/getServiceURL';
 import { CircularProgress, Dialog, DialogContent } from '@mui/material';
-import ErrorToast from '../shared/ErrorToast';
+import ErrorToast from '../../../components/shared/ErrorToast';
 import moment from 'moment-timezone';
 
 interface Post {

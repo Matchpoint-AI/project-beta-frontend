@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 // import CampaignStats from "./CampaignStats";
 // import CampaignReviewButton from "./CampaignReviewButton";
-// import { useAuth } from "../../features/auth/context/AuthContext";
-// import { getServiceURL } from "../../helpers/getServiceURL";
-import InstaConnect from '../shared/Buttons/InstaConnect';
+// import { useAuth } from "../../../features/auth/context/AuthContext";
+// import { getServiceURL } from "../../../helpers/getServiceURL";
+import InstaConnect from '../../../components/shared/Buttons/InstaConnect';
 import TabItems from './TabItems';
 // import CardStats from "./CardStats";
 import NewCardStats from '../dashboard/NewCardStats';
-import { CampaignInfoType } from '../../context/CampaignContext';
+import { CampaignInfoType } from '../../../context/CampaignContext';
 
 interface Stats {
   approved: number;

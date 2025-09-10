@@ -2,22 +2,22 @@ import React from 'react';
 import { render, waitFor } from '@testing-library/react';
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 import CampaignSetupCompleteDialog from './CampaignSetupCompleteDialog';
-import { BrandContext } from '../../context/BrandContext';
-import { CampaignContext } from '../../context/CampaignContext';
-import { useAuth } from '../../features/auth/context/AuthContext';
+import { BrandContext } from '../../../context/BrandContext';
+import { CampaignContext } from '../../../context/CampaignContext';
+import { useAuth } from '../../../features/auth/context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { plannerApi, policyApi } from '../../api/contentGenerationApi';
+import { plannerApi, policyApi } from '../../../api/contentGenerationApi';
 
 // Mock dependencies
-vi.mock('../../features/auth/context/AuthContext');
+vi.mock('../../../features/auth/context/AuthContext');
 vi.mock('react-router-dom');
-vi.mock('../../helpers/getServiceURL', () => ({
+vi.mock('../../../helpers/getServiceURL', () => ({
   getServiceURL: () => 'https://mock-service.com',
 }));
-vi.mock('../../helpers/handleNavigate', () => ({
+vi.mock('../../../helpers/handleNavigate', () => ({
   default: vi.fn(),
 }));
-vi.mock('../../api/contentGenerationApi', () => ({
+vi.mock('../../../api/contentGenerationApi', () => ({
   policyApi: {
     createPolicy: vi.fn(),
     getPolicy: vi.fn(),

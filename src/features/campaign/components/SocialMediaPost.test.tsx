@@ -4,7 +4,7 @@ import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
 import '@testing-library/jest-dom';
 
 import SocialMediaPost from './SocialMediaPost';
-import { AuthContext } from '../../features/auth/context/AuthContext';
+import { AuthContext } from '../../../features/auth/context/AuthContext';
 
 // --- BROWSER API MOCKS (robust for CI) ---
 class ResizeObserverMock {
@@ -57,11 +57,11 @@ Element.prototype.getBoundingClientRect = vi.fn(() => ({
 // --- END BROWSER API MOCKS ---
 
 // Mock dependencies
-vi.mock('../../helpers/getServiceURL', () => ({
+vi.mock('../../../helpers/getServiceURL', () => ({
   getServiceURL: vi.fn(() => 'http://localhost:8000'),
 }));
 
-vi.mock('../../helpers/posthog', () => ({
+vi.mock('../../../helpers/posthog', () => ({
   default: {
     __loaded: true,
     capture: vi.fn(),

@@ -5,13 +5,13 @@ import { useNavigate } from 'react-router-dom';
 import { IoArrowForward } from 'react-icons/io5';
 import Dialog from '@mui/material/Dialog';
 
-import { useAuth } from '../../features/auth/context/AuthContext';
-import { BrandContext } from '../../context/BrandContext';
-import { CampaignContext } from '../../context/CampaignContext';
-import { getServiceURL } from '../../helpers/getServiceURL';
-import handleNavigate from '../../helpers/handleNavigate';
-import posthog from '../../helpers/posthog';
-import { plannerApi, policyApi } from '../../api/contentGenerationApi';
+import { useAuth } from '../../../features/auth/context/AuthContext';
+import { BrandContext } from '../../../context/BrandContext';
+import { CampaignContext } from '../../../context/CampaignContext';
+import { getServiceURL } from '../../../helpers/getServiceURL';
+import handleNavigate from '../../../helpers/handleNavigate';
+import posthog from '../../../helpers/posthog';
+import { plannerApi, policyApi } from '../../../api/contentGenerationApi';
 
 interface Props {
   setCurrentStep: React.Dispatch<React.SetStateAction<number>>;

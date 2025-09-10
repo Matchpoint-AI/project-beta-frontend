@@ -14,8 +14,8 @@ import {
   Tooltip,
   LinearProgress,
 } from '@mui/material';
-import { useAuth } from '../../features/auth/context/AuthContext';
-import { plannerApi, policyApi } from '../../api/contentGenerationApi';
+import { useAuth } from '../../../features/auth/context/AuthContext';
+import { plannerApi, policyApi } from '../../../api/contentGenerationApi';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';

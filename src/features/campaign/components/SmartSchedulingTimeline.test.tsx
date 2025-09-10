@@ -4,7 +4,7 @@ import { render } from '@testing-library/react';
 import SmartSchedulingTimeline from './SmartSchedulingTimeline';
 
 // Mock the helper function
-vi.mock('../../helpers/calculateTiming', () => ({
+vi.mock('../../../helpers/calculateTiming', () => ({
   getPostingScheduleArray: vi.fn(() => [
     { date: new Date('2024-01-01'), time: '10:00 AM' },
     { date: new Date('2024-01-02'), time: '2:00 PM' },
