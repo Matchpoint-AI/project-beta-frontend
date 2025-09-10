@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
-import FormsContainer from '../shared/FormsContainer';
-import BrandDetailsReview from '../BrandDetailsReview';
-import { BrandContext } from '../../context/BrandContext';
-import Sidebar from '../shared/Sidebar';
+import FormsContainer from '../../../components/shared/FormsContainer';
+import BrandDetailsReview from './BrandDetailsReview';
+import { BrandContext } from '../context/BrandContext';
+import Sidebar from '../../../components/shared/Sidebar';
 import { FaEdit } from 'react-icons/fa';
 
 export default function BrandReview({ toggleEdit, hasBrand }: any) {

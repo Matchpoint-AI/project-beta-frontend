@@ -3,7 +3,7 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { vi } from 'vitest';
 import PurposeForm from './PurposeForm';
 import { CampaignContext } from '../../context/CampaignContext';
-import { BrandContext } from '../../context/BrandContext';
+import { BrandContext } from '../../features/brand/context/BrandContext';
 import { AuthContext } from '../../features/auth/context/AuthContext';
 
 // Mock dependencies

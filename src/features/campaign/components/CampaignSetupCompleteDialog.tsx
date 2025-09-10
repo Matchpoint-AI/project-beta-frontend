@@ -6,7 +6,7 @@ import { IoArrowForward } from 'react-icons/io5';
 import Dialog from '@mui/material/Dialog';
 
 import { useAuth } from '../../../features/auth/context/AuthContext';
-import { BrandContext } from '../../../context/BrandContext';
+import { BrandContext } from '../../brand/context/BrandContext';
 import { CampaignContext } from '../../../context/CampaignContext';
 import { getServiceURL } from '../../../helpers/getServiceURL';
 import handleNavigate from '../../../helpers/handleNavigate';

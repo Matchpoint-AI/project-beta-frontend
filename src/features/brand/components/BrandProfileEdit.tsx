@@ -2,12 +2,12 @@ import React, { useContext, useState, useRef, useEffect } from 'react';
 import { ButtonBase } from '@mui/material';
 import { FaRegEdit } from 'react-icons/fa';
 import { LuFileMinus } from 'react-icons/lu';
-import { useAuth } from '../features/auth/context/AuthContext';
+import { useAuth } from '../../auth/context/AuthContext';
 import { BrandContext } from '../context/BrandContext';
-import { getServiceURL } from '../helpers/getServiceURL';
-import PurpleButton from './shared/Buttons/PurpleButton';
-import BrandDetailsInput from './shared/Inputs/BrandDetailsInput';
-import Sidebar from './shared/Sidebar';
+import { getServiceURL } from '../../../helpers/getServiceURL';
+import PurpleButton from '../../../components/shared/Buttons/PurpleButton';
+import BrandDetailsInput from '../../../components/shared/Inputs/BrandDetailsInput';
+import Sidebar from '../../../components/shared/Sidebar';
 
 const description = {
   mission: 'The goal you want to achieve as a company',

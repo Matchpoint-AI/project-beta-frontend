@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 import CampaignBriefForm from './CampaignBriefForm';
-import { BrandContext } from '../../context/BrandContext';
+import { BrandContext } from '../../features/brand/context/BrandContext';
 import { CampaignContext } from '../../context/CampaignContext';
 
 // Mock the useAuth hook

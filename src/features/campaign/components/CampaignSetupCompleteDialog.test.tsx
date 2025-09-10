@@ -2,7 +2,7 @@ import React from 'react';
 import { render, waitFor } from '@testing-library/react';
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 import CampaignSetupCompleteDialog from './CampaignSetupCompleteDialog';
-import { BrandContext } from '../../../context/BrandContext';
+import { BrandContext } from '../../brand/context/BrandContext';
 import { CampaignContext } from '../../../context/CampaignContext';
 import { useAuth } from '../../../features/auth/context/AuthContext';
 import { useNavigate } from 'react-router-dom';

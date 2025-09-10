@@ -1,18 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { FormEventHandler, useContext, useEffect, useState } from 'react';
-import FileInput from '../FileInput';
-import { BrandContext } from '../../context/BrandContext';
-import ColorPicker from '../shared/ColorPicker';
-import FormsContainer from '../shared/FormsContainer';
-import ColorSpan from '../ColorSpan';
+import FileInput from '../../../components/FileInput';
+import { BrandContext } from '../context/BrandContext';
+import ColorPicker from '../../../components/shared/ColorPicker';
+import FormsContainer from '../../../components/shared/FormsContainer';
+import ColorSpan from '../../../components/ColorSpan';
 import * as pdfjsLib from 'pdfjs-dist';
 import pdfWorker from 'pdfjs-dist/build/pdf.worker.mjs?worker&url';
 import CircularProgress from '@mui/material/CircularProgress';
-import BackButton from '../shared/Buttons/BackButton';
-import NextButton from '../shared/Buttons/NextButton';
-import { getServiceURL } from '../../helpers/getServiceURL';
+import BackButton from '../../../components/shared/Buttons/BackButton';
+import NextButton from '../../../components/shared/Buttons/NextButton';
+import { getServiceURL } from '../../../helpers/getServiceURL';
 import { LuPlus } from 'react-icons/lu';
-import { trackBrandGuideUpload } from '../../helpers/analytics';
+import { trackBrandGuideUpload } from '../../../helpers/analytics';
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker;
 
