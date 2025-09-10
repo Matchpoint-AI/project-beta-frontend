@@ -29,7 +29,9 @@ export default function SettingsLayout() {
                 <li key={item.name}>
                   <NavLink
                     to={item.href}
-                    className={({ isActive }: { isActive: boolean }) => (isActive ? 'text-indigo-600' : '')}
+                    className={({ isActive }: { isActive: boolean }) =>
+                      isActive ? 'text-indigo-600' : ''
+                    }
                     end
                   >
                     {item.name}

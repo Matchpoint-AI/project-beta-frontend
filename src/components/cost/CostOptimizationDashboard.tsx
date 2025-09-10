@@ -56,7 +56,6 @@ ChartJS.register(
   ArcElement
 );
 
-
 interface CostOptimizationMetrics {
   optimization_type: string;
   period_start: string;
