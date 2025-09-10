@@ -4,7 +4,7 @@ import AudienceForm from '../Forms/AudienceForm';
 import PurposeForm from '../Forms/PurposeForm';
 import ServiceForm from '../onboard/ServiceForm';
 import TimingForm from '../Forms/TimingForm';
-import { CampaignContext } from '../../context/CampaignContext';
+import { CampaignContext } from '../../../context/CampaignContext';
 
 interface CustomDialogProps {
   setIsOpen: React.Dispatch<React.SetStateAction<number>>;

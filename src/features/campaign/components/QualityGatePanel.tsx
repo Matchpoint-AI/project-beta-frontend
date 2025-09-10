@@ -15,7 +15,7 @@ import {
 } from '@mui/material';
 import { FaExclamationTriangle, FaCheckCircle, FaInfoCircle } from 'react-icons/fa';
 import { MdExpandMore, MdRefresh } from 'react-icons/md';
-import { useAuth } from '../../features/auth/context/AuthContext';
+import { useAuth } from '../../../features/auth/context/AuthContext';
 
 export interface QualityCheck {
   id: string;

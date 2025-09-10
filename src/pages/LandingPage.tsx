@@ -1,5 +1,5 @@
 import React from 'react';
-import Navbar from '../components/auth/Navbar';
+import { Navbar } from '../features/auth';
 import LandingFooter from '../components/landing/LandingFooter';
 // import Contact from "../components/landing/Contact";
 import WhyBanner from '../components/landing/WhyBanner';

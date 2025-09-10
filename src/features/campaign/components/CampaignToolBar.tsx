@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Dropdown from '../shared/Dropdown';
+import Dropdown from '../../../components/shared/Dropdown';
 import { IoIosArrowBack } from 'react-icons/io';
 import { IoIosArrowForward } from 'react-icons/io';
 

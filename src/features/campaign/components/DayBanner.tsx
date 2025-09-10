@@ -1,10 +1,10 @@
 import { CircularProgress } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react';
 import SocialMediaPost from './SocialMediaPost';
-import { getServiceURL } from '../../helpers/getServiceURL';
+import { getServiceURL } from '../../../helpers/getServiceURL';
 import moment from 'moment-timezone';
-import { getPostingScheduleArray } from '../../helpers/calculateTiming';
-import { useAuth } from '../../features/auth/context/AuthContext';
+import { getPostingScheduleArray } from '../../../helpers/calculateTiming';
+import { useAuth } from '../../../features/auth/context/AuthContext';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 
 // const MAX_VISIBLE_POSTS = 1; // Maximum posts displayed at once

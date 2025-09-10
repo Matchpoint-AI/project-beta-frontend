@@ -33,7 +33,7 @@ import {
   SmartToy,
   Info,
 } from '@mui/icons-material';
-import { getPostingScheduleArray } from '../../helpers/calculateTiming';
+import { getPostingScheduleArray } from '../../../helpers/calculateTiming';
 
 // Date utility functions to replace dayjs
 const parseDate = (dateStr: string): Date => {

@@ -5,7 +5,7 @@ import { vi } from 'vitest';
 import ModifyPrompt from './ModifyPrompt';
 
 // Mock the dependencies
-vi.mock('../../features/auth/context/AuthContext', () => ({
+vi.mock('../../../features/auth/context/AuthContext', () => ({
   useAuth: () => ({
     profile: {
       token: 'test-token',
@@ -14,7 +14,7 @@ vi.mock('../../features/auth/context/AuthContext', () => ({
   }),
 }));
 
-vi.mock('../../helpers/getServiceURL', () => ({
+vi.mock('../../../helpers/getServiceURL', () => ({
   getServiceURL: () => 'http://test-url',
 }));
 

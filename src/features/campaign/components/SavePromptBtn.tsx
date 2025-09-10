@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import PurpleButton from '../shared/Buttons/PurpleButton';
+import PurpleButton from '../../../components/shared/Buttons/PurpleButton';
 import { CircularProgress } from '@mui/material';
-import ErrorToast from '../shared/ErrorToast';
-import { getServiceURL } from '../../helpers/getServiceURL';
-import { useAuth } from '../../features/auth/context/AuthContext';
+import ErrorToast from '../../../components/shared/ErrorToast';
+import { getServiceURL } from '../../../helpers/getServiceURL';
+import { useAuth } from '../../../features/auth/context/AuthContext';
 
 interface SavePromptBtnProps {
   prompt: string;

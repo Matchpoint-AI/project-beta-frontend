@@ -7,7 +7,7 @@ import ContentComparisonModal from './ContentComparisonModal';
 
 // Mock AuthContext
 const mockProfile = { uid: 'test-user-123', email: 'test@example.com' };
-vi.mock('../../features/auth/context/AuthContext', () => ({
+vi.mock('../../../features/auth/context/AuthContext', () => ({
   useAuth: () => ({ profile: mockProfile }),
 }));
 

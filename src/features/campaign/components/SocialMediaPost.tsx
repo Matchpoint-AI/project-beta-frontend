@@ -2,23 +2,23 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import PaginationImage from './PaginationImage';
-import { useAuth } from '../../features/auth/context/AuthContext';
-import { getServiceURL } from '../../helpers/getServiceURL';
+import { useAuth } from '../../../features/auth/context/AuthContext';
+import { getServiceURL } from '../../../helpers/getServiceURL';
 import { Button, CircularProgress, Dialog, DialogContent, Menu, MenuItem } from '@mui/material';
-import ErrorToast from '../shared/ErrorToast';
+import ErrorToast from '../../../components/shared/ErrorToast';
 import moment from 'moment-timezone';
 import { FaCheck } from 'react-icons/fa';
 import { IoMdCheckmark, IoMdRefresh } from 'react-icons/io';
-import posthog from '../../helpers/posthog';
+import posthog from '../../../helpers/posthog';
 import { MdClose, MdModeEdit, MdOutlineClose, MdOutlinePublishedWithChanges } from 'react-icons/md';
 import { MdCancel } from 'react-icons/md';
 import ModifyPrompt from './ModifyPrompt';
 import AutoAwesomeOutlinedIcon from '@mui/icons-material/AutoAwesomeOutlined';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { TiArrowMaximise } from 'react-icons/ti';
-import PurpleButton from '../shared/Buttons/PurpleButton';
+import PurpleButton from '../../../components/shared/Buttons/PurpleButton';
 import { IoClose } from 'react-icons/io5';
-import { captionApi } from '../../api/contentGenerationApi';
+import { captionApi } from '../../../api/contentGenerationApi';
 import QualityScoreIndicator from './QualityScoreIndicator';
 
 // import { trackFeatureUsage } from "../helpers/analytics";

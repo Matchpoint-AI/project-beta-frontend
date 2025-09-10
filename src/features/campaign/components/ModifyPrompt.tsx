@@ -1,12 +1,12 @@
 import React, { FormEventHandler, useEffect, useState } from 'react';
-import { useAuth } from '../../features/auth/context/AuthContext';
+import { useAuth } from '../../../features/auth/context/AuthContext';
 import { Button, Dialog, DialogContent, TextareaAutosize, TextField } from '@mui/material';
-import { getServiceURL } from '../../helpers/getServiceURL';
+import { getServiceURL } from '../../../helpers/getServiceURL';
 import Cookies from 'universal-cookie';
 import { PiArrowsClockwiseBold } from 'react-icons/pi';
 import styled from '@emotion/styled';
 import { MdClose } from 'react-icons/md';
-import { imageApi } from '../../api/contentGenerationApi';
+import { imageApi } from '../../../api/contentGenerationApi';
 interface ModifyPromptProps {
   week: number;
   day: number;

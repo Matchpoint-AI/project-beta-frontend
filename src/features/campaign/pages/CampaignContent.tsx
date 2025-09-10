@@ -4,14 +4,11 @@ import { useAuth } from '../features/auth/context/AuthContext';
 import { getServiceURL } from '../helpers/getServiceURL';
 import { useNavigate, useParams } from 'react-router-dom';
 import { displayDuration, getPostingSchedule } from '../helpers/calculateTiming';
-import CampaignHeader from '../components/campaign/CampaignHeader';
+import { CampaignHeader, ButtonGroup, ApprovePopup, TabWrapper } from '../features/campaign';
 import { capitalizeFirstLetterOfEachWord } from '../helpers/formatters';
-import ButtonGroup from '../components/campaign/ButtonGroup';
-import ApprovePopup from '../components/campaign/ApprovePopup';
-import TabWrapper from '../components/campaign/TabWrapper';
 import { trackContentReview, trackCampaignPublish } from '../helpers/analytics';
 import { CampaignContext, CampaignInfoType } from '../context/CampaignContext';
-import type { Campaign } from '../components/campaign/TabWrapper';
+import type { Campaign } from '../components/TabWrapper';
 import handleNavigate from '../helpers/handleNavigate';
 
 const CampaignContent = () => {
