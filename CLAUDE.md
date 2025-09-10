@@ -123,6 +123,33 @@ Before creating a pull request, ensure your code meets the following standards:
    npm test
    ```
 
+### CRITICAL: Run Tests Locally Before Pushing
+
+**Always run the complete test suite locally before pushing to remote:**
+
+```bash
+# Run all tests with coverage
+npm test
+
+# If tests are interactive/watching, run once with:
+npm test -- --run
+
+# Also verify the build succeeds
+npm run build
+```
+
+**Why this is critical:**
+- GitHub Actions will fail if tests don't pass
+- Failed CI checks block PR merging
+- Local testing catches issues faster than waiting for CI
+- Prevents wasted CI minutes and multiple fix commits
+
+**Test Troubleshooting:**
+- If tests fail with missing dependencies, check that all imports are correct
+- For "multiple elements found" errors, ensure proper test cleanup with `afterEach(cleanup)`
+- Mock external dependencies properly in test files
+- Check that all relative import paths are correct for the current file structure
+
 ### Important Notes
 
 - The CI pipeline will automatically check formatting, linting, types, and tests
