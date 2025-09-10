@@ -294,7 +294,7 @@ describe('ModifyPrompt', () => {
 
       // Should handle 401 errors by redirecting to login
       await waitFor(() => {
-        console.log('Authentication failed - token may be invalid or expired');
+        // Authentication failed - token may be invalid or expired
       });
     });
   });

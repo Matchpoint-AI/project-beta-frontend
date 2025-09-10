@@ -220,7 +220,7 @@ export const policyApi = {
   },
 
   // Update policy
-  updatePolicy: async (campaignId: string, policyId: string, _data: unknown, token: string) => {
+  updatePolicy: async (campaignId: string, policyId: string, data: unknown, token: string) => {
     const response = await fetch(
       `${CONTENT_GEN_URL}/api/v1/campaigns/${campaignId}/policy/${policyId}`,
       {
@@ -229,7 +229,7 @@ export const policyApi = {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(_data),
+        body: JSON.stringify(data),
       }
     );
     if (!response.ok) {

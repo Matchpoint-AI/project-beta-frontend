@@ -150,10 +150,6 @@ const ServiceForm = ({ handleNext, handleBack, review = false, setService }: Ser
 
         // Update business info with new product features
         setBusinessInfo((prev: any) => {
-          console.log(
-            'Updating business info with new product features:',
-            scrapedProduct.product_features
-          );
           return {
             ...prev,
             product_features: scrapedProduct.product_features || [],

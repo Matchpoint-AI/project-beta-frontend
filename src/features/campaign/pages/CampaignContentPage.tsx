@@ -40,11 +40,15 @@ export default function CampaignContentPage() {
         )}
         {!loading && !_error && (
           <div className="md:ml-[80px] flex-grow flex flex-col gap-8 p-8 md:mt-8 mt-[80px]">
-            <UserDataBlocks data={data} viewContent={async () => {
-              // Empty implementation - no content viewing functionality
-            }} viewThread={async () => {
-              // Empty implementation - no thread viewing functionality
-            }} />
+            <UserDataBlocks
+              data={data}
+              viewContent={async () => {
+                // Empty implementation - no content viewing functionality
+              }}
+              viewThread={async () => {
+                // Empty implementation - no thread viewing functionality
+              }}
+            />
           </div>
         )}
       </div>

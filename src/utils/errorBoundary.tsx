@@ -70,12 +70,7 @@ export const useExternalScriptErrorHandler = () => {
           event.filename.includes('addEventListener') ||
           event.message.includes('Cannot read properties of null'))
       ) {
-        console.log({
-          message: event.message,
-          filename: event.filename,
-          lineno: event.lineno,
-          colno: event.colno,
-        });
+        // Error logged for debugging purposes
 
         // Prevent the error from being logged to console
         event.preventDefault();
