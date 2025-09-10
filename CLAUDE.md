@@ -123,6 +123,35 @@ Before creating a pull request, ensure your code meets the following standards:
    npm test
    ```
 
+### CRITICAL: Run Tests Locally Before Pushing
+
+**Always run the complete test suite locally before pushing to remote:**
+
+```bash
+# Run all tests with coverage
+npm test
+
+# If tests are interactive/watching, run once with:
+npm test -- --run
+
+# Also verify the build succeeds
+npm run build
+```
+
+**Why this is critical:**
+
+- GitHub Actions will fail if tests don't pass
+- Failed CI checks block PR merging
+- Local testing catches issues faster than waiting for CI
+- Prevents wasted CI minutes and multiple fix commits
+
+**Test Troubleshooting:**
+
+- If tests fail with missing dependencies, check that all imports are correct
+- For "multiple elements found" errors, ensure proper test cleanup with `afterEach(cleanup)`
+- Mock external dependencies properly in test files
+- Check that all relative import paths are correct for the current file structure
+
 ### Test Writing Guidelines
 
 All tests in this project **MUST** follow the AAA (Arrange-Act-Assert) pattern for clarity and maintainability:
@@ -134,12 +163,12 @@ describe('ComponentName', () => {
   it('should do something specific', () => {
     // Arrange - Set up test data, mocks, and initial state
     const mockData = { id: 1, name: 'Test' };
-    const mockCallback = jest.fn();
-    
+    const mockCallback = vi.fn(); // Note: Use vi.fn() for Vitest, not jest.fn()
+
     // Act - Execute the action being tested
     const result = render(<Component data={mockData} onClick={mockCallback} />);
     fireEvent.click(screen.getByRole('button'));
-    
+
     // Assert - Verify the expected outcome
     expect(mockCallback).toHaveBeenCalledTimes(1);
     expect(screen.getByText('Test')).toBeInTheDocument();
@@ -161,17 +190,17 @@ describe('ComponentName', () => {
 describe('UserProfile', () => {
   it('should display user name when data is loaded', async () => {
     // Arrange
-    const mockUser = { 
-      id: '123', 
-      name: 'John Doe', 
-      email: 'john@example.com' 
+    const mockUser = {
+      id: '123',
+      name: 'John Doe',
+      email: 'john@example.com'
     };
-    const mockFetch = jest.fn().mockResolvedValue(mockUser);
-    
+    const mockFetch = vi.fn().mockResolvedValue(mockUser); // Use vi.fn() for Vitest
+
     // Act
     render(<UserProfile userId="123" fetchUser={mockFetch} />);
     await waitFor(() => screen.getByText('John Doe'));
-    
+
     // Assert
     expect(mockFetch).toHaveBeenCalledWith('123');
     expect(screen.getByText('John Doe')).toBeInTheDocument();
@@ -181,12 +210,12 @@ describe('UserProfile', () => {
   it('should show error message when fetch fails', async () => {
     // Arrange
     const mockError = new Error('Network error');
-    const mockFetch = jest.fn().mockRejectedValue(mockError);
-    
+    const mockFetch = vi.fn().mockRejectedValue(mockError); // Use vi.fn() for Vitest
+
     // Act
     render(<UserProfile userId="123" fetchUser={mockFetch} />);
     await waitFor(() => screen.getByText('Error loading profile'));
-    
+
     // Assert
     expect(mockFetch).toHaveBeenCalledWith('123');
     expect(screen.getByText('Error loading profile')).toBeInTheDocument();

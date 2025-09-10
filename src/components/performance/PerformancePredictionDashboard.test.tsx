@@ -22,7 +22,7 @@ describe('PerformancePredictionDashboard', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    (useAuth as jest.MockedFunction<typeof useAuth>).mockReturnValue({
+    (useAuth as any).mockReturnValue({
       profile: mockProfile,
       isAuthenticated: true,
     });
@@ -244,7 +244,7 @@ describe('PerformancePredictionDashboard', () => {
   });
 
   it('handles missing authentication gracefully', async () => {
-    (useAuth as jest.MockedFunction<typeof useAuth>).mockReturnValue({
+    (useAuth as any).mockReturnValue({
       profile: null,
       isAuthenticated: false,
     });

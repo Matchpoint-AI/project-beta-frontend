@@ -8,7 +8,7 @@ import { BrandContext } from '../../brand/context/BrandContext';
 import { CampaignContext } from '../../../context/CampaignContext';
 
 // Mock the modules
-vi.mock('../../helpers/handleNavigate', () => ({
+vi.mock('../../../helpers/handleNavigate', () => ({
   default: vi.fn(),
 }));
 

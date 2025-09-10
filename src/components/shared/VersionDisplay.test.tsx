@@ -1,5 +1,6 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, cleanup } from '@testing-library/react';
+import { afterEach } from 'vitest';
 import VersionDisplay from './VersionDisplay';
 
 // Mock the global __VITE_APP_VERSION__ variable
@@ -47,6 +48,10 @@ describe('VersionDisplay', () => {
       value: mockLocation,
       writable: true,
     });
+  });
+
+  afterEach(() => {
+    cleanup();
   });
 
   describe('Environment Detection', () => {
@@ -97,6 +102,7 @@ describe('VersionDisplay', () => {
       mockImportMeta.env.MODE = 'production';
       mockImportMeta.env.NODE_ENV = 'production';
       mockImportMeta.env.VITE_APP_ENV = 'production';
+      mockLocation.hostname = 'matchpointai.com';
       render(<VersionDisplay />);
       expect(screen.queryByTestId('version-display')).not.toBeInTheDocument();
     });
@@ -105,6 +111,7 @@ describe('VersionDisplay', () => {
       mockImportMeta.env.MODE = 'production';
       mockImportMeta.env.NODE_ENV = 'production';
       mockImportMeta.env.VITE_APP_ENV = 'prod';
+      mockLocation.hostname = 'matchpointai.com';
       render(<VersionDisplay />);
       expect(screen.queryByTestId('version-display')).not.toBeInTheDocument();
     });
@@ -113,6 +120,7 @@ describe('VersionDisplay', () => {
       mockImportMeta.env.MODE = 'production';
       mockImportMeta.env.NODE_ENV = 'production';
       mockImportMeta.env.VITE_APP_ENV = 'prod';
+      mockLocation.hostname = 'matchpointai.com';
       render(<VersionDisplay />);
       expect(screen.queryByTestId('version-display')).not.toBeInTheDocument();
     });

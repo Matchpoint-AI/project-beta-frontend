@@ -35,7 +35,7 @@ const PurpleButton = styled(Button)(({ theme: _theme }) => ({
   },
 }));
 
-const CancelButton = styled(Button)(({ ...rest }) => ({
+const CancelButton = styled(Button)(() => ({
   backgroundColor: '#fce4ec',
   color: '#ad1457',
   padding: '0.5rem 2rem',
