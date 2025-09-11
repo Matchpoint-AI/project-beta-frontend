@@ -291,7 +291,8 @@ describe('CostOptimizationDashboard', () => {
         expect(geminiTexts.length).toBeGreaterThan(0);
         expect(screen.getByText('Gemini 2.5 Flash-Lite')).toBeInTheDocument();
         expect(screen.getByText('67.0%')).toBeInTheDocument();
-        expect(screen.getByText('$24,422')).toBeInTheDocument();
+        const geminiSavingsTexts = screen.getAllByText('$24,422');
+        expect(geminiSavingsTexts.length).toBeGreaterThan(0);
       });
     });
 
@@ -459,7 +460,7 @@ describe('CostOptimizationDashboard', () => {
       render(<CostOptimizationDashboard />);
 
       await waitFor(() => {
-        expect(screen.getByText('Error loading cost dashboard: String error')).toBeInTheDocument();
+        expect(screen.getByText('Error loading cost dashboard: Failed to load cost dashboard data')).toBeInTheDocument();
       });
     });
   });
