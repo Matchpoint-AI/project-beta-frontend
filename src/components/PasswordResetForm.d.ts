@@ -1,12 +1,10 @@
 interface ToastState {
-  open: boolean;
-  error: boolean;
-  message: string;
+    open: boolean;
+    error: boolean;
+    message: string;
 }
 interface PasswordResetFormProps {
-  setOpenToast: (toast: ToastState) => void;
+    setOpenToast: (toast: ToastState) => void;
 }
-export default function PasswordResetForm({
-  setOpenToast,
-}: PasswordResetFormProps): import('react/jsx-runtime').JSX.Element;
+export default function PasswordResetForm({ setOpenToast }: PasswordResetFormProps): import("react/jsx-runtime").JSX.Element;
 export {};

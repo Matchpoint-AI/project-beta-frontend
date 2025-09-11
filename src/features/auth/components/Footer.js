@@ -1,47 +1,6 @@
-import { jsxs as _jsxs, jsx as _jsx } from 'react/jsx-runtime';
+import { jsxs as _jsxs, jsx as _jsx } from "react/jsx-runtime";
 var Footer = function () {
-  return _jsx('footer', {
-    className: 'bg-white shadow border fixed bottom-0 w-full',
-    children: _jsxs('div', {
-      className: 'w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between',
-      children: [
-        _jsxs('span', {
-          className: 'text-sm text-gray-500 sm:text-center',
-          children: [
-            '\u00A9 2023 - ',
-            new Date().getFullYear(),
-            ' Matchpoint, LLC. All rights reserved.',
-          ],
-        }),
-        _jsxs('ul', {
-          className: 'flex flex-wrap items-center mt-3 text-sm font-medium text-gray-500 sm:mt-0',
-          children: [
-            _jsx('li', {
-              children: _jsx('a', {
-                href: '/',
-                className: 'hover:underline me-4 md:me-6',
-                children: 'About',
-              }),
-            }),
-            _jsx('li', {
-              children: _jsx('a', {
-                href: '/privacy',
-                className: 'hover:underline me-4 md:me-6',
-                children: 'Privacy Policy',
-              }),
-            }),
-            _jsx('li', {
-              children: _jsx('a', {
-                href: 'mailto:hello@matchpointai.com',
-                className: 'hover:underline',
-                children: 'Contact',
-              }),
-            }),
-          ],
-        }),
-      ],
-    }),
-  });
+    return (_jsx("footer", { className: "bg-white shadow border fixed bottom-0 w-full", children: _jsxs("div", { className: "w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between", children: [_jsxs("span", { className: "text-sm text-gray-500 sm:text-center", children: ["\u00A9 2023 - ", new Date().getFullYear(), " Matchpoint, LLC. All rights reserved."] }), _jsxs("ul", { className: "flex flex-wrap items-center mt-3 text-sm font-medium text-gray-500 sm:mt-0", children: [_jsx("li", { children: _jsx("a", { href: "/", className: "hover:underline me-4 md:me-6", children: "About" }) }), _jsx("li", { children: _jsx("a", { href: "/privacy", className: "hover:underline me-4 md:me-6", children: "Privacy Policy" }) }), _jsx("li", { children: _jsx("a", { href: "mailto:hello@matchpointai.com", className: "hover:underline", children: "Contact" }) })] })] }) }));
 };
 export default Footer;
 //# sourceMappingURL=Footer.js.map

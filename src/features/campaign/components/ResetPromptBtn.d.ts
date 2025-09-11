@@ -1,11 +1,6 @@
-export default function ResetPromptBtn({
-  version,
-  token,
-  target,
-  switchPrompts,
-}: {
-  version: number;
-  token: string;
-  target: 'content_generation' | 'scrape_website';
-  switchPrompts: (version: number, target: 'content_generation' | 'scrape_website') => void;
-}): import('react/jsx-runtime').JSX.Element;
+export default function ResetPromptBtn({ version, token, target, switchPrompts, }: {
+    version: number;
+    token: string;
+    target: 'content_generation' | 'scrape_website';
+    switchPrompts: (version: number, target: 'content_generation' | 'scrape_website') => void;
+}): import("react/jsx-runtime").JSX.Element;

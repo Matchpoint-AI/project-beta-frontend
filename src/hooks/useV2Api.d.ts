@@ -2,83 +2,80 @@
  * Hook for V2 API usage
  */
 export declare function useV2Api(): {
-  campaign: {
-    /**
-     * Get campaign details
-     */
-    get: (campaignId: string) => Promise<import('../api/v2').GetCampaignResponse>;
-    /**
-     * Create a new campaign
-     */
-    create: (data: any) => Promise<import('../api/v2').CreateCampaignResponse>;
-    /**
-     * Update campaign
-     */
-    update: (campaignId: string, data: any) => Promise<import('../api/v2').UpdateCampaignResponse>;
-    /**
-     * Delete campaign
-     */
-    delete: (campaignId: string) => Promise<{
-      success: boolean;
-      message: string;
-    }>;
-    /**
-     * Generate content for campaign
-     */
-    generateContent: (
-      campaignId: string,
-      options?: any
-    ) => Promise<import('../api/v2').GenerateContentResponse>;
-    /**
-     * Get campaign content
-     */
-    getContent: (campaignId: string) => Promise<import('../api/v2').GetCampaignContentResponse>;
-    /**
-     * List campaigns
-     */
-    list: (filters?: any) => Promise<{
-      campaigns: import('../api/v2').GetCampaignResponse['campaign'][];
-    }>;
-  };
-  brand: {
-    /**
-     * Create brand
-     */
-    create: (data: any) => Promise<import('../api/v2').Brand>;
-    /**
-     * Get brand details
-     */
-    get: (brandId: string) => Promise<import('../api/v2').Brand>;
-    /**
-     * Update brand
-     */
-    update: (brandId: string, data: any) => Promise<import('../api/v2').Brand>;
-    /**
-     * Delete brand
-     */
-    delete: (brandId: string) => Promise<{
-      success: boolean;
-      message: string;
-    }>;
-    /**
-     * List brands
-     */
-    list: (filters?: any) => Promise<{
-      brands: import('../api/v2').Brand[];
-    }>;
-    /**
-     * Crawl website
-     */
-    crawlWebsite: (data: any) => Promise<import('../api/v2').CrawlWebsiteResponse>;
-    /**
-     * Get brand knowledge
-     */
-    getKnowledge: (brandId: string) => Promise<import('../api/v2').BrandKnowledge>;
-  };
-  getToken: () => Promise<string>;
-  isInitialized: boolean;
-  isLoading: boolean;
-  error: Error | null;
+    campaign: {
+        /**
+         * Get campaign details
+         */
+        get: (campaignId: string) => Promise<import("../api/v2").GetCampaignResponse>;
+        /**
+         * Create a new campaign
+         */
+        create: (data: Record<string, unknown>) => Promise<import("../api/v2").CreateCampaignResponse>;
+        /**
+         * Update campaign
+         */
+        update: (campaignId: string, data: Record<string, unknown>) => Promise<import("../api/v2").UpdateCampaignResponse>;
+        /**
+         * Delete campaign
+         */
+        delete: (campaignId: string) => Promise<{
+            success: boolean;
+            message: string;
+        }>;
+        /**
+         * Generate content for campaign
+         */
+        generateContent: (campaignId: string, options?: Record<string, unknown>) => Promise<import("../api/v2").GenerateContentResponse>;
+        /**
+         * Get campaign content
+         */
+        getContent: (campaignId: string) => Promise<import("../api/v2").GetCampaignContentResponse>;
+        /**
+         * List campaigns
+         */
+        list: (filters?: Record<string, unknown>) => Promise<{
+            campaigns: import("../api/v2").GetCampaignResponse["campaign"][];
+        }>;
+    };
+    brand: {
+        /**
+         * Create brand
+         */
+        create: (data: Record<string, unknown>) => Promise<import("../api/v2").Brand>;
+        /**
+         * Get brand details
+         */
+        get: (brandId: string) => Promise<import("../api/v2").Brand>;
+        /**
+         * Update brand
+         */
+        update: (brandId: string, data: Record<string, unknown>) => Promise<import("../api/v2").Brand>;
+        /**
+         * Delete brand
+         */
+        delete: (brandId: string) => Promise<{
+            success: boolean;
+            message: string;
+        }>;
+        /**
+         * List brands
+         */
+        list: (filters?: Record<string, unknown>) => Promise<{
+            brands: import("../api/v2").Brand[];
+        }>;
+        /**
+         * Crawl website
+         */
+        crawlWebsite: (data: Record<string, unknown>) => Promise<import("../api/v2").CrawlWebsiteResponse>;
+        /**
+         * Get brand knowledge
+         */
+        getKnowledge: (brandId: string) => Promise<import("../api/v2").BrandKnowledge>;
+    };
+    getToken: () => Promise<string>;
+    isInitialized: boolean;
+    isLoading: boolean;
+    error: Error | null;
 };
 /**
  * Example usage in a React component:
@@ -97,8 +94,7 @@ export declare function useV2Api(): {
  *       try {
  *         const result = await v2Api.campaign.list();
  *         setCampaigns(result.campaigns);
- *       } catch (error) {
- *         console.error('Failed to load campaigns:', error);
+ *       } catch (_error) {
  *       } finally {
  *         setLoading(false);
  *       }
