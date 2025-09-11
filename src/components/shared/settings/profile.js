@@ -9,13 +9,11 @@ export default function UserProfile() {
     if (!auth) return;
     signOut(auth)
       .then(function () {
-        console.log('user has signed out');
         localStorage.clear();
         sessionStorage.clear();
         navigate('/login');
       })
       .catch(function (err) {
-        console.log('problem while signing out: ', err.message);
       });
   };
   return _jsxs('div', {

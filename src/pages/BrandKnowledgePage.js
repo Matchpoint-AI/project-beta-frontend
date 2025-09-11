@@ -34,7 +34,6 @@ export var BrandKnowledgePage = function () {
     }
   };
   var handleSave = function (data) {
-    console.log('Brand knowledge saved:', data);
     // Additional logic for handling saved data
   };
   return _jsx(Container, {

@@ -204,7 +204,6 @@ var StepCampaignComponent = function (_a) {
         switch (_a.label) {
           case 0:
             setSaving(true);
-            console.log('Saving ...');
             info = campaignInfo;
             apiEndpoint = '/api/v1/data';
             if (info.campaign_id !== undefined) {
@@ -268,7 +267,6 @@ var StepCampaignComponent = function (_a) {
               setCampaignInfo(function (prev) {
                 return __assign(__assign({}, prev), { product_features: features });
               });
-              console.log('LLM-generated product features:', features);
             }
             return [3 /*break*/, 7];
           case 6:
@@ -360,7 +358,6 @@ var StepCampaignComponent = function (_a) {
                 return response.json();
               })
               .then(function (data) {
-                console.log('Data posted successfully:', data);
                 setCampaignInfo({});
                 setTimeout(function () {
                   // setMessage(newMessage);

@@ -199,7 +199,6 @@ export default function PasswordResetForm(_a) {
                 })
                 .catch(function (e) {
                   var authError = e;
-                  console.log(authError);
                   var message = 'Password reset failed!';
                   if (authError.code === 'auth/weak-password')
                     message = 'Password should be at least 6 characters';

@@ -199,7 +199,6 @@ export default function PromptsSettings() {
             ];
           case 1:
             app_prompts = _a.sent();
-            console.log(app_prompts);
             if (app_prompts) setPrompts(app_prompts);
             else setError('error loading prompts');
             setLoading(false);

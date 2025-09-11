@@ -234,7 +234,6 @@ var HITLReviewDemo = function () {
       return __generator(this, function (_a) {
         switch (_a.label) {
           case 0:
-            console.log('Approving item:', itemId);
             return [
               4 /*yield*/,
               new Promise(function (resolve) {
@@ -253,7 +252,6 @@ var HITLReviewDemo = function () {
       return __generator(this, function (_a) {
         switch (_a.label) {
           case 0:
-            console.log('Rejecting item:', itemId, 'with feedback:', feedback);
             return [
               4 /*yield*/,
               new Promise(function (resolve) {
@@ -272,7 +270,6 @@ var HITLReviewDemo = function () {
       return __generator(this, function (_a) {
         switch (_a.label) {
           case 0:
-            console.log('Editing item:', itemId, 'new content:', newContent);
             return [
               4 /*yield*/,
               new Promise(function (resolve) {
@@ -291,7 +288,6 @@ var HITLReviewDemo = function () {
       return __generator(this, function (_a) {
         switch (_a.label) {
           case 0:
-            console.log('Regenerating item:', itemId, 'with changes:', targetedChanges);
             return [
               4 /*yield*/,
               new Promise(function (resolve) {
@@ -311,7 +307,6 @@ var HITLReviewDemo = function () {
       return __generator(this, function (_a) {
         switch (_a.label) {
           case 0:
-            console.log('Saving content for item:', itemId, 'content:', content, 'notes:', notes);
             return [
               4 /*yield*/,
               new Promise(function (resolve) {
@@ -330,7 +325,6 @@ var HITLReviewDemo = function () {
       return __generator(this, function (_a) {
         switch (_a.label) {
           case 0:
-            console.log('Reverting item:', itemId, 'to version:', versionId);
             return [
               4 /*yield*/,
               new Promise(function (resolve) {
@@ -349,7 +343,6 @@ var HITLReviewDemo = function () {
       return __generator(this, function (_a) {
         switch (_a.label) {
           case 0:
-            console.log('Rechecking quality for item:', itemId);
             return [
               4 /*yield*/,
               new Promise(function (resolve) {

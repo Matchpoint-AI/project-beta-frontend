@@ -252,7 +252,6 @@ export var authFetch = function (url_1) {
           }
           // Log the request for debugging (only in development)
           if (process.env.NODE_ENV === 'development') {
-            console.log('[AuthFetch] '.concat(fetchOptions.method || 'GET', ' ').concat(url), {
               hasAuth: !!token && !skipAuth,
               headers: Object.fromEntries(headers.entries()),
             });
@@ -265,7 +264,6 @@ export var authFetch = function (url_1) {
           response = _b.sent();
           // Log response status for debugging
           if (process.env.NODE_ENV === 'development') {
-            console.log(
               '[AuthFetch] Response: '.concat(response.status, ' ').concat(response.statusText)
             );
             if (response.status === 401) {

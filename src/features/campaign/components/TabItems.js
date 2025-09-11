@@ -177,7 +177,6 @@ var TabItems = function (_a) {
           case 3:
             data = _a.sent();
             approved = data.approved;
-            console.log('approve === ', approved);
             setApprovePopup(approved);
             if (approved) {
               onApprove === null || onApprove === void 0 ? void 0 : onApprove();

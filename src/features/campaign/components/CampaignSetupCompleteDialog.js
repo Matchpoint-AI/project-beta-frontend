@@ -173,7 +173,6 @@ var CampaignSetupCompleteDialog = function (_a) {
   var endpointUrl = getServiceURL('data');
   var navigate = useNavigate();
   var updateStatus = function (startDate) {
-    console.log('start === ', startDate);
     if (!startDate) {
       // If no start date provided, default to Inactive
       return 'Inactive';
@@ -328,7 +327,6 @@ var CampaignSetupCompleteDialog = function (_a) {
         return response.json();
       })
       .then(function (data) {
-        console.log('Data posted successfully:', data);
         if (posthog.__loaded) {
           posthog.capture('Campaign Created', {
             distinct_id: profile === null || profile === void 0 ? void 0 : profile.id,
@@ -358,14 +356,10 @@ var CampaignSetupCompleteDialog = function (_a) {
         return __generator(this, function (_a) {
           switch (_a.label) {
             case 0:
-              console.log('=== SCENE MIX GENERATION START ===');
-              console.log('Campaign ID:', campaignId);
-              console.log(
                 'Campaign Name:',
                 campaignInfo === null || campaignInfo === void 0 ? void 0 : campaignInfo.name
               );
               // Wait for campaign to propagate (increased to prevent 404 errors)
-              console.log('Waiting 8 seconds for campaign to propagate in backend...');
               return [
                 4 /*yield*/,
                 new Promise(function (resolve) {
@@ -378,7 +372,6 @@ var CampaignSetupCompleteDialog = function (_a) {
             case 2:
               _a.trys.push([2, 9, , 10]);
               // Step 1: Create Scene Mix Policy for the campaign
-              console.log('Step 1/3: Creating Scene Mix policy...');
               purposeToIntent = {
                 'Make customers aware/excited': 'awareness',
                 'Get customers to buy': 'conversion',
@@ -470,9 +463,7 @@ var CampaignSetupCompleteDialog = function (_a) {
               ];
             case 3:
               policyData = _a.sent();
-              console.log('Step 1/3 COMPLETE: Scene Mix policy created:', policyData);
               // Step 2: Create content plan using Scene Mix Planner
-              console.log('Step 2/3: Creating content plan...');
               purposeToCampaignType = {
                 'Make customers aware/excited': 'brand_awareness',
                 'Get customers to buy': 'product_launch',
@@ -531,9 +522,7 @@ var CampaignSetupCompleteDialog = function (_a) {
               ];
             case 4:
               planData = _a.sent();
-              console.log('Step 2/3 COMPLETE: Content plan created:', planData);
               // Step 3: Trigger content generation with Scene Mix plan
-              console.log('Step 3/3: Triggering Scene Mix content generation...');
               baseParams = {
                 campaign_id: campaignId,
                 use_scene_mix: 'true', // Flag to use new Scene Mix generation
@@ -550,7 +539,6 @@ var CampaignSetupCompleteDialog = function (_a) {
               generateUrl = ''
                 .concat(getServiceURL('content-gen'), '/api/v1/contentgen/generate?')
                 .concat(params.toString());
-              console.log('Calling content generation endpoint:', generateUrl);
               return [
                 4 /*yield*/,
                 fetch(generateUrl, {
@@ -566,7 +554,6 @@ var CampaignSetupCompleteDialog = function (_a) {
               ];
             case 5:
               response = _a.sent();
-              console.log('Content generation response status:', response.status);
               if (response.ok) return [3 /*break*/, 7];
               return [4 /*yield*/, response.text()];
             case 6:
@@ -581,7 +568,6 @@ var CampaignSetupCompleteDialog = function (_a) {
               return [4 /*yield*/, response.json()];
             case 8:
               responseData = _a.sent();
-              console.log('Scene Mix content generation started successfully:', responseData);
               return [2 /*return*/];
             case 9:
               error_1 = _a.sent();
