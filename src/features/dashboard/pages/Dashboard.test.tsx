@@ -179,7 +179,7 @@ describe('Dashboard Component', () => {
     await new Promise((resolve) => setTimeout(resolve, 100));
 
     // The handleNavigate mock should NOT have been called
-    const handleNavigate = (await import('../helpers/handleNavigate')).default;
+    const handleNavigate = (await import('../../../helpers/handleNavigate')).default;
     expect(handleNavigate).not.toHaveBeenCalled();
   });
 });

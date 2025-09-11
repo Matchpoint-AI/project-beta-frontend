@@ -187,7 +187,7 @@ describe('CampaignsList Component', () => {
     const newCampaignButton = screen.getByText('New Campaign');
     fireEvent.click(newCampaignButton);
 
-    const handleNavigate = (await import('../../helpers/handleNavigate')).default;
+    const handleNavigate = (await import('../../../helpers/handleNavigate')).default;
     expect(handleNavigate).toHaveBeenCalledWith('test-user-id', '/campaign', expect.any(Function));
   });
 

@@ -1,8 +1,8 @@
 import React from 'react';
-import Sidebar from '../components/shared/Sidebar';
+import Sidebar from '../../../components/shared/Sidebar';
 import { useNavigate } from 'react-router-dom';
-import handleNavigate from '../helpers/handleNavigate';
-import { useAuth } from '../features/auth/context/AuthContext';
+import handleNavigate from '../../../helpers/handleNavigate';
+import { useAuth } from '../../auth/context/AuthContext';
 
 const NewCampaigns = () => {
   const navigate = useNavigate();
