@@ -1,0 +1,23 @@
+# Build outputs
+build/
+dist/
+*.js.map
+
+# Dependencies
+node_modules/
+
+# Compiled JS files that have TypeScript sources
+src/**/*.js
+!src/**/*.config.js
+
+# Test coverage
+coverage/
+
+# Environment files
+.env
+.env.local
+.env.production
+
+# Playwright
+playwright-report/
+test-results/
