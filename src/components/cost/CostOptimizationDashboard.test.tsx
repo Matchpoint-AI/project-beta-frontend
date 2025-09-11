@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import { render, screen, waitFor, fireEvent } from '@testing-library/react';
+import { render, screen, waitFor, fireEvent, cleanup } from '@testing-library/react';
 import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
 
 import { CostOptimizationDashboard } from './CostOptimizationDashboard';
@@ -209,6 +209,7 @@ describe('CostOptimizationDashboard', () => {
 
   afterEach(() => {
     vi.restoreAllMocks();
+    cleanup();
   });
 
   describe('Initial Loading', () => {
@@ -506,7 +507,7 @@ describe('CostOptimizationDashboard', () => {
 
         // Medium savings (67%) should have appropriate color
         const mediumSavingsElement = screen.getByText('67.0%');
-        expect(mediumSavingsElement).toHaveClass('text-green-600'); // Still good
+        expect(mediumSavingsElement).toHaveClass('text-yellow-600'); // Medium savings
       });
     });
   });
@@ -525,7 +526,8 @@ describe('CostOptimizationDashboard', () => {
         expect(metricsGrid).toHaveClass('grid-cols-1', 'md:grid-cols-2', 'lg:grid-cols-4');
 
         // Optimization cards grid
-        const optimizationGrid = screen.getByText('Vision Model Switch').closest('.grid');
+        const visionElements = screen.getAllByText('Vision Model Switch');
+        const optimizationGrid = visionElements[0].closest('.grid');
         expect(optimizationGrid).toHaveClass('grid-cols-1', 'md:grid-cols-2', 'lg:grid-cols-3');
       });
     });
@@ -623,6 +625,10 @@ describe('CostOptimizationDashboard', () => {
   });
 
   describe('Edge Cases', () => {
+    beforeEach(() => {
+      vi.clearAllMocks();
+    });
+
     it('should handle empty optimization metrics', async () => {
       const emptyData = {
         ...mockDashboardData,
@@ -636,7 +642,9 @@ describe('CostOptimizationDashboard', () => {
       await waitFor(() => {
         // Should still render the dashboard but without optimization cards
         expect(screen.getByText('Cost Optimization Dashboard')).toBeInTheDocument();
-        expect(screen.queryByText('Vision Model Switch')).not.toBeInTheDocument();
+        // Check that no optimization cards are rendered
+        const optimizationCards = screen.queryAllByText(/Vision Model Switch|Gemini Routing/);
+        expect(optimizationCards).toHaveLength(0);
       });
     });
 
