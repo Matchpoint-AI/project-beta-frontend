@@ -401,11 +401,13 @@ MOCK_API=false npx playwright test
 ### CI/CD Integration
 
 Tests run automatically on:
+
 - Every push to main (smoke tests)
 - Pull requests (full suite)
 - Nightly builds (extended cross-browser tests)
 
 The workflow follows a fail-fast approach:
+
 1. Format/Lint/Type checks (~2 min)
 2. Unit tests (~3 min)
 3. Docker build (~5 min)
@@ -414,6 +416,7 @@ The workflow follows a fail-fast approach:
 ### Test Artifacts
 
 Failed tests automatically capture:
+
 - Videos (retain-on-failure)
 - Screenshots (only-on-failure)
 - Traces (on-first-retry)
