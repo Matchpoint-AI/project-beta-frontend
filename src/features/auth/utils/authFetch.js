@@ -251,11 +251,6 @@ export var authFetch = function (url_1) {
             }
           }
           // Log the request for debugging (only in development)
-          if (process.env.NODE_ENV === 'development') {
-              hasAuth: !!token && !skipAuth,
-              headers: Object.fromEntries(headers.entries()),
-            });
-          }
           return [
             4 /*yield*/,
             fetch(url, __assign(__assign({}, fetchOptions), { headers: headers })),
@@ -263,13 +258,6 @@ export var authFetch = function (url_1) {
         case 1:
           response = _b.sent();
           // Log response status for debugging
-          if (process.env.NODE_ENV === 'development') {
-              '[AuthFetch] Response: '.concat(response.status, ' ').concat(response.statusText)
-            );
-            if (response.status === 401) {
-              console.error('[AuthFetch] 401 Unauthorized - Token may be invalid or missing');
-            }
-          }
           return [2 /*return*/, response];
       }
     });

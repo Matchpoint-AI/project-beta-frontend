@@ -305,9 +305,6 @@ var ServiceForm = function (_a) {
               setFeatures(scrapedProduct_1.product_features || []);
               // Update business info with new product features
               setBusinessInfo(function (prev) {
-                  'Updating business info with new product features:',
-                  scrapedProduct_1.product_features
-                );
                 return __assign(__assign({}, prev), {
                   product_features: scrapedProduct_1.product_features || [],
                   key_features: scrapedProduct_1.product_features || [],
@@ -356,9 +353,6 @@ var ServiceForm = function (_a) {
   };
   var productChangeHandler = function (value, index) {
     var _a, _b;
-      'Selected product:',
-      businessInfo === null || businessInfo === void 0 ? void 0 : businessInfo.products[index - 1]
-    );
     if (value !== 'Add Product or Service') {
       var selectedProduct =
         businessInfo === null || businessInfo === void 0
@@ -477,11 +471,6 @@ var ServiceForm = function (_a) {
     [businessInfo, campaignInfo]
   );
   // Add debug logging for features changes
-  useEffect(
-    function () {
-    },
-    [features]
-  );
   return _jsxs(_Fragment, {
     children: [
       _jsx(FormsContainer, {

@@ -13,8 +13,6 @@ export default function OnboardStepsBar(_a) {
     'The logo, colors and look of your brand make you recognizable and memorable',
     "Let's make sure we’ve gotten to know you well",
   ];
-  useEffect(function () {
-  }, []);
   return _jsxs(_Fragment, {
     children: [
       _jsx('div', {

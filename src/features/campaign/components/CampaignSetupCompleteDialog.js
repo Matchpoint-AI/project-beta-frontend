@@ -356,9 +356,6 @@ var CampaignSetupCompleteDialog = function (_a) {
         return __generator(this, function (_a) {
           switch (_a.label) {
             case 0:
-                'Campaign Name:',
-                campaignInfo === null || campaignInfo === void 0 ? void 0 : campaignInfo.name
-              );
               // Wait for campaign to propagate (increased to prevent 404 errors)
               return [
                 4 /*yield*/,

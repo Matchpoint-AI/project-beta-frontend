@@ -154,9 +154,6 @@ export default function ResetPromptBtn(_a) {
       return __generator(this, function (_a) {
         switch (_a.label) {
           case 0:
-              version: version,
-              target: target,
-            });
             setError('');
             setLoading(true);
             endpointUrl = ''.concat(getServiceURL('content-gen'), '/api/v1/app_prompts');
