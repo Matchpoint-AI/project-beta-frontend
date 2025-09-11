@@ -13,11 +13,11 @@ vi.mock('universal-cookie', () => ({
   })),
 }));
 
-vi.mock('../firebase', () => ({
+vi.mock('../../../firebase', () => ({
   useAuthentication: vi.fn(() => ({ user: null })),
 }));
 
-vi.mock('../helpers/getServiceURL', () => ({
+vi.mock('../../../helpers/getServiceURL', () => ({
   getServiceURL: vi.fn(() => 'http://localhost:8000'),
 }));
 

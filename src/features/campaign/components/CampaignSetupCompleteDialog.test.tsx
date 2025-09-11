@@ -128,20 +128,13 @@ describe('CampaignSetupCompleteDialog - Scene Mix Integration', () => {
     vi.clearAllMocks();
     vi.resetAllMocks();
     global.fetch = vi.fn();
-<<<<<<< HEAD
-    (useAuth as jest.MockedFunction<typeof useAuth>).mockReturnValue({
+    (useAuth as any).mockReturnValue({
       profile: { id: 'test-user-id', token: 'test-token' },
     });
-    (useNavigate as jest.MockedFunction<typeof useNavigate>).mockReturnValue(vi.fn());
-=======
-    (useAuth as any<typeof useAuth>).mockReturnValue({
-      profile: { id: 'test-user-id', token: 'test-token' },
-    });
-    (useNavigate as any<typeof useNavigate>).mockReturnValue(vi.fn());
->>>>>>> origin/main
+    (useNavigate as any).mockReturnValue(vi.fn());
     // Reset the API mocks
-    (policyApi.createPolicy as any<typeof policyApi.createPolicy>).mockReset();
-    (plannerApi.createPlan as any<typeof plannerApi.createPlan>).mockReset();
+    (policyApi.createPolicy as any).mockReset();
+    (plannerApi.createPlan as any).mockReset();
   });
 
   it.skip('should create Scene Mix plan with correct parameters', async () => {

@@ -11,7 +11,7 @@ vi.mock('../helpers/handleNavigate', () => ({
   default: vi.fn(),
 }));
 
-vi.mock('./dashboard/CardStats', () => ({
+vi.mock('../features/dashboard/components/CardStats', () => ({
   default: ({ id }: { id: string }) => <div data-testid="card-stats">Stats for {id}</div>,
 }));
 

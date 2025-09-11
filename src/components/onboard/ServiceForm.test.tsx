@@ -32,7 +32,7 @@ vi.mock('../../features/auth/context/AuthContext', () => ({
 
 // Mock the NextButton component
 vi.mock('../../shared/components/buttons/NextButton', () => ({
-  default: ({ text, formId, disabled }: { text: string; formId: string; disabled: boolean }) => (
+  default: ({ text = 'Next', formId, disabled }: { text?: string; formId: string; disabled: boolean }) => (
     <button type="submit" form={formId} disabled={disabled} data-testid="next-button">
       {text}
     </button>
@@ -194,7 +194,7 @@ describe('ServiceForm', () => {
     });
   });
 
-  it('renders form with product dropdown when products exist', () => {
+  it('renders form with product dropdown when products exist', async () => {
     renderWithProviders(
       <ServiceForm
         handleNext={mockHandleNext}
@@ -203,7 +203,9 @@ describe('ServiceForm', () => {
       />
     );
 
-    expect(screen.getByText('Which service or product are you featuring?')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('Which service or product are you featuring?')).toBeInTheDocument();
+    });
     expect(screen.getAllByTestId('product-dropdown')[0]).toBeInTheDocument();
   });
 
@@ -229,7 +231,7 @@ describe('ServiceForm', () => {
     expect(screen.getAllByPlaceholderText('Name the new Product/Service')[0]).toBeInTheDocument();
   });
 
-  it('handles product selection from dropdown', () => {
+  it('handles product selection from dropdown', async () => {
     renderWithProviders(
       <ServiceForm
         handleNext={mockHandleNext}
@@ -238,13 +240,17 @@ describe('ServiceForm', () => {
       />
     );
 
-    const dropdown = screen.getAllByTestId('product-dropdown')[0];
+    await waitFor(() => {
+      expect(screen.getByTestId('product-dropdown')).toBeInTheDocument();
+    });
+    
+    const dropdown = screen.getByTestId('product-dropdown');
     fireEvent.change(dropdown, { target: { value: 'Test Product' } });
 
     expect(mockSetService).toHaveBeenCalledWith('Test Product');
   });
 
-  it('handles new product selection', () => {
+  it('handles new product selection', async () => {
     renderWithProviders(
       <ServiceForm
         handleNext={mockHandleNext}
@@ -252,9 +258,17 @@ describe('ServiceForm', () => {
         setService={mockSetService}
       />
     );
-    const dropdown = screen.getAllByTestId('product-dropdown')[0];
+    
+    await waitFor(() => {
+      expect(screen.getByTestId('product-dropdown')).toBeInTheDocument();
+    });
+    
+    const dropdown = screen.getByTestId('product-dropdown');
     fireEvent.change(dropdown, { target: { value: 'Add Product or Service' } });
-    expect(screen.getAllByPlaceholderText('Name the new Product/Service')[0]).toBeInTheDocument();
+    
+    await waitFor(() => {
+      expect(screen.getByPlaceholderText('Name the new Product/Service')).toBeInTheDocument();
+    });
   });
 
   it('handles product scraping with valid URL', async () => {
@@ -423,7 +437,7 @@ describe('ServiceForm', () => {
     const nextButton = screen.getAllByTestId('next-button')[0];
     fireEvent.click(nextButton);
     expect(
-      screen.getByText((text) => /please at least provide a name of your product/i.test(text))
+      screen.getByText('Please at least provide a name of your product')
     ).toBeInTheDocument();
   });
 
@@ -449,7 +463,7 @@ describe('ServiceForm', () => {
     expect(nextButton).not.toBeDisabled();
   });
 
-  it('shows informative button text when form is not valid', () => {
+  it('shows informative button text when form is not valid', async () => {
     renderWithProviders(
       <ServiceForm
         handleNext={mockHandleNext}
@@ -458,14 +472,10 @@ describe('ServiceForm', () => {
       />
     );
 
-    // Clear all inputs
-    const websiteInput = screen.getAllByPlaceholderText('Link to Product/Service')[0];
-    const productNameInput = screen.getAllByPlaceholderText('Name the new Product/Service')[0];
-    fireEvent.change(websiteInput, { target: { value: '' } });
-    fireEvent.change(productNameInput, { target: { value: '' } });
-
-    // The next button should show informative text
-    const nextButton = screen.getAllByTestId('next-button')[0];
-    expect(nextButton).toHaveTextContent('Enter product details to continue');
+    await waitFor(() => {
+      // The next button should show informative text when the form is initially invalid
+      const nextButton = screen.getByTestId('next-button');
+      expect(nextButton).toHaveTextContent('Enter product details to continue');
+    });
   });
 });

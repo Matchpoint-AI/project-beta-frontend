@@ -1,15 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react';
-import Sidebar from '../components/shared/Sidebar';
-import { useAuth } from '../features/auth/context/AuthContext';
-import { getServiceURL } from '../helpers/getServiceURL';
+import Sidebar from '../../../components/shared/Sidebar';
+import { useAuth } from '../../auth/context/AuthContext';
+import { getServiceURL } from '../../../helpers/getServiceURL';
 import { useNavigate, useParams } from 'react-router-dom';
-import { displayDuration, getPostingSchedule } from '../helpers/calculateTiming';
-import { CampaignHeader, ButtonGroup, ApprovePopup, TabWrapper } from '../features/campaign';
-import { capitalizeFirstLetterOfEachWord } from '../helpers/formatters';
-import { trackContentReview, trackCampaignPublish } from '../helpers/analytics';
-import { CampaignContext, CampaignInfoType } from '../context/CampaignContext';
-import type { Campaign } from '../components/TabWrapper';
-import handleNavigate from '../helpers/handleNavigate';
+import { displayDuration, getPostingSchedule } from '../../../helpers/calculateTiming';
+import { CampaignHeader, ButtonGroup, ApprovePopup, TabWrapper } from '../../../features/campaign';
+import { capitalizeFirstLetterOfEachWord } from '../../../helpers/formatters';
+import { trackContentReview, trackCampaignPublish } from '../../../helpers/analytics';
+import { CampaignContext, CampaignInfoType } from '../../../context/CampaignContext';
+import type { Campaign } from '../../../components/TabWrapper';
+import handleNavigate from '../../../helpers/handleNavigate';
 
 const CampaignContent = () => {
   const [currentTab, setCurrentTab] = React.useState(1);
