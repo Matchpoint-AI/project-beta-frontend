@@ -257,7 +257,6 @@ export var authFetch = function (url_1) {
           ];
         case 1:
           response = _b.sent();
-          // Log response status for debugging
           return [2 /*return*/, response];
       }
     });

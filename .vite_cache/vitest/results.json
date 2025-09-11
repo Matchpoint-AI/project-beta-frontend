@@ -3,7 +3,7 @@
   "results": [
     [
       ":src/components/cost/CostOptimizationDashboard.test.tsx",
-      { "duration": 4409, "failed": true }
+      { "duration": 3443, "failed": true }
     ],
     [
       ":src/features/campaign/components/SocialMediaPost.test.tsx",
@@ -11,10 +11,10 @@
     ],
     [
       ":src/components/performance/SmartInsightsPanel.test.tsx",
-      { "duration": 2188, "failed": true }
+      { "duration": 2266, "failed": true }
     ],
-    [":src/api/contentGenerationApi.test.ts", { "duration": 6, "failed": false }],
-    [":src/components/onboard/ServiceForm.test.tsx", { "duration": 4602, "failed": true }],
+    [":src/api/contentGenerationApi.test.ts", { "duration": 8, "failed": false }],
+    [":src/components/onboard/ServiceForm.test.tsx", { "duration": 4919, "failed": true }],
     [
       ":src/features/campaign/components/CampaignSetupCompleteDialog.test.tsx",
       { "duration": 0, "failed": true }
@@ -23,15 +23,15 @@
       ":src/components/performance/PerformancePredictionDashboard.test.tsx",
       { "duration": 0, "failed": true }
     ],
-    [":src/components/shared/VersionDisplay.test.tsx", { "duration": 20, "failed": false }],
+    [":src/components/shared/VersionDisplay.test.tsx", { "duration": 29, "failed": false }],
     [
       ":src/features/campaign/components/ModifyPrompt.test.tsx",
-      { "duration": 443, "failed": false }
+      { "duration": 464, "failed": false }
     ],
     [":src/components/Forms/CampaignBriefForm.test.tsx", { "duration": 0, "failed": true }],
     [
       ":src/features/campaign/components/ContentPreviewPanel.test.tsx",
-      { "duration": 3855, "failed": false }
+      { "duration": 4131, "failed": false }
     ],
     [
       ":src/features/dashboard/components/CampaignsList.test.tsx",
@@ -42,21 +42,21 @@
     [":src/features/dashboard/pages/Dashboard.test.tsx", { "duration": 0, "failed": true }],
     [":src/components/Forms/PurposeForm.test.tsx", { "duration": 0, "failed": true }],
     [":src/features/brand/utils/scrapeBrandWebsite.test.ts", { "duration": 1, "failed": false }],
-    [":src/features/campaign/components/HITLReview.test.tsx", { "duration": 47, "failed": false }],
+    [":src/features/campaign/components/HITLReview.test.tsx", { "duration": 49, "failed": false }],
     [
       ":src/features/campaign/components/LanguageSelector.test.tsx",
-      { "duration": 190, "failed": false }
+      { "duration": 193, "failed": false }
     ],
     [":src/features/auth/context/AuthContext.test.tsx", { "duration": 0, "failed": true }],
     [
       ":src/features/campaign/components/QualityScoreIndicator.test.tsx",
-      { "duration": 41, "failed": false }
+      { "duration": 45, "failed": false }
     ],
     [
       ":src/features/campaign/components/SmartSchedulingTimeline.test.tsx",
-      { "duration": 26, "failed": false }
+      { "duration": 28, "failed": false }
     ],
-    [":src/utils/errorBoundary.test.tsx", { "duration": 5, "failed": false }],
+    [":src/utils/errorBoundary.test.tsx", { "duration": 10, "failed": false }],
     [":src/App.test.tsx", { "duration": 0, "failed": true }]
   ]
 }
