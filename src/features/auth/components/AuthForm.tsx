@@ -4,7 +4,7 @@ import {
   browserSessionPersistence,
   setPersistence,
 } from 'firebase/auth';
-import { useAuthentication } from '../../firebase';
+import { useAuthentication } from '../../../lib/firebase';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import posthog from '../../helpers/posthog';

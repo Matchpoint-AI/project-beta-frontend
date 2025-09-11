@@ -1,37 +1,7 @@
-import { jsx as _jsx, jsxs as _jsxs } from 'react/jsx-runtime';
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 var ApprovePopup = function (_a) {
-  var onClose = _a.onClose;
-  return _jsx('div', {
-    className: 'fixed inset-0 flex items-center  justify-center z-50 bg-black bg-opacity-50',
-    children: _jsx('div', {
-      className:
-        'bg-white rounded-lg shadow-lg p-6 text-center flex flex-col justify-center items-center gap-3 w-[500px] h-[250px]',
-      children: _jsx('div', {
-        className: 'flex flex-col justify-center items-center gap-0',
-        children: _jsxs('div', {
-          className: 'flex flex-col justify-center items-center gap-4',
-          children: [
-            _jsx('p', {
-              className: 'text-xl leading-8 font-normal text-gray-900',
-              children:
-                'Excited to get your content out there? We are too, but first you\u2019ll need to approve at least one piece of content for download. Go for it!',
-            }),
-            _jsx('div', {
-              className: 'flex justify-center gap-4',
-              children: _jsx('button', {
-                className:
-                  'text-gray-500 px-4 py-2 rounded underline text-sm font-normal leading-[21px] text-center decoration-solid decoration-underline [text-underline-position:from-font] [text-decoration-skip-ink:none] font-inter',
-                onClick: function () {
-                  return onClose();
-                },
-                children: 'Back to Content Library',
-              }),
-            }),
-          ],
-        }),
-      }),
-    }),
-  });
+    var onClose = _a.onClose;
+    return (_jsx("div", { className: "fixed inset-0 flex items-center  justify-center z-50 bg-black bg-opacity-50", children: _jsx("div", { className: "bg-white rounded-lg shadow-lg p-6 text-center flex flex-col justify-center items-center gap-3 w-[500px] h-[250px]", children: _jsx("div", { className: "flex flex-col justify-center items-center gap-0", children: _jsxs("div", { className: "flex flex-col justify-center items-center gap-4", children: [_jsx("p", { className: "text-xl leading-8 font-normal text-gray-900", children: "Excited to get your content out there? We are too, but first you\u2019ll need to approve at least one piece of content for download. Go for it!" }), _jsx("div", { className: "flex justify-center gap-4", children: _jsx("button", { className: "text-gray-500 px-4 py-2 rounded underline text-sm font-normal leading-[21px] text-center decoration-solid decoration-underline [text-underline-position:from-font] [text-decoration-skip-ink:none] font-inter", onClick: function () { return onClose(); }, children: "Back to Content Library" }) })] }) }) }) }));
 };
 export default ApprovePopup;
 //# sourceMappingURL=ApprovePopup.js.map
