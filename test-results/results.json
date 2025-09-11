@@ -1,0 +1,954 @@
+{
+  "config": {
+    "configFile": "/home/pselamy/repositories/project-beta-frontend-1757630388/playwright.config.ts",
+    "rootDir": "/home/pselamy/repositories/project-beta-frontend-1757630388/e2e",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {},
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "html",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results/results.json"
+        }
+      ],
+      [
+        "junit",
+        {
+          "outputFile": "test-results/junit.xml"
+        }
+      ],
+      [
+        "list",
+        null
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "/home/pselamy/repositories/project-beta-frontend-1757630388/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "/home/pselamy/repositories/project-beta-frontend-1757630388/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/home/pselamy/repositories/project-beta-frontend-1757630388/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "firefox",
+        "name": "firefox",
+        "testDir": "/home/pselamy/repositories/project-beta-frontend-1757630388/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/home/pselamy/repositories/project-beta-frontend-1757630388/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "webkit",
+        "name": "webkit",
+        "testDir": "/home/pselamy/repositories/project-beta-frontend-1757630388/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/home/pselamy/repositories/project-beta-frontend-1757630388/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "Mobile Chrome",
+        "name": "Mobile Chrome",
+        "testDir": "/home/pselamy/repositories/project-beta-frontend-1757630388/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/home/pselamy/repositories/project-beta-frontend-1757630388/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "Mobile Safari",
+        "name": "Mobile Safari",
+        "testDir": "/home/pselamy/repositories/project-beta-frontend-1757630388/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "shard": null,
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.55.0",
+    "workers": 4,
+    "webServer": {
+      "command": "npm run dev",
+      "url": "http://localhost:3000",
+      "reuseExistingServer": true,
+      "timeout": 120000
+    }
+  },
+  "suites": [
+    {
+      "title": "brand/onboarding.spec.ts",
+      "file": "brand/onboarding.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Brand Onboarding",
+          "file": "brand/onboarding.spec.ts",
+          "line": 4,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should complete full brand onboarding flow",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "eb6a5555511cd0e2dc3a-998643a4ed59aacd225f",
+              "file": "brand/onboarding.spec.ts",
+              "line": 12,
+              "column": 3
+            },
+            {
+              "title": "should allow navigating between steps",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "eb6a5555511cd0e2dc3a-e3f2dd1afa33f94064ee",
+              "file": "brand/onboarding.spec.ts",
+              "line": 93,
+              "column": 3
+            },
+            {
+              "title": "should save progress and resume later",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "eb6a5555511cd0e2dc3a-1f27b24aaa610eb0802b",
+              "file": "brand/onboarding.spec.ts",
+              "line": 107,
+              "column": 3
+            },
+            {
+              "title": "should validate required fields",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "eb6a5555511cd0e2dc3a-3916c37eee97fb1bacae",
+              "file": "brand/onboarding.spec.ts",
+              "line": 124,
+              "column": 3
+            },
+            {
+              "title": "should handle API errors gracefully",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "eb6a5555511cd0e2dc3a-ecb8265fa97c43347f32",
+              "file": "brand/onboarding.spec.ts",
+              "line": 136,
+              "column": 3
+            },
+            {
+              "title": "should handle quick onboarding with minimal data",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "eb6a5555511cd0e2dc3a-96ddd15d1f3328e3bebb",
+              "file": "brand/onboarding.spec.ts",
+              "line": 159,
+              "column": 3
+            },
+            {
+              "title": "should validate brand name uniqueness",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "eb6a5555511cd0e2dc3a-3f931d759ad265959024",
+              "file": "brand/onboarding.spec.ts",
+              "line": 174,
+              "column": 3
+            },
+            {
+              "title": "should allow skipping optional steps",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "eb6a5555511cd0e2dc3a-72a6f97514b367e8ef6b",
+              "file": "brand/onboarding.spec.ts",
+              "line": 203,
+              "column": 3
+            },
+            {
+              "title": "should complete full brand onboarding flow",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "eb6a5555511cd0e2dc3a-340567120f35cb7d6aad",
+              "file": "brand/onboarding.spec.ts",
+              "line": 12,
+              "column": 3
+            },
+            {
+              "title": "should allow navigating between steps",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "eb6a5555511cd0e2dc3a-01979b6363173b73ecd8",
+              "file": "brand/onboarding.spec.ts",
+              "line": 93,
+              "column": 3
+            },
+            {
+              "title": "should save progress and resume later",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "eb6a5555511cd0e2dc3a-3ed3f71f6df69842ec11",
+              "file": "brand/onboarding.spec.ts",
+              "line": 107,
+              "column": 3
+            },
+            {
+              "title": "should validate required fields",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "eb6a5555511cd0e2dc3a-96bf0cd5ae374e9cd647",
+              "file": "brand/onboarding.spec.ts",
+              "line": 124,
+              "column": 3
+            },
+            {
+              "title": "should handle API errors gracefully",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "eb6a5555511cd0e2dc3a-adaa3d8238faf20b8a97",
+              "file": "brand/onboarding.spec.ts",
+              "line": 136,
+              "column": 3
+            },
+            {
+              "title": "should handle quick onboarding with minimal data",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "eb6a5555511cd0e2dc3a-ebe7432cd4f957534349",
+              "file": "brand/onboarding.spec.ts",
+              "line": 159,
+              "column": 3
+            },
+            {
+              "title": "should validate brand name uniqueness",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "eb6a5555511cd0e2dc3a-92870c58cb4bac936111",
+              "file": "brand/onboarding.spec.ts",
+              "line": 174,
+              "column": 3
+            },
+            {
+              "title": "should allow skipping optional steps",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "eb6a5555511cd0e2dc3a-7b0c5dc42d3171252ce9",
+              "file": "brand/onboarding.spec.ts",
+              "line": 203,
+              "column": 3
+            },
+            {
+              "title": "should complete full brand onboarding flow",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "eb6a5555511cd0e2dc3a-64d209321da5a266ac41",
+              "file": "brand/onboarding.spec.ts",
+              "line": 12,
+              "column": 3
+            },
+            {
+              "title": "should allow navigating between steps",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "eb6a5555511cd0e2dc3a-a900ef226ddfc104f661",
+              "file": "brand/onboarding.spec.ts",
+              "line": 93,
+              "column": 3
+            },
+            {
+              "title": "should save progress and resume later",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "eb6a5555511cd0e2dc3a-66b414bc406b0008992e",
+              "file": "brand/onboarding.spec.ts",
+              "line": 107,
+              "column": 3
+            },
+            {
+              "title": "should validate required fields",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "eb6a5555511cd0e2dc3a-21aa14cfa78d3fe02e00",
+              "file": "brand/onboarding.spec.ts",
+              "line": 124,
+              "column": 3
+            },
+            {
+              "title": "should handle API errors gracefully",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "eb6a5555511cd0e2dc3a-48cf05fc836c82cfc969",
+              "file": "brand/onboarding.spec.ts",
+              "line": 136,
+              "column": 3
+            },
+            {
+              "title": "should handle quick onboarding with minimal data",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "eb6a5555511cd0e2dc3a-b8d54ef0e60ee5da8c5e",
+              "file": "brand/onboarding.spec.ts",
+              "line": 159,
+              "column": 3
+            },
+            {
+              "title": "should validate brand name uniqueness",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "eb6a5555511cd0e2dc3a-ab66e40f17e3b6ca6c92",
+              "file": "brand/onboarding.spec.ts",
+              "line": 174,
+              "column": 3
+            },
+            {
+              "title": "should allow skipping optional steps",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "eb6a5555511cd0e2dc3a-717f6e176a6746a5cdad",
+              "file": "brand/onboarding.spec.ts",
+              "line": 203,
+              "column": 3
+            },
+            {
+              "title": "should complete full brand onboarding flow",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Chrome",
+                  "projectName": "Mobile Chrome",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "eb6a5555511cd0e2dc3a-6c6820fc45759f2e69c2",
+              "file": "brand/onboarding.spec.ts",
+              "line": 12,
+              "column": 3
+            },
+            {
+              "title": "should allow navigating between steps",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Chrome",
+                  "projectName": "Mobile Chrome",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "eb6a5555511cd0e2dc3a-67ceed907b7d0c8cc0eb",
+              "file": "brand/onboarding.spec.ts",
+              "line": 93,
+              "column": 3
+            },
+            {
+              "title": "should save progress and resume later",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Chrome",
+                  "projectName": "Mobile Chrome",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "eb6a5555511cd0e2dc3a-9315118b19d4df675ab1",
+              "file": "brand/onboarding.spec.ts",
+              "line": 107,
+              "column": 3
+            },
+            {
+              "title": "should validate required fields",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Chrome",
+                  "projectName": "Mobile Chrome",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "eb6a5555511cd0e2dc3a-b8c3e8289f3d29741ade",
+              "file": "brand/onboarding.spec.ts",
+              "line": 124,
+              "column": 3
+            },
+            {
+              "title": "should handle API errors gracefully",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Chrome",
+                  "projectName": "Mobile Chrome",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "eb6a5555511cd0e2dc3a-2272c7a728b72a3c3ea5",
+              "file": "brand/onboarding.spec.ts",
+              "line": 136,
+              "column": 3
+            },
+            {
+              "title": "should handle quick onboarding with minimal data",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Chrome",
+                  "projectName": "Mobile Chrome",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "eb6a5555511cd0e2dc3a-408488443903243b7c5f",
+              "file": "brand/onboarding.spec.ts",
+              "line": 159,
+              "column": 3
+            },
+            {
+              "title": "should validate brand name uniqueness",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Chrome",
+                  "projectName": "Mobile Chrome",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "eb6a5555511cd0e2dc3a-28b34e2bf75a8fbc73cf",
+              "file": "brand/onboarding.spec.ts",
+              "line": 174,
+              "column": 3
+            },
+            {
+              "title": "should allow skipping optional steps",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Chrome",
+                  "projectName": "Mobile Chrome",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "eb6a5555511cd0e2dc3a-2a3b03e562864e902bed",
+              "file": "brand/onboarding.spec.ts",
+              "line": 203,
+              "column": 3
+            },
+            {
+              "title": "should complete full brand onboarding flow",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Safari",
+                  "projectName": "Mobile Safari",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "eb6a5555511cd0e2dc3a-2a0061527e18000fb3cd",
+              "file": "brand/onboarding.spec.ts",
+              "line": 12,
+              "column": 3
+            },
+            {
+              "title": "should allow navigating between steps",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Safari",
+                  "projectName": "Mobile Safari",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "eb6a5555511cd0e2dc3a-edd6ab6ee036399c06e4",
+              "file": "brand/onboarding.spec.ts",
+              "line": 93,
+              "column": 3
+            },
+            {
+              "title": "should save progress and resume later",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Safari",
+                  "projectName": "Mobile Safari",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "eb6a5555511cd0e2dc3a-0d0129ba951689484c6a",
+              "file": "brand/onboarding.spec.ts",
+              "line": 107,
+              "column": 3
+            },
+            {
+              "title": "should validate required fields",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Safari",
+                  "projectName": "Mobile Safari",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "eb6a5555511cd0e2dc3a-608d659d6d11cc6dc0eb",
+              "file": "brand/onboarding.spec.ts",
+              "line": 124,
+              "column": 3
+            },
+            {
+              "title": "should handle API errors gracefully",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Safari",
+                  "projectName": "Mobile Safari",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "eb6a5555511cd0e2dc3a-b6e3c893b84dd408bbb7",
+              "file": "brand/onboarding.spec.ts",
+              "line": 136,
+              "column": 3
+            },
+            {
+              "title": "should handle quick onboarding with minimal data",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Safari",
+                  "projectName": "Mobile Safari",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "eb6a5555511cd0e2dc3a-9b44353d9ab499c24299",
+              "file": "brand/onboarding.spec.ts",
+              "line": 159,
+              "column": 3
+            },
+            {
+              "title": "should validate brand name uniqueness",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Safari",
+                  "projectName": "Mobile Safari",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "eb6a5555511cd0e2dc3a-0befe7482906405198d1",
+              "file": "brand/onboarding.spec.ts",
+              "line": 174,
+              "column": 3
+            },
+            {
+              "title": "should allow skipping optional steps",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Safari",
+                  "projectName": "Mobile Safari",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "eb6a5555511cd0e2dc3a-8f2fc19fd7983c6937d4",
+              "file": "brand/onboarding.spec.ts",
+              "line": 203,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2025-09-11T22:46:37.586Z",
+    "duration": 249.62699999999995,
+    "expected": 0,
+    "skipped": 40,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

@@ -1,5 +1,5 @@
-import { test, expect } from '../../fixtures/mock-api.fixture';
-import { BrandOnboardingPage } from '../../pages/BrandOnboardingPage';
+import { test, expect } from '../fixtures/mock-api.fixture';
+import { BrandOnboardingPage } from '../pages/BrandOnboardingPage';
 
 test.describe('Brand Onboarding', () => {
   let onboardingPage: BrandOnboardingPage;

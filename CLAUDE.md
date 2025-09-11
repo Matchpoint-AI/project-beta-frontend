@@ -356,15 +356,38 @@ The project uses Playwright for end-to-end testing with a container-first approa
 
 ```
 e2e/
-├── tests/
-│   ├── brand/           # Brand-related tests
-│   ├── campaign/        # Campaign management tests
-│   ├── auth/            # Authentication flows
-│   └── smoke/           # Critical path tests
+├── brand/               # Brand-related test specs
+├── campaign/            # Campaign management test specs
+├── auth/                # Authentication flow test specs
+├── smoke/               # Critical path test specs
 ├── fixtures/            # Test helpers and utilities
 ├── pages/               # Page Object Model
-└── config/              # Playwright configuration
+├── docker-compose.yml   # E2E test environment configuration
+└── README.md            # E2E testing documentation
 ```
+
+### E2E Directory Structure Best Practices
+
+#### Key Principles
+
+1. **Flat Test Organization**: Test specs should be organized by feature/domain directly under `e2e/`, not nested in a redundant `tests/` subdirectory
+2. **Cohesive Configuration**: All E2E-related configuration (including docker-compose) should live within the `e2e/` directory for better cohesion
+3. **Clear Naming**: Directory names should be feature-based (e.g., `brand/`, `auth/`) without redundant prefixes or suffixes
+4. **Self-Contained**: The E2E directory should be self-contained with all necessary files for running tests
+
+#### Common Anti-patterns to Avoid
+
+- ❌ `e2e/tests/` - Redundant nesting (e2e already implies testing)
+- ❌ Docker configuration at root while tests are in subdirectory - Breaks cohesion
+- ❌ Deep nesting like `e2e/tests/features/module/` - Creates unnecessary complexity
+- ❌ Mixing unit and E2E tests in the same directory structure
+
+#### Recommended Structure
+
+- ✅ Feature-based organization directly under `e2e/`
+- ✅ Co-located configuration files (docker-compose.yml, playwright.config.ts)
+- ✅ Clear separation between test specs, fixtures, and page objects
+- ✅ Single source of truth for E2E testing within the `e2e/` directory
 
 ### Running Tests
 
@@ -373,13 +396,16 @@ e2e/
 npx playwright test --ui
 
 # Run specific test file
-npx playwright test e2e/tests/brand/onboarding.spec.ts
+npx playwright test e2e/brand/onboarding.spec.ts
 
 # Run tests in headed mode for debugging
 npx playwright test --headed
 
 # Generate test code
 npx playwright codegen localhost:3000
+
+# Run E2E tests in Docker
+cd e2e && docker-compose up --abort-on-container-exit
 ```
 
 ### Backend Mocking

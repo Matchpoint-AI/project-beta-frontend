@@ -1,0 +1,172 @@
+<testsuites id="" name="" tests="40" failures="0" skipped="40" errors="0" time="0.24962699999999996">
+<testsuite name="brand/onboarding.spec.ts" timestamp="2025-09-11T22:46:37.834Z" hostname="chromium" tests="8" failures="0" skipped="8" time="0" errors="0">
+<testcase name="Brand Onboarding › should complete full brand onboarding flow" classname="brand/onboarding.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Brand Onboarding › should allow navigating between steps" classname="brand/onboarding.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Brand Onboarding › should save progress and resume later" classname="brand/onboarding.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Brand Onboarding › should validate required fields" classname="brand/onboarding.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Brand Onboarding › should handle API errors gracefully" classname="brand/onboarding.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Brand Onboarding › should handle quick onboarding with minimal data" classname="brand/onboarding.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Brand Onboarding › should validate brand name uniqueness" classname="brand/onboarding.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Brand Onboarding › should allow skipping optional steps" classname="brand/onboarding.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+</testsuite>
+<testsuite name="brand/onboarding.spec.ts" timestamp="2025-09-11T22:46:37.834Z" hostname="firefox" tests="8" failures="0" skipped="8" time="0" errors="0">
+<testcase name="Brand Onboarding › should complete full brand onboarding flow" classname="brand/onboarding.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Brand Onboarding › should allow navigating between steps" classname="brand/onboarding.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Brand Onboarding › should save progress and resume later" classname="brand/onboarding.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Brand Onboarding › should validate required fields" classname="brand/onboarding.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Brand Onboarding › should handle API errors gracefully" classname="brand/onboarding.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Brand Onboarding › should handle quick onboarding with minimal data" classname="brand/onboarding.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Brand Onboarding › should validate brand name uniqueness" classname="brand/onboarding.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Brand Onboarding › should allow skipping optional steps" classname="brand/onboarding.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+</testsuite>
+<testsuite name="brand/onboarding.spec.ts" timestamp="2025-09-11T22:46:37.834Z" hostname="webkit" tests="8" failures="0" skipped="8" time="0" errors="0">
+<testcase name="Brand Onboarding › should complete full brand onboarding flow" classname="brand/onboarding.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Brand Onboarding › should allow navigating between steps" classname="brand/onboarding.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Brand Onboarding › should save progress and resume later" classname="brand/onboarding.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Brand Onboarding › should validate required fields" classname="brand/onboarding.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Brand Onboarding › should handle API errors gracefully" classname="brand/onboarding.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Brand Onboarding › should handle quick onboarding with minimal data" classname="brand/onboarding.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Brand Onboarding › should validate brand name uniqueness" classname="brand/onboarding.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Brand Onboarding › should allow skipping optional steps" classname="brand/onboarding.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+</testsuite>
+<testsuite name="brand/onboarding.spec.ts" timestamp="2025-09-11T22:46:37.834Z" hostname="Mobile Chrome" tests="8" failures="0" skipped="8" time="0" errors="0">
+<testcase name="Brand Onboarding › should complete full brand onboarding flow" classname="brand/onboarding.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Brand Onboarding › should allow navigating between steps" classname="brand/onboarding.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Brand Onboarding › should save progress and resume later" classname="brand/onboarding.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Brand Onboarding › should validate required fields" classname="brand/onboarding.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Brand Onboarding › should handle API errors gracefully" classname="brand/onboarding.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Brand Onboarding › should handle quick onboarding with minimal data" classname="brand/onboarding.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Brand Onboarding › should validate brand name uniqueness" classname="brand/onboarding.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Brand Onboarding › should allow skipping optional steps" classname="brand/onboarding.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+</testsuite>
+<testsuite name="brand/onboarding.spec.ts" timestamp="2025-09-11T22:46:37.834Z" hostname="Mobile Safari" tests="8" failures="0" skipped="8" time="0" errors="0">
+<testcase name="Brand Onboarding › should complete full brand onboarding flow" classname="brand/onboarding.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Brand Onboarding › should allow navigating between steps" classname="brand/onboarding.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Brand Onboarding › should save progress and resume later" classname="brand/onboarding.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Brand Onboarding › should validate required fields" classname="brand/onboarding.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Brand Onboarding › should handle API errors gracefully" classname="brand/onboarding.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Brand Onboarding › should handle quick onboarding with minimal data" classname="brand/onboarding.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Brand Onboarding › should validate brand name uniqueness" classname="brand/onboarding.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Brand Onboarding › should allow skipping optional steps" classname="brand/onboarding.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+</testsuite>
+</testsuites>
