@@ -460,7 +460,9 @@ describe('CostOptimizationDashboard', () => {
       render(<CostOptimizationDashboard />);
 
       await waitFor(() => {
-        expect(screen.getByText('Error loading cost dashboard: Failed to load cost dashboard data')).toBeInTheDocument();
+        expect(
+          screen.getByText('Error loading cost dashboard: Failed to load cost dashboard data')
+        ).toBeInTheDocument();
       });
     });
   });
