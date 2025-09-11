@@ -7,12 +7,11 @@ export default function UserProfile() {
   var navigate = useNavigate();
   var handleLogout = function () {
     if (!auth) return;
-    signOut(auth)
-      .then(function () {
-        localStorage.clear();
-        sessionStorage.clear();
-        navigate('/login');
-      })
+    signOut(auth).then(function () {
+      localStorage.clear();
+      sessionStorage.clear();
+      navigate('/login');
+    });
   };
   return _jsxs('div', {
     className: 'flex flex-col mx-auto flex-grow',

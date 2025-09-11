@@ -34,18 +34,17 @@ export default function SideNavBar(_a) {
   };
   var handleLogout = function () {
     var currentPath = window.location.pathname;
-    signOut(auth)
-      .then(function () {
-        cookies.remove('access_token', {
-          domain: window.location.hostname,
+    signOut(auth).then(function () {
+      cookies.remove('access_token', {
+        domain: window.location.hostname,
+      });
+      if (posthog.__loaded) {
+        posthog.capture('User Logged Out', {
+          distinct_id: profile.id,
         });
-        if (posthog.__loaded) {
-          posthog.capture('User Logged Out', {
-            distinct_id: profile.id,
-          });
-        }
-        navigate('/login');
-      })
+      }
+      navigate('/login');
+    });
   };
   // Tooltip component
   var Tooltip = function (_a) {
