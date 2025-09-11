@@ -449,3 +449,47 @@ Failed tests automatically capture:
 - HTML reports with embedded media
 
 Artifacts are uploaded to GitHub Actions and retained for 30 days.
+
+## Helper Script Guidelines
+
+### Recommended Directory for Helper Scripts
+
+**Use the system temporary directory `/tmp` for all helper scripts and temporary files**
+
+When creating helper scripts, utility files, or temporary processing files, place them in the system temporary directory `/tmp` rather than `~/tmp` or any directory within the project repository. This follows standard Unix conventions and provides several benefits:
+
+- **System managed cleanup**: `/tmp` is automatically cleaned by the system
+- **Proper permissions**: Standard world-writable with sticky bit (1777) prevents file conflicts
+- **Universal availability**: `/tmp` exists on all Unix-like systems
+- **Isolation**: Prevents cluttering user directories with temporary files
+- **Security**: Proper isolation and cleanup of temporary files
+
+#### Examples
+
+```bash
+# Create helper scripts in system temp directory (NOT in project repo)
+echo '#!/bin/bash\necho "Processing data..."' > /tmp/process_data.sh
+chmod +x /tmp/process_data.sh
+
+# Generate temporary config files in system temp directory
+cat > /tmp/temp_config.json << EOF
+{
+  "environment": "development",
+  "debug": true
+}
+EOF
+
+# Process temporary data files in system temp directory
+curl -o /tmp/api_data.json https://api.example.com/data
+jq '.results[]' /tmp/api_data.json > /tmp/processed_results.json
+```
+
+#### When NOT to use the system temp directory `/tmp`
+
+- Configuration files that need to persist across sessions
+- Scripts that are part of the project repository (these belong in the repo)
+- Files that need specific user ownership or permissions
+- Data that needs to survive system reboots
+- Any files that should be version controlled
+
+For permanent project files, use appropriate directories within the project structure or user home directory as needed. Never put temporary helper scripts or processing files inside the project repository.
