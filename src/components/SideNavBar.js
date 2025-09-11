@@ -46,8 +46,7 @@ export default function SideNavBar(_a) {
         }
         navigate('/login');
       })
-      .catch(function (err) {
-      });
+      .catch(function (err) {});
   };
   // Tooltip component
   var Tooltip = function (_a) {

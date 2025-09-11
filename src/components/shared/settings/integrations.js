@@ -175,8 +175,7 @@ export default function Integrations() {
         .then(function (response) {
           return response.json();
         })
-        .then(function (data) {
-        })
+        .then(function (data) {})
         .catch(function (error) {
           return console.error('Error:', error);
         });

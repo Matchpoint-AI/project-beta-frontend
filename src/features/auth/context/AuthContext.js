@@ -396,8 +396,6 @@ export var AuthProvider = function (_a) {
           var now = Date.now();
           var timeUntilExpiry = expiration - now;
           var refreshTime = Math.max(timeUntilExpiry - 10 * 60 * 1000, 5 * 60 * 1000); // Refresh 10 min before expiry, but at least 5 min from now
-            'Scheduling token refresh in '.concat(Math.round(refreshTime / 60000), ' minutes')
-          );
           var refreshTimeout_1 = setTimeout(function () {
             return __awaiter(void 0, void 0, void 0, function () {
               var newToken;
