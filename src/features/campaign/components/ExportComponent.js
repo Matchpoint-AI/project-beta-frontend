@@ -287,7 +287,6 @@ var ExportComponent = function (_a) {
         switch (_a.label) {
           case 0:
             _a.trys.push([0, 3, , 4]);
-            console.log('id === ', id);
             params = new URLSearchParams({
               campaign_id: id,
             });
@@ -310,9 +309,7 @@ var ExportComponent = function (_a) {
           case 2:
             data = _a.sent();
             if (data.length === 0 || data.arr[0].length === 0) return [2 /*return*/];
-            console.log('data from fetch === ', data);
             data2 = structureData(data.arr);
-            console.log('data after structure === ', data2);
             return [2 /*return*/, { weeks: data2, contentId: data.id }];
           case 3:
             error_1 = _a.sent();
@@ -356,8 +353,6 @@ var ExportComponent = function (_a) {
             }
             ((weeksData = fetchedData.weeks), (contentId = fetchedData.contentId));
             // const { weeks: weeksData, id } = await fetchWeeksData();
-            console.log('weeks === ', weeksData);
-            console.log('id === ', id);
             data = weeksData
               .filter(function (_, weekIndex) {
                 return currentValues.includes('Week '.concat(weekIndex + 1));
@@ -510,7 +505,6 @@ var ExportComponent = function (_a) {
               setError('Specify Week Content To Be Approved');
               return [2 /*return*/];
             }
-            console.log('currentValues === ', currentValues);
             transformedWeeks = currentValues.map(function (week) {
               return week.toLowerCase().replace(' ', '_');
             });
@@ -543,7 +537,6 @@ var ExportComponent = function (_a) {
             return [4 /*yield*/, response.json()];
           case 3:
             data = _a.sent();
-            console.log('Approval Success:', data);
             setSuccess(true);
             setErrorText('You Can Export The Specified Week');
             setErrorSaving(true); // Display error toast

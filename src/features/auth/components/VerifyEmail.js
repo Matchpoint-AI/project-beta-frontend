@@ -161,7 +161,6 @@ export default function VerifyEmail(_a) {
   var code = params.get('oobCode');
   var navigate = useNavigate();
   var cookies = new Cookies();
-  console.log(auth);
   var handleVerifyEmail = function () {
     return __awaiter(_this, void 0, void 0, function () {
       var e_1;
@@ -176,7 +175,6 @@ export default function VerifyEmail(_a) {
             return [3 /*break*/, 3];
           case 2:
             e_1 = _a.sent();
-            console.log(e_1);
             setError(true);
             return [3 /*break*/, 3];
           case 3:

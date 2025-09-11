@@ -268,7 +268,6 @@ var CampaignBriefForm = function (_a) {
           .then(function (data) {
             var choices = data.response.choices;
             var content = choices[0].message.content;
-            console.log(content);
             setCampaignSummary(content);
             setCampaignInfo(function (prev) {
               return __assign(__assign({}, prev), { summary: content });
@@ -300,7 +299,6 @@ var CampaignBriefForm = function (_a) {
       navigate
     );
   };
-  console.log(campaignInfo);
   return _jsxs(_Fragment, {
     children: [
       isOpen !== 0 &&

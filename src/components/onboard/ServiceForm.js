@@ -239,15 +239,12 @@ var ServiceForm = function (_a) {
       return product.name === campaignInfo.product;
     });
     if (selectedProduct) {
-      console.log('Selected product:', selectedProduct);
       setProductDescription(selectedProduct.description);
       setCampaignInfo(function (prev) {
         return __assign(__assign({}, prev), { productDescription: selectedProduct.description });
       });
     }
     // Log product features
-    console.log('Current product features:', businessInfo.product_features);
-    console.log('Current key features:', businessInfo.key_features);
   }, []);
   // Add validation effect
   useEffect(
@@ -299,21 +296,15 @@ var ServiceForm = function (_a) {
             _a.label = 1;
           case 1:
             _a.trys.push([1, 3, 4, 5]);
-            console.log('Scraping product from URL:', productLink);
             return [4 /*yield*/, scrapeProduct(productLink)];
           case 2:
             scrapedProduct_1 = _a.sent();
-            console.log('Scraped product data:', scrapedProduct_1);
             if (scrapedProduct_1 && scrapedProduct_1.name) {
               setProductName(scrapedProduct_1.name);
               setProductDescription(scrapedProduct_1.description || '');
               setFeatures(scrapedProduct_1.product_features || []);
               // Update business info with new product features
               setBusinessInfo(function (prev) {
-                console.log(
-                  'Updating business info with new product features:',
-                  scrapedProduct_1.product_features
-                );
                 return __assign(__assign({}, prev), {
                   product_features: scrapedProduct_1.product_features || [],
                   key_features: scrapedProduct_1.product_features || [],
@@ -328,7 +319,6 @@ var ServiceForm = function (_a) {
               });
               // Show success feedback
               setScrapeSuccess(true);
-              console.log('Product scraping completed successfully');
             } else {
               // Handle case where scraping succeeded but no product name was found
               console.warn('Scraping succeeded but no product name found');
@@ -363,11 +353,6 @@ var ServiceForm = function (_a) {
   };
   var productChangeHandler = function (value, index) {
     var _a, _b;
-    console.log('Product change handler - value:', value, 'index:', index);
-    console.log(
-      'Selected product:',
-      businessInfo === null || businessInfo === void 0 ? void 0 : businessInfo.products[index - 1]
-    );
     if (value !== 'Add Product or Service') {
       var selectedProduct =
         businessInfo === null || businessInfo === void 0
@@ -396,7 +381,6 @@ var ServiceForm = function (_a) {
               : selectedProduct.key_features) !== null && _b !== void 0
           ? _b
           : [];
-      console.log('Setting features from selected product:', features_1);
       setFeatures(features_1);
     } else {
       setNewProduct(true);
@@ -410,8 +394,6 @@ var ServiceForm = function (_a) {
     function () {
       var _a, _b, _c, _d, _e, _f, _g;
       if (isMounted.current) return;
-      console.log('ServiceForm - Initial mount - businessInfo:', businessInfo);
-      console.log('ServiceForm - Initial mount - campaignInfo:', campaignInfo);
       if (
         (campaignInfo === null || campaignInfo === void 0 ? void 0 : campaignInfo.product) ||
         (campaignInfo === null || campaignInfo === void 0
@@ -457,7 +439,6 @@ var ServiceForm = function (_a) {
           ? void 0
           : _d.length) > 0
       ) {
-        console.log('Setting features from campaignInfo:', campaignInfo.product_features);
         setFeatures(campaignInfo.product_features);
       } else if (
         (_e = businessInfo === null || businessInfo === void 0 ? void 0 : businessInfo.products) ===
@@ -473,7 +454,6 @@ var ServiceForm = function (_a) {
               : firstProduct.key_features) !== null && _g !== void 0
             ? _g
             : [];
-        console.log('Setting features from first product:', features_2);
         setFeatures(features_2);
       }
       if (campaignInfo.newProduct !== undefined) {
@@ -491,12 +471,7 @@ var ServiceForm = function (_a) {
     [businessInfo, campaignInfo]
   );
   // Add debug logging for features changes
-  useEffect(
-    function () {
-      console.log('ServiceForm - features updated:', features);
-    },
-    [features]
-  );
+  useEffect(function () {}, [features]);
   return _jsxs(_Fragment, {
     children: [
       _jsx(FormsContainer, {

@@ -215,7 +215,6 @@ export var AuthProvider = function (_a) {
               _a.label = 1;
             case 1:
               _a.trys.push([1, 3, , 4]);
-              console.log('Performing token refresh...');
               return [4 /*yield*/, user.getIdToken(true)];
             case 2:
               newToken = _a.sent();
@@ -231,7 +230,6 @@ export var AuthProvider = function (_a) {
                 sameSite: 'lax',
                 maxAge: 30 * 24 * 60 * 60, // 30 days
               });
-              console.log('Token refresh completed successfully');
               return [2 /*return*/, newToken];
             case 3:
               error_1 = _a.sent();
@@ -264,7 +262,6 @@ export var AuthProvider = function (_a) {
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax', // Changed from 'strict' to 'lax' for better compatibility
     });
-    console.log('Cookie set:', cookies.get('token')); // Debug log
     if (newProfile.hasBrand) {
       navigate('/dashboard');
     } else {
@@ -279,9 +276,7 @@ export var AuthProvider = function (_a) {
           case 0:
             _a.trys.push([0, 7, , 8]);
             setIsLoading(true);
-            console.log('Starting token validation...');
             if (!user) return [3 /*break*/, 4];
-            console.log('Firebase user found, using Firebase token');
             return [4 /*yield*/, user.getIdToken(true)];
           case 1:
             token = _a.sent();
@@ -310,14 +305,11 @@ export var AuthProvider = function (_a) {
               sameSite: 'lax',
               maxAge: 30 * 24 * 60 * 60, // 30 days
             });
-            console.log('Cookie set from Firebase:', cookies.get('token')); // Debug log
             setIsLoading(false);
             return [2 /*return*/];
           case 4:
             storedToken = cookies.get('token');
-            console.log('Stored token exists:', !!storedToken); // Debug log
             if (!storedToken) {
-              console.log('No stored token found, redirecting to login');
               setProfile(null);
               setIsLoading(false);
               if (location.pathname !== '/login' && location.pathname !== '/signup') {
@@ -336,7 +328,6 @@ export var AuthProvider = function (_a) {
           case 5:
             response = _a.sent();
             if (!response.ok) {
-              console.log('Token validation failed with status:', response.status);
               // Only clear token and navigate if we're on a protected route
               if (location.pathname !== '/login' && location.pathname !== '/signup') {
                 cookies.remove('token', { path: '/' });
@@ -351,7 +342,6 @@ export var AuthProvider = function (_a) {
             data = _a.sent();
             newProfile = __assign(__assign({}, data), { token: storedToken });
             setProfile(newProfile);
-            console.log('Token validation successful, profile set');
             // Refresh the token in the cookie
             cookies.set('token', storedToken, {
               path: '/',
@@ -394,7 +384,6 @@ export var AuthProvider = function (_a) {
         if (!currentToken) return;
         // Check if token is expiring soon
         if (isTokenExpiringSoon(currentToken)) {
-          console.log('Token expiring soon, refreshing immediately...');
           performTokenRefresh().catch(function (error) {
             console.error('Immediate token refresh failed:', error);
             logout();
@@ -407,9 +396,6 @@ export var AuthProvider = function (_a) {
           var now = Date.now();
           var timeUntilExpiry = expiration - now;
           var refreshTime = Math.max(timeUntilExpiry - 10 * 60 * 1000, 5 * 60 * 1000); // Refresh 10 min before expiry, but at least 5 min from now
-          console.log(
-            'Scheduling token refresh in '.concat(Math.round(refreshTime / 60000), ' minutes')
-          );
           var refreshTimeout_1 = setTimeout(function () {
             return __awaiter(void 0, void 0, void 0, function () {
               var newToken;
@@ -445,7 +431,6 @@ export var AuthProvider = function (_a) {
                 case 0:
                   currentToken = profile.token;
                   if (!(currentToken && isTokenExpiringSoon(currentToken))) return [3 /*break*/, 2];
-                  console.log('Backup refresh triggered for expiring token');
                   return [4 /*yield*/, performTokenRefresh()];
                 case 1:
                   newToken = _a.sent();

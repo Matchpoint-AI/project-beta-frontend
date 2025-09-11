@@ -141,10 +141,8 @@ var scrapeProduct = function (url, name, description) {
           endpointUrl = ''.concat(getServiceURL('llm'), '/api/v1/llm/fetch-content');
           body = {};
           if (url) {
-            console.log('Scraping product from URL:', url);
             body = { url: url, subject: 'product' };
           } else if (name || description) {
-            console.log('Scraping product from name/description:', name, description);
             endpointUrl = ''.concat(getServiceURL('llm'), '/api/v1/llm/fetch-content');
             body = { name: name, description: description, subject: 'product' };
           } else {
@@ -153,8 +151,6 @@ var scrapeProduct = function (url, name, description) {
           _a.label = 1;
         case 1:
           _a.trys.push([1, 6, , 7]);
-          console.log('Sending request to:', endpointUrl);
-          console.log('Request body:', body);
           return [
             4 /*yield*/,
             fetch(endpointUrl, {
@@ -167,8 +163,6 @@ var scrapeProduct = function (url, name, description) {
           ];
         case 2:
           response = _a.sent();
-          console.log('Response status:', response.status);
-          console.log('Response headers:', response.headers);
           if (response.ok) return [3 /*break*/, 4];
           return [4 /*yield*/, response.text()];
         case 3:
@@ -181,7 +175,6 @@ var scrapeProduct = function (url, name, description) {
           return [4 /*yield*/, response.json()];
         case 5:
           parsedContent = _a.sent();
-          console.log('Raw response from backend:', parsedContent);
           if (!parsedContent) {
             throw new Error('No data found in response');
           }
@@ -194,7 +187,6 @@ var scrapeProduct = function (url, name, description) {
                 ? parsedContent.key_features
                 : [],
           };
-          console.log('Processed product data:', result);
           // Validate that we have at least a name
           if (!result.name || result.name.trim() === '') {
             throw new Error('No product name found in response');

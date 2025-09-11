@@ -244,7 +244,6 @@ var Campaign = function () {
                     logo: data[0].biz_variables.brand_logo,
                   });
                 } else {
-                  console.log('returning to onboard');
                   setError(true);
                   setTimeout(function () {
                     handleNavigate(

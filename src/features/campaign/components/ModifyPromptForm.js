@@ -183,7 +183,6 @@ export default function ModifyPromptForm(props) {
             return [3 /*break*/, 4];
           case 3:
             e_1 = _a.sent();
-            console.log(e_1);
             setSubmited(false);
             return [3 /*break*/, 4];
           case 4:

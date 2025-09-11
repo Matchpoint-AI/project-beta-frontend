@@ -165,7 +165,6 @@ export default function updateUserProfile(token, name, email, password) {
           return [4 /*yield*/, response.json()];
         case 4:
           data = _a.sent();
-          console.log('');
           return [2 /*return*/, data];
       }
     });
