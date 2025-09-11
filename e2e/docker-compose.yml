@@ -3,7 +3,7 @@ version: "3.8"
 services:
   app:
     build:
-      context: .
+      context: ..
       dockerfile: Dockerfile
     ports:
       - "3000:80"
@@ -22,7 +22,7 @@ services:
   tests:
     image: mcr.microsoft.com/playwright:v1.55.0-noble
     volumes:
-      - .:/work
+      - ..:/work
     working_dir: /work
     environment:
       - BASE_URL=http://app
