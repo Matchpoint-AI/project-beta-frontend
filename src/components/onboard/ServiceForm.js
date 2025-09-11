@@ -471,7 +471,6 @@ var ServiceForm = function (_a) {
     [businessInfo, campaignInfo]
   );
   // Add debug logging for features changes
-  useEffect(function () {}, [features]);
   return _jsxs(_Fragment, {
     children: [
       _jsx(FormsContainer, {

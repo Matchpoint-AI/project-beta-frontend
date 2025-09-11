@@ -258,9 +258,6 @@ export var authFetch = function (url_1) {
         case 1:
           response = _b.sent();
           // Log response status for debugging
-          if (process.env.NODE_ENV === 'development' && response.status === 401) {
-            console.error('[AuthFetch] 401 Unauthorized - Token may be invalid or missing');
-          }
           return [2 /*return*/, response];
       }
     });

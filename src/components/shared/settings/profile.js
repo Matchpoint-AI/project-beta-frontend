@@ -13,7 +13,6 @@ export default function UserProfile() {
         sessionStorage.clear();
         navigate('/login');
       })
-      .catch(function (err) {});
   };
   return _jsxs('div', {
     className: 'flex flex-col mx-auto flex-grow',
