@@ -240,7 +240,7 @@ var PostPreview = function (_a) {
             ];
           case 1:
             response = _b.sent();
-            if (!!response.ok) return [3 /*break*/, 3];
+            if (response.ok) return [3 /*break*/, 3];
             return [4 /*yield*/, response.json()];
           case 2:
             data = _b.sent();

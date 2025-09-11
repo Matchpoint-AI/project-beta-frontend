@@ -256,7 +256,7 @@ var SceneMixPlanner = function (_a) {
             _a.trys.push([1, 5, 6, 7]);
             setCreatingPlan(true);
             setError(null);
-            if (!!scenePolicy) return [3 /*break*/, 3];
+            if (scenePolicy) return [3 /*break*/, 3];
             return [
               4 /*yield*/,
               policyApi.createPolicy(

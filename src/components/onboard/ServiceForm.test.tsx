@@ -32,7 +32,15 @@ vi.mock('../../features/auth/context/AuthContext', () => ({
 
 // Mock the NextButton component
 vi.mock('../../shared/components/buttons/NextButton', () => ({
-  default: ({ text = 'Next', formId, disabled }: { text?: string; formId: string; disabled: boolean }) => (
+  default: ({
+    text = 'Next',
+    formId,
+    disabled,
+  }: {
+    text?: string;
+    formId: string;
+    disabled: boolean;
+  }) => (
     <button type="submit" form={formId} disabled={disabled} data-testid="next-button">
       {text}
     </button>
@@ -243,7 +251,7 @@ describe('ServiceForm', () => {
     await waitFor(() => {
       expect(screen.getByTestId('product-dropdown')).toBeInTheDocument();
     });
-    
+
     const dropdown = screen.getByTestId('product-dropdown');
     fireEvent.change(dropdown, { target: { value: 'Test Product' } });
 
@@ -258,14 +266,14 @@ describe('ServiceForm', () => {
         setService={mockSetService}
       />
     );
-    
+
     await waitFor(() => {
       expect(screen.getByTestId('product-dropdown')).toBeInTheDocument();
     });
-    
+
     const dropdown = screen.getByTestId('product-dropdown');
     fireEvent.change(dropdown, { target: { value: 'Add Product or Service' } });
-    
+
     await waitFor(() => {
       expect(screen.getByPlaceholderText('Name the new Product/Service')).toBeInTheDocument();
     });
@@ -436,9 +444,7 @@ describe('ServiceForm', () => {
     fireEvent.change(productNameInput, { target: { value: '' } });
     const nextButton = screen.getAllByTestId('next-button')[0];
     fireEvent.click(nextButton);
-    expect(
-      screen.getByText('Please at least provide a name of your product')
-    ).toBeInTheDocument();
+    expect(screen.getByText('Please at least provide a name of your product')).toBeInTheDocument();
   });
 
   it('allows form submission with product link but no product name', () => {

@@ -290,7 +290,7 @@ var DayBanner = function (_a) {
             ];
           case 2:
             response = _a.sent();
-            if (!!response.ok) return [3 /*break*/, 4];
+            if (response.ok) return [3 /*break*/, 4];
             return [4 /*yield*/, response.json()];
           case 3:
             errorData = _a.sent();

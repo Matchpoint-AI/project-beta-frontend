@@ -189,7 +189,7 @@ var PerformanceApiClient = /** @class */ (function () {
             ];
           case 2:
             response = _b.sent();
-            if (!!response.ok) return [3 /*break*/, 7];
+            if (response.ok) return [3 /*break*/, 7];
             errorMessage = 'HTTP '.concat(response.status, ': ').concat(response.statusText);
             _b.label = 3;
           case 3:
@@ -230,7 +230,7 @@ var PerformanceApiClient = /** @class */ (function () {
             ];
           case 1:
             response = _b.sent();
-            if (!!response.ok) return [3 /*break*/, 6];
+            if (response.ok) return [3 /*break*/, 6];
             errorMessage = 'HTTP '.concat(response.status, ': ').concat(response.statusText);
             _b.label = 2;
           case 2:

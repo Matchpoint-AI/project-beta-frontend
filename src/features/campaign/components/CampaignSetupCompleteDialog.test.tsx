@@ -42,17 +42,17 @@ describe('CampaignSetupCompleteDialog - Default Values', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     global.fetch = vi.fn();
-    (useAuth as any<typeof useAuth>).mockReturnValue({
+    (useAuth as any).mockReturnValue({
       profile: { id: 'test-user-id', token: 'test-token' },
     });
-    (useNavigate as any<typeof useNavigate>).mockReturnValue(vi.fn());
+    (useNavigate as any).mockReturnValue(vi.fn());
   });
 
   it('should provide default values for undefined campaign fields', async () => {
     const minimalCampaignInfo = { name: 'Test Campaign' };
     const businessInfo = { name: 'Test Business' };
 
-    (global.fetch as any<typeof fetch>).mockResolvedValueOnce({
+    (global.fetch as any).mockResolvedValueOnce({
       ok: true,
       json: async () => ({ success: true }),
     });
@@ -71,7 +71,7 @@ describe('CampaignSetupCompleteDialog - Default Values', () => {
       expect(global.fetch).toHaveBeenCalled();
     });
 
-    const fetchCall = (global.fetch as any<typeof fetch>).mock.calls[0];
+    const fetchCall = (global.fetch as any).mock.calls[0];
     const body = JSON.parse(fetchCall[1].body);
     const campaignData = body.entity_data.campaign_data.campaign_variables;
 
@@ -96,7 +96,7 @@ describe('CampaignSetupCompleteDialog - Default Values', () => {
   it('should handle completely empty campaign info', async () => {
     const businessInfo = { name: 'Test Business' };
 
-    (global.fetch as any<typeof fetch>).mockResolvedValueOnce({
+    (global.fetch as any).mockResolvedValueOnce({
       ok: true,
       json: async () => ({ success: true }),
     });
@@ -113,7 +113,7 @@ describe('CampaignSetupCompleteDialog - Default Values', () => {
       expect(global.fetch).toHaveBeenCalled();
     });
 
-    const fetchCall = (global.fetch as any<typeof fetch>).mock.calls[0];
+    const fetchCall = (global.fetch as any).mock.calls[0];
     const body = JSON.parse(fetchCall[1].body);
     const campaignData = body.entity_data.campaign_data.campaign_variables;
 
@@ -153,38 +153,26 @@ describe('CampaignSetupCompleteDialog - Scene Mix Integration', () => {
     };
 
     // Mock successful campaign creation
-    (global.fetch as any<typeof fetch>).mockResolvedValueOnce({
+    (global.fetch as any).mockResolvedValueOnce({
       ok: true,
       json: async () => ({ success: true }),
     });
 
     // Mock successful policy creation
-    (
-<<<<<<< HEAD
-      policyApi.createPolicy as jest.MockedFunction<typeof policyApi.createPolicy>
-=======
-      policyApi.createPolicy as any<typeof policyApi.createPolicy>
->>>>>>> origin/main
-    ).mockResolvedValueOnce({
+    (policyApi.createPolicy as any).mockResolvedValueOnce({
       id: 'policy-123',
       scenes: [],
     });
 
     // Mock successful plan creation
-    (
-<<<<<<< HEAD
-      plannerApi.createPlan as jest.MockedFunction<typeof plannerApi.createPlan>
-=======
-      plannerApi.createPlan as any<typeof plannerApi.createPlan>
->>>>>>> origin/main
-    ).mockResolvedValueOnce({
+    (plannerApi.createPlan as any).mockResolvedValueOnce({
       plan_id: 'plan-123',
       campaign_id: 'test-campaign',
       status: 'draft',
     });
 
     // Mock successful content generation trigger
-    (global.fetch as any<typeof fetch>).mockResolvedValueOnce({
+    (global.fetch as any).mockResolvedValueOnce({
       ok: true,
       json: async () => ({ success: true }),
     });
@@ -243,35 +231,23 @@ describe('CampaignSetupCompleteDialog - Scene Mix Integration', () => {
       };
 
       // Mock successful campaign creation
-      (global.fetch as any<typeof fetch>).mockResolvedValueOnce({
+      (global.fetch as any).mockResolvedValueOnce({
         ok: true,
         json: async () => ({ success: true }),
       });
 
       // Mock successful policy creation
-      (
-<<<<<<< HEAD
-        policyApi.createPolicy as jest.MockedFunction<typeof policyApi.createPolicy>
-=======
-        policyApi.createPolicy as any<typeof policyApi.createPolicy>
->>>>>>> origin/main
-      ).mockResolvedValueOnce({
+      (policyApi.createPolicy as any).mockResolvedValueOnce({
         id: 'policy-123',
       });
 
       // Mock successful plan creation
-      (
-<<<<<<< HEAD
-        plannerApi.createPlan as jest.MockedFunction<typeof plannerApi.createPlan>
-=======
-        plannerApi.createPlan as any<typeof plannerApi.createPlan>
->>>>>>> origin/main
-      ).mockResolvedValueOnce({
+      (plannerApi.createPlan as any).mockResolvedValueOnce({
         plan_id: 'plan-123',
       });
 
       // Mock successful content generation
-      (global.fetch as any<typeof fetch>).mockResolvedValueOnce({
+      (global.fetch as any).mockResolvedValueOnce({
         ok: true,
         json: async () => ({ success: true }),
       });
@@ -293,12 +269,7 @@ describe('CampaignSetupCompleteDialog - Scene Mix Integration', () => {
         expect(plannerApi.createPlan).toHaveBeenCalled();
       });
 
-<<<<<<< HEAD
-      const planCall = (plannerApi.createPlan as jest.MockedFunction<typeof plannerApi.createPlan>)
-=======
-      const planCall = (plannerApi.createPlan as any<typeof plannerApi.createPlan>)
->>>>>>> origin/main
-        .mock.calls[0];
+      const planCall = (plannerApi.createPlan as any).mock.calls[0];
       expect(planCall[1].campaign_type).toBe(expectedType);
     }
   });
@@ -312,27 +283,14 @@ describe('CampaignSetupCompleteDialog - Scene Mix Integration', () => {
       // No audience data
     };
 
-    (global.fetch as any<typeof fetch>).mockResolvedValueOnce({
+    (global.fetch as any).mockResolvedValueOnce({
       ok: true,
       json: async () => ({ success: true }),
     });
 
-    (
-<<<<<<< HEAD
-      policyApi.createPolicy as jest.MockedFunction<typeof policyApi.createPolicy>
-    ).mockResolvedValueOnce({ id: 'policy-123' });
-    (
-      plannerApi.createPlan as jest.MockedFunction<typeof plannerApi.createPlan>
-    ).mockResolvedValueOnce({ plan_id: 'plan-123' });
-    (global.fetch as jest.MockedFunction<typeof fetch>).mockResolvedValueOnce({
-=======
-      policyApi.createPolicy as any<typeof policyApi.createPolicy>
-    ).mockResolvedValueOnce({ id: 'policy-123' });
-    (
-      plannerApi.createPlan as any<typeof plannerApi.createPlan>
-    ).mockResolvedValueOnce({ plan_id: 'plan-123' });
-    (global.fetch as any<typeof fetch>).mockResolvedValueOnce({
->>>>>>> origin/main
+    (policyApi.createPolicy as any).mockResolvedValueOnce({ id: 'policy-123' });
+    (plannerApi.createPlan as any).mockResolvedValueOnce({ plan_id: 'plan-123' });
+    (global.fetch as any).mockResolvedValueOnce({
       ok: true,
       json: async () => ({ success: true }),
     });
@@ -354,12 +312,7 @@ describe('CampaignSetupCompleteDialog - Scene Mix Integration', () => {
       expect(plannerApi.createPlan).toHaveBeenCalled();
     });
 
-<<<<<<< HEAD
-    const planCall = (plannerApi.createPlan as jest.MockedFunction<typeof plannerApi.createPlan>)
-=======
-    const planCall = (plannerApi.createPlan as any<typeof plannerApi.createPlan>)
->>>>>>> origin/main
-      .mock.calls[0];
+    const planCall = (plannerApi.createPlan as any).mock.calls[0];
     // Should have empty array for target_audience
     expect(planCall[1].target_audience).toEqual([]);
     // When no purpose is provided, it defaults to 'brand_awareness'
@@ -369,32 +322,20 @@ describe('CampaignSetupCompleteDialog - Scene Mix Integration', () => {
   it.skip('should use plan_id from response when triggering content generation', async () => {
     const campaignInfo = { name: 'Test Campaign' };
 
-    (global.fetch as any<typeof fetch>).mockResolvedValueOnce({
+    (global.fetch as any).mockResolvedValueOnce({
       ok: true,
       json: async () => ({ success: true }),
     });
 
-    (
-<<<<<<< HEAD
-      policyApi.createPolicy as jest.MockedFunction<typeof policyApi.createPolicy>
-=======
-      policyApi.createPolicy as any<typeof policyApi.createPolicy>
->>>>>>> origin/main
-    ).mockResolvedValueOnce({
+    (policyApi.createPolicy as any).mockResolvedValueOnce({
       id: 'policy-456',
     });
 
-    (
-<<<<<<< HEAD
-      plannerApi.createPlan as jest.MockedFunction<typeof plannerApi.createPlan>
-=======
-      plannerApi.createPlan as any<typeof plannerApi.createPlan>
->>>>>>> origin/main
-    ).mockResolvedValueOnce({
+    (plannerApi.createPlan as any).mockResolvedValueOnce({
       plan_id: 'plan-789', // This should be used, not 'id'
     });
 
-    (global.fetch as any<typeof fetch>).mockResolvedValueOnce({
+    (global.fetch as any).mockResolvedValueOnce({
       ok: true,
       json: async () => ({ success: true }),
     });
@@ -414,22 +355,12 @@ describe('CampaignSetupCompleteDialog - Scene Mix Integration', () => {
 
     await waitFor(() => {
       // Check that content generation was triggered (2 fetch calls total)
-      expect(
-<<<<<<< HEAD
-        (global.fetch as jest.MockedFunction<typeof fetch>).mock.calls.length
-=======
-        (global.fetch as any<typeof fetch>).mock.calls.length
->>>>>>> origin/main
-      ).toBeGreaterThanOrEqual(2);
+      expect((global.fetch as any).mock.calls.length).toBeGreaterThanOrEqual(2);
     });
 
     // Find the content generation call
-<<<<<<< HEAD
-    const contentGenCall = (global.fetch as jest.MockedFunction<typeof fetch>).mock.calls.find(
-=======
-    const contentGenCall = (global.fetch as any<typeof fetch>).mock.calls.find(
->>>>>>> origin/main
-      (call: any) => call[0].includes('/contentgen/generate')
+    const contentGenCall = (global.fetch as any).mock.calls.find((call: any) =>
+      call[0].includes('/contentgen/generate')
     );
 
     expect(contentGenCall).toBeDefined();
@@ -444,22 +375,16 @@ describe('CampaignSetupCompleteDialog - Scene Mix Integration', () => {
     const campaignInfo = { name: 'Test Campaign' };
 
     // Initial campaign creation succeeds
-    (global.fetch as any<typeof fetch>).mockResolvedValueOnce({
+    (global.fetch as any).mockResolvedValueOnce({
       ok: true,
       json: async () => ({ success: true }),
     });
 
     // Policy creation fails
-    (
-<<<<<<< HEAD
-      policyApi.createPolicy as jest.MockedFunction<typeof policyApi.createPolicy>
-=======
-      policyApi.createPolicy as any<typeof policyApi.createPolicy>
->>>>>>> origin/main
-    ).mockRejectedValueOnce(new Error('Policy creation failed'));
+    (policyApi.createPolicy as any).mockRejectedValueOnce(new Error('Policy creation failed'));
 
     // Legacy generation succeeds
-    (global.fetch as any<typeof fetch>).mockResolvedValueOnce({
+    (global.fetch as any).mockResolvedValueOnce({
       ok: true,
       json: async () => ({ success: true }),
     });
@@ -479,17 +404,11 @@ describe('CampaignSetupCompleteDialog - Scene Mix Integration', () => {
 
     await waitFor(() => {
       // Should have at least 2 fetch calls (campaign creation + legacy generation)
-      expect(
-<<<<<<< HEAD
-        (global.fetch as jest.MockedFunction<typeof fetch>).mock.calls.length
-=======
-        (global.fetch as any<typeof fetch>).mock.calls.length
->>>>>>> origin/main
-      ).toBeGreaterThanOrEqual(2);
+      expect((global.fetch as any).mock.calls.length).toBeGreaterThanOrEqual(2);
     });
 
     // Verify legacy generation was called
-    const legacyCall = (global.fetch as any<typeof fetch>).mock.calls.find(
+    const legacyCall = (global.fetch as any).mock.calls.find(
       (call: any) => call[0].includes('/contentgen/generate') && !call[0].includes('use_scene_mix')
     );
 

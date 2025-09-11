@@ -305,7 +305,7 @@ var SocialMediaPost = function (props) {
             ];
           case 2:
             response = _c.sent();
-            if (!!response.ok) return [3 /*break*/, 4];
+            if (response.ok) return [3 /*break*/, 4];
             return [4 /*yield*/, response.json()];
           case 3:
             errorData = _c.sent();

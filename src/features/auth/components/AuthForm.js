@@ -249,7 +249,7 @@ export default function AuthForm(_a) {
             return [4 /*yield*/, signInWithEmailAndPassword(auth, email, password)];
           case 6:
             res = _a.sent();
-            if (!!res.user.emailVerified) return [3 /*break*/, 8];
+            if (res.user.emailVerified) return [3 /*break*/, 8];
             return [4 /*yield*/, auth.signOut()];
           case 7:
             _a.sent();

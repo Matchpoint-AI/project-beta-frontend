@@ -214,7 +214,7 @@ export function fetchCostOptimizationData(startDate, endDate) {
           ];
         case 2:
           response = _a.sent();
-          if (!!response.ok) return [3 /*break*/, 4];
+          if (response.ok) return [3 /*break*/, 4];
           return [4 /*yield*/, response.text()];
         case 3:
           errorBody = _a.sent();
@@ -277,7 +277,7 @@ export function trackApiUsage(usageData) {
           ];
         case 2:
           response = _a.sent();
-          if (!!response.ok) return [3 /*break*/, 4];
+          if (response.ok) return [3 /*break*/, 4];
           return [4 /*yield*/, response.text()];
         case 3:
           errorBody = _a.sent();
@@ -345,7 +345,7 @@ export function fetchModelComparison(startDate, endDate) {
           ];
         case 2:
           response = _a.sent();
-          if (!!response.ok) return [3 /*break*/, 4];
+          if (response.ok) return [3 /*break*/, 4];
           return [4 /*yield*/, response.text()];
         case 3:
           errorBody = _a.sent();
@@ -414,7 +414,7 @@ export function exportCostData(startDate, endDate) {
           ];
         case 2:
           response = _a.sent();
-          if (!!response.ok) return [3 /*break*/, 4];
+          if (response.ok) return [3 /*break*/, 4];
           return [4 /*yield*/, response.text()];
         case 3:
           errorBody = _a.sent();
@@ -476,7 +476,7 @@ export function updateOptimizationSettings(settings) {
           ];
         case 2:
           response = _a.sent();
-          if (!!response.ok) return [3 /*break*/, 4];
+          if (response.ok) return [3 /*break*/, 4];
           return [4 /*yield*/, response.text()];
         case 3:
           errorBody = _a.sent();
