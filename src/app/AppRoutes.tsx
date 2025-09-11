@@ -2,7 +2,6 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Login from '../features/auth/pages/Login';
 import Signup from '../features/auth/pages/Signup';
-// import Home from "./pages/Home";
 import Onboard from '../pages/Onboard';
 import Campaign from '../features/campaign/pages/Campaign';
 import Dashboard from '../features/dashboard/pages/Dashboard';
