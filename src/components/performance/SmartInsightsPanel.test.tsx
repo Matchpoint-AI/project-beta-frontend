@@ -195,7 +195,8 @@ describe('SmartInsightsPanel', () => {
 
     render(<SmartInsightsPanel />);
 
-    expect(screen.getByText('Summary')).toBeInTheDocument();
+    const summaryTabs = screen.getAllByText('Summary');
+    expect(summaryTabs.length).toBeGreaterThan(0);
     expect(screen.getByText('Smart Insights')).toBeInTheDocument();
     expect(screen.getByText('Predictions')).toBeInTheDocument();
     expect(screen.getByText('Recommendations')).toBeInTheDocument();
@@ -210,8 +211,10 @@ describe('SmartInsightsPanel', () => {
     render(<SmartInsightsPanel />);
 
     await waitFor(() => {
-      expect(screen.getByText('System Health Overview')).toBeInTheDocument();
-      expect(screen.getByText('75')).toBeInTheDocument(); // health score
+      const overviewElements = screen.getAllByText('System Health Overview');
+      expect(overviewElements.length).toBeGreaterThan(0);
+      const scoreElements = screen.getAllByText('75');
+      expect(scoreElements.length).toBeGreaterThan(0); // health score
       expect(screen.getByText('Good')).toBeInTheDocument(); // health status
     });
 
@@ -280,7 +283,8 @@ describe('SmartInsightsPanel', () => {
     });
 
     // Check that severity badges are displayed
-    expect(screen.getByText('HIGH')).toBeInTheDocument();
+    const highElements = screen.getAllByText('HIGH');
+    expect(highElements.length).toBeGreaterThan(0);
     expect(screen.getByText('CRITICAL')).toBeInTheDocument();
   });
 
@@ -331,7 +335,8 @@ describe('SmartInsightsPanel', () => {
     });
 
     // Check implementation steps are shown
-    expect(screen.getByText('Implementation Steps:')).toBeInTheDocument();
+    const stepsElements = screen.getAllByText('Implementation Steps:');
+    expect(stepsElements.length).toBeGreaterThan(0);
     expect(screen.getByText('Implement content complexity scoring')).toBeInTheDocument();
   });
 

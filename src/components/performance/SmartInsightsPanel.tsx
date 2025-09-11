@@ -359,19 +359,19 @@ export const SmartInsightsPanel: React.FC = () => {
             </div>
             <div className="text-center">
               <div className="text-3xl font-bold text-red-600">
-                {summary.key_metrics.critical_issues}
+                {summary.key_metrics?.critical_issues ?? 0}
               </div>
               <div className="text-sm text-gray-600">Critical Issues</div>
             </div>
             <div className="text-center">
               <div className="text-3xl font-bold text-orange-600">
-                {summary.key_metrics.high_priority_issues}
+                {summary.key_metrics?.high_priority_issues ?? 0}
               </div>
               <div className="text-sm text-gray-600">High Priority</div>
             </div>
             <div className="text-center">
               <div className="text-3xl font-bold text-green-600">
-                {summary.key_metrics.total_recommendations}
+                {summary.key_metrics?.total_recommendations ?? 0}
               </div>
               <div className="text-sm text-gray-600">Recommendations</div>
             </div>
