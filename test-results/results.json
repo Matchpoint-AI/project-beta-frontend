@@ -13,10 +13,7 @@
     "metadata": {},
     "preserveOutput": "always",
     "reporter": [
-      [
-        "html",
-        null
-      ],
+      ["html", null],
       [
         "json",
         {
@@ -29,10 +26,7 @@
           "outputFile": "test-results/junit.xml"
         }
       ],
-      [
-        "list",
-        null
-      ]
+      ["list", null]
     ],
     "reportSlowTests": {
       "max": 5,
@@ -49,9 +43,7 @@
         "name": "chromium",
         "testDir": "/home/pselamy/repositories/project-beta-frontend-1757630388/e2e",
         "testIgnore": [],
-        "testMatch": [
-          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
-        ],
+        "testMatch": ["**/*.@(spec|test).?(c|m)[jt]s?(x)"],
         "timeout": 30000
       },
       {
@@ -63,9 +55,7 @@
         "name": "firefox",
         "testDir": "/home/pselamy/repositories/project-beta-frontend-1757630388/e2e",
         "testIgnore": [],
-        "testMatch": [
-          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
-        ],
+        "testMatch": ["**/*.@(spec|test).?(c|m)[jt]s?(x)"],
         "timeout": 30000
       },
       {
@@ -77,9 +67,7 @@
         "name": "webkit",
         "testDir": "/home/pselamy/repositories/project-beta-frontend-1757630388/e2e",
         "testIgnore": [],
-        "testMatch": [
-          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
-        ],
+        "testMatch": ["**/*.@(spec|test).?(c|m)[jt]s?(x)"],
         "timeout": 30000
       },
       {
@@ -91,9 +79,7 @@
         "name": "Mobile Chrome",
         "testDir": "/home/pselamy/repositories/project-beta-frontend-1757630388/e2e",
         "testIgnore": [],
-        "testMatch": [
-          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
-        ],
+        "testMatch": ["**/*.@(spec|test).?(c|m)[jt]s?(x)"],
         "timeout": 30000
       },
       {
@@ -105,9 +91,7 @@
         "name": "Mobile Safari",
         "testDir": "/home/pselamy/repositories/project-beta-frontend-1757630388/e2e",
         "testIgnore": [],
-        "testMatch": [
-          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
-        ],
+        "testMatch": ["**/*.@(spec|test).?(c|m)[jt]s?(x)"],
         "timeout": 30000
       }
     ],
