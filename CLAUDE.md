@@ -91,6 +91,7 @@ The semantic versioning workflow is defined in `.github/workflows/set-version.ya
 - **Build System**: npm
 - **CI/CD**: GitHub Actions
 - **Versioning**: Automated semantic versioning on main branch
+- **Testing Framework**: Vitest (unit tests), Playwright (E2E tests)
 
 ## Code Quality Guidelines
 
@@ -337,3 +338,85 @@ When restructuring existing code:
 3. Run tests to ensure nothing breaks
 4. Update any documentation
 5. Consider adding path aliases in TypeScript config
+
+## Playwright E2E Testing Strategy
+
+### Overview
+
+The project uses Playwright for end-to-end testing with a container-first approach, ensuring production parity and consistent test environments.
+
+### Key Testing Principles
+
+1. **Container-First Architecture**: Build and test against Docker images matching production
+2. **Parallel Execution**: Use sharding and matrix strategies for faster test runs
+3. **Mock-First Development**: Use Playwright's route interception for predictable, fast tests
+4. **Progressive Testing**: Validation → Unit Tests → Build → E2E Tests (fail-fast approach)
+
+### Test Organization
+
+```
+e2e/
+├── tests/
+│   ├── brand/           # Brand-related tests
+│   ├── campaign/        # Campaign management tests
+│   ├── auth/            # Authentication flows
+│   └── smoke/           # Critical path tests
+├── fixtures/            # Test helpers and utilities
+├── pages/               # Page Object Model
+└── config/              # Playwright configuration
+```
+
+### Running Tests
+
+```bash
+# Run tests with UI
+npx playwright test --ui
+
+# Run specific test file
+npx playwright test e2e/tests/brand/onboarding.spec.ts
+
+# Run tests in headed mode for debugging
+npx playwright test --headed
+
+# Generate test code
+npx playwright codegen localhost:3000
+```
+
+### Backend Mocking
+
+Tests can run in three modes:
+
+1. **Full Mock Mode**: No backend required, all API calls mocked
+2. **HAR Recording**: Record and replay real API responses
+3. **Hybrid Mode**: Mock external services, use real backend for core APIs
+
+```bash
+# Run with mocked backend
+MOCK_API=true npx playwright test
+
+# Run against real backend
+MOCK_API=false npx playwright test
+```
+
+### CI/CD Integration
+
+Tests run automatically on:
+- Every push to main (smoke tests)
+- Pull requests (full suite)
+- Nightly builds (extended cross-browser tests)
+
+The workflow follows a fail-fast approach:
+1. Format/Lint/Type checks (~2 min)
+2. Unit tests (~3 min)
+3. Docker build (~5 min)
+4. E2E tests (~15 min)
+
+### Test Artifacts
+
+Failed tests automatically capture:
+- Videos (retain-on-failure)
+- Screenshots (only-on-failure)
+- Traces (on-first-retry)
+- HTML reports with embedded media
+
+Artifacts are uploaded to GitHub Actions and retained for 30 days.
