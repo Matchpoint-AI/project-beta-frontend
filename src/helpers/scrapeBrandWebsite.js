@@ -172,7 +172,6 @@ var scrapeBrandWebsite = function (businessInfo, setBusinessInfo) {
           return [4 /*yield*/, response.json()];
         case 2:
           parsedContent = _a.sent();
-          console.log('parsedContent', parsedContent);
           if (!parsedContent) throw new Error('no data found');
           setBusinessInfo(function (prevState) {
             var _a, _b, _c, _d;

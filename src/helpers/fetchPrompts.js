@@ -149,7 +149,6 @@ export default function fetchPrompts(token) {
           ];
         case 1:
           response = _a.sent();
-          console.log('data', response);
           if (!response.ok) return [2 /*return*/, null];
           return [4 /*yield*/, response.json()];
         case 2:

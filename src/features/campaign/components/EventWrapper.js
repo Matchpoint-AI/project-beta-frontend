@@ -15,7 +15,6 @@ var EventWrapper = function (props) {
     setPosts = _c[1];
   useEffect(function () {
     var event = props === null || props === void 0 ? void 0 : props.event;
-    console.log('event === ', event);
     setDay(event === null || event === void 0 ? void 0 : event.title);
     setStatus(event === null || event === void 0 ? void 0 : event.status);
     setPosts(event === null || event === void 0 ? void 0 : event.posts);

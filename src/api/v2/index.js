@@ -164,7 +164,6 @@ export function initializeV2Api() {
         case 3:
           // Preload proto definitions
           _a.sent();
-          console.log('V2 API initialized successfully');
           return [3 /*break*/, 5];
         case 4:
           error_1 = _a.sent();

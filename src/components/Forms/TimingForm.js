@@ -224,9 +224,7 @@ var TimingForm = function (_a) {
   );
   useEffect(function () {
     if (campaignInfo.startDate === undefined) return;
-    console.log('oldDate === ', campaignInfo.startDate);
     var oldDate = dayjs(campaignInfo.startDate);
-    console.log('oldDateDayjs === ', oldDate);
     setValue(oldDate);
   }, []);
   var handleDatePicker = function (e) {

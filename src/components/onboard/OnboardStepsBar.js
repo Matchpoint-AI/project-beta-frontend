@@ -14,7 +14,6 @@ export default function OnboardStepsBar(_a) {
     "Let's make sure we’ve gotten to know you well",
   ];
   useEffect(function () {
-    console.log('steps bar');
   }, []);
   return _jsxs(_Fragment, {
     children: [

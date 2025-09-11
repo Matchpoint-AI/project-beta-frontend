@@ -185,7 +185,6 @@ export var useTokenRefresh = function () {
             _a.label = 1;
           case 1:
             _a.trys.push([1, 5, , 6]);
-            console.log('Refreshing token...');
             return [4 /*yield*/, user.getIdToken(true)];
           case 2:
             newToken = _a.sent();
@@ -204,7 +203,6 @@ export var useTokenRefresh = function () {
             });
             _a.label = 4;
           case 4:
-            console.log('Token refreshed successfully');
             return [2 /*return*/, newToken];
           case 5:
             error_1 = _a.sent();
@@ -257,7 +255,6 @@ export var useTokenRefresh = function () {
           case 1:
             response = _a.sent();
             if (!(response.status === 401 && user)) return [3 /*break*/, 5];
-            console.log('Got 401, attempting token refresh...');
             return [4 /*yield*/, refreshToken()];
           case 2:
             newToken = _a.sent();

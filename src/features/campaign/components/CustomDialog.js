@@ -19,7 +19,6 @@ var CustomDialog = function (_a) {
     setIsOpen(0);
     // setCurrentStep(5);
   };
-  console.log('opening the cusotm dialog');
   var handleNext = function () {
     setIsOpen(0);
     // setStep(step + 1);

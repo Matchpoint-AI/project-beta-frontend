@@ -221,7 +221,6 @@ var CalendarCampaign = function (_a) {
             currentDay.setDate(startDate.getDate() + index);
             var dayKey = 'day_'.concat(index + 1);
             var dayData = weekData[dayKey];
-            console.log('dayData === ', dayData);
             var status = '';
             if (dayData.approved) status = 'approved';
             else if (!dayData.approved && dayData.posts_to_generate === 0) status = 'review';
@@ -287,12 +286,10 @@ var CalendarCampaign = function (_a) {
                 return [4 /*yield*/, response.json()];
               case 2:
                 data = _a.sent();
-                console.log('data:', data);
                 if (data.length === 0 || data.arr[0].length === 0) {
                   // navigate("/dashboard");
                   return [2 /*return*/];
                 }
-                console.log('newData1 === ', data.arr[0]);
                 eventsArr = createEvents(data.arr[0]);
                 setEvents(eventsArr);
                 return [3 /*break*/, 4];

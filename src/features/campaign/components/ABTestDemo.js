@@ -263,7 +263,6 @@ var ABTestDemo = function () {
     return __awaiter(void 0, void 0, void 0, function () {
       return __generator(this, function (_a) {
         // Simulate API call
-        console.log('Saving variant:', { variantId: variantId, content: content, notes: notes });
         // Update demo data
         setDemoData(function (prev) {
           return __assign(__assign({}, prev), {
@@ -285,7 +284,6 @@ var ABTestDemo = function () {
   var handleUpdateTrafficAllocation = function (allocations) {
     return __awaiter(void 0, void 0, void 0, function () {
       return __generator(this, function (_a) {
-        console.log('Updating traffic allocation:', allocations);
         setDemoData(function (prev) {
           return __assign(__assign({}, prev), {
             variants: prev.variants.map(function (v) {
@@ -302,7 +300,6 @@ var ABTestDemo = function () {
   var handleStartTest = function () {
     return __awaiter(void 0, void 0, void 0, function () {
       return __generator(this, function (_a) {
-        console.log('Starting A/B test');
         setDemoData(function (prev) {
           return __assign(__assign({}, prev), { status: 'running' });
         });
@@ -313,7 +310,6 @@ var ABTestDemo = function () {
   var handlePauseTest = function () {
     return __awaiter(void 0, void 0, void 0, function () {
       return __generator(this, function (_a) {
-        console.log('Pausing A/B test');
         setDemoData(function (prev) {
           return __assign(__assign({}, prev), { status: 'paused' });
         });
@@ -324,7 +320,6 @@ var ABTestDemo = function () {
   var handleDeclareWinner = function (variantId) {
     return __awaiter(void 0, void 0, void 0, function () {
       return __generator(this, function (_a) {
-        console.log('Declaring winner:', variantId);
         setDemoData(function (prev) {
           return __assign(__assign({}, prev), {
             status: 'completed',
@@ -343,7 +338,6 @@ var ABTestDemo = function () {
     return __awaiter(void 0, void 0, void 0, function () {
       var newVariant;
       return __generator(this, function (_a) {
-        console.log('Creating new variant:', variant);
         newVariant = __assign(
           {
             id: 'demo-variant-'.concat(Date.now()),

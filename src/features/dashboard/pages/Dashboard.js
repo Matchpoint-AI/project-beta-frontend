@@ -226,7 +226,6 @@ var Dashboard = function () {
             return [4 /*yield*/, response.json()];
           case 3:
             data = _a.sent();
-            console.log('campaigns === ', data);
             setCampaigns(data);
             setBusinessInfo(__assign(__assign({}, businessInfo), { campaigns: data }));
             return [3 /*break*/, 5];
