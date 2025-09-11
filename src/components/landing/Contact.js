@@ -2,18 +2,10 @@ import { jsx as _jsx, jsxs as _jsxs } from 'react/jsx-runtime';
 import LandingInput from '../shared/Inputs/LandingInput';
 var Contact = function () {
   // TODO functionality of saving data and sending email
-  var userName = function () {
-    console.log('saving user name');
-  };
-  var userEmail = function () {
-    console.log('saving user email');
-  };
-  var userIndustry = function () {
-    console.log('saving user industry');
-  };
-  var handleSumbit = function () {
-    console.log('handle submit');
-  };
+  var userName = function () {};
+  var userEmail = function () {};
+  var userIndustry = function () {};
+  var handleSumbit = function () {};
   return _jsxs('div', {
     id: 'contact',
     className:

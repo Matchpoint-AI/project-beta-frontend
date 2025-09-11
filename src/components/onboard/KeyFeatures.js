@@ -24,8 +24,6 @@ export default function KeyFeatures(_a) {
   var _c = useContext(CampaignContext),
     campaignInfo = _c.campaignInfo,
     setCampaignInfo = _c.setCampaignInfo;
-  console.log('KeyFeatures - Initial render - pros:', pros);
-  console.log('KeyFeatures - Initial render - campaignInfo:', campaignInfo);
   var _d = React.useState(
       (_b =
         campaignInfo === null || campaignInfo === void 0
@@ -41,7 +39,6 @@ export default function KeyFeatures(_a) {
     setEdit = _e[1];
   useEffect(
     function () {
-      console.log('KeyFeatures - features updated:', features);
       setCampaignInfo(function (prev) {
         return __assign(__assign({}, prev), { product_features: features });
       });
@@ -54,7 +51,6 @@ export default function KeyFeatures(_a) {
         console.warn('KeyFeatures: pros prop is not an array:', pros);
         return;
       }
-      console.log('KeyFeatures - pros prop updated:', pros);
       setFeatures(pros);
     },
     [pros]
@@ -62,7 +58,6 @@ export default function KeyFeatures(_a) {
   var handleChipClose = function (index) {
     var newChips = Array.from(features);
     newChips.splice(index, 1);
-    console.log('KeyFeatures - chip removed, new features:', newChips);
     setFeatures(newChips);
   };
   return _jsxs('div', {

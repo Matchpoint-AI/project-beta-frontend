@@ -479,7 +479,9 @@ describe('CostOptimizationDashboard', () => {
         // Should format large numbers with commas and no decimals
         expect(screen.getByText('$9,000')).toBeInTheDocument();
         expect(screen.getByText('$109,500')).toBeInTheDocument();
-        expect(screen.getByText('$57,135')).toBeInTheDocument();
+        // Use getAllByText for elements that appear multiple times
+        const elements = screen.getAllByText('$57,135');
+        expect(elements.length).toBeGreaterThan(0);
       });
     });
 

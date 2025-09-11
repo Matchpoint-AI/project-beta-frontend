@@ -95,13 +95,10 @@ var AudienceForm = function (_a) {
       .then(function (data) {
         var choices = data.response.choices;
         var content = choices[0].message.content;
-        console.log(content);
         var arrays = content.match(/\[.*?\]/g);
         if (arrays && arrays.length === 2) {
           var array1_1 = JSON.parse(arrays[0]);
           var array2_1 = JSON.parse(arrays[1]);
-          console.log(array1_1);
-          console.log(array2_1);
           setAudienceEmotion(array1_1.slice(0, 3));
           setAudienceInterests(array2_1.slice(0, 3));
           setCampaignInfo(function (prev) {
@@ -248,7 +245,6 @@ var AudienceForm = function (_a) {
                     currentValues: audienceAgeRange,
                     options: options,
                     onUpdateContext: function (value) {
-                      console.log('values === ', value);
                       setAudienceAgeRage(value);
                     },
                   }),

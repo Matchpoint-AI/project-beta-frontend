@@ -650,7 +650,6 @@ var SocialMediaPost = function (props) {
             return [3 /*break*/, 5];
           case 3:
             e_3 = _a.sent();
-            console.log(e_3);
             return [3 /*break*/, 5];
           case 4:
             setIsLoadingText(false);

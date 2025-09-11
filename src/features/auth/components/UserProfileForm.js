@@ -258,7 +258,6 @@ export default function UserProfileForm(_a) {
             return [3 /*break*/, 6];
           case 5:
             error_1 = _e.sent();
-            console.log(error_1);
             setRequestError(error_1.message);
             return [3 /*break*/, 6];
           case 6:

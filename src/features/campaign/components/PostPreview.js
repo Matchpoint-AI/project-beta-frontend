@@ -253,7 +253,6 @@ var PostPreview = function (_a) {
             return [3 /*break*/, 6];
           case 5:
             e_1 = _b.sent();
-            console.log(e_1.message);
             return [3 /*break*/, 6];
           case 6:
             return [2 /*return*/];
@@ -281,7 +280,6 @@ var PostPreview = function (_a) {
   useEffect(
     function () {
       if (edit === 'save') {
-        console.log('edit === ', edit);
         content.text = text;
         setEdit(false);
       } else if (edit === false) {
@@ -330,7 +328,6 @@ var PostPreview = function (_a) {
   };
   var currentPlatform = platformConfigs[selectedPlatform];
   var PlatformIcon = currentPlatform.icon;
-  console.log(content);
   return _jsxs('div', {
     className: 'flex flex-col gap-2 my-6 sm:my-0',
     children: [

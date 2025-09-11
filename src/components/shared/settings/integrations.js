@@ -175,9 +175,7 @@ export default function Integrations() {
         .then(function (response) {
           return response.json();
         })
-        .then(function (data) {
-          console.log(data); // {"response": "all good"}
-        })
+        .then(function (data) {})
         .catch(function (error) {
           return console.error('Error:', error);
         });
@@ -282,7 +280,6 @@ function Unconnected(_a) {
           case 1:
             token = _a.sent();
             if (token) {
-              console.log('Authentication Successful, Token:', token);
               onConnect();
               // Save token or trigger next steps
             }

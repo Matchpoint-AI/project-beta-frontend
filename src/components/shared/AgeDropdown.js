@@ -28,7 +28,6 @@ var AgeDropdown = function (_a) {
   var handleOptionClick = function (option) {
     var found = selectedOption.includes(option);
     if (found === true) return;
-    console.log('selectedOption === ', selectedOption);
     var found2 = selectedOption.includes('All Ages');
     if (found2 === true) return;
     if (selectedOption.length === 2) return;

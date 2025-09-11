@@ -187,7 +187,6 @@ var DisplayContent = function () {
                   : _d.data) === null || _e === void 0
                 ? void 0
                 : _e.upscaled_urls) || [];
-            console.log('Upscaled URLs:', upscaledUrls_1);
             return [2 /*return*/, upscaledUrls_1];
           case 3:
             error_1 = _f.sent();

@@ -448,7 +448,7 @@ describe('SmartInsightsPanel', () => {
   });
 
   it('handles API errors gracefully', async () => {
-    const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
+    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
 
     mockFetch.mockRejectedValueOnce(new Error('API Error')).mockResolvedValueOnce({
       ok: false,

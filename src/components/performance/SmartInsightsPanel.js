@@ -589,7 +589,7 @@ export var SmartInsightsPanel = function () {
                   children: [
                     _jsx('div', {
                       className: 'text-3xl font-bold text-red-600',
-                      children: summary.key_metrics.critical_issues,
+                      children: summary.key_metrics?.critical_issues || 0,
                     }),
                     _jsx('div', {
                       className: 'text-sm text-gray-600',
@@ -602,7 +602,7 @@ export var SmartInsightsPanel = function () {
                   children: [
                     _jsx('div', {
                       className: 'text-3xl font-bold text-orange-600',
-                      children: summary.key_metrics.high_priority_issues,
+                      children: summary.key_metrics?.high_priority_issues || 0,
                     }),
                     _jsx('div', { className: 'text-sm text-gray-600', children: 'High Priority' }),
                   ],
@@ -612,7 +612,7 @@ export var SmartInsightsPanel = function () {
                   children: [
                     _jsx('div', {
                       className: 'text-3xl font-bold text-green-600',
-                      children: summary.key_metrics.total_recommendations,
+                      children: summary.key_metrics?.total_recommendations || 0,
                     }),
                     _jsx('div', {
                       className: 'text-sm text-gray-600',
@@ -633,7 +633,7 @@ export var SmartInsightsPanel = function () {
             }),
             _jsx('div', {
               className: 'space-y-3',
-              children: summary.top_recommendations.map(function (rec, index) {
+              children: (summary.top_recommendations || []).map(function (rec, index) {
                 return _jsxs(
                   'div',
                   {
@@ -676,7 +676,7 @@ export var SmartInsightsPanel = function () {
                 _jsxs('div', {
                   children: [
                     _jsx('h4', { className: 'font-medium mb-2', children: 'By Type' }),
-                    Object.entries(summary.insights_summary.by_type).map(function (_a) {
+                    Object.entries(summary.insights_summary?.by_type || {}).map(function (_a) {
                       var type = _a[0],
                         count = _a[1];
                       return _jsxs(
@@ -699,7 +699,7 @@ export var SmartInsightsPanel = function () {
                 _jsxs('div', {
                   children: [
                     _jsx('h4', { className: 'font-medium mb-2', children: 'By Severity' }),
-                    Object.entries(summary.insights_summary.by_severity).map(function (_a) {
+                    Object.entries(summary.insights_summary?.by_severity || {}).map(function (_a) {
                       var severity = _a[0],
                         count = _a[1];
                       return _jsxs(
@@ -895,13 +895,14 @@ export var SmartInsightsPanel = function () {
                             }),
                             _jsx('ul', {
                               className: 'list-disc list-inside text-sm text-gray-700 space-y-1',
-                              children: insight.recommendations.map(function (rec, index) {
+                              children: (insight.recommendations || []).map(function (rec, index) {
                                 return _jsx('li', { children: rec }, index);
                               }),
                             }),
                           ],
                         }),
-                        insight.automated_actions.length > 0 &&
+                        insight.automated_actions &&
+                          insight.automated_actions.length > 0 &&
                           _jsxs('div', {
                             className: 'mb-4',
                             children: [
@@ -914,9 +915,11 @@ export var SmartInsightsPanel = function () {
                               }),
                               _jsx('ul', {
                                 className: 'list-disc list-inside text-sm text-gray-700 space-y-1',
-                                children: insight.automated_actions.map(function (action, index) {
-                                  return _jsx('li', { children: action }, index);
-                                }),
+                                children: (insight.automated_actions || []).map(
+                                  function (action, index) {
+                                    return _jsx('li', { children: action }, index);
+                                  }
+                                ),
                               }),
                             ],
                           }),
@@ -1042,7 +1045,7 @@ export var SmartInsightsPanel = function () {
                           _jsx('h4', { className: 'font-medium mb-2', children: 'Key Factors:' }),
                           _jsx('div', {
                             className: 'flex flex-wrap gap-2',
-                            children: prediction.factors.map(function (factor, i) {
+                            children: (prediction.factors || []).map(function (factor, i) {
                               return _jsx(
                                 'span',
                                 {
@@ -1160,7 +1163,7 @@ export var SmartInsightsPanel = function () {
                               _jsx('ol', {
                                 className:
                                   'list-decimal list-inside text-sm text-gray-700 space-y-1',
-                                children: rec.implementation_steps.map(function (step, i) {
+                                children: (rec.implementation_steps || []).map(function (step, i) {
                                   return _jsx('li', { children: step }, i);
                                 }),
                               }),
@@ -1174,7 +1177,7 @@ export var SmartInsightsPanel = function () {
                               }),
                               _jsx('ul', {
                                 className: 'list-disc list-inside text-sm text-gray-700 space-y-1',
-                                children: rec.success_metrics.map(function (metric, i) {
+                                children: (rec.success_metrics || []).map(function (metric, i) {
                                   return _jsx('li', { children: metric }, i);
                                 }),
                               }),
@@ -1182,7 +1185,8 @@ export var SmartInsightsPanel = function () {
                           }),
                         ],
                       }),
-                      rec.risks.length > 0 &&
+                      rec.risks &&
+                        rec.risks.length > 0 &&
                         _jsxs('div', {
                           className: 'mt-4 p-3 bg-red-50 rounded',
                           children: [
@@ -1192,7 +1196,7 @@ export var SmartInsightsPanel = function () {
                             }),
                             _jsx('ul', {
                               className: 'list-disc list-inside text-sm text-red-700 space-y-1',
-                              children: rec.risks.map(function (risk, i) {
+                              children: (rec.risks || []).map(function (risk, i) {
                                 return _jsx('li', { children: risk }, i);
                               }),
                             }),
