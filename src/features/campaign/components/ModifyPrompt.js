@@ -347,7 +347,7 @@ export default function ModifyPrompt(_a) {
             ];
           case 8:
             response = _a.sent();
-            if (!!response.ok) return [3 /*break*/, 10];
+            if (response.ok) return [3 /*break*/, 10];
             return [4 /*yield*/, response.json()];
           case 9:
             data = _a.sent();

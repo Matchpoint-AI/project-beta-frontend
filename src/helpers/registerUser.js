@@ -158,7 +158,7 @@ export default function registerUser(email, name, password) {
           ];
         case 1:
           response = _a.sent();
-          if (!!response.ok) return [3 /*break*/, 3];
+          if (response.ok) return [3 /*break*/, 3];
           return [4 /*yield*/, response.json()];
         case 2:
           data_1 = _a.sent();

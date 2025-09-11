@@ -1,24 +1,57 @@
 {
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "node": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "project": "./tsconfig.json",
-    "extraFileExtensions": [".ts"]
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": "latest",
+    "sourceType": "module"
   },
-  "plugins": ["@typescript-eslint"],
-  "extends": [
-    "plugin:@typescript-eslint/recommended",
-    "plugin:react/jsx-runtime",
-    "prettier",
-    "prettier/@typescript-eslint"
-  ],
+  "plugins": ["react", "@typescript-eslint"],
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
   "rules": {
-    "@typescript-eslint/explicit-function-return-type": 0,
-    "@typescript-eslint/no-explicit-any": 0,
-    "@typescript-eslint/await-thenable": 2,
-    "@typescript-eslint/ban-ts-ignore": 2,
-    "@typescript-eslint/no-require-imports": 2,
-    "@typescript-eslint/no-unnecessary-type-assertion": 2,
-    "@typescript-eslint/promise-function-async": 2,
-    "@typescript-eslint/unbound-method": 2
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_",
+        "caughtErrorsIgnorePattern": "^_"
+      }
+    ],
+    "@typescript-eslint/no-this-alias": "off",
+    "no-extra-boolean-cast": "off",
+    "no-sparse-arrays": "off",
+    "no-fallthrough": "off",
+    "no-redeclare": "off",
+    "no-empty-pattern": "off",
+    "react/react-in-jsx-scope": "off",
+    "react/prop-types": "off",
+    "react/display-name": "off"
+  },
+  "globals": {
+    "vi": "readonly",
+    "describe": "readonly",
+    "it": "readonly",
+    "expect": "readonly",
+    "beforeEach": "readonly",
+    "afterEach": "readonly",
+    "beforeAll": "readonly",
+    "afterAll": "readonly",
+    "test": "readonly"
   }
 }

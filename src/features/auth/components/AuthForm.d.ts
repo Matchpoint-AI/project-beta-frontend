@@ -9,7 +9,7 @@ declare function AuthForm({
   setAuthError,
 }: AuthFormProps): import('react/jsx-runtime').JSX.Element;
 declare namespace AuthForm {
-  var propTypes: {
+  const propTypes: {
     login: PropTypes.Requireable<boolean>;
     setAuthError: PropTypes.Validator<(...args: any[]) => any>;
   };

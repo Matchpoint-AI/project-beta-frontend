@@ -2,34 +2,33 @@
 
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import '@testing-library/jest-dom';
-
+import { vi, describe, it, expect, beforeEach } from 'vitest';
 import { SmartInsightsPanel } from './SmartInsightsPanel';
 
 // Mock the performance API
-jest.mock('../../api/performanceApi', () => ({
+vi.mock('../../api/performanceApi', () => ({
   performanceApi: {
-    getPerformanceInsights: jest.fn(),
-    recordMetric: jest.fn(),
+    getPerformanceInsights: vi.fn(),
+    recordMetric: vi.fn(),
   },
 }));
 
 // Mock fetch for API calls
-const mockFetch = jest.fn();
+const mockFetch = vi.fn();
 global.fetch = mockFetch;
 
 // Mock localStorage
 const mockLocalStorage = {
-  getItem: jest.fn(() => 'mock_token'),
-  setItem: jest.fn(),
-  removeItem: jest.fn(),
-  clear: jest.fn(),
+  getItem: vi.fn(() => 'mock_token'),
+  setItem: vi.fn(),
+  removeItem: vi.fn(),
+  clear: vi.fn(),
 };
 Object.defineProperty(window, 'localStorage', { value: mockLocalStorage });
 
 describe('SmartInsightsPanel', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
     mockFetch.mockClear();
   });
 

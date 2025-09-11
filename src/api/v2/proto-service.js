@@ -211,7 +211,7 @@ var ProtoService = /** @class */ (function () {
           case 2:
             response = _a.sent();
             clearTimeout(timeoutId);
-            if (!!response.ok) return [3 /*break*/, 4];
+            if (response.ok) return [3 /*break*/, 4];
             return [4 /*yield*/, this.handleErrorResponse(response)];
           case 3:
             _a.sent();

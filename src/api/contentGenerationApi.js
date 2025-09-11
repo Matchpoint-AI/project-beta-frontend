@@ -348,7 +348,7 @@ export var policyApi = {
             ];
           case 1:
             response = _a.sent();
-            if (!!response.ok) return [3 /*break*/, 3];
+            if (response.ok) return [3 /*break*/, 3];
             return [4 /*yield*/, response.text()];
           case 2:
             errorText = _a.sent();

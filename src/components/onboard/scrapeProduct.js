@@ -169,7 +169,7 @@ var scrapeProduct = function (url, name, description) {
           response = _a.sent();
           console.log('Response status:', response.status);
           console.log('Response headers:', response.headers);
-          if (!!response.ok) return [3 /*break*/, 4];
+          if (response.ok) return [3 /*break*/, 4];
           return [4 /*yield*/, response.text()];
         case 3:
           errorText = _a.sent();

@@ -567,7 +567,7 @@ var CampaignSetupCompleteDialog = function (_a) {
             case 5:
               response = _a.sent();
               console.log('Content generation response status:', response.status);
-              if (!!response.ok) return [3 /*break*/, 7];
+              if (response.ok) return [3 /*break*/, 7];
               return [4 /*yield*/, response.text()];
             case 6:
               errorText = _a.sent();
