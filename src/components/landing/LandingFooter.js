@@ -1,6 +1,50 @@
-import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import { jsx as _jsx, jsxs as _jsxs } from 'react/jsx-runtime';
 var LandingFooter = function () {
-    return (_jsxs("div", { className: "w-full", children: [_jsx("div", { className: "w-full flex justify-center items-center px-8 py-16 lg:p-20 bg-[#41326D]", children: _jsx("h1", { className: "font-normal text-2xl  text-center lg:text-left lg:text-[50px] lg:leading-[62px] text-[#F5E8F7]", children: "Elevate Your Social Media Presence with Matchpoint AI" }) }), _jsxs("div", { className: "w-full flex flex-col lg:flex-row justify-between items-center gap-6 px-9 py-10 bg-white", children: [_jsx("a", { href: "#hero", className: "flex items-center space-x-3 rtl:space-x-reverse self-start  w-full", children: _jsx("img", { src: "logo.svg", className: "h-8", alt: "Matchpoint Logo" }) }), _jsxs("div", { className: "flex flex-row justify-between items-center gap-10 lg:gap-14", children: [_jsx("a", { href: "#product", className: "text-gray-900 font-medium text-base leading-6 hover:text-[#5145CD]", "aria-current": "page", children: "Product" }), _jsx("a", { href: "#features", className: "text-gray-900 font-medium text-base leading-6 hover:text-[#5145CD]", children: "Features" }), _jsx("a", { href: "#about", className: "text-gray-900 font-medium text-base leading-6 hover:text-[#5145CD]", children: "About" })] })] })] }));
+  return _jsxs('div', {
+    className: 'w-full',
+    children: [
+      _jsx('div', {
+        className: 'w-full flex justify-center items-center px-8 py-16 lg:p-20 bg-[#41326D]',
+        children: _jsx('h1', {
+          className:
+            'font-normal text-2xl  text-center lg:text-left lg:text-[50px] lg:leading-[62px] text-[#F5E8F7]',
+          children: 'Elevate Your Social Media Presence with Matchpoint AI',
+        }),
+      }),
+      _jsxs('div', {
+        className:
+          'w-full flex flex-col lg:flex-row justify-between items-center gap-6 px-9 py-10 bg-white',
+        children: [
+          _jsx('a', {
+            href: '#hero',
+            className: 'flex items-center space-x-3 rtl:space-x-reverse self-start  w-full',
+            children: _jsx('img', { src: 'logo.svg', className: 'h-8', alt: 'Matchpoint Logo' }),
+          }),
+          _jsxs('div', {
+            className: 'flex flex-row justify-between items-center gap-10 lg:gap-14',
+            children: [
+              _jsx('a', {
+                href: '#product',
+                className: 'text-gray-900 font-medium text-base leading-6 hover:text-[#5145CD]',
+                'aria-current': 'page',
+                children: 'Product',
+              }),
+              _jsx('a', {
+                href: '#features',
+                className: 'text-gray-900 font-medium text-base leading-6 hover:text-[#5145CD]',
+                children: 'Features',
+              }),
+              _jsx('a', {
+                href: '#about',
+                className: 'text-gray-900 font-medium text-base leading-6 hover:text-[#5145CD]',
+                children: 'About',
+              }),
+            ],
+          }),
+        ],
+      }),
+    ],
+  });
 };
 export default LandingFooter;
 //# sourceMappingURL=LandingFooter.js.map

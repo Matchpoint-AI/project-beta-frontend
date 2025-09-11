@@ -1,41 +1,41 @@
-var baseurl = window.location.hostname === 'www.matchpointai.com'
+var baseurl =
+  window.location.hostname === 'www.matchpointai.com'
     ? 'matchpointai.com'
     : window.location.hostname;
 export var getServiceURL = function (service) {
-    var url = '';
-    if (baseurl === 'localhost' || baseurl === '127.0.0.1') {
-        switch (service) {
-            case 'data':
-                url = "https://localhost:7651";
-                break;
-            case 'llm':
-                url = "https://localhost:7652";
-                break;
-            case 'content-gen':
-                url = "https://localhost:7653";
-                break;
-            case 'campaign-manager':
-                url = "https://localhost:7654";
-                break;
-        }
+  var url = '';
+  if (baseurl === 'localhost' || baseurl === '127.0.0.1') {
+    switch (service) {
+      case 'data':
+        url = 'https://localhost:7651';
+        break;
+      case 'llm':
+        url = 'https://localhost:7652';
+        break;
+      case 'content-gen':
+        url = 'https://localhost:7653';
+        break;
+      case 'campaign-manager':
+        url = 'https://localhost:7654';
+        break;
     }
-    else {
-        switch (service) {
-            case 'data':
-                url = "https://data.".concat(baseurl);
-                break;
-            case 'llm':
-                url = "https://llm.".concat(baseurl);
-                break;
-            case 'content-gen':
-                url = "https://content-gen.".concat(baseurl);
-                break;
-            case 'campaign-manager':
-                url = "https://campaign-manager.".concat(baseurl);
-                break;
-        }
+  } else {
+    switch (service) {
+      case 'data':
+        url = 'https://data.'.concat(baseurl);
+        break;
+      case 'llm':
+        url = 'https://llm.'.concat(baseurl);
+        break;
+      case 'content-gen':
+        url = 'https://content-gen.'.concat(baseurl);
+        break;
+      case 'campaign-manager':
+        url = 'https://campaign-manager.'.concat(baseurl);
+        break;
     }
-    return url;
+  }
+  return url;
 };
 // export const getServiceURL = (service: Service) => {
 //    let url = "";
