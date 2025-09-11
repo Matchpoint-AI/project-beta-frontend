@@ -1,9 +1,9 @@
 import { createContext } from 'react';
 export var CampaignContext = createContext({
-  campaignInfo: {},
-  setCampaignInfo: function () {},
-  campaignId: null,
-  setCampaignId: function () {},
+    campaignInfo: {},
+    setCampaignInfo: function () { },
+    campaignId: null,
+    setCampaignId: function () { },
 });
 /*import { createContext, useState } from 'react';
 

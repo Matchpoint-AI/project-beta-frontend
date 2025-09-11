@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Cookies from 'universal-cookie';
-import { useAuthentication } from '../../../firebase';
+import { useAuthentication } from '../../../lib/firebase';
 import { getServiceURL } from '../../../helpers/getServiceURL';
 
 interface Profile {

@@ -1,5 +1,5 @@
 import { useAuth } from '../context/AuthContext';
-import { useAuthentication } from '../firebase';
+import { useAuthentication } from '../../../lib/firebase';
 
 /**
  * Custom hook for handling token refresh and API request retry logic

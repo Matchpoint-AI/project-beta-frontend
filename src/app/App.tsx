@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import './index.css';
-import { BrandContext, BusinessInfo } from './features/brand/context/BrandContext';
-import { CampaignContext } from './context/CampaignContext';
-import { AuthProvider } from './features/auth/context/AuthContext';
+import '../index.css';
+import { BrandContext, BusinessInfo } from '../features/brand/context/BrandContext';
+import { CampaignContext } from '../context/CampaignContext';
+import { AuthProvider } from '../features/auth/context/AuthContext';
 import { withErrorBoundary } from 'react-error-boundary';
 import { RiErrorWarningLine } from 'react-icons/ri';
-import { useAuth } from './features/auth/context/AuthContext';
-import posthog from './helpers/posthog';
+import { useAuth } from '../features/auth/context/AuthContext';
+import posthog from '../helpers/posthog';
 
 import './App.css';
-import BrandDataLoader from './features/brand/components/BrandDataLoader';
+import BrandDataLoader from '../features/brand/components/BrandDataLoader';
 import AppRoutes from './AppRoutes';
-import { AppProvider } from './context/appContext';
-import { UsersContextProvider } from './context/UsersContext';
-import VersionDisplay from './components/shared/VersionDisplay';
+import { AppProvider } from '../context/appContext';
+import { UsersContextProvider } from '../context/UsersContext';
+import VersionDisplay from '../components/shared/VersionDisplay';
 
 function Fallback({ error }: { error: Error }) {
   const { profile } = useAuth();

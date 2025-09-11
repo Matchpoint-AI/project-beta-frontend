@@ -1,6 +1,6 @@
 // import Sidebar from "../components/Sidebar";
 import React from 'react';
-import { useAuthentication } from '../../../firebase';
+import { useAuthentication } from '../../../lib/firebase';
 import { signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 

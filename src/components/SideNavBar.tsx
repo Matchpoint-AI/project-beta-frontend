@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { CampaignContext } from '../context/CampaignContext';
 import { signOut } from 'firebase/auth';
-import { useAuthentication } from '../firebase';
+import { useAuthentication } from '../lib/firebase';
 import { TbLogout2 } from 'react-icons/tb';
 import { TbBriefcase } from 'react-icons/tb';
 import { TbPhoto } from 'react-icons/tb';
