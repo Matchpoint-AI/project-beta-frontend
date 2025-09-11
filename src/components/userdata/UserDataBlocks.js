@@ -1,8 +1,0 @@
-import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-runtime";
-import UserBrandData from './UserBrandData';
-import UserCampaignsData from '../UserCampaignsData';
-export default function UserDataBlocks(_a) {
-    var data = _a.data, viewContent = _a.viewContent, viewThread = _a.viewThread;
-    return (_jsxs(_Fragment, { children: [_jsxs("div", { children: [_jsx("h1", { className: " font-semibold text-[30px] text-[#5145CD] capitalize", children: data.name }), _jsxs("div", { className: "flex items-center gap-12 flex-wrap mt-1", children: [_jsxs("div", { children: [_jsx("p", { className: "text-[#6B7280] text-sm capitalize", children: "email: " }), _jsx("p", { className: "font-medium text-[#111928]", children: data.email })] }), _jsxs("div", { children: [_jsx("p", { className: "text-[#6B7280] text-sm capitalize", children: "plan: " }), _jsx("p", { className: "font-medium text-[#111928] capitalize", children: data.plan.toLowerCase() })] }), _jsxs("div", { children: [_jsx("p", { className: "text-[#6B7280] text-sm capitalize", children: "joined: " }), _jsx("p", { className: "font-medium text-[#111928]", children: data.created_at })] })] })] }), _jsxs("div", { children: [_jsx("p", { className: "text-lg font-semibold text-[#111928] mb-2", children: "Brand" }), _jsx(UserBrandData, { data: data.brand })] }), data.campaigns.length > 0 && (_jsxs("div", { children: [_jsx("p", { className: "text-lg font-semibold text-[#111928] mb-2", children: "Campaigns" }), data.campaigns.map(function (c, i) { return (_jsx(UserCampaignsData, { campaign: c, viewContent: viewContent, viewThread: viewThread }, i)); })] }))] }));
-}
-//# sourceMappingURL=UserDataBlocks.js.map
