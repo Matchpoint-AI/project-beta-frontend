@@ -154,7 +154,13 @@ describe('ServiceForm', () => {
   const mockBusinessInfo: Partial<BusinessInfo> = {
     name: 'Test Business',
     website: 'https://test.com',
-    products: [{ name: 'Test Product', description: 'Test Description', product_features: ['Feature 1', 'Feature 2'] }],
+    products: [
+      {
+        name: 'Test Product',
+        description: 'Test Description',
+        product_features: ['Feature 1', 'Feature 2'],
+      },
+    ] as any,
     product_features: [],
     key_features: [],
     product_description: 'Test Description',
@@ -412,10 +418,13 @@ describe('ServiceForm', () => {
   it('validates form before submission', () => {
     // Set up the new product state to show the new product form
     const newProductCampaignInfo = { ...mockCampaignInfo, newProduct: true };
-    
+
     render(
       <BrandContext.Provider
-        value={{ businessInfo: mockBusinessInfo as BusinessInfo, setBusinessInfo: mockSetBusinessInfo }}
+        value={{
+          businessInfo: mockBusinessInfo as BusinessInfo,
+          setBusinessInfo: mockSetBusinessInfo,
+        }}
       >
         <CampaignContext.Provider
           value={{
@@ -462,10 +471,13 @@ describe('ServiceForm', () => {
   it('shows error when submitting without product name', () => {
     // Set up the new product state to show the new product form
     const newProductCampaignInfo = { ...mockCampaignInfo, newProduct: true };
-    
+
     render(
       <BrandContext.Provider
-        value={{ businessInfo: mockBusinessInfo as BusinessInfo, setBusinessInfo: mockSetBusinessInfo }}
+        value={{
+          businessInfo: mockBusinessInfo as BusinessInfo,
+          setBusinessInfo: mockSetBusinessInfo,
+        }}
       >
         <CampaignContext.Provider
           value={{
@@ -491,7 +503,7 @@ describe('ServiceForm', () => {
     // Clear the product name input
     const productNameInput = screen.getByPlaceholderText('Name the new Product/Service');
     fireEvent.change(productNameInput, { target: { value: '' } });
-    
+
     // Even though button is disabled, we can trigger form submission directly
     const form = document.getElementById('service_form');
     if (form) {
@@ -503,10 +515,13 @@ describe('ServiceForm', () => {
   it('allows form submission with product link but no product name', () => {
     // Set up the new product state to show the new product form
     const newProductCampaignInfo = { ...mockCampaignInfo, newProduct: true };
-    
+
     render(
       <BrandContext.Provider
-        value={{ businessInfo: mockBusinessInfo as BusinessInfo, setBusinessInfo: mockSetBusinessInfo }}
+        value={{
+          businessInfo: mockBusinessInfo as BusinessInfo,
+          setBusinessInfo: mockSetBusinessInfo,
+        }}
       >
         <CampaignContext.Provider
           value={{
@@ -544,16 +559,19 @@ describe('ServiceForm', () => {
 
   it('shows informative button text when form is not valid', async () => {
     // Set up with no product name and no product link (invalid form)
-    const invalidCampaignInfo = { 
-      ...mockCampaignInfo, 
+    const invalidCampaignInfo = {
+      ...mockCampaignInfo,
       newProduct: true,
       product: '',
-      productLink: ''
+      productLink: '',
     };
-    
+
     render(
       <BrandContext.Provider
-        value={{ businessInfo: mockBusinessInfo as BusinessInfo, setBusinessInfo: mockSetBusinessInfo }}
+        value={{
+          businessInfo: mockBusinessInfo as BusinessInfo,
+          setBusinessInfo: mockSetBusinessInfo,
+        }}
       >
         <CampaignContext.Provider
           value={{
@@ -580,10 +598,10 @@ describe('ServiceForm', () => {
       // Clear both inputs to make form invalid
       const productNameInput = screen.getByPlaceholderText('Name the new Product/Service');
       const websiteInput = screen.getByPlaceholderText('Link to Product/Service');
-      
+
       fireEvent.change(productNameInput, { target: { value: '' } });
       fireEvent.change(websiteInput, { target: { value: '' } });
-      
+
       // The next button should show informative text when the form is invalid
       const nextButton = screen.getByTestId('next-button');
       expect(nextButton).toHaveTextContent('Enter product details to continue');

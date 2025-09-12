@@ -156,9 +156,12 @@ describe('ModifyPrompt', () => {
       // Act
       render(<ModifyPrompt {...defaultProps} />);
 
-      await waitFor(() => {
-        expect(screen.getByDisplayValue('Young professionals in an office')).toBeInTheDocument();
-      }, { timeout: 5000 });
+      await waitFor(
+        () => {
+          expect(screen.getByDisplayValue('Young professionals in an office')).toBeInTheDocument();
+        },
+        { timeout: 5000 }
+      );
 
       const textField = screen.getByDisplayValue('Young professionals in an office');
       fireEvent.change(textField, { target: { value: 'New prompt content' } });
@@ -184,9 +187,12 @@ describe('ModifyPrompt', () => {
       // Act
       render(<ModifyPrompt {...defaultProps} />);
 
-      await waitFor(() => {
-        expect(screen.getByDisplayValue('young professionals')).toBeInTheDocument();
-      }, { timeout: 5000 });
+      await waitFor(
+        () => {
+          expect(screen.getByDisplayValue('young professionals')).toBeInTheDocument();
+        },
+        { timeout: 5000 }
+      );
 
       const textField = screen.getByDisplayValue('young professionals');
       fireEvent.change(textField, { target: { value: 'Updated content' } });
@@ -216,9 +222,12 @@ describe('ModifyPrompt', () => {
       // Act
       render(<ModifyPrompt {...defaultProps} />);
 
-      await waitFor(() => {
-        expect(screen.getByDisplayValue('Young professionals in an office')).toBeInTheDocument();
-      }, { timeout: 5000 });
+      await waitFor(
+        () => {
+          expect(screen.getByDisplayValue('Young professionals in an office')).toBeInTheDocument();
+        },
+        { timeout: 5000 }
+      );
 
       const textField = screen.getByDisplayValue('Young professionals in an office');
       fireEvent.change(textField, { target: { value: 'Campaign-driven prompt' } });
@@ -260,9 +269,12 @@ describe('ModifyPrompt', () => {
       // Act
       render(<ModifyPrompt {...defaultProps} />);
 
-      await waitFor(() => {
-        expect(screen.getByDisplayValue('Test prompt')).toBeInTheDocument();
-      }, { timeout: 5000 });
+      await waitFor(
+        () => {
+          expect(screen.getByDisplayValue('Test prompt')).toBeInTheDocument();
+        },
+        { timeout: 5000 }
+      );
 
       const regenerateButtons = screen.getAllByText('Regenerate');
       const regenerateButton = regenerateButtons[0];
@@ -292,9 +304,12 @@ describe('ModifyPrompt', () => {
       render(<ModifyPrompt {...defaultProps} />);
 
       // Assert
-      await waitFor(() => {
-        expect(screen.getByText('2 Regenerations left for this post')).toBeInTheDocument();
-      }, { timeout: 5000 });
+      await waitFor(
+        () => {
+          expect(screen.getByText('2 Regenerations left for this post')).toBeInTheDocument();
+        },
+        { timeout: 5000 }
+      );
     });
 
     it('should disable regenerate button when no generations left', async () => {
@@ -313,12 +328,15 @@ describe('ModifyPrompt', () => {
       render(<ModifyPrompt {...defaultProps} />);
 
       // Assert
-      await waitFor(() => {
-        const regenerateButtons = screen.getAllByText('Regenerate');
-        const regenerateButton = regenerateButtons[0];
-        const buttonElement = regenerateButton.closest('button');
-        expect(buttonElement).toBeDisabled();
-      }, { timeout: 5000 });
+      await waitFor(
+        () => {
+          const regenerateButtons = screen.getAllByText('Regenerate');
+          const regenerateButton = regenerateButtons[0];
+          const buttonElement = regenerateButton.closest('button');
+          expect(buttonElement).toBeDisabled();
+        },
+        { timeout: 5000 }
+      );
     });
   });
 
@@ -339,10 +357,13 @@ describe('ModifyPrompt', () => {
       render(<ModifyPrompt {...defaultProps} />);
 
       // Assert
-      await waitFor(() => {
-        expect(screen.getByRole('form')).toBeInTheDocument();
-        expect(screen.getByRole('textbox')).toBeInTheDocument();
-      }, { timeout: 5000 });
+      await waitFor(
+        () => {
+          expect(screen.getByRole('form')).toBeInTheDocument();
+          expect(screen.getByRole('textbox')).toBeInTheDocument();
+        },
+        { timeout: 5000 }
+      );
     });
 
     it('should have proper form structure', async () => {
@@ -361,10 +382,13 @@ describe('ModifyPrompt', () => {
       render(<ModifyPrompt {...defaultProps} />);
 
       // Assert
-      await waitFor(() => {
-        const form = screen.getByRole('form');
-        expect(form).toHaveAttribute('role', 'form');
-      }, { timeout: 5000 });
+      await waitFor(
+        () => {
+          const form = screen.getByRole('form');
+          expect(form).toHaveAttribute('role', 'form');
+        },
+        { timeout: 5000 }
+      );
     });
   });
 
@@ -401,7 +425,7 @@ describe('ModifyPrompt', () => {
       });
 
       // Cleanup
-      window.location = originalLocation;
+      window.location = originalLocation as any;
     });
   });
 
@@ -448,7 +472,7 @@ describe('ModifyPrompt', () => {
 
       // Act
       render(<ModifyPrompt {...defaultProps} />);
-      
+
       await waitFor(() => {
         expect(screen.getByText('Cancel')).toBeInTheDocument();
       });
@@ -475,9 +499,12 @@ describe('ModifyPrompt', () => {
       // Act
       render(<ModifyPrompt {...defaultProps} />);
 
-      await waitFor(() => {
-        expect(screen.getByDisplayValue('Test prompt')).toBeInTheDocument();
-      }, { timeout: 5000 });
+      await waitFor(
+        () => {
+          expect(screen.getByDisplayValue('Test prompt')).toBeInTheDocument();
+        },
+        { timeout: 5000 }
+      );
 
       const form = screen.getByRole('form');
       fireEvent.submit(form);
@@ -514,9 +541,12 @@ describe('ModifyPrompt', () => {
       // Act
       render(<ModifyPrompt {...defaultProps} />);
 
-      await waitFor(() => {
-        expect(screen.getByDisplayValue('Test prompt')).toBeInTheDocument();
-      }, { timeout: 5000 });
+      await waitFor(
+        () => {
+          expect(screen.getByDisplayValue('Test prompt')).toBeInTheDocument();
+        },
+        { timeout: 5000 }
+      );
 
       const form = screen.getByRole('form');
       fireEvent.submit(form);

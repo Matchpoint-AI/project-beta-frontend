@@ -523,8 +523,10 @@ describe('SmartInsightsPanel', () => {
 
     // Verify essential UI elements are present
     expect(screen.getByText('Smart Performance Insights')).toBeInTheDocument();
-    expect(screen.getByText('AI-powered insights, predictions, and optimization recommendations')).toBeInTheDocument();
-    
+    expect(
+      screen.getByText('AI-powered insights, predictions, and optimization recommendations')
+    ).toBeInTheDocument();
+
     // Verify all tabs are clickable
     expect(screen.getByText('Summary')).toBeInTheDocument();
     expect(screen.getByText('Smart Insights')).toBeInTheDocument();

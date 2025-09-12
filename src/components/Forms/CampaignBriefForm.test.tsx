@@ -53,11 +53,7 @@ interface ApproveButtonProps {
 
 vi.mock('../../shared/components/buttons/ApproveButton', () => ({
   default: ({ double, handleApproveAll, loading }: ApproveButtonProps) => (
-    <button 
-      onClick={handleApproveAll} 
-      data-testid="approve-button"
-      disabled={double || loading}
-    >
+    <button onClick={handleApproveAll} data-testid="approve-button" disabled={double || loading}>
       Approve
     </button>
   ),
@@ -212,10 +208,12 @@ describe('CampaignBriefForm', () => {
 
   const renderWithProviders = (component: React.ReactElement) => {
     return render(
-      <BrandContext.Provider value={{ businessInfo: mockBusinessInfo, setBusinessInfo: vi.fn() }}>
+      <BrandContext.Provider
+        value={{ businessInfo: mockBusinessInfo as any, setBusinessInfo: vi.fn() }}
+      >
         <CampaignContext.Provider
           value={{
-            campaignInfo: mockCampaignInfo,
+            campaignInfo: mockCampaignInfo as any,
             setCampaignInfo: vi.fn(),
             campaignId: 'test-campaign-id',
             setCampaignId: vi.fn(),
@@ -243,7 +241,7 @@ describe('CampaignBriefForm', () => {
             ],
           },
         }),
-    }) as unknown as vi.Mock;
+    }) as unknown as any;
   });
 
   it('renders campaign brief form correctly', () => {

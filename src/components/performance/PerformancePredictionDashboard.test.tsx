@@ -73,12 +73,15 @@ describe('PerformancePredictionDashboard', () => {
     render(<PerformancePredictionDashboard />);
 
     // Assert
-    await waitFor(() => {
-      expect(screen.getByText('Performance Predictions')).toBeInTheDocument();
-      expect(
-        screen.getByText('AI-powered insights for future campaign performance')
-      ).toBeInTheDocument();
-    }, { timeout: 3000 });
+    await waitFor(
+      () => {
+        expect(screen.getByText('Performance Predictions')).toBeInTheDocument();
+        expect(
+          screen.getByText('AI-powered insights for future campaign performance')
+        ).toBeInTheDocument();
+      },
+      { timeout: 3000 }
+    );
 
     // Check time range buttons
     ['24h', '7d', '30d', '90d'].forEach((range) => {
@@ -94,15 +97,18 @@ describe('PerformancePredictionDashboard', () => {
     render(<PerformancePredictionDashboard />);
 
     // Assert
-    await waitFor(() => {
-      expect(screen.getByText('Engagement Rate')).toBeInTheDocument();
-      expect(screen.getByText('Reach')).toBeInTheDocument();
-      // Use getAllByText for duplicated text since these appear in both metric cards and engagement distribution
-      expect(screen.getAllByText('Comments')).toHaveLength(2);
-      expect(screen.getAllByText('Shares')).toHaveLength(2);
-      expect(screen.getByText('Impressions')).toBeInTheDocument();
-      expect(screen.getByText('Click Rate')).toBeInTheDocument();
-    }, { timeout: 3000 });
+    await waitFor(
+      () => {
+        expect(screen.getByText('Engagement Rate')).toBeInTheDocument();
+        expect(screen.getByText('Reach')).toBeInTheDocument();
+        // Use getAllByText for duplicated text since these appear in both metric cards and engagement distribution
+        expect(screen.getAllByText('Comments')).toHaveLength(2);
+        expect(screen.getAllByText('Shares')).toHaveLength(2);
+        expect(screen.getByText('Impressions')).toBeInTheDocument();
+        expect(screen.getByText('Click Rate')).toBeInTheDocument();
+      },
+      { timeout: 3000 }
+    );
   });
 
   it('displays confidence scores for predictions', async () => {
@@ -121,17 +127,20 @@ describe('PerformancePredictionDashboard', () => {
     render(<PerformancePredictionDashboard />);
 
     // Assert
-    await waitFor(() => {
-      const confidenceChips = screen.getAllByText(/\d+% sure/);
-      expect(confidenceChips.length).toBeGreaterThan(0);
+    await waitFor(
+      () => {
+        const confidenceChips = screen.getAllByText(/\d+% sure/);
+        expect(confidenceChips.length).toBeGreaterThan(0);
 
-      // Check that confidence scores are within valid range
-      confidenceChips.forEach((chip) => {
-        const confidence = parseInt(chip.textContent?.match(/\d+/)?.[0] || '0');
-        expect(confidence).toBeGreaterThanOrEqual(0);
-        expect(confidence).toBeLessThanOrEqual(100);
-      });
-    }, { timeout: 3000 });
+        // Check that confidence scores are within valid range
+        confidenceChips.forEach((chip) => {
+          const confidence = parseInt(chip.textContent?.match(/\d+/)?.[0] || '0');
+          expect(confidence).toBeGreaterThanOrEqual(0);
+          expect(confidence).toBeLessThanOrEqual(100);
+        });
+      },
+      { timeout: 3000 }
+    );
   });
 
   it('renders performance trajectory chart', async () => {
@@ -142,12 +151,15 @@ describe('PerformancePredictionDashboard', () => {
     render(<PerformancePredictionDashboard />);
 
     // Assert
-    await waitFor(() => {
-      expect(screen.getByText('Performance Trajectory')).toBeInTheDocument();
-      expect(screen.getByText('Actual')).toBeInTheDocument();
-      // "Predicted" appears multiple times - in chart legend and in metric cards
-      expect(screen.getAllByText('Predicted').length).toBeGreaterThan(0);
-    }, { timeout: 3000 });
+    await waitFor(
+      () => {
+        expect(screen.getByText('Performance Trajectory')).toBeInTheDocument();
+        expect(screen.getByText('Actual')).toBeInTheDocument();
+        // "Predicted" appears multiple times - in chart legend and in metric cards
+        expect(screen.getAllByText('Predicted').length).toBeGreaterThan(0);
+      },
+      { timeout: 3000 }
+    );
   });
 
   it('renders engagement distribution chart', async () => {
@@ -158,10 +170,13 @@ describe('PerformancePredictionDashboard', () => {
     render(<PerformancePredictionDashboard />);
 
     // Assert
-    await waitFor(() => {
-      expect(screen.getByText('Engagement Mix')).toBeInTheDocument();
-      expect(screen.getByText('Optimize for:')).toBeInTheDocument();
-    }, { timeout: 3000 });
+    await waitFor(
+      () => {
+        expect(screen.getByText('Engagement Mix')).toBeInTheDocument();
+        expect(screen.getByText('Optimize for:')).toBeInTheDocument();
+      },
+      { timeout: 3000 }
+    );
   });
 
   it('renders campaign predictions with recommendations', async () => {
@@ -172,18 +187,21 @@ describe('PerformancePredictionDashboard', () => {
     render(<PerformancePredictionDashboard />);
 
     // Assert
-    await waitFor(() => {
-      expect(screen.getByText('Summer Collection Launch')).toBeInTheDocument();
-      expect(screen.getByText('Product Tutorial Series')).toBeInTheDocument();
+    await waitFor(
+      () => {
+        expect(screen.getByText('Summer Collection Launch')).toBeInTheDocument();
+        expect(screen.getByText('Product Tutorial Series')).toBeInTheDocument();
 
-      // Check for AI recommendations
-      const recommendations = screen.getAllByText(/AI Recommendations/);
-      expect(recommendations.length).toBeGreaterThan(0);
+        // Check for AI recommendations
+        const recommendations = screen.getAllByText(/AI Recommendations/);
+        expect(recommendations.length).toBeGreaterThan(0);
 
-      // Check for specific recommendation content
-      expect(screen.getByText(/Post at 2 PM on weekdays/)).toBeInTheDocument();
-      expect(screen.getByText(/Create 60-second video tutorials/)).toBeInTheDocument();
-    }, { timeout: 3000 });
+        // Check for specific recommendation content
+        expect(screen.getByText(/Post at 2 PM on weekdays/)).toBeInTheDocument();
+        expect(screen.getByText(/Create 60-second video tutorials/)).toBeInTheDocument();
+      },
+      { timeout: 3000 }
+    );
   });
 
   it('displays campaign metrics correctly', async () => {
@@ -194,17 +212,20 @@ describe('PerformancePredictionDashboard', () => {
     render(<PerformancePredictionDashboard />);
 
     // Assert
-    await waitFor(() => {
-      // Check for metric labels
-      expect(screen.getAllByText('Predicted Reach').length).toBeGreaterThan(0);
-      expect(screen.getAllByText('Engagement').length).toBeGreaterThan(0);
-      expect(screen.getAllByText('Conversions').length).toBeGreaterThan(0);
+    await waitFor(
+      () => {
+        // Check for metric labels
+        expect(screen.getAllByText('Predicted Reach').length).toBeGreaterThan(0);
+        expect(screen.getAllByText('Engagement').length).toBeGreaterThan(0);
+        expect(screen.getAllByText('Conversions').length).toBeGreaterThan(0);
 
-      // Check for metric values
-      expect(screen.getByText('45.0K')).toBeInTheDocument(); // Predicted reach
-      expect(screen.getByText('8.5%')).toBeInTheDocument(); // Engagement rate
-      expect(screen.getByText('320')).toBeInTheDocument(); // Conversions
-    }, { timeout: 3000 });
+        // Check for metric values
+        expect(screen.getByText('45.0K')).toBeInTheDocument(); // Predicted reach
+        expect(screen.getByText('8.5%')).toBeInTheDocument(); // Engagement rate
+        expect(screen.getByText('320')).toBeInTheDocument(); // Conversions
+      },
+      { timeout: 3000 }
+    );
   });
 
   it('renders content performance forecast section', async () => {
@@ -215,12 +236,15 @@ describe('PerformancePredictionDashboard', () => {
     render(<PerformancePredictionDashboard />);
 
     // Assert
-    await waitFor(() => {
-      expect(screen.getByText('Content Type Performance Forecast')).toBeInTheDocument();
-      expect(screen.getByText('Video Reels')).toBeInTheDocument();
-      expect(screen.getByText('Product Photos')).toBeInTheDocument();
-      expect(screen.getByText('User Stories')).toBeInTheDocument();
-    }, { timeout: 3000 });
+    await waitFor(
+      () => {
+        expect(screen.getByText('Content Type Performance Forecast')).toBeInTheDocument();
+        expect(screen.getByText('Video Reels')).toBeInTheDocument();
+        expect(screen.getByText('Product Photos')).toBeInTheDocument();
+        expect(screen.getByText('User Stories')).toBeInTheDocument();
+      },
+      { timeout: 3000 }
+    );
   });
 
   it('displays optimal posting times', async () => {
@@ -231,11 +255,14 @@ describe('PerformancePredictionDashboard', () => {
     render(<PerformancePredictionDashboard />);
 
     // Assert
-    await waitFor(() => {
-      expect(screen.getByText('Best time: 7:00 PM - 9:00 PM')).toBeInTheDocument();
-      expect(screen.getByText('Best time: 12:00 PM - 2:00 PM')).toBeInTheDocument();
-      expect(screen.getByText('Best time: 8:00 AM - 10:00 AM')).toBeInTheDocument();
-    }, { timeout: 3000 });
+    await waitFor(
+      () => {
+        expect(screen.getByText('Best time: 7:00 PM - 9:00 PM')).toBeInTheDocument();
+        expect(screen.getByText('Best time: 12:00 PM - 2:00 PM')).toBeInTheDocument();
+        expect(screen.getByText('Best time: 8:00 AM - 10:00 AM')).toBeInTheDocument();
+      },
+      { timeout: 3000 }
+    );
   });
 
   it('shows suggested hashtags for content types', async () => {
@@ -246,11 +273,14 @@ describe('PerformancePredictionDashboard', () => {
     render(<PerformancePredictionDashboard />);
 
     // Assert
-    await waitFor(() => {
-      expect(screen.getByText('#Trending')).toBeInTheDocument();
-      expect(screen.getByText('#ProductLaunch')).toBeInTheDocument();
-      expect(screen.getByText('#CustomerLove')).toBeInTheDocument();
-    }, { timeout: 3000 });
+    await waitFor(
+      () => {
+        expect(screen.getByText('#Trending')).toBeInTheDocument();
+        expect(screen.getByText('#ProductLaunch')).toBeInTheDocument();
+        expect(screen.getByText('#CustomerLove')).toBeInTheDocument();
+      },
+      { timeout: 3000 }
+    );
   });
 
   it('displays performance optimization alert', async () => {
@@ -261,10 +291,13 @@ describe('PerformancePredictionDashboard', () => {
     render(<PerformancePredictionDashboard />);
 
     // Assert
-    await waitFor(() => {
-      expect(screen.getByText('Performance Optimization Opportunity')).toBeInTheDocument();
-      expect(screen.getByText(/posting video content on Thursday evenings/)).toBeInTheDocument();
-    }, { timeout: 3000 });
+    await waitFor(
+      () => {
+        expect(screen.getByText('Performance Optimization Opportunity')).toBeInTheDocument();
+        expect(screen.getByText(/posting video content on Thursday evenings/)).toBeInTheDocument();
+      },
+      { timeout: 3000 }
+    );
   });
 
   it('handles time range selection', async () => {
@@ -283,21 +316,24 @@ describe('PerformancePredictionDashboard', () => {
     render(<PerformancePredictionDashboard />);
 
     // Assert
-    await waitFor(() => {
-      const sevenDayButton = screen.getByRole('button', { name: '7d' });
-      const thirtyDayButton = screen.getByRole('button', { name: '30d' });
+    await waitFor(
+      () => {
+        const sevenDayButton = screen.getByRole('button', { name: '7d' });
+        const thirtyDayButton = screen.getByRole('button', { name: '30d' });
 
-      // Initially 7d should be selected
-      expect(sevenDayButton).toHaveClass('bg-purple-600');
-      expect(thirtyDayButton).toHaveClass('bg-gray-100');
+        // Initially 7d should be selected
+        expect(sevenDayButton).toHaveClass('bg-purple-600');
+        expect(thirtyDayButton).toHaveClass('bg-gray-100');
 
-      // Click 30d button
-      fireEvent.click(thirtyDayButton);
+        // Click 30d button
+        fireEvent.click(thirtyDayButton);
 
-      // Check classes are updated
-      expect(thirtyDayButton).toHaveClass('bg-purple-600');
-      expect(sevenDayButton).toHaveClass('bg-gray-100');
-    }, { timeout: 3000 });
+        // Check classes are updated
+        expect(thirtyDayButton).toHaveClass('bg-purple-600');
+        expect(sevenDayButton).toHaveClass('bg-gray-100');
+      },
+      { timeout: 3000 }
+    );
   });
 
   it('displays trend indicators correctly', async () => {
@@ -349,19 +385,24 @@ describe('PerformancePredictionDashboard', () => {
 
   it('handles missing authentication gracefully', async () => {
     // Arrange
-    (useAuth as any).mockReturnValue(createMockAuthValue({ 
-      profile: null, 
-      isAuthenticated: false 
-    }));
+    (useAuth as any).mockReturnValue(
+      createMockAuthValue({
+        profile: null,
+        isAuthenticated: false,
+      })
+    );
 
     // Act
     render(<PerformancePredictionDashboard />);
 
     // Assert
     // Should still render the dashboard and complete loading
-    await waitFor(() => {
-      expect(screen.getByText('Performance Predictions')).toBeInTheDocument();
-    }, { timeout: 3000 });
+    await waitFor(
+      () => {
+        expect(screen.getByText('Performance Predictions')).toBeInTheDocument();
+      },
+      { timeout: 3000 }
+    );
   });
 
   it('displays correct confidence score styling', async () => {
@@ -372,16 +413,19 @@ describe('PerformancePredictionDashboard', () => {
     render(<PerformancePredictionDashboard />);
 
     // Assert
-    await waitFor(() => {
-      const highConfidenceChips = screen.getAllByText(/8[5-9]% confidence|9\d% confidence/);
-      
-      // At least some high confidence predictions should exist
-      expect(highConfidenceChips.length).toBeGreaterThan(0);
-      
-      // Verify that confidence chips are displayed (including the "sure" format in metrics)
-      const confidenceElements = screen.getAllByText(/\d+% sure|\d+% confidence/);
-      expect(confidenceElements.length).toBeGreaterThan(0);
-    }, { timeout: 3000 });
+    await waitFor(
+      () => {
+        const highConfidenceChips = screen.getAllByText(/8[5-9]% confidence|9\d% confidence/);
+
+        // At least some high confidence predictions should exist
+        expect(highConfidenceChips.length).toBeGreaterThan(0);
+
+        // Verify that confidence chips are displayed (including the "sure" format in metrics)
+        const confidenceElements = screen.getAllByText(/\d+% sure|\d+% confidence/);
+        expect(confidenceElements.length).toBeGreaterThan(0);
+      },
+      { timeout: 3000 }
+    );
   });
 
   it('shows performance improvement percentages', async () => {

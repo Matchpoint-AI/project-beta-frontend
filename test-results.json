@@ -1,5 +1,0 @@
-
-> frontend@0.1.0 test
-> vitest --run --reporter=json
-
- Vitest  "deps.inline" is deprecated. If you rely on vite-node directly, use "server.deps.inline" instead. Otherwise, consider using "deps.optimizer.web.include"
