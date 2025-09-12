@@ -1,5 +1,5 @@
 import React, { FormEventHandler, useContext, useEffect, useRef, useState } from 'react';
-import { CampaignContext } from '../../context/CampaignContext';
+import { CampaignContext } from '../../features/campaign/context/CampaignContext';
 import FormsContainer from '../shared/FormsContainer';
 import NextButton from '../../shared/components/buttons/NextButton';
 import WebsiteOwnership from '../WebsiteOwnership';

@@ -3,7 +3,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 import CampaignBriefForm from './CampaignBriefForm';
 import { BrandContext } from '../../features/brand/context/BrandContext';
-import { CampaignContext } from '../../context/CampaignContext';
+import { CampaignContext } from '../../features/campaign/context/CampaignContext';
 
 // Mock the useAuth hook
 vi.mock('../../features/auth/context/AuthContext', () => ({

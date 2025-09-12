@@ -19,7 +19,7 @@ import ErrorToast from '../../../shared/components/feedback/ErrorToast';
 import ExportPopup from './ExportPopup';
 import { capitalizeFirstLetterOfEachWord, structureData } from '../../../helpers/formatters';
 import posthog from '../../../helpers/posthog';
-import { CampaignInfoType } from '../../../context/CampaignContext';
+import { CampaignInfoType } from '../../../features/campaign/context/CampaignContext';
 // import ApprovePopup from "./ApprovePopup";
 // import { CircularProgress } from "@mui/material";
 

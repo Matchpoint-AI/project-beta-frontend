@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { CampaignContext } from '../context/CampaignContext';
+import { CampaignContext } from '../features/campaign/context/CampaignContext';
 
 interface Props {
   title: string;

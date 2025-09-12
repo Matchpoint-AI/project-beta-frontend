@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { CampaignContext, CampaignInfoType } from '../../../context/CampaignContext';
+import { CampaignContext, CampaignInfoType } from '../context/CampaignContext';
 import { BrandContext } from '../../brand/context/BrandContext';
 import { useNavigate } from 'react-router-dom';
 // import { getAuth } from "firebase/auth";

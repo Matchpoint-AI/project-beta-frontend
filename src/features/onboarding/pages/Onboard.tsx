@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../features/auth/context/AuthContext';
 import OnboardForms from '../components/onboard/OnboardForms';
-import BrandProfileEdit from '../components/BrandProfileEdit';
+import BrandProfileEdit from '../features/brand/components/BrandProfileEdit';
 import { CircularProgress } from '@mui/material';
 
 const Onboard = () => {
