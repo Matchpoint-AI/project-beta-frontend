@@ -157,7 +157,7 @@ export default function AuthForm({ login = false, setAuthError }: AuthFormProps)
     } catch (error) {
       setLoading(false);
       if (login) {
-        const authError = _error as FirebaseError;
+        const authError = error as FirebaseError;
         if (authError.code === 'auth/invalid-credential') {
           setAuthError('Invalid username or password.');
         } else if (authError.code === 'auth/too-many-requests') {
