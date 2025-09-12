@@ -94,6 +94,6 @@ ehthumbs_vista.db
 .tmp/
 .temp/
 test-results/
-# TypeScript declaration files (auto-generated)
-**/*.d.ts
+# TypeScript declaration files (auto-generated, but keep types folder)
+src/**/*.d.ts
 !src/types/**/*.d.ts
