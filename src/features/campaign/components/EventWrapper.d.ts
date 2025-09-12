@@ -11,5 +11,5 @@ type EventType = {
 };
 declare const EventWrapper: (props: {
     event: EventType;
-}) => import("react/jsx-runtime").JSX.Element;
+}) => any;
 export default EventWrapper;

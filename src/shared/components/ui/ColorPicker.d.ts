@@ -7,5 +7,5 @@ interface ColorPickerProps {
     className?: string;
     conseilPicker: (visible: boolean) => void;
 }
-export default function ColorPicker({ selectedColors, selectColor, saveColor, className, conseilPicker, }: ColorPickerProps): import("react/jsx-runtime").JSX.Element;
+export default function ColorPicker({ selectedColors, selectColor, saveColor, className, conseilPicker, }: ColorPickerProps): any;
 export {};

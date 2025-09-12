@@ -1,2 +1,2 @@
-declare const Onboard: ({ edit }: any) => import("react/jsx-runtime").JSX.Element;
+declare const Onboard: ({ edit }: any) => any;
 export default Onboard;

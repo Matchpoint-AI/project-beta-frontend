@@ -1,2 +1,2 @@
-declare const CampaignContent: () => import("react/jsx-runtime").JSX.Element | null;
+declare const CampaignContent: () => any;
 export default CampaignContent;

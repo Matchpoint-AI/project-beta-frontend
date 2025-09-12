@@ -26,5 +26,5 @@ interface PostsCarouselProps {
     selectedImages: number[];
     setSelectedImages: React.Dispatch<React.SetStateAction<number[]>>;
 }
-declare const PostsCarousel: ({ content, postingTimes, index, setOpen, brandName, generatedContentId, week, updataImage, handleApprovalUpdate, selectedImages, setSelectedImages, }: PostsCarouselProps) => import("react/jsx-runtime").JSX.Element;
+declare const PostsCarousel: ({ content, postingTimes, index, setOpen, brandName, generatedContentId, week, updataImage, handleApprovalUpdate, selectedImages, setSelectedImages, }: PostsCarouselProps) => any;
 export default PostsCarousel;

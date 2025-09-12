@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../index.css';
-import { BrandContext, BusinessInfo } from '../features/brand/context/BrandContext';
+import { BrandContext, BusinessInfo, WorkflowState } from '../features/brand/context/BrandContext';
 import { CampaignContext } from '../features/campaign/context/CampaignContext';
 import { AuthProvider } from '../features/auth/context/AuthContext';
 import { withErrorBoundary } from 'react-error-boundary';
@@ -60,10 +60,33 @@ function AppContent() {
   const [campaignInfo, setCampaignInfo] = useState({});
   const [campaignId, setCampaignId] = useState<string | null>(null);
 
+  // Helper functions for workflow management
+  const updateWorkflowState = (workflowUpdate: Partial<WorkflowState>) => {
+    setBusinessInfo(prev => ({
+      ...prev,
+      workflow: {
+        ...prev.workflow,
+        ...workflowUpdate,
+      } as WorkflowState
+    }));
+  };
+
+  const clearWorkflow = () => {
+    setBusinessInfo(prev => ({
+      ...prev,
+      workflow: undefined
+    }));
+  };
+
   return (
     <AppProvider>
       <UsersContextProvider>
-        <BrandContext.Provider value={{ businessInfo, setBusinessInfo }}>
+        <BrandContext.Provider value={{ 
+          businessInfo, 
+          setBusinessInfo,
+          updateWorkflowState,
+          clearWorkflow
+        }}>
           <CampaignContext.Provider
             value={{
               campaignInfo,

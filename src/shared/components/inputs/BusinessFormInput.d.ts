@@ -13,5 +13,5 @@ interface BusinessFormInputProps {
     runValidation: number;
     setFormError: React.Dispatch<React.SetStateAction<FormErrorState>>;
 }
-export default function BusinessFormInput(props: BusinessFormInputProps): import("react/jsx-runtime").JSX.Element;
+export default function BusinessFormInput(props: BusinessFormInputProps): any;
 export {};

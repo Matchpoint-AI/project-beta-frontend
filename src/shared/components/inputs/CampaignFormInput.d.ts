@@ -5,5 +5,5 @@ interface CampaignFormInputProps {
     error: boolean | null;
     setError: React.Dispatch<React.SetStateAction<boolean | null>>;
 }
-export default function CampaignFormInput(props: CampaignFormInputProps): import("react/jsx-runtime").JSX.Element;
+export default function CampaignFormInput(props: CampaignFormInputProps): any;
 export {};

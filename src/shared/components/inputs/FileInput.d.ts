@@ -4,5 +4,5 @@ interface FileInputProps {
     error: boolean;
     onChange?: (file: File) => void;
 }
-declare const FileInput: ({ accept, required, error, onChange }: FileInputProps) => import("react/jsx-runtime").JSX.Element;
+declare const FileInput: ({ accept, required, error, onChange }: FileInputProps) => any;
 export default FileInput;

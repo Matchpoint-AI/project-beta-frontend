@@ -1,2 +1,2 @@
-declare const InstagramIcon: () => import("react/jsx-runtime").JSX.Element;
+declare const InstagramIcon: () => any;
 export default InstagramIcon;

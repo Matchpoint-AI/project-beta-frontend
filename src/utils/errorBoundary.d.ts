@@ -1,4 +1,4 @@
-import React, { Component, ErrorInfo, ReactNode } from 'react';
+import { Component, ErrorInfo, ReactNode } from 'react';
 interface Props {
     children: ReactNode;
     fallback?: ReactNode;
@@ -15,7 +15,7 @@ export declare class ErrorBoundary extends Component<Props, State> {
     constructor(props: Props);
     static getDerivedStateFromError(_error: Error): State;
     componentDidCatch(_error: Error, _errorInfo: ErrorInfo): void;
-    render(): string | number | boolean | Iterable<React.ReactNode> | import("react/jsx-runtime").JSX.Element | null | undefined;
+    render(): any;
 }
 /**
  * Hook to handle external script errors gracefully

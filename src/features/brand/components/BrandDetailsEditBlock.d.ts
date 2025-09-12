@@ -4,5 +4,5 @@ interface BrandDetailsEditBlockProps {
     initValues: Chip[];
     closeEdit: () => void;
 }
-export default function BrandDetailsEditBlock({ initValues, category, closeEdit, }: BrandDetailsEditBlockProps): import("react/jsx-runtime").JSX.Element;
+export default function BrandDetailsEditBlock({ initValues, category, closeEdit, }: BrandDetailsEditBlockProps): any;
 export {};

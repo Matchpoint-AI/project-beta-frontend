@@ -16,5 +16,5 @@ interface PostPreviewProps {
     campaign_content_id: string;
     updataImage: (week: number, day: number, post: number, imageIndex: number, newImage: string | null, nexText: string) => void;
 }
-declare const PostPreview: ({ week, day, index, content, brandName, imageIndex, campaign_content_id, updataImage, }: PostPreviewProps) => import("react/jsx-runtime").JSX.Element;
+declare const PostPreview: ({ week, day, index, content, brandName, imageIndex, campaign_content_id, updataImage, }: PostPreviewProps) => any;
 export default PostPreview;

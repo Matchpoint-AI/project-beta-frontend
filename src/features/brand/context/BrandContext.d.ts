@@ -2,6 +2,14 @@ export type Selectable = {
     selected: boolean;
     [key: string]: unknown;
 };
+export interface WorkflowState {
+    isActive: boolean;
+    currentStep?: 'crawling' | 'analyzing' | 'completed' | 'failed';
+    progress?: number;
+    progressMessage?: string;
+    error?: string;
+    workflowId?: string;
+}
 export interface BusinessInfo {
     id?: string;
     name: string;
@@ -43,10 +51,6 @@ export interface BusinessInfo {
     isSaved?: boolean;
     isFetched?: boolean;
     key_features?: string[];
+    workflow?: WorkflowState;
 }
-interface BrandContextType {
-    businessInfo: BusinessInfo;
-    setBusinessInfo: React.Dispatch<React.SetStateAction<BusinessInfo>>;
-}
-export declare const BrandContext: import("react").Context<BrandContextType>;
-export {};
+export declare const BrandContext: any;

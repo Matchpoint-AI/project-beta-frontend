@@ -1,4 +1,4 @@
 declare const MonthHeader: (props: {
     label: string;
-}) => import("react/jsx-runtime").JSX.Element;
+}) => any;
 export default MonthHeader;

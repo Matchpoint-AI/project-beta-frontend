@@ -5,5 +5,5 @@ declare const NextButton: ({ text, formId, disabled, onClick, children, }: {
     disabled?: boolean;
     onClick?: () => void;
     children?: React.ReactNode;
-}) => import("react/jsx-runtime").JSX.Element;
+}) => any;
 export default NextButton;

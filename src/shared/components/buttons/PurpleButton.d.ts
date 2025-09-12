@@ -5,4 +5,4 @@ export default function PurpleButton({ type, className, onClick, children, disab
     children: React.ReactNode;
     onClick?: React.MouseEventHandler<HTMLButtonElement>;
     disabled?: boolean;
-}): import("react/jsx-runtime").JSX.Element;
+}): any;

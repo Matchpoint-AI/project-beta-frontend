@@ -19,5 +19,5 @@ interface ContentOverlayProps {
     approved: boolean;
     onApprovalUpdate: () => void;
 }
-declare const ContentOverlay: ({ day, closeOverlay, content, brandName, id, week, setOpen, updataImage, approved, onApprovalUpdate, }: ContentOverlayProps) => import("react/jsx-runtime").JSX.Element;
+declare const ContentOverlay: ({ day, closeOverlay, content, brandName, id, week, setOpen, updataImage, approved, onApprovalUpdate, }: ContentOverlayProps) => any;
 export default ContentOverlay;

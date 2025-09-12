@@ -5,5 +5,5 @@ interface VerifyEmailProps {
         message: string;
     }) => void;
 }
-export default function VerifyEmail({ setOpen }: VerifyEmailProps): import("react/jsx-runtime").JSX.Element;
+export default function VerifyEmail({ setOpen }: VerifyEmailProps): any;
 export {};

@@ -4,5 +4,5 @@ interface CampaignContentWinProps {
     onClose: () => void;
     content: Post[][][];
 }
-export default function CampaignContentWin({ open, onClose, content }: CampaignContentWinProps): import("react/jsx-runtime").JSX.Element;
+export default function CampaignContentWin({ open, onClose, content }: CampaignContentWinProps): any;
 export {};

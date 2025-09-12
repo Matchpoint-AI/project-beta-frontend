@@ -5,5 +5,5 @@ interface CampaignStepsBar {
     timing: string;
     service: string;
 }
-export default function CampaignStepsBar({ currentStep, campaignInfo, timing, service, }: CampaignStepsBar): import("react/jsx-runtime").JSX.Element;
+export default function CampaignStepsBar({ currentStep, campaignInfo, timing, service, }: CampaignStepsBar): any;
 export {};

@@ -3,5 +3,5 @@ interface BrandReviewProps {
     hasBrand: boolean;
     stepHandler?: (step: number) => void;
 }
-export default function BrandReview({ toggleEdit, hasBrand, stepHandler }: BrandReviewProps): import("react/jsx-runtime").JSX.Element;
+export default function BrandReview({ toggleEdit, hasBrand, stepHandler }: BrandReviewProps): any;
 export {};

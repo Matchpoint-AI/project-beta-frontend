@@ -33,5 +33,5 @@ interface CampaignsListProps {
     campaignType: string;
     setCampaignType: React.Dispatch<React.SetStateAction<string>>;
 }
-export default function CampaignsList({ campaigns, campaignType, setCampaignType, }: CampaignsListProps): import("react/jsx-runtime").JSX.Element;
+export default function CampaignsList({ campaigns, campaignType, setCampaignType, }: CampaignsListProps): any;
 export {};

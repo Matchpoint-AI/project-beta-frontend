@@ -4,5 +4,5 @@ interface CampaignToolBarProps {
     date: Date;
     onNavigate: (navigate: NavigateAction, date?: Date) => void;
 }
-declare const CampaignToolBar: (props: CampaignToolBarProps) => import("react/jsx-runtime").JSX.Element;
+declare const CampaignToolBar: (props: CampaignToolBarProps) => any;
 export default CampaignToolBar;

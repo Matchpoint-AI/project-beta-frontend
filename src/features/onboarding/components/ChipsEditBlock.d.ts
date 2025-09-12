@@ -7,5 +7,5 @@ interface ChipsEditBlockProps {
     max: number;
     genre?: 'emotion' | 'interests';
 }
-export default function ChipsEditBlock({ initValues, saveValues, closeEdit, className, max, genre, }: ChipsEditBlockProps): import("react/jsx-runtime").JSX.Element;
+export default function ChipsEditBlock({ initValues, saveValues, closeEdit, className, max, genre, }: ChipsEditBlockProps): any;
 export {};

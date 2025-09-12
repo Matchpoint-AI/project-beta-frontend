@@ -1,5 +1,5 @@
 declare const ExportPopup: ({ campaignName, onClose }: {
     campaignName: string;
     onClose: () => void;
-}) => import("react/jsx-runtime").JSX.Element;
+}) => any;
 export default ExportPopup;

@@ -19,5 +19,5 @@ interface DayBannerProps {
     brandName: string;
     updataImage: (week: number, day: number, post: number, imageIndex: number, newImage: string, text: string) => void;
 }
-declare const DayBanner: ({ index, startDate, currentPage, content, generatedContentId, handleApprovalUpdate, setOpen, brandName, updataImage, }: DayBannerProps) => import("react/jsx-runtime").JSX.Element;
+declare const DayBanner: ({ index, startDate, currentPage, content, generatedContentId, handleApprovalUpdate, setOpen, brandName, updataImage, }: DayBannerProps) => any;
 export default DayBanner;

@@ -7,5 +7,5 @@ interface EditProfileInputProps {
     placeholder: string;
     subject: 'name' | 'email' | 'password';
 }
-export default function EditProfileInput(props: EditProfileInputProps): import("react/jsx-runtime").JSX.Element;
+export default function EditProfileInput(props: EditProfileInputProps): any;
 export {};

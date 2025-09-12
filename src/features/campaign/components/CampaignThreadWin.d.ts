@@ -6,5 +6,5 @@ interface CampaignThreadWinProps {
     addMessage: (prompt: string) => void;
     popMessage: () => void;
 }
-export default function CampaignThreadWin({ open, onClose, messages, addMessage, popMessage, }: CampaignThreadWinProps): import("react/jsx-runtime").JSX.Element | undefined;
+export default function CampaignThreadWin({ open, onClose, messages, addMessage, popMessage, }: CampaignThreadWinProps): any;
 export {};

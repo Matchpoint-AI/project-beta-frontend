@@ -4,5 +4,5 @@ interface ReviewFormProps {
     handleBack: () => void;
     saving: boolean;
 }
-declare const ReviewForm: ({ setFormStep, handleBack, handleSave, saving }: ReviewFormProps) => import("react/jsx-runtime").JSX.Element;
+declare const ReviewForm: ({ setFormStep, handleBack, handleSave, saving }: ReviewFormProps) => any;
 export default ReviewForm;

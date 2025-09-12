@@ -15,7 +15,7 @@ export declare const createWordDocument: (weeksData: Array<Array<{
         postIndex: number;
         text: string;
     }>;
-}>>, currentValues: string[]) => Promise<Blob>;
+}>>, currentValues: string[]) => Promise<any>;
 export declare const organizeAndSavePosts: (weeksData: Array<Array<{
     dayIndex: number;
     posts: Array<{

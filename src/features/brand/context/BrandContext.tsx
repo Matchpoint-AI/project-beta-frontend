@@ -2,6 +2,15 @@ import { createContext } from 'react';
 
 export type Selectable = { selected: boolean; [key: string]: unknown };
 
+export interface WorkflowState {
+  isActive: boolean;
+  currentStep?: 'crawling' | 'analyzing' | 'completed' | 'failed';
+  progress?: number;
+  progressMessage?: string;
+  error?: string;
+  workflowId?: string;
+}
+
 export interface BusinessInfo {
   id?: string;
   name: string;
@@ -43,11 +52,16 @@ export interface BusinessInfo {
   isSaved?: boolean;
   isFetched?: boolean;
   key_features?: string[];
+  // New workflow-related fields
+  workflow?: WorkflowState;
 }
 
 interface BrandContextType {
   businessInfo: BusinessInfo;
   setBusinessInfo: React.Dispatch<React.SetStateAction<BusinessInfo>>;
+  // Helper functions for workflow management
+  updateWorkflowState: (workflowUpdate: Partial<WorkflowState>) => void;
+  clearWorkflow: () => void;
 }
 
 export const BrandContext = createContext<BrandContextType>({
@@ -66,4 +80,6 @@ export const BrandContext = createContext<BrandContextType>({
     brandColors: [],
   },
   setBusinessInfo: () => {},
+  updateWorkflowState: () => {},
+  clearWorkflow: () => {},
 });

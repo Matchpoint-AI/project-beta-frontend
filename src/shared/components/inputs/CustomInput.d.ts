@@ -4,5 +4,5 @@ interface CustomInputProps {
     setOptions: Dispatch<React.SetStateAction<string[]>>;
     limit: number;
 }
-declare const CustomInput: ({ options, setOptions, limit }: CustomInputProps) => import("react/jsx-runtime").JSX.Element;
+declare const CustomInput: ({ options, setOptions, limit }: CustomInputProps) => any;
 export default CustomInput;

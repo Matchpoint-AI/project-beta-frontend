@@ -3,5 +3,5 @@ interface ColorProps {
     color: string;
     removeColor: (index: number) => void;
 }
-export default function ColorSpan({ index, color, removeColor }: ColorProps): import("react/jsx-runtime").JSX.Element;
+export default function ColorSpan({ index, color, removeColor }: ColorProps): any;
 export {};

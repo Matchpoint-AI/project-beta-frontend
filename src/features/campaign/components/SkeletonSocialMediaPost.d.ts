@@ -1,2 +1,2 @@
-declare const SkeletonSocialMediaPost: () => import("react/jsx-runtime").JSX.Element;
+declare const SkeletonSocialMediaPost: () => any;
 export default SkeletonSocialMediaPost;

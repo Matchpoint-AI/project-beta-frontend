@@ -3,5 +3,5 @@ declare const MyAutoComplete: ({ options, currentValues, setCurrentValues, style
     currentValues: string[];
     setCurrentValues: (newValue: string[]) => void;
     style?: boolean;
-}) => import("react/jsx-runtime").JSX.Element;
+}) => any;
 export default MyAutoComplete;

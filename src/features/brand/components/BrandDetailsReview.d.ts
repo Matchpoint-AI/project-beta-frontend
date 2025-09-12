@@ -3,5 +3,5 @@ interface BrandDetailsReviewProps {
     edit?: boolean;
     hasBrand?: boolean;
 }
-export default function BrandDetailsReview({ stepHandler, edit }: BrandDetailsReviewProps): import("react/jsx-runtime").JSX.Element;
+export default function BrandDetailsReview({ stepHandler, edit }: BrandDetailsReviewProps): any;
 export {};

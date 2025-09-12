@@ -7,5 +7,5 @@ interface ModifyPromptFormProps {
     open: boolean;
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
-export default function ModifyPromptForm(props: ModifyPromptFormProps): import("react/jsx-runtime").JSX.Element;
+export default function ModifyPromptForm(props: ModifyPromptFormProps): any;
 export {};

@@ -17,5 +17,5 @@ interface Campaign {
 declare const ContentLibrary: ({ campaign, setStats, }: {
     campaign: Campaign | null;
     setStats: React.Dispatch<React.SetStateAction<Stats>>;
-}) => import("react/jsx-runtime").JSX.Element;
+}) => any;
 export default ContentLibrary;

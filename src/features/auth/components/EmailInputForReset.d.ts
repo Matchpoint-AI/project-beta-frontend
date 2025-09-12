@@ -4,4 +4,4 @@ export default function EmailInputForReset({ setOpenToast, }: {
         error: boolean;
         message: string;
     }) => void;
-}): import("react/jsx-runtime").JSX.Element;
+}): any;

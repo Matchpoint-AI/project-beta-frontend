@@ -1,2 +1,2 @@
-declare const DisplayContent: () => import("react/jsx-runtime").JSX.Element;
+declare const DisplayContent: () => any;
 export default DisplayContent;

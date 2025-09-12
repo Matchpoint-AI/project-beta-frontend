@@ -5,5 +5,5 @@ interface FormInputProps {
     validateInput: (input: string) => boolean;
     parentError: boolean;
 }
-export default function FormInput({ saveInput, subject, initValue, validateInput, parentError, }: FormInputProps): import("react/jsx-runtime").JSX.Element;
+export default function FormInput({ saveInput, subject, initValue, validateInput, parentError, }: FormInputProps): any;
 export {};

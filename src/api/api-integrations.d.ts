@@ -15,12 +15,7 @@ type TAction = {
     type: 'USER';
     payload: TApp;
 };
-export default function useIntegrationApi(action: TAction, manual?: 'TRIGGER'): {
-    triggerRequest: () => Promise<void>;
-    data: any;
-    loading: boolean;
-    error: string | null;
-};
+export default function useIntegrationApi(action: TAction, manual?: 'TRIGGER'): any;
 export declare function integrationApi(action: {
     type: unknown;
     [key: string]: unknown;

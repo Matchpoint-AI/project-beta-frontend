@@ -9,5 +9,5 @@ interface Stats {
 declare const NewCardStats: ({ id: _id, stats }: {
     id: string;
     stats: Stats;
-}) => import("react/jsx-runtime").JSX.Element;
+}) => any;
 export default NewCardStats;

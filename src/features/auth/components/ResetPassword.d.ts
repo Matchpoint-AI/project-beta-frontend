@@ -5,5 +5,5 @@ interface ResetPasswordProps {
         message: string;
     }) => void;
 }
-export default function ResetPassword({ setOpen }: ResetPasswordProps): import("react/jsx-runtime").JSX.Element;
+export default function ResetPassword({ setOpen }: ResetPasswordProps): any;
 export {};
