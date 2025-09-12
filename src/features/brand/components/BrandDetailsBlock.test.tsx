@@ -82,11 +82,19 @@ describe('BrandDetailsBlock', () => {
     ],
   } as BusinessInfo;
 
+  const mockUpdateWorkflowState = vi.fn();
+  const mockClearWorkflow = vi.fn();
+
   const renderComponent = (category: 'mission' | 'persona' | 'values' | 'toneAndVoice') => {
     return render(
       <BrowserRouter>
         <BrandContext.Provider
-          value={{ businessInfo: defaultBusinessInfo, setBusinessInfo: mockSetBusinessInfo }}
+          value={{ 
+            businessInfo: defaultBusinessInfo, 
+            setBusinessInfo: mockSetBusinessInfo,
+            updateWorkflowState: mockUpdateWorkflowState,
+            clearWorkflow: mockClearWorkflow
+          }}
         >
           <BrandDetailsBlock category={category} />
         </BrandContext.Provider>
@@ -211,7 +219,12 @@ describe('BrandDetailsBlock', () => {
       render(
         <BrowserRouter>
           <BrandContext.Provider
-            value={{ businessInfo: singleSelectedChip, setBusinessInfo: mockSetBusinessInfo }}
+            value={{ 
+              businessInfo: singleSelectedChip, 
+              setBusinessInfo: mockSetBusinessInfo,
+              updateWorkflowState: mockUpdateWorkflowState,
+              clearWorkflow: mockClearWorkflow
+            }}
           >
             <BrandDetailsBlock category="persona" />
           </BrandContext.Provider>

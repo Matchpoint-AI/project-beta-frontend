@@ -26,6 +26,8 @@ vi.mock('../../../shared/components/buttons/PurpleButton', () => ({
 
 describe('BrandDetailsEditBlock', () => {
   const mockSetBusinessInfo = vi.fn();
+  const mockUpdateWorkflowState = vi.fn();
+  const mockClearWorkflow = vi.fn();
   const mockCloseEdit = vi.fn();
 
   const defaultBusinessInfo = {
@@ -59,6 +61,8 @@ describe('BrandDetailsEditBlock', () => {
         value={{
           businessInfo: defaultBusinessInfo,
           setBusinessInfo: mockSetBusinessInfo,
+          updateWorkflowState: mockUpdateWorkflowState,
+          clearWorkflow: mockClearWorkflow,
         }}
       >
         <BrandDetailsEditBlock

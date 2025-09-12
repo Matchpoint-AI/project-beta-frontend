@@ -73,7 +73,7 @@ export interface BrandKnowledge {
   targetAudience?: string;
 }
 
-const API_BASE_URL = getServiceURL('api'); // Assuming this points to the new v2 API
+const API_BASE_URL = getServiceURL('content-gen'); // Use content-gen service for now
 
 class BrandV2ApiError extends Error {
   constructor(
@@ -111,9 +111,9 @@ const handleResponse = async (response: Response) => {
 };
 
 const makeRequest = async (endpoint: string, options: RequestInit = {}, token?: string) => {
-  const headers: HeadersInit = {
+  const headers: Record<string, string> = {
     'Content-Type': 'application/json',
-    ...options.headers,
+    ...(options.headers as Record<string, string>),
   };
 
   if (token) {

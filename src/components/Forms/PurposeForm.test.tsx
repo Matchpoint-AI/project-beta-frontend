@@ -17,6 +17,8 @@ vi.mock('../../helpers/posthog', () => ({
 const mockSetCampaignInfo = vi.fn();
 const mockHandleNext = vi.fn();
 const mockSetBusinessInfo = vi.fn();
+const mockUpdateWorkflowState = vi.fn();
+const mockClearWorkflow = vi.fn();
 
 const mockCampaignContextValue = {
   campaignInfo: {
@@ -41,7 +43,7 @@ const mockBrandContextValue = {
     industry: 'Technology',
     vertical: 'SaaS',
   },
-  setBusinessInfo: mockSetBusinessInfo,
+  setBusinessInfo: mockSetBusinessInfo, updateWorkflowState: mockUpdateWorkflowState, clearWorkflow: mockClearWorkflow,
 };
 
 const mockAuthContextValue = {
