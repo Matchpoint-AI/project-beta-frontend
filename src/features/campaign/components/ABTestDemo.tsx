@@ -139,7 +139,11 @@ const ABTestDemo: React.FC = () => {
     setIsComparisonOpen(false);
   };
 
-  const handleSaveVariant = async (variantId: string, content: ABTestVariant['content'], notes?: string) => {
+  const handleSaveVariant = async (
+    variantId: string,
+    content: ABTestVariant['content'],
+    notes?: string
+  ) => {
     // Simulate API call
 
     // Update demo data

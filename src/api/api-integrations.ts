@@ -20,7 +20,10 @@ export default function useIntegrationApi(action: TAction, manual?: 'TRIGGER') {
   return useApi(integrationApi, action, manual);
 }
 
-export async function integrationApi(action: { type: unknown; [key: string]: unknown }, token?: string) {
+export async function integrationApi(
+  action: { type: unknown; [key: string]: unknown },
+  token?: string
+) {
   const { type, payload: app } = action;
 
   if (!token) {

@@ -8,7 +8,7 @@ import { getServiceURL } from '../helpers/getServiceURL';
 const safeProp = (obj: Record<string, unknown>, path: string): string => {
   const keys = path.split('.');
   let current: any = obj;
-  
+
   for (const key of keys) {
     if (current && typeof current === 'object' && key in current) {
       current = current[key];
@@ -16,11 +16,11 @@ const safeProp = (obj: Record<string, unknown>, path: string): string => {
       return '';
     }
   }
-  
+
   if (Array.isArray(current)) {
     return current.join(', ');
   }
-  
+
   return String(current || '');
 };
 
@@ -83,28 +83,21 @@ const createBrandProfilePDF = async (
   };
 
   // Fetch human-readable color names from the color API for brandProfile.colors
-  const primaryBrandProfile = Array.isArray(clientRequest.primary_brand_profile) 
-    ? clientRequest.primary_brand_profile as string[]
+  const primaryBrandProfile = Array.isArray(clientRequest.primary_brand_profile)
+    ? (clientRequest.primary_brand_profile as string[])
     : [];
-  
+
   const profileConvertedColors =
-    primaryBrandProfile.length > 0
-      ? await convertColors(primaryBrandProfile)
-      : [];
+    primaryBrandProfile.length > 0 ? await convertColors(primaryBrandProfile) : [];
 
   const profileColors =
     primaryBrandProfile.length > 0 && profileConvertedColors.length > 0
       ? mapColorsToReadable(primaryBrandProfile, profileConvertedColors)
       : primaryBrandProfile; // Fallback to hex if no readable names are found
 
-  const brandColors = Array.isArray(brandProfile.colors)
-    ? brandProfile.colors as string[]
-    : [];
-  
-  const convertedColors =
-    brandColors.length > 0
-      ? await convertColors(brandColors)
-      : [];
+  const brandColors = Array.isArray(brandProfile.colors) ? (brandProfile.colors as string[]) : [];
+
+  const convertedColors = brandColors.length > 0 ? await convertColors(brandColors) : [];
 
   const colors =
     brandColors.length > 0 && convertedColors.length > 0
@@ -142,8 +135,16 @@ const createBrandProfilePDF = async (
   doc.setFont('helvetica', 'normal');
   doc.text(`    - Gender: ${targetPurpose?.gender || 'Not specified'}`, 10, 110);
   doc.text(`    - Race/Ethnicity: ${targetPurpose?.race_ethnicity || 'Not specified'}`, 10, 120);
-  doc.text(`    - Age Range: ${Array.isArray(targetPurpose?.age_range) ? targetPurpose.age_range.join(', ') : 'Not specified'}`, 10, 130);
-  doc.text(`    - Interests: ${Array.isArray(targetPurpose?.interests) ? targetPurpose.interests.join(', ') : 'Not specified'}`, 10, 140);
+  doc.text(
+    `    - Age Range: ${Array.isArray(targetPurpose?.age_range) ? targetPurpose.age_range.join(', ') : 'Not specified'}`,
+    10,
+    130
+  );
+  doc.text(
+    `    - Interests: ${Array.isArray(targetPurpose?.interests) ? targetPurpose.interests.join(', ') : 'Not specified'}`,
+    10,
+    140
+  );
 
   doc.text(`- Product/Service to Promote: ${clientRequest.product_service}`, 10, 150);
 
@@ -164,8 +165,8 @@ const createBrandProfilePDF = async (
   doc.setFont('helvetica', 'bold');
   doc.text('Mission', 10, 40);
   doc.setFont('helvetica', 'normal');
-  const mission = Array.isArray(brandProfile.mission) 
-    ? (brandProfile.mission as string[]).join(' ') 
+  const mission = Array.isArray(brandProfile.mission)
+    ? (brandProfile.mission as string[]).join(' ')
     : String(brandProfile.mission || 'Not specified');
   doc.text(mission, 10, 50);
 
@@ -176,9 +177,7 @@ const createBrandProfilePDF = async (
 
   // Start positioning for the values
   let yOffset = 70; // Initial y position for the first value
-  const values = Array.isArray(brandProfile.values) 
-    ? brandProfile.values as string[]
-    : [];
+  const values = Array.isArray(brandProfile.values) ? (brandProfile.values as string[]) : [];
   values.forEach((value: string) => {
     doc.text(`- ${value}`, 10, yOffset);
     yOffset += 10; // Move down for the next value
@@ -232,7 +231,11 @@ const createBrandProfilePDF = async (
   doc.text(`    - Name: ${safeProp(campaignBrief, 'product.name')}`, 10, 50);
   doc.text(`    - Link: ${safeProp(campaignBrief, 'product.link')}`, 10, 60);
   doc.text(`    - Differentiators: ${safeProp(campaignBrief, 'product.differentiators')}`, 10, 70);
-  doc.text(`    - Primary Ingredients: ${safeProp(campaignBrief, 'product.primary_ingredients')}`, 10, 80);
+  doc.text(
+    `    - Primary Ingredients: ${safeProp(campaignBrief, 'product.primary_ingredients')}`,
+    10,
+    80
+  );
   doc.text(`    - Benefits: ${safeProp(campaignBrief, 'product.benefits')}`, 10, 90);
 
   // Target Audience
@@ -240,7 +243,11 @@ const createBrandProfilePDF = async (
   doc.text('- Target Audience:', 10, 100);
   doc.setFont('helvetica', 'normal');
   doc.text(`    - Gender: ${safeProp(campaignBrief, 'target_purpose.gender')}`, 10, 110);
-  doc.text(`    - Race/Ethnicity: ${safeProp(campaignBrief, 'target_purpose.race_ethnicity')}`, 10, 120);
+  doc.text(
+    `    - Race/Ethnicity: ${safeProp(campaignBrief, 'target_purpose.race_ethnicity')}`,
+    10,
+    120
+  );
   doc.text(`    - Age Range: ${safeProp(campaignBrief, 'target_purpose.age_range')}`, 10, 130);
   doc.text(`    - Interests: ${safeProp(campaignBrief, 'target_purpose.interests')}`, 10, 140);
 
@@ -249,8 +256,16 @@ const createBrandProfilePDF = async (
   doc.text(`- Campaign Purpose: ${safeProp(campaignBrief, 'campaign_purpose')}`, 10, 150);
   doc.setFont('helvetica', 'normal');
   doc.text('- Campaign Timing:', 10, 160);
-  doc.text(`    - Duration: ${safeProp(campaignBrief, 'campaign_timing.duration') || 'Not specified'}`, 10, 170);
-  doc.text(`    - Posts per day: ${safeProp(campaignBrief, 'campaign_timing.post_per_day')}`, 10, 180);
+  doc.text(
+    `    - Duration: ${safeProp(campaignBrief, 'campaign_timing.duration') || 'Not specified'}`,
+    10,
+    170
+  );
+  doc.text(
+    `    - Posts per day: ${safeProp(campaignBrief, 'campaign_timing.post_per_day')}`,
+    10,
+    180
+  );
 
   // Calculate the total deliverables
   const durationWeeks = parseInt(safeProp(campaignBrief, 'campaign_timing.duration')) || 0; // Duration in weeks

@@ -2,14 +2,8 @@ import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { vi, describe, it, expect, beforeEach, beforeAll } from 'vitest';
 import ServiceForm from './ServiceForm';
-<<<<<<< HEAD:src/components/onboard/ServiceForm.test.tsx
-import { BrandContext, type BusinessInfo } from '../../features/brand/context/BrandContext';
-import { CampaignContext } from '../../context/CampaignContext';
-=======
-import { BrandContext } from '../../features/brand/context/BrandContext';
+import { BrandContext } from '../../brand/context/BrandContext';
 import { CampaignContext } from '../../campaign/context/CampaignContext';
->>>>>>> origin/main:src/features/onboarding/components/ServiceForm.test.tsx
-
 
 // Create mock function for scrapeProduct
 const mockScrapeProduct = vi.fn();
@@ -176,14 +170,17 @@ describe('ServiceForm', () => {
   const renderWithProviders = (component: React.ReactElement) => {
     return render(
       <BrandContext.Provider
-        value={{ businessInfo: mockBusinessInfo as BusinessInfo, setBusinessInfo: mockSetBusinessInfo }}
+        value={{
+          businessInfo: mockBusinessInfo as BusinessInfo,
+          setBusinessInfo: mockSetBusinessInfo,
+        }}
       >
         <CampaignContext.Provider
-          value={{ 
-            campaignInfo: mockCampaignInfo, 
+          value={{
+            campaignInfo: mockCampaignInfo,
             setCampaignInfo: mockSetCampaignInfo,
             campaignId: null,
-            setCampaignId: vi.fn()
+            setCampaignId: vi.fn(),
           }}
         >
           {component}
@@ -219,8 +216,8 @@ describe('ServiceForm', () => {
 
   it('renders new product form when no products exist', () => {
     const emptyBusinessInfo: BusinessInfo = {
-      ...mockBusinessInfo as BusinessInfo,
-      products: []
+      ...(mockBusinessInfo as BusinessInfo),
+      products: [],
     };
     const newProductCampaignInfo = { ...mockCampaignInfo, newProduct: true };
     render(
@@ -228,11 +225,11 @@ describe('ServiceForm', () => {
         value={{ businessInfo: emptyBusinessInfo, setBusinessInfo: mockSetBusinessInfo }}
       >
         <CampaignContext.Provider
-          value={{ 
-            campaignInfo: newProductCampaignInfo, 
+          value={{
+            campaignInfo: newProductCampaignInfo,
             setCampaignInfo: mockSetCampaignInfo,
             campaignId: null,
-            setCampaignId: vi.fn()
+            setCampaignId: vi.fn(),
           }}
         >
           <ServiceForm

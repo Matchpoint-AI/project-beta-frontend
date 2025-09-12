@@ -15,14 +15,14 @@ vi.mock('./convertToChips', () => ({
 global.fetch = vi.fn();
 
 describe('scrapeBrandWebsite', () => {
-  const baseBusinessInfo: BusinessInfo = { 
+  const baseBusinessInfo: BusinessInfo = {
     name: 'Test Company',
     website: 'https://example.com',
     product_features: [],
     product_description: 'Test product',
     product_link: 'https://example.com/product',
     start_date: '2024-01-01',
-    durationNum: 30
+    durationNum: 30,
   };
   const setBusinessInfo = vi.fn();
 
