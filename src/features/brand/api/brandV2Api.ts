@@ -278,7 +278,7 @@ export const brandV2Api = {
       );
 
       // Step 2: Wait for workflow completion with progress updates
-      const workflow = await this.waitForWorkflowCompletion(brand.id, token, (workflowStatus) => {
+      await this.waitForWorkflowCompletion(brand.id, token, (workflowStatus) => {
         const step = workflowStatus.currentStep || 'processing';
         const progress = Math.max(0.2, Math.min(0.9, workflowStatus.progress || 0.5));
         onProgress?.(`${step}...`, progress);
