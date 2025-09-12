@@ -4,7 +4,7 @@ import { vi, describe, it, expect, beforeEach } from 'vitest';
 import Sidebar from './Sidebar';
 
 // Mock the SideNavBar component
-vi.mock('../../../components/SideNavBar', () => ({
+vi.mock('./SideNavBar', () => ({
   default: ({ phone, className, style }: any) => (
     <div
       data-testid={phone ? 'mobile-sidenav' : 'desktop-sidenav'}
