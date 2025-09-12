@@ -94,19 +94,15 @@ jobs:
 
       - name: Run tests with Vitest
         run: |
-          echo "🧪 Running unit tests with Vitest..."
-          npx vitest run --coverage --reporter=json --reporter=default
+          echo "🧪 Running unit tests with Vitest and generating coverage..."
+          npx vitest run --coverage.enabled --coverage.reporter=text --coverage.reporter=json --coverage.reporter=html --coverage.reporter=text-summary --coverage.reporter=json-summary
 
-      - name: Check test coverage
+      - name: Display coverage summary
         run: |
-          echo "📊 Checking test coverage..."
-          npx vitest run --coverage.enabled --coverage.reporter=text-summary
-
-          # Extract coverage percentage and check threshold
-          coverage_output=$(npx vitest run --coverage.enabled --coverage.reporter=json-summary 2>&1)
-
-          # For now, we'll set a basic threshold that can be increased over time
-          # This is a placeholder - adjust based on current coverage
+          echo "📊 Test coverage summary:"
+          if [ -f coverage/coverage-summary.json ]; then
+            cat coverage/coverage-summary.json | jq '.total'
+          fi
           echo "💡 Coverage report generated. Consider setting coverage thresholds as the project matures."
 
       - name: Upload coverage reports

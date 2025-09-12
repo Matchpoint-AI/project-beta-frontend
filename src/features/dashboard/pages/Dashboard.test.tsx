@@ -6,7 +6,7 @@ import Dashboard from './Dashboard';
 import { AuthContext } from '../../auth/context/AuthContext';
 import { BrandContext } from '../../brand/context/BrandContext';
 
-// Mock the modules
+// Mock the modules with proper paths and implementations
 vi.mock('../../../helpers/getServiceURL', () => ({
   getServiceURL: vi.fn(() => 'http://localhost:8080'),
 }));
@@ -17,6 +17,13 @@ vi.mock('../../../helpers/handleNavigate', () => ({
 
 vi.mock('../../../shared/components/layout/Sidebar', () => ({
   default: () => <div data-testid="sidebar">Sidebar</div>,
+}));
+
+// Mock CampaignContext that CampaignsList depends on
+vi.mock('../../../features/campaign/context/CampaignContext', () => ({
+  CampaignContext: {
+    Provider: ({ children }: { children: React.ReactNode }) => children,
+  },
 }));
 
 vi.mock('../components/CampaignsList', () => ({
@@ -31,6 +38,38 @@ vi.mock('../components/CampaignsList', () => ({
     <div data-testid="campaigns-list">
       <span data-testid="campaign-count">{campaigns.length}</span>
       <span data-testid="campaign-type">{campaignType}</span>
+    </div>
+  ),
+}));
+
+// Mock the PerformancePredictionDashboard component
+vi.mock('../../../components/performance/PerformancePredictionDashboard', () => ({
+  default: () => <div data-testid="performance-prediction">Performance Prediction Dashboard</div>,
+}));
+
+// Mock React Icons
+vi.mock('react-icons/ri', () => ({
+  RiErrorWarningLine: ({ size, color }: { size: number; color: string }) => (
+    <div data-testid="error-icon" style={{ fontSize: size, color }}>
+      Error Icon
+    </div>
+  ),
+}));
+
+vi.mock('react-icons/fa', () => ({
+  FaFlask: ({ className }: { className?: string }) => (
+    <div data-testid="flask-icon" className={className}>
+      Flask Icon
+    </div>
+  ),
+  FaExternalLinkAlt: () => <div data-testid="external-link-icon">External Link Icon</div>,
+}));
+
+// Mock Material-UI components
+vi.mock('@mui/material', () => ({
+  CircularProgress: ({ sx, size, thickness }: any) => (
+    <div data-testid="circular-progress" style={sx}>
+      Loading... (size: {size}, thickness: {thickness})
     </div>
   ),
 }));
@@ -112,17 +151,21 @@ describe('Dashboard Component', () => {
   });
 
   it('should render loading state when profile is not available', () => {
+    // Arrange
     const authValueWithoutProfile = {
       ...mockAuthContextValue,
       profile: null,
     };
 
+    // Act
     renderWithContext(authValueWithoutProfile as any);
 
+    // Assert
     expect(screen.getByText('Loading your profile...')).toBeInTheDocument();
   });
 
   it('should render campaigns list when campaigns are available', async () => {
+    // Arrange
     const brandValueWithCampaigns = {
       ...mockBrandContextValue,
       businessInfo: {
@@ -142,8 +185,10 @@ describe('Dashboard Component', () => {
       },
     };
 
+    // Act
     renderWithContext(mockAuthContextValue as any, brandValueWithCampaigns as any);
 
+    // Assert
     await waitFor(() => {
       expect(screen.getByTestId('campaigns-list')).toBeInTheDocument();
       expect(screen.getByTestId('campaign-count')).toHaveTextContent('1');
@@ -151,7 +196,7 @@ describe('Dashboard Component', () => {
   });
 
   it('should NOT automatically redirect when there is only one campaign', async () => {
-    // This test ensures the fix for the automatic redirect issue
+    // Arrange - This test ensures the fix for the automatic redirect issue
     const brandValueWithOneCampaign = {
       ...mockBrandContextValue,
       businessInfo: {
@@ -171,12 +216,13 @@ describe('Dashboard Component', () => {
       },
     };
 
+    // Act
     renderWithContext(mockAuthContextValue, brandValueWithOneCampaign as any);
 
     // Wait a bit to ensure no automatic navigation occurs
     await new Promise((resolve) => setTimeout(resolve, 100));
 
-    // The handleNavigate mock should NOT have been called
+    // Assert - The handleNavigate mock should NOT have been called
     const handleNavigate = (await import('../../../helpers/handleNavigate')).default;
     expect(handleNavigate).not.toHaveBeenCalled();
   });

@@ -4,14 +4,14 @@ import { vi, describe, it, expect, beforeEach } from 'vitest';
 import ServiceForm from './ServiceForm';
 import { BrandContext, type BusinessInfo } from '../../brand/context/BrandContext';
 import { CampaignContext } from '../../campaign/context/CampaignContext';
-
-// Create mock function for scrapeProduct
-const mockScrapeProduct = vi.fn();
+import scrapeProduct from '../utils/scrapeProduct';
 
 // Mock the scrapeProduct helper using local import
-vi.mock('./scrapeProduct', () => ({
-  default: mockScrapeProduct,
+vi.mock('../utils/scrapeProduct', () => ({
+  default: vi.fn(),
 }));
+
+const mockScrapeProduct = vi.mocked(scrapeProduct);
 
 // Mock the posthog helper
 vi.mock('../../../helpers/posthog', () => ({
@@ -22,14 +22,14 @@ vi.mock('../../../helpers/posthog', () => ({
 }));
 
 // Mock the AuthContext
-vi.mock('../../features/auth/context/AuthContext', () => ({
+vi.mock('../../auth/context/AuthContext', () => ({
   useAuth: () => ({
     profile: { id: 'test-user-id' },
   }),
 }));
 
 // Mock the NextButton component
-vi.mock('../../shared/components/buttons/NextButton', () => ({
+vi.mock('../../../shared/components/buttons/NextButton', () => ({
   default: ({
     text = 'Next',
     formId,
@@ -46,7 +46,7 @@ vi.mock('../../shared/components/buttons/NextButton', () => ({
 }));
 
 // Mock the BackButton component
-vi.mock('../../shared/components/buttons/BackButton', () => ({
+vi.mock('../../../shared/components/buttons/BackButton', () => ({
   default: ({ onClick }: { onClick: () => void }) => (
     <button onClick={onClick} data-testid="back-button">
       Back
@@ -55,7 +55,7 @@ vi.mock('../../shared/components/buttons/BackButton', () => ({
 }));
 
 // Mock the Dropdown component
-vi.mock('../../shared/components/ui/Dropdown', () => ({
+vi.mock('../../../shared/components/ui/Dropdown', () => ({
   default: ({
     options,
     currentValue,
@@ -67,11 +67,14 @@ vi.mock('../../shared/components/ui/Dropdown', () => ({
   }) => (
     <select
       value={currentValue}
-      onChange={(e) => onUpdateContext(e.target.value, 1)}
+      onChange={(e) => {
+        const selectedIndex = options.indexOf(e.target.value);
+        onUpdateContext(e.target.value, selectedIndex);
+      }}
       data-testid="product-dropdown"
     >
-      {options.map((option: string) => (
-        <option key={option} value={option}>
+      {options.map((option: string, index: number) => (
+        <option key={`${option}-${index}`} value={option}>
           {option}
         </option>
       ))}
@@ -93,12 +96,12 @@ vi.mock('./KeyFeatures', () => ({
 }));
 
 // Mock the WebsiteOwnership component
-vi.mock('../WebsiteOwnership', () => ({
+vi.mock('../../../components/WebsiteOwnership', () => ({
   default: () => <div data-testid="website-ownership" />,
 }));
 
 // Mock the ErrorToast component
-vi.mock('../../shared/components/feedback/ErrorToast', () => ({
+vi.mock('../../../shared/components/feedback/ErrorToast', () => ({
   default: ({ open, onClose, message }: { open: boolean; onClose: () => void; message: string }) =>
     open ? (
       <div data-testid="error-toast" onClick={onClose}>
@@ -108,21 +111,21 @@ vi.mock('../../shared/components/feedback/ErrorToast', () => ({
 }));
 
 // Mock the SparklesMessage component
-vi.mock('../shared/SparklesMessage', () => ({
+vi.mock('../../../shared/components/ui/SparklesMessage', () => ({
   SparklesMessage: ({ children }: { children: React.ReactNode }) => (
     <div data-testid="sparkles-message">{children}</div>
   ),
 }));
 
 // Mock the FormsContainer component
-vi.mock('../shared/FormsContainer', () => ({
+vi.mock('../../../shared/components/layout/FormsContainer', () => ({
   default: ({ children }: { children: React.ReactNode }) => (
     <div data-testid="forms-container">{children}</div>
   ),
 }));
 
 // Mock the FormInputBox component
-vi.mock('../../shared/components/inputs/FormInputBox', () => ({
+vi.mock('../../../shared/components/inputs/FormInputBox', () => ({
   default: ({
     children,
     styles,
@@ -151,7 +154,13 @@ describe('ServiceForm', () => {
   const mockBusinessInfo: Partial<BusinessInfo> = {
     name: 'Test Business',
     website: 'https://test.com',
-    products: ['Test Product'],
+    products: [
+      {
+        name: 'Test Product',
+        description: 'Test Description',
+        product_features: ['Feature 1', 'Feature 2'],
+      },
+    ] as any,
     product_features: [],
     key_features: [],
     product_description: 'Test Description',
@@ -407,23 +416,46 @@ describe('ServiceForm', () => {
   });
 
   it('validates form before submission', () => {
-    renderWithProviders(
-      <ServiceForm
-        handleNext={mockHandleNext}
-        handleBack={mockHandleBack}
-        setService={mockSetService}
-      />
+    // Set up the new product state to show the new product form
+    const newProductCampaignInfo = { ...mockCampaignInfo, newProduct: true };
+
+    render(
+      <BrandContext.Provider
+        value={{
+          businessInfo: mockBusinessInfo as BusinessInfo,
+          setBusinessInfo: mockSetBusinessInfo,
+        }}
+      >
+        <CampaignContext.Provider
+          value={{
+            campaignInfo: newProductCampaignInfo,
+            setCampaignInfo: mockSetCampaignInfo,
+            campaignId: null,
+            setCampaignId: vi.fn(),
+          }}
+        >
+          <ServiceForm
+            handleNext={mockHandleNext}
+            handleBack={mockHandleBack}
+            setService={mockSetService}
+          />
+        </CampaignContext.Provider>
+      </BrandContext.Provider>
     );
 
-    // Clear both product name and product link inputs
-    const productNameInput = screen.getAllByPlaceholderText('Name the new Product/Service')[0];
-    const websiteInput = screen.getAllByPlaceholderText('Link to Product/Service')[0];
+    // First select "Add Product or Service" to trigger new product form
+    const dropdown = screen.getByTestId('product-dropdown');
+    fireEvent.change(dropdown, { target: { value: 'Add Product or Service' } });
+
+    // Now the product name input should be visible
+    const productNameInput = screen.getByPlaceholderText('Name the new Product/Service');
+    const websiteInput = screen.getByPlaceholderText('Link to Product/Service');
 
     fireEvent.change(productNameInput, { target: { value: '' } });
     fireEvent.change(websiteInput, { target: { value: '' } });
 
     // The next button should be disabled when both are empty
-    const nextButton = screen.getAllByTestId('next-button')[0];
+    const nextButton = screen.getByTestId('next-button');
     expect(nextButton).toBeDisabled();
 
     // Fill in the product name - should enable the button
@@ -437,54 +469,140 @@ describe('ServiceForm', () => {
   });
 
   it('shows error when submitting without product name', () => {
-    renderWithProviders(
-      <ServiceForm
-        handleNext={mockHandleNext}
-        handleBack={mockHandleBack}
-        setService={mockSetService}
-      />
+    // Set up the new product state to show the new product form
+    const newProductCampaignInfo = { ...mockCampaignInfo, newProduct: true };
+
+    render(
+      <BrandContext.Provider
+        value={{
+          businessInfo: mockBusinessInfo as BusinessInfo,
+          setBusinessInfo: mockSetBusinessInfo,
+        }}
+      >
+        <CampaignContext.Provider
+          value={{
+            campaignInfo: newProductCampaignInfo,
+            setCampaignInfo: mockSetCampaignInfo,
+            campaignId: null,
+            setCampaignId: vi.fn(),
+          }}
+        >
+          <ServiceForm
+            handleNext={mockHandleNext}
+            handleBack={mockHandleBack}
+            setService={mockSetService}
+          />
+        </CampaignContext.Provider>
+      </BrandContext.Provider>
     );
+
+    // First select "Add Product or Service" to trigger new product form
+    const dropdown = screen.getByTestId('product-dropdown');
+    fireEvent.change(dropdown, { target: { value: 'Add Product or Service' } });
+
     // Clear the product name input
-    const productNameInput = screen.getAllByPlaceholderText('Name the new Product/Service')[0];
+    const productNameInput = screen.getByPlaceholderText('Name the new Product/Service');
     fireEvent.change(productNameInput, { target: { value: '' } });
-    const nextButton = screen.getAllByTestId('next-button')[0];
-    fireEvent.click(nextButton);
+
+    // Even though button is disabled, we can trigger form submission directly
+    const form = document.getElementById('service_form');
+    if (form) {
+      fireEvent.submit(form);
+    }
     expect(screen.getByText('Please at least provide a name of your product')).toBeInTheDocument();
   });
 
   it('allows form submission with product link but no product name', () => {
-    renderWithProviders(
-      <ServiceForm
-        handleNext={mockHandleNext}
-        handleBack={mockHandleBack}
-        setService={mockSetService}
-      />
+    // Set up the new product state to show the new product form
+    const newProductCampaignInfo = { ...mockCampaignInfo, newProduct: true };
+
+    render(
+      <BrandContext.Provider
+        value={{
+          businessInfo: mockBusinessInfo as BusinessInfo,
+          setBusinessInfo: mockSetBusinessInfo,
+        }}
+      >
+        <CampaignContext.Provider
+          value={{
+            campaignInfo: newProductCampaignInfo,
+            setCampaignInfo: mockSetCampaignInfo,
+            campaignId: null,
+            setCampaignId: vi.fn(),
+          }}
+        >
+          <ServiceForm
+            handleNext={mockHandleNext}
+            handleBack={mockHandleBack}
+            setService={mockSetService}
+          />
+        </CampaignContext.Provider>
+      </BrandContext.Provider>
     );
 
+    // First select "Add Product or Service" to trigger new product form
+    const dropdown = screen.getByTestId('product-dropdown');
+    fireEvent.change(dropdown, { target: { value: 'Add Product or Service' } });
+
     // Add a product link
-    const websiteInput = screen.getAllByPlaceholderText('Link to Product/Service')[0];
+    const websiteInput = screen.getByPlaceholderText('Link to Product/Service');
     fireEvent.change(websiteInput, { target: { value: 'https://example.com/product' } });
 
     // Clear the product name input
-    const productNameInput = screen.getAllByPlaceholderText('Name the new Product/Service')[0];
+    const productNameInput = screen.getByPlaceholderText('Name the new Product/Service');
     fireEvent.change(productNameInput, { target: { value: '' } });
 
     // The next button should be enabled because we have a product link
-    const nextButton = screen.getAllByTestId('next-button')[0];
+    const nextButton = screen.getByTestId('next-button');
     expect(nextButton).not.toBeDisabled();
   });
 
   it('shows informative button text when form is not valid', async () => {
-    renderWithProviders(
-      <ServiceForm
-        handleNext={mockHandleNext}
-        handleBack={mockHandleBack}
-        setService={mockSetService}
-      />
+    // Set up with no product name and no product link (invalid form)
+    const invalidCampaignInfo = {
+      ...mockCampaignInfo,
+      newProduct: true,
+      product: '',
+      productLink: '',
+    };
+
+    render(
+      <BrandContext.Provider
+        value={{
+          businessInfo: mockBusinessInfo as BusinessInfo,
+          setBusinessInfo: mockSetBusinessInfo,
+        }}
+      >
+        <CampaignContext.Provider
+          value={{
+            campaignInfo: invalidCampaignInfo,
+            setCampaignInfo: mockSetCampaignInfo,
+            campaignId: null,
+            setCampaignId: vi.fn(),
+          }}
+        >
+          <ServiceForm
+            handleNext={mockHandleNext}
+            handleBack={mockHandleBack}
+            setService={mockSetService}
+          />
+        </CampaignContext.Provider>
+      </BrandContext.Provider>
     );
 
+    // Select "Add Product or Service" to trigger new product form
+    const dropdown = screen.getByTestId('product-dropdown');
+    fireEvent.change(dropdown, { target: { value: 'Add Product or Service' } });
+
     await waitFor(() => {
-      // The next button should show informative text when the form is initially invalid
+      // Clear both inputs to make form invalid
+      const productNameInput = screen.getByPlaceholderText('Name the new Product/Service');
+      const websiteInput = screen.getByPlaceholderText('Link to Product/Service');
+
+      fireEvent.change(productNameInput, { target: { value: '' } });
+      fireEvent.change(websiteInput, { target: { value: '' } });
+
+      // The next button should show informative text when the form is invalid
       const nextButton = screen.getByTestId('next-button');
       expect(nextButton).toHaveTextContent('Enter product details to continue');
     });
