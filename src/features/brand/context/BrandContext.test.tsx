@@ -264,8 +264,8 @@ describe('BrandContext', () => {
             value={{
               businessInfo,
               setBusinessInfo: vi.fn(),
-            updateWorkflowState: vi.fn(),
-            clearWorkflow: vi.fn(),
+              updateWorkflowState: vi.fn(),
+              clearWorkflow: vi.fn(),
             }}
           >
             <div>
@@ -402,8 +402,8 @@ describe('BrandContext', () => {
               value={{
                 businessInfo: innerInfo,
                 setBusinessInfo: vi.fn(),
-            updateWorkflowState: vi.fn(),
-            clearWorkflow: vi.fn(),
+                updateWorkflowState: vi.fn(),
+                clearWorkflow: vi.fn(),
               }}
             >
               <TestComponent />

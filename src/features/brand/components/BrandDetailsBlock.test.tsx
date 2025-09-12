@@ -299,7 +299,12 @@ describe('BrandDetailsBlock', () => {
       const { container } = render(
         <BrowserRouter>
           <BrandContext.Provider
-            value={{ businessInfo: emptyCategory, setBusinessInfo: mockSetBusinessInfo, updateWorkflowState: vi.fn(), clearWorkflow: vi.fn() }}
+            value={{
+              businessInfo: emptyCategory,
+              setBusinessInfo: mockSetBusinessInfo,
+              updateWorkflowState: vi.fn(),
+              clearWorkflow: vi.fn(),
+            }}
           >
             <BrandDetailsBlock category="mission" />
           </BrandContext.Provider>
@@ -322,7 +327,12 @@ describe('BrandDetailsBlock', () => {
       const { container } = render(
         <BrowserRouter>
           <BrandContext.Provider
-            value={{ businessInfo: invalidData, setBusinessInfo: mockSetBusinessInfo, updateWorkflowState: vi.fn(), clearWorkflow: vi.fn() }}
+            value={{
+              businessInfo: invalidData,
+              setBusinessInfo: mockSetBusinessInfo,
+              updateWorkflowState: vi.fn(),
+              clearWorkflow: vi.fn(),
+            }}
           >
             <BrandDetailsBlock category="mission" />
           </BrandContext.Provider>
@@ -345,7 +355,12 @@ describe('BrandDetailsBlock', () => {
       const { container } = render(
         <BrowserRouter>
           <BrandContext.Provider
-            value={{ businessInfo: undefinedCategory, setBusinessInfo: mockSetBusinessInfo, updateWorkflowState: vi.fn(), clearWorkflow: vi.fn() }}
+            value={{
+              businessInfo: undefinedCategory,
+              setBusinessInfo: mockSetBusinessInfo,
+              updateWorkflowState: vi.fn(),
+              clearWorkflow: vi.fn(),
+            }}
           >
             <BrandDetailsBlock category="mission" />
           </BrandContext.Provider>

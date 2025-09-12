@@ -233,7 +233,12 @@ describe('ServiceForm', () => {
     const newProductCampaignInfo = { ...mockCampaignInfo, newProduct: true };
     render(
       <BrandContext.Provider
-        value={{ businessInfo: emptyBusinessInfo, setBusinessInfo: mockSetBusinessInfo, updateWorkflowState: vi.fn(), clearWorkflow: vi.fn() }}
+        value={{
+          businessInfo: emptyBusinessInfo,
+          setBusinessInfo: mockSetBusinessInfo,
+          updateWorkflowState: vi.fn(),
+          clearWorkflow: vi.fn(),
+        }}
       >
         <CampaignContext.Provider
           value={{

@@ -63,7 +63,7 @@ describe('scrapeBrandWebsite', () => {
       'https://example.com',
       mockToken,
       50,
-      expect.any(Function)
+      undefined
     );
 
     // Check that setBusinessInfo was called
