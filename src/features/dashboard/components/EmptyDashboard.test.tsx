@@ -27,6 +27,7 @@ vi.mock('react-router-dom', async (importOriginal) => {
 
 describe('EmptyDashboard', () => {
   const mockSetCampaignInfo = vi.fn();
+  const mockSetCampaignId = vi.fn();
   const mockProfile = {
     id: 'user123',
     name: 'Test User',
@@ -45,6 +46,8 @@ describe('EmptyDashboard', () => {
       const campaignContextValue = {
         setCampaignInfo: mockSetCampaignInfo,
         campaignInfo: {},
+        campaignId: null,
+        setCampaignId: mockSetCampaignId,
       };
 
       // Act
@@ -70,6 +73,8 @@ describe('EmptyDashboard', () => {
       const campaignContextValue = {
         setCampaignInfo: mockSetCampaignInfo,
         campaignInfo: {},
+        campaignId: null,
+        setCampaignId: mockSetCampaignId,
       };
 
       // Act
@@ -92,6 +97,8 @@ describe('EmptyDashboard', () => {
       const campaignContextValue = {
         setCampaignInfo: mockSetCampaignInfo,
         campaignInfo: {},
+        campaignId: null,
+        setCampaignId: mockSetCampaignId,
       };
 
       // Act
@@ -117,6 +124,8 @@ describe('EmptyDashboard', () => {
       const campaignContextValue = {
         setCampaignInfo: mockSetCampaignInfo,
         campaignInfo: {},
+        campaignId: null,
+        setCampaignId: mockSetCampaignId,
       };
 
       render(
@@ -147,6 +156,8 @@ describe('EmptyDashboard', () => {
       const campaignContextValue = {
         setCampaignInfo: mockSetCampaignInfo,
         campaignInfo: existingCampaignInfo,
+        campaignId: 'old-campaign',
+        setCampaignId: mockSetCampaignId,
       };
 
       render(
@@ -173,6 +184,8 @@ describe('EmptyDashboard', () => {
       const campaignContextValue = {
         setCampaignInfo: mockSetCampaignInfo,
         campaignInfo: {},
+        campaignId: null,
+        setCampaignId: mockSetCampaignId,
       };
 
       render(
@@ -198,6 +211,8 @@ describe('EmptyDashboard', () => {
       const campaignContextValue = {
         setCampaignInfo: mockSetCampaignInfo,
         campaignInfo: {},
+        campaignId: null,
+        setCampaignId: mockSetCampaignId,
       };
 
       render(
@@ -214,7 +229,7 @@ describe('EmptyDashboard', () => {
 
       // Assert
       expect(mockSetCampaignInfo).toHaveBeenCalledWith({});
-      expect(handleNavigate).toHaveBeenCalledWith('', '/campaign', mockNavigate);
+      expect(handleNavigate).toHaveBeenCalledWith('', '/campaign', mockNavigateFn);
     });
   });
 
@@ -224,6 +239,8 @@ describe('EmptyDashboard', () => {
       const campaignContextValue = {
         setCampaignInfo: mockSetCampaignInfo,
         campaignInfo: {},
+        campaignId: null,
+        setCampaignId: mockSetCampaignId,
       };
 
       // Act
@@ -256,6 +273,8 @@ describe('EmptyDashboard', () => {
       const campaignContextValue = {
         setCampaignInfo: mockSetCampaignInfo,
         campaignInfo: {},
+        campaignId: null,
+        setCampaignId: mockSetCampaignId,
       };
 
       // Act
@@ -277,6 +296,8 @@ describe('EmptyDashboard', () => {
       const campaignContextValue = {
         setCampaignInfo: mockSetCampaignInfo,
         campaignInfo: {},
+        campaignId: null,
+        setCampaignId: mockSetCampaignId,
       };
 
       // Act
@@ -305,9 +326,11 @@ describe('EmptyDashboard', () => {
       // Arrange
       const mockSetCampaignInfoSpy = vi.fn();
       const campaignContextValue = {
-        setCampaignInfo: mockSetCampaignInfoSpy,
+        setCampaignInfo: mockSetCampaignInfoSpy as any,
         campaignInfo: { id: 'test' },
-      };
+        campaignId: 'test',
+        setCampaignId: mockSetCampaignId as any,
+      } as any;
 
       render(
         <BrowserRouter>
@@ -340,6 +363,8 @@ describe('EmptyDashboard', () => {
       const campaignContextValue = {
         setCampaignInfo: mockSetCampaignInfo,
         campaignInfo: {},
+        campaignId: null,
+        setCampaignId: mockSetCampaignId,
       };
 
       render(
@@ -383,6 +408,8 @@ describe('EmptyDashboard', () => {
       const campaignContextValue = {
         setCampaignInfo: mockSetCampaignInfo,
         campaignInfo: {},
+        campaignId: null,
+        setCampaignId: mockSetCampaignId,
       };
 
       // Act
@@ -406,6 +433,8 @@ describe('EmptyDashboard', () => {
       const campaignContextValue = {
         setCampaignInfo: mockSetCampaignInfo,
         campaignInfo: {},
+        campaignId: null,
+        setCampaignId: mockSetCampaignId,
       };
 
       // Act

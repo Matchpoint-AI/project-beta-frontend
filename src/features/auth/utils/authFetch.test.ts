@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { authFetch, getAuthToken, authApi, serviceAuthFetch } from './authFetch';
+import { authFetch, getAuthToken, authApi } from './authFetch';
 import { getServiceURL } from '../../../helpers/getServiceURL';
 
 // Mock dependencies
@@ -140,7 +140,7 @@ describe('authFetch', () => {
     it('should handle undefined window object', () => {
       // Arrange
       const originalWindow = global.window;
-      // @ts-ignore
+      // @ts-expect-error - Testing without window object
       delete global.window;
 
       // Act

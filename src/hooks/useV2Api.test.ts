@@ -17,9 +17,9 @@ vi.mock('../api/v2', () => ({
     createCampaign: vi.fn(),
     updateCampaign: vi.fn(),
     deleteCampaign: vi.fn(),
-    listCampaigns: vi.fn(),
+    getUserCampaigns: vi.fn(),
     generateContent: vi.fn(),
-    getContent: vi.fn(),
+    getCampaignContent: vi.fn(),
   },
   brandApiV2: {
     createBrand: vi.fn(),
@@ -274,7 +274,7 @@ describe('useV2Api', () => {
         { id: '1', name: 'Campaign 1' },
         { id: '2', name: 'Campaign 2' },
       ];
-      (campaignApiV2.listCampaigns as any).mockResolvedValue(mockCampaigns);
+      (campaignApiV2.getUserCampaigns as any).mockResolvedValue(mockCampaigns);
 
       const { result } = renderHook(() => useV2Api());
 
@@ -289,7 +289,7 @@ describe('useV2Api', () => {
       });
 
       // Assert
-      expect(campaignApiV2.listCampaigns).toHaveBeenCalledWith(mockToken);
+      expect(campaignApiV2.getUserCampaigns).toHaveBeenCalledWith(mockToken);
       expect(campaigns).toEqual(mockCampaigns);
     });
 
@@ -436,8 +436,9 @@ describe('useV2Api', () => {
     it('should crawl brand website', async () => {
       // Arrange
       const crawlData = {
+        brand_id: 'brand123',
         url: 'https://example.com',
-        depth: 2,
+        max_depth: 2,
       };
       const mockCrawlResult = {
         pages: 10,
@@ -594,7 +595,7 @@ describe('useV2Api', () => {
       // Arrange
       const rateLimitError = new Error('Rate limit exceeded');
       (rateLimitError as any).status = 429;
-      (campaignApiV2.listCampaigns as any).mockRejectedValue(rateLimitError);
+      (campaignApiV2.getUserCampaigns as any).mockRejectedValue(rateLimitError);
 
       const { result } = renderHook(() => useV2Api());
 
@@ -621,7 +622,10 @@ describe('useV2Api', () => {
 
       // Act & Assert
       await expect(async () => {
-        await result.current.brand.crawlWebsite({ url: 'https://slow-site.com' });
+        await result.current.brand.crawlWebsite({
+          brand_id: 'brand123',
+          url: 'https://slow-site.com',
+        });
       }).rejects.toThrow('Request timeout');
     });
   });
