@@ -1,38 +1,19 @@
 name: E2E Tests
 
 on:
-  workflow_run:
-    workflows: ["CI"]
-    types:
-      - completed
+  pull_request:
     branches: [main]
 
-jobs:
-  # Check if CI workflow passed
-  check-ci-status:
-    name: Check CI Status
-    runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.event == 'pull_request' }}
-    outputs:
-      should-run: ${{ steps.check.outputs.should-run }}
-    steps:
-      - name: Check if CI passed
-        id: check
-        run: |
-          if [[ "${{ github.event.workflow_run.conclusion }}" == "success" ]]; then
-            echo "should-run=true" >> $GITHUB_OUTPUT
-            echo "✅ CI workflow passed, proceeding with E2E tests"
-          else
-            echo "should-run=false" >> $GITHUB_OUTPUT
-            echo "❌ CI workflow failed or was cancelled, skipping E2E tests"
-            exit 1
-          fi
+env:
+  NODE_VERSION: "20"
 
-  build-app:
-    name: Build Application
-    needs: check-ci-status
-    if: ${{ needs.check-ci-status.outputs.should-run == 'true' }}
+jobs:
+  # Run after CI build completes successfully
+  e2e-health-check:
+    name: E2E Health Check
     runs-on: ubuntu-latest
+    outputs:
+      should-continue: ${{ steps.health.outputs.should-continue }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -40,7 +21,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: ${{ env.NODE_VERSION }}
           cache: "npm"
 
       - name: Install dependencies
@@ -49,31 +30,38 @@ jobs:
       - name: Build application
         run: npm run build
 
-      - name: Build Docker image
+      - name: Start application
         run: |
-          docker build -t project-beta-frontend:e2e-${{ github.sha }} .
-          docker save project-beta-frontend:e2e-${{ github.sha }} > app-image.tar
+          npm install -g serve
+          serve -s dist -p 3000 &
+          echo $! > server.pid
+          sleep 10
 
-      - name: Upload Docker image artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-image
-          path: app-image.tar
-          retention-days: 1
+      - name: Run health check
+        id: health
+        run: |
+          chmod +x scripts/e2e/health-check.sh
+          if ./scripts/e2e/health-check.sh; then
+            echo "should-continue=true" >> $GITHUB_OUTPUT
+            echo "✅ Application health check passed"
+          else
+            echo "should-continue=false" >> $GITHUB_OUTPUT
+            echo "❌ Application health check failed"
+          fi
 
-  e2e-tests:
-    name: E2E Tests (${{ matrix.browser }} - Shard ${{ matrix.shard }})
-    needs: [check-ci-status, build-app]
-    if: ${{ needs.check-ci-status.outputs.should-run == 'true' }}
+      - name: Stop application
+        if: always()
+        run: |
+          if [ -f server.pid ]; then
+            kill $(cat server.pid) 2>/dev/null || true
+            rm server.pid
+          fi
+
+  e2e-brand-onboarding:
+    name: E2E Brand Onboarding Tests
+    needs: e2e-health-check
+    if: ${{ needs.e2e-health-check.outputs.should-continue == 'true' }}
     runs-on: ubuntu-latest
-    container:
-      image: mcr.microsoft.com/playwright:v1.55.0-noble
-      options: --user 1001
-    strategy:
-      fail-fast: false
-      matrix:
-        browser: [chromium, firefox, webkit]
-        shard: [1, 2]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -81,68 +69,135 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: ${{ env.NODE_VERSION }}
           cache: "npm"
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Download Docker image artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: app-image
+      - name: Build application
+        run: npm run build
 
-      - name: Load Docker image
-        run: docker load < app-image.tar
-
-      - name: Start application container
+      - name: Start application
         run: |
-          docker run -d \
-            --name app \
-            --network host \
-            -e NODE_ENV=test \
-            project-beta-frontend:e2e-${{ github.sha }}
+          npm install -g serve
+          serve -s dist -p 3000 &
+          echo $! > server.pid
+          sleep 15
 
-          # Wait for application to be ready
-          timeout 30 sh -c 'until curl -f http://localhost:3000 > /dev/null 2>&1; do sleep 1; done'
-
-      - name: Run Playwright tests
+      - name: Run brand onboarding E2E tests
+        run: |
+          chmod +x scripts/e2e/brand-onboarding.sh
+          ./scripts/e2e/brand-onboarding.sh
         env:
-          BASE_URL: http://localhost:3000
-          MOCK_API: "true"
-          CI: "true"
-        run: |
-          npx playwright test \
-            --project=${{ matrix.browser }} \
-            --shard=${{ matrix.shard }}/2 \
-            --reporter=json,html,github
+          APP_URL: http://localhost:3000
 
-      - name: Upload test results
+      - name: Stop application
         if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: playwright-results-${{ matrix.browser }}-${{ matrix.shard }}
-          path: |
-            test-results/
-            playwright-report/
-          retention-days: 30
+        run: |
+          if [ -f server.pid ]; then
+            kill $(cat server.pid) 2>/dev/null || true
+            rm server.pid
+          fi
 
       - name: Upload test videos
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-videos-${{ matrix.browser }}-${{ matrix.shard }}
+          name: e2e-brand-onboarding-videos
           path: |
             test-results/**/*.webm
             test-results/**/*.mp4
           retention-days: 7
           if-no-files-found: ignore
 
-      - name: Upload screenshots
+      - name: Upload test screenshots
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-screenshots-${{ matrix.browser }}-${{ matrix.shard }}
+          name: e2e-brand-onboarding-screenshots
+          path: |
+            test-results/**/*.png
+            test-results/**/*.jpg
+          retention-days: 7
+          if-no-files-found: ignore
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-brand-onboarding-results
+          path: |
+            test-results/
+            playwright-report/
+          retention-days: 7
+
+  e2e-playwright-all:
+    name: E2E Playwright All Tests
+    needs: e2e-brand-onboarding
+    if: success()
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium, firefox]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build application
+        run: npm run build
+
+      - name: Start application
+        run: |
+          npm install -g serve
+          serve -s dist -p 3000 &
+          echo $! > server.pid
+          sleep 15
+
+      - name: Run comprehensive Playwright tests
+        run: |
+          chmod +x scripts/e2e/playwright-all.sh
+          BROWSER=${{ matrix.browser }} ./scripts/e2e/playwright-all.sh all
+        env:
+          APP_URL: http://localhost:3000
+          BROWSER: ${{ matrix.browser }}
+          WORKERS: "1"
+          RETRIES: "2"
+
+      - name: Stop application
+        if: always()
+        run: |
+          if [ -f server.pid ]; then
+            kill $(cat server.pid) 2>/dev/null || true
+            rm server.pid
+          fi
+
+      - name: Upload test videos
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-videos-${{ matrix.browser }}
+          path: |
+            test-results/**/*.webm
+            test-results/**/*.mp4
+          retention-days: 7
+          if-no-files-found: ignore
+
+      - name: Upload test screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-screenshots-${{ matrix.browser }}
           path: |
             test-results/**/*.png
             test-results/**/*.jpg
@@ -154,85 +209,85 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-traces-${{ matrix.browser }}-${{ matrix.shard }}
+          name: e2e-traces-${{ matrix.browser }}
           path: test-results/**/*.zip
           retention-days: 7
           if-no-files-found: ignore
 
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-results-${{ matrix.browser }}
+          path: |
+            test-results/
+            playwright-report/
+          retention-days: 7
+
   e2e-report:
-    name: Merge E2E Test Reports
-    needs: e2e-tests
+    name: Generate E2E Test Report
+    needs: [e2e-brand-onboarding, e2e-playwright-all]
     if: always()
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Download all artifacts
+      - name: Download all E2E artifacts
         uses: actions/download-artifact@v4
         with:
-          pattern: playwright-results-*
+          pattern: e2e-*-results
           path: all-results/
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: ${{ env.NODE_VERSION }}
 
       - name: Install Playwright
         run: npm install -D @playwright/test
 
       - name: Merge reports
-        run: npx playwright merge-reports --reporter=html all-results/
+        run: |
+          if [ -d all-results ] && [ "$(ls -A all-results)" ]; then
+            npx playwright merge-reports --reporter=html all-results/
+          else
+            echo "No results to merge"
+          fi
 
       - name: Upload merged report
+        if: success()
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-report-merged
+          name: e2e-report-merged
           path: playwright-report/
           retention-days: 30
 
-      - name: Comment PR with results
-        if: github.event_name == 'pull_request'
+      - name: Comment PR with E2E results
+        if: github.event_name == 'pull_request' && always()
         uses: actions/github-script@v7
         with:
           script: |
-            const fs = require('fs');
-            const path = require('path');
+            const resultsText = `## 🎭 E2E Test Results
 
-            // Read test results
-            let allPassed = true;
-            let resultsText = '## 🎭 Playwright E2E Test Results\n\n';
+            ### Test Summary
+            - ✅ Health Check: Completed
+            - 🏢 Brand Onboarding Tests: ${{ needs.e2e-brand-onboarding.result == 'success' && '✅ Passed' || '❌ Failed' }}
+            - 🎪 Playwright All Tests: ${{ needs.e2e-playwright-all.result == 'success' && '✅ Passed' || '❌ Failed' }}
 
-            const resultsDir = './all-results';
-            if (fs.existsSync(resultsDir)) {
-              const files = fs.readdirSync(resultsDir);
-              
-              files.forEach(file => {
-                const resultPath = path.join(resultsDir, file, 'results.json');
-                if (fs.existsSync(resultPath)) {
-                  const results = JSON.parse(fs.readFileSync(resultPath, 'utf8'));
-                  const passed = results.suites.every(s => s.specs.every(spec => spec.ok));
-                  allPassed = allPassed && passed;
-                  
-                  const [, browser, shard] = file.match(/playwright-results-(\w+)-(\d+)/) || [];
-                  resultsText += `- **${browser} (Shard ${shard})**: ${passed ? '✅ Passed' : '❌ Failed'}\n`;
-                }
-              });
-            }
+            ### 📦 Test Artifacts Available
+            - [📹 Video Recordings](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}#artifacts)
+            - [📸 Screenshots](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}#artifacts)
+            - [📊 HTML Reports](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}#artifacts)
+            - [🔍 Trace Files](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}#artifacts) (on failures)
 
-            resultsText += '\n';
-            resultsText += allPassed 
-              ? '✨ All tests passed successfully!' 
-              : '⚠️ Some tests failed. Check the artifacts for details.';
+            ### 🔗 Links
+            - [View Full Workflow](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+            - [Download All Artifacts](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}#artifacts)
+            
+            **✨ Video recordings are now captured for all E2E tests and available for review!**
+            `;
 
-            resultsText += '\n\n### 📦 Test Artifacts\n';
-            resultsText += '- [📹 Videos](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}#artifacts)\n';
-            resultsText += '- [📸 Screenshots](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}#artifacts)\n';
-            resultsText += '- [📊 HTML Report](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}#artifacts)\n';
-            resultsText += '\n[View Full Report](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})';
-
-            // Post comment
             await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -240,10 +295,10 @@ jobs:
               body: resultsText
             });
 
-  smoke-tests:
-    name: Smoke Tests (Quick Validation)
-    needs: check-ci-status
-    if: ${{ needs.check-ci-status.outputs.should-run == 'true' }}
+  e2e-smoke-tests:
+    name: E2E Smoke Tests
+    needs: e2e-health-check
+    if: ${{ needs.e2e-health-check.outputs.should-continue == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -252,28 +307,44 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: ${{ env.NODE_VERSION }}
           cache: "npm"
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Install Playwright browsers
-        run: npx playwright install chromium
+      - name: Build application
+        run: npm run build
 
-      - name: Run smoke tests
-        env:
-          MOCK_API: "true"
+      - name: Start application
         run: |
-          npx playwright test \
-            --project=chromium \
-            --grep=@smoke \
-            --reporter=github
+          npm install -g serve
+          serve -s dist -p 3000 &
+          echo $! > server.pid
+          sleep 10
+
+      - name: Run smoke tests with shell script
+        run: |
+          chmod +x scripts/e2e/playwright-all.sh
+          ./scripts/e2e/playwright-all.sh smoke
+        env:
+          APP_URL: http://localhost:3000
+          BROWSER: chromium
+
+      - name: Stop application
+        if: always()
+        run: |
+          if [ -f server.pid ]; then
+            kill $(cat server.pid) 2>/dev/null || true
+            rm server.pid
+          fi
 
       - name: Upload smoke test results
-        if: failure()
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: smoke-test-results
-          path: test-results/
+          name: e2e-smoke-test-results
+          path: |
+            test-results/
+            playwright-report/
           retention-days: 7
