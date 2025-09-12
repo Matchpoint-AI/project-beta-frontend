@@ -1,20 +1,22 @@
-// src/components/PromotionComponent.tsx
+// src/features/dashboard/components/PromotionComponent.tsx
 
 import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { CampaignContext } from '../context/CampaignContext';
-import CardStats from '../features/dashboard/components/CardStats';
-import CampaignReviewButton from '../features/dashboard/components/CampaignReviewButton';
-import handleNavigate from '../helpers/handleNavigate';
-import { useAuth } from '../features/auth/context/AuthContext';
+import { CampaignContext } from '../../../context/CampaignContext';
+import CardStats from './CardStats';
+import CampaignReviewButton from './CampaignReviewButton';
+import handleNavigate from '../../../helpers/handleNavigate';
+import { useAuth } from '../../auth/context/AuthContext';
 import { GiElectric } from 'react-icons/gi';
-import CampaignThreadWin from '../features/campaign/components/CampaignThreadWin';
-import useFetchThreadMessages from '../hooks/useFetchThreadMessages';
+import CampaignThreadWin from '../../campaign/components/CampaignThreadWin';
+import useFetchThreadMessages from '../../../hooks/useFetchThreadMessages';
 import { CircularProgress } from '@mui/material';
 
 interface Campaign {
   campaign_id: string;
   thread_id?: string;
+  status: string;
+  timestamp?: string;
   campaign_data: {
     campaign_variables: {
       name: string;

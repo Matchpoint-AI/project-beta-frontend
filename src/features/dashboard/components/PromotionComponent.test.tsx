@@ -3,21 +3,23 @@ import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { BrowserRouter } from 'react-router-dom';
 import PromotionComponent from './PromotionComponent';
-import { AuthContext } from '../features/auth/context/AuthContext';
-import { CampaignContext } from '../context/CampaignContext';
+import { AuthContext } from '../../auth/context/AuthContext';
+import { CampaignContext } from '../../../context/CampaignContext';
 
 // Mock the modules
-vi.mock('../helpers/handleNavigate', () => ({
+vi.mock('../../../helpers/handleNavigate', () => ({
   default: vi.fn(),
 }));
 
-vi.mock('../features/dashboard/components/CardStats', () => ({
+vi.mock('./CardStats', () => ({
   default: ({ id }: { id: string }) => <div data-testid="card-stats">Stats for {id}</div>,
 }));
 
 interface Campaign {
   campaign_id: string;
   thread_id?: string;
+  status: string;
+  timestamp?: string;
   campaign_data?: {
     campaign_variables?: {
       [key: string]: unknown;
@@ -106,6 +108,7 @@ const mockCampaignContextValue = {
 const mockCampaign = {
   campaign_id: 'test-campaign-1',
   thread_id: 'test-thread-1',
+  status: 'active',
   campaign_data: {
     campaign_variables: {
       name: 'Test Campaign',
@@ -218,7 +221,7 @@ describe('PromotionComponent', () => {
     renderWithContext(mockCampaign, 'Current');
     const contentLibraryButton = screen.getByText('Content Library');
     fireEvent.click(contentLibraryButton);
-    const handleNavigate = (await import('../helpers/handleNavigate')).default;
+    const handleNavigate = (await import('../../../helpers/handleNavigate')).default;
     expect(handleNavigate).toHaveBeenCalledWith(
       'test-user-id',
       '/campaign/content/test-campaign-1',

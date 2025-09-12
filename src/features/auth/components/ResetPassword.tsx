@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useSearchParams } from 'react-router-dom';
 import EmailInputForReset from './EmailInputForReset';
-import PasswordResetForm from '../PasswordResetForm';
+import PasswordResetForm from './PasswordResetForm';
 
 interface ResetPasswordProps {
   setOpen: (value: { open: boolean; error: boolean; message: string }) => void;
