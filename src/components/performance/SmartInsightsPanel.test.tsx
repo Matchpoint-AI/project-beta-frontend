@@ -203,8 +203,10 @@ describe('SmartInsightsPanel', () => {
     expect(summaryTabs.length).toBeGreaterThan(0);
     const smartInsightsTabs = screen.getAllByText('Smart Insights');
     expect(smartInsightsTabs.length).toBeGreaterThan(0);
-    expect(screen.getByText('Predictions')).toBeInTheDocument();
-    expect(screen.getByText('Recommendations')).toBeInTheDocument();
+    const predictionsTabs = screen.getAllByText('Predictions');
+    expect(predictionsTabs.length).toBeGreaterThan(0);
+    const recommendationsTabs = screen.getAllByText('Recommendations');
+    expect(recommendationsTabs.length).toBeGreaterThan(0);
   });
 
   it('fetches and displays summary data on initial load', async () => {
