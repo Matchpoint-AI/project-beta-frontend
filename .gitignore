@@ -13,6 +13,10 @@
 /test-results
 *.lcov
 
+# Playwright authentication state
+e2e/auth-state.json
+e2e/auth-setup-result.png
+
 # production
 /build
 /dist

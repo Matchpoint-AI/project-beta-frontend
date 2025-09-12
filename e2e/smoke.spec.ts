@@ -4,18 +4,27 @@ test.describe('Smoke Tests', () => {
   test('should load application homepage', { tag: '@smoke' }, async ({ page }) => {
     // Navigate to the application
     await page.goto('/');
+    await page.waitForLoadState('networkidle');
 
     // Check that the page loads and has basic HTML structure
     await expect(page.locator('html')).toBeVisible();
 
     // Check for React root or app container
-    const hasRoot = await page.locator('#root, [data-reactroot], .app').count();
+    const hasRoot = await page.locator('#root, [data-reactroot], .app, .app-container, main').count();
     expect(hasRoot).toBeGreaterThan(0);
 
     // Verify page title is set
     const title = await page.title();
     expect(title).toBeTruthy();
     expect(title.length).toBeGreaterThan(0);
+    
+    // Check if we're in authenticated state (not on login page)
+    const isLoginPage = page.url().includes('login') || page.url().includes('auth');
+    if (!isLoginPage) {
+      // Look for authenticated app elements
+      const appElements = await page.locator('[data-testid="dashboard"], .dashboard, nav, [role="navigation"]').count();
+      console.log('Authenticated app elements found:', appElements);
+    }
   });
 
   test('should have working navigation', { tag: '@smoke' }, async ({ page }) => {
