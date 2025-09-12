@@ -41,7 +41,7 @@ describe('useV2Api', () => {
   beforeEach(() => {
     // Arrange - Reset all mocks before each test
     vi.clearAllMocks();
-    
+
     // Reset Firebase auth mock
     mockUser.getIdToken.mockResolvedValue(mockToken);
     (getAuth as any).mockReturnValue(mockAuth);

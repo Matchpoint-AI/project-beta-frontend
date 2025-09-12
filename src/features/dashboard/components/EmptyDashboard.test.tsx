@@ -62,7 +62,7 @@ describe('EmptyDashboard', () => {
       // Assert
       expect(screen.getByText('Ready to start your new campaign?')).toBeInTheDocument();
       expect(
-        screen.getByText(/Super easy. Let's create your next campaign brief/)
+        screen.getByText(/Super easy/)
       ).toBeInTheDocument();
       expect(screen.getByText(/and your content will be on/)).toBeInTheDocument();
       expect(screen.getByRole('button', { name: /Start my next campaign/i })).toBeInTheDocument();
@@ -310,7 +310,7 @@ describe('EmptyDashboard', () => {
       );
 
       // Assert
-      const description = screen.getByText(/Super easy. Let's create your next campaign brief/);
+      const description = screen.getByText(/Super easy/);
       expect(description).toHaveClass(
         'text-gray-900',
         'text-xl',

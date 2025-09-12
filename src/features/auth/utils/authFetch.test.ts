@@ -127,7 +127,7 @@ describe('authFetch', () => {
         length: 0,
         key: vi.fn(),
       };
-      
+
       Object.defineProperty(global, 'localStorage', {
         value: mockStorage,
         configurable: true,
@@ -151,7 +151,7 @@ describe('authFetch', () => {
       const originalWindow = global.window;
       const originalLocalStorage = global.localStorage;
       const originalSessionStorage = global.sessionStorage;
-      
+
       // @ts-expect-error - Testing without window object
       delete global.window;
       // @ts-expect-error - Testing without storage

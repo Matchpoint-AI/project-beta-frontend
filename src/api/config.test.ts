@@ -10,7 +10,7 @@ describe('API Configuration', () => {
     });
 
     it('should be a valid URL format', () => {
-      // Act & Assert  
+      // Act & Assert
       expect(API_BASE_URL).toMatch(/^https?:\/\/.+/);
     });
   });
