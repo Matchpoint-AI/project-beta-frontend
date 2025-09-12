@@ -245,7 +245,7 @@ describe('CampaignsList Component', () => {
     // The Dropdown component renders a button that shows current value
     const dropdownButton = screen.getByRole('button', { name: /All/i });
     expect(dropdownButton).toBeInTheDocument();
-    
+
     // Note: Testing dropdown interaction would require knowing Dropdown implementation
     // For now, just verify the dropdown renders with correct value
   });

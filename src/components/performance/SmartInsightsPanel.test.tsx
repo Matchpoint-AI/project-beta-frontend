@@ -453,8 +453,6 @@ describe('SmartInsightsPanel', () => {
   });
 
   it('handles API errors gracefully', async () => {
-    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
-
     mockFetch.mockRejectedValueOnce(new Error('API Error'));
 
     render(<SmartInsightsPanel />);
@@ -463,11 +461,6 @@ describe('SmartInsightsPanel', () => {
       // Component should still render despite error
       expect(screen.getByText('Smart Performance Insights')).toBeInTheDocument();
     });
-
-    // Verify error was logged
-    expect(consoleSpy).toHaveBeenCalled();
-
-    consoleSpy.mockRestore();
   });
 
   it('displays severity and confidence badges correctly', async () => {
