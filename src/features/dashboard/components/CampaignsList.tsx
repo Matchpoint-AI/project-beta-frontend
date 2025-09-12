@@ -166,7 +166,7 @@ export default function CampaignsList({
               onClick={handleNewCampaign}
             >
               New Campaign
-              <img src="/plus_icon.svg" alt="plus icon" />
+              <img src="/src/assets/icons/plus_icon.svg" alt="plus icon" />
             </button>
           </div>
           <div className="flex flex-col gap-3 mb-2">

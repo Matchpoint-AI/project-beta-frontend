@@ -1,16 +1,11 @@
+import React from 'react';
 import { BusinessInfo } from '../../../features/brand/context/BrandContext';
 interface ColorPickerProps {
-  selectedColors: string[];
-  selectColor: (updater: (colors: string[]) => string[]) => void;
-  saveColor: (updater: (businessInfo: BusinessInfo) => BusinessInfo) => void;
-  className?: string;
-  conseilPicker: (visible: boolean) => void;
+    selectedColors: string[];
+    selectColor: React.Dispatch<React.SetStateAction<string[]>>;
+    saveColor: React.Dispatch<React.SetStateAction<BusinessInfo>>;
+    className?: string;
+    conseilPicker: (visible: boolean) => void;
 }
-export default function ColorPicker({
-  selectedColors,
-  selectColor,
-  saveColor,
-  className,
-  conseilPicker,
-}: ColorPickerProps): import('react/jsx-runtime').JSX.Element;
+export default function ColorPicker({ selectedColors, selectColor, saveColor, className, conseilPicker, }: ColorPickerProps): import("react/jsx-runtime").JSX.Element;
 export {};

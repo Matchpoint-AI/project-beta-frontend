@@ -1,1 +1,1 @@
-export default function Integrations(): import('react/jsx-runtime').JSX.Element;
+export default function Integrations(): import("react/jsx-runtime").JSX.Element;

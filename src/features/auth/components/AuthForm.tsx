@@ -296,7 +296,7 @@ export default function AuthForm({ login = false, setAuthError }: AuthFormProps)
           type="submit"
           className="flex justify-center gap-2 text-white bg-[#1877F2] hover:bg-[#61B7F9] font-medium rounded-lg text-sm px-5 py-2.5 text-center w-full sm:w-[49%]"
         >
-          <img src="/facebook.png" alt="facebook" width={20} height={20} />
+          <img src="/src/assets/images/facebook.png" alt="facebook" width={20} height={20} />
           {login ? "Login with Meta" : "Continue with Meta"}
         </button> */}
       </div>

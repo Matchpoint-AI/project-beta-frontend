@@ -81,7 +81,7 @@ export default function SideNavBar({
     >
       {!phone && (
         <Link to="/">
-          <img src="/logo_simple.svg" alt="logo" width={40} height={40} />
+          <img src="/src/assets/icons/logo_simple.svg" alt="logo" width={40} height={40} />
         </Link>
       )}
 
@@ -94,7 +94,7 @@ export default function SideNavBar({
         >
           <img
             onClick={handleNewCampaign}
-            src="/add_button.svg"
+            src="/src/assets/icons/add_button.svg"
             alt="add"
             width={25}
             height={25}
@@ -202,7 +202,7 @@ export default function SideNavBar({
         onMouseLeave={() => setHoveredItem(null)}
       >
         <Link to="/profile">
-          <img src="/profile.svg" alt="profile" width={35} height={35} />
+          <img src="/src/assets/icons/profile.svg" alt="profile" width={35} height={35} />
         </Link>
         <Tooltip label="Profile" show={hoveredItem === 'profile'} />
       </div>

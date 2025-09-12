@@ -65,9 +65,13 @@ const TabItems: React.FC<TabItemsProps> = ({
       >
         {/* <HiCollection /> */}
         {currentPage === 1 ? (
-          <img src="/collection-active.svg" alt="Active Collection" />
+          <img src="/src/assets/icons/collection-active.svg" alt="Active Collection" />
         ) : (
-          <img src="/collection-disabled.svg" alt="Disabled Collection" className="w-6 h-6" />
+          <img
+            src="/src/assets/icons/collection-disabled.svg"
+            alt="Disabled Collection"
+            className="w-6 h-6"
+          />
         )}
         <span className="font-normal text-base leading-5">Library View</span>
       </button>

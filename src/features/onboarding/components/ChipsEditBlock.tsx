@@ -67,7 +67,7 @@ export default function ChipsEditBlock({
             <div key={i} className="flex items-center justify-between gap-[10px] mb-5">
               <BrandDetailsInput value={v} onChange={(e) => handleChange(i, e.target.value)} />
               <button type="button" onClick={() => handleRemove(i)}>
-                <img src="/remove_tag.svg" alt="remove tag" />
+                <img src="/src/assets/icons/remove_tag.svg" alt="remove tag" />
               </button>
             </div>
           );

@@ -13,7 +13,7 @@ const LandingFooter = () => {
           href="#hero"
           className="flex items-center space-x-3 rtl:space-x-reverse self-start  w-full"
         >
-          <img src="logo.svg" className="h-8" alt="Matchpoint Logo" />
+          <img src="/src/assets/icons/logo.svg" className="h-8" alt="Matchpoint Logo" />
         </a>
         <div className="flex flex-row justify-between items-center gap-10 lg:gap-14">
           <a

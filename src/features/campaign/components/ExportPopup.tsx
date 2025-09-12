@@ -27,7 +27,7 @@ const ExportPopup = ({ campaignName, onClose }: { campaignName: string; onClose:
     <div className="fixed inset-0 flex items-center  justify-center z-50 bg-black bg-opacity-50">
       <div className="bg-white rounded-lg shadow-lg p-6 text-center flex flex-col justify-center items-center gap-3 w-[750px] h-[580px]">
         <div className="w-[400px] h-[220px] flex justify-center items-center ">
-          <img src="/popup.png" alt="Congrats" className="object-fill" />
+          <img src="/src/assets/images/popup.png" alt="Congrats" className="object-fill" />
         </div>
         <div className="flex flex-col justify-center items-center gap-0">
           <div className="flex flex-col justify-center items-center gap-4">

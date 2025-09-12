@@ -2,59 +2,17 @@ export declare const trackFirstVisit: () => void;
 export declare const trackOnboardingStep: (step: string, timeSpent: number) => void;
 export declare const trackOnboardingComplete: (totalTime: number) => void;
 export declare const trackBrandProfileEdit: (field: string, isPrePopulated: boolean) => void;
-export declare const trackBrandGuideUpload: (type: 'logo' | 'guide') => void;
-export declare const trackCampaignBriefCreation: (
-  campaignType: 'awareness' | 'conversion',
-  duration: number,
-  timeSpent: number
-) => void;
-export declare const trackImageApproval: (
-  campaignId: string,
-  approved: boolean,
-  isRegeneration: boolean
-) => void;
-export declare const trackCampaignPublish: (
-  campaignId: string,
-  weekCount: number,
-  totalPosts: number
-) => void;
-export declare const trackContentReview: (
-  campaignId: string,
-  contentType: 'image' | 'caption',
-  timeSpent: number,
-  action: 'view' | 'approve' | 'regenerate' | 'edit'
-) => void;
-export declare const trackContentPublish: (
-  campaignId: string,
-  contentId: string,
-  success: boolean,
-  errorMessage?: string
-) => void;
-export declare const trackContentDownload: (
-  campaignId: string,
-  contentId: string,
-  contentType: 'image' | 'caption'
-) => void;
-export declare const trackFeatureUsage: (
-  feature: string,
-  action: string,
-  timeSpent?: number
-) => void;
+export declare const trackBrandGuideUpload: (type: "logo" | "guide") => void;
+export declare const trackCampaignBriefCreation: (campaignType: "awareness" | "conversion", duration: number, timeSpent: number) => void;
+export declare const trackImageApproval: (campaignId: string, approved: boolean, isRegeneration: boolean) => void;
+export declare const trackCampaignPublish: (campaignId: string, weekCount: number, totalPosts: number) => void;
+export declare const trackContentReview: (campaignId: string, contentType: "image" | "caption", timeSpent: number, action: "view" | "approve" | "regenerate" | "edit") => void;
+export declare const trackContentPublish: (campaignId: string, contentId: string, success: boolean, errorMessage?: string) => void;
+export declare const trackContentDownload: (campaignId: string, contentId: string, contentType: "image" | "caption") => void;
+export declare const trackFeatureUsage: (feature: string, action: string, timeSpent?: number) => void;
 export declare const trackUserReturn: (daysSinceLastVisit: number) => void;
 export declare const startSessionTimer: () => void;
 export declare const endSessionTimer: (activity: string) => void;
-export declare const trackBrandProfileSession: (
-  startTime: number,
-  endTime: number,
-  approved: boolean
-) => void;
-export declare const trackDaysSinceLastReview: (
-  campaignId: string,
-  contentType: 'image' | 'caption',
-  daysSinceLastReview: number
-) => void;
-export declare const trackDaysSinceLastApproval: (
-  campaignId: string,
-  contentType: 'image' | 'caption',
-  daysSinceLastApproval: number
-) => void;
+export declare const trackBrandProfileSession: (startTime: number, endTime: number, approved: boolean) => void;
+export declare const trackDaysSinceLastReview: (campaignId: string, contentType: "image" | "caption", daysSinceLastReview: number) => void;
+export declare const trackDaysSinceLastApproval: (campaignId: string, contentType: "image" | "caption", daysSinceLastApproval: number) => void;

@@ -149,7 +149,7 @@ const ReviewForm = ({ setFormStep, handleBack, handleSave, saving }: ReviewFormP
                   Logo
                 </label>
                 <button onClick={() => setFormStep(2)}>
-                  <img src="/edit-outline.svg" alt="brand" className="w-4 h-4" />
+                  <img src="/src/assets/icons/edit-outline.svg" alt="brand" className="w-4 h-4" />
                 </button>
               </div>
               <img src={logo} alt="logo" className="w-[150px] h-auto" />
@@ -162,7 +162,7 @@ const ReviewForm = ({ setFormStep, handleBack, handleSave, saving }: ReviewFormP
                   Brand Name
                 </label>
                 <button onClick={() => setFormStep(1)}>
-                  <img src="/edit-outline.svg" alt="brand" className="w-4 h-4" />
+                  <img src="/src/assets/icons/edit-outline.svg" alt="brand" className="w-4 h-4" />
                 </button>
               </div>
               <h2 className="text-lg capitalize text-[#111928]">{businessInfo.name}</h2>
@@ -173,7 +173,7 @@ const ReviewForm = ({ setFormStep, handleBack, handleSave, saving }: ReviewFormP
               <div className="mb-5 flex items-center gap-3">
                 <label className="block text-base font-medium text-gray-900">Brand Colors</label>
                 <button onClick={() => setFormStep(2)}>
-                  <img src="/edit-outline.svg" alt="brand" className="w-4 h-4" />
+                  <img src="/src/assets/icons/edit-outline.svg" alt="brand" className="w-4 h-4" />
                 </button>
               </div>
               <div className="gap-3 overflow-x-auto whitespace-nowrap">
