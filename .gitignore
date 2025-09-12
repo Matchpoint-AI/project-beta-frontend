@@ -93,3 +93,4 @@ ehthumbs_vista.db
 *.temp
 .tmp/
 .temp/
+test-results/
