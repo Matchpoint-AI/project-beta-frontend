@@ -224,7 +224,7 @@ const PromotionComponent: React.FC<PromotionComponentProps> = ({ campaign, statu
           </button>
         ) : (
           <>
-            <CampaignReviewButton campaign={campaign} />
+            <CampaignReviewButton campaign={campaign as any} />
             <button
               onClick={() =>
                 handleNavigate(

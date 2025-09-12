@@ -39,7 +39,7 @@ export default function CampaignContentPage() {
             </button>
           </div>
         )}
-        {!loading && !_error && (
+        {!loading && !_error && data && (
           <div className="md:ml-[80px] flex-grow flex flex-col gap-8 p-8 md:mt-8 mt-[80px]">
             <UserDataBlocks
               data={

@@ -654,18 +654,10 @@ describe('CostOptimizationDashboard', () => {
       await waitFor(() => {
         // Should still render the dashboard but without optimization cards
         expect(screen.getByText('Cost Optimization Dashboard')).toBeInTheDocument();
-        
-        // Key metrics cards (Total Savings, Annual Projection, etc.) should still be present
-        expect(screen.getByText('Total Savings')).toBeInTheDocument();
-        
-        // Dashboard should still work with empty optimization metrics
-        // Just verify that the key metrics are shown and the dashboard doesn't crash
-        expect(screen.getByText('Annual Projection')).toBeInTheDocument();
-        
-        // The optimization metrics grid should exist but be empty
-        // (this is a more specific check than counting cards which can be ambiguous)
-        const dashboardContent = screen.getByText('Cost Optimization Dashboard').closest('div');
-        expect(dashboardContent).toBeInTheDocument();
+        // Check that no optimization-specific cards are rendered by looking for the optimization grid section
+        // The optimization grid should exist but be empty
+        const optimizationGrid = screen.getByTestId('optimization-grid');
+        expect(optimizationGrid.children).toHaveLength(0);
       });
     });
 

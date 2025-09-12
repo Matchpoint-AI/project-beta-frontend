@@ -2,7 +2,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Sidebar from '../../../shared/components/layout/Sidebar';
-import { BrandContext } from '../../brand/context/BrandContext';
 import CustomComponent from '../../campaign/components/CustomComponent';
 import BrandForm from '../../brand/components/BrandForm';
 import ReviewForm from './ReviewForm';
@@ -16,12 +15,12 @@ import StepContainer from './StepContainer';
 import handleNavigate from '../../../helpers/handleNavigate';
 
 const Onboard = ({ edit = false }: any) => {
-  const { profile } = useAuth();
-  const [currentStep, setCurrentStep] = useState(1);
-  const [errorSaving, setErrorSaving] = useState(false);
-  const { businessInfo, setBusinessInfo }: any = useContext(BrandContext);
   const { setCampaignInfo }: any = useContext(CampaignContext);
+  const { profile } = useAuth();
   const [saveAndStart, setSaveAndStart] = useState(false);
+  const [currentStep, setCurrentStep] = useState(1);
+  const [businessInfo, setBusinessInfo] = useState<any>({});
+  const [errorSaving, setErrorSaving] = useState(false);
   const endpointUrl = getServiceURL('data');
 
   const navigate = useNavigate();

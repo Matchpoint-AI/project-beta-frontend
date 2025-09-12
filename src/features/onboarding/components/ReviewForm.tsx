@@ -99,10 +99,10 @@ const ReviewForm = ({ setFormStep, handleBack, handleSave, saving }: ReviewFormP
     for (let i = 0; i < brandData.length; i++) {
       const selectedData =
         brandData[i] === 'values'
-          ? businessInfo.values?.filter((ticket) => ticket?.selected)
+          ? businessInfo.values?.filter((ticket: Selectable) => ticket?.selected)
           : brandData[i] === 'persona'
-            ? businessInfo.persona?.filter((ticket) => ticket?.selected)
-            : businessInfo.toneAndVoice?.filter((ticket) => ticket?.selected);
+            ? businessInfo.persona?.filter((ticket: Selectable) => ticket?.selected)
+            : businessInfo.toneAndVoice?.filter((ticket: Selectable) => ticket?.selected);
       if (selectedData?.length === 0) return false;
     }
     return true;

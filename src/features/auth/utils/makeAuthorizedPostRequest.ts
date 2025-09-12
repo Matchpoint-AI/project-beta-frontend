@@ -1,4 +1,4 @@
-import RequestInput from '../interfaces/RequestInput';
+import RequestInput from '../../../interfaces/RequestInput';
 
 // The function to make an authorized POST request
 async function makeAuthorizedPostRequest(
