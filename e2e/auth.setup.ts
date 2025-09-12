@@ -41,16 +41,20 @@ setup('authenticate', async ({ page }) => {
         contentType: 'application/json',
         body: JSON.stringify({
           kind: 'identitytoolkit#GetAccountInfoResponse',
-          users: [{
-            localId: 'mock-user-id-123',
-            email: 'test@example.com',
-            displayName: 'Test User',
-            emailVerified: true,
-            providerUserInfo: [{
-              providerId: 'password',
+          users: [
+            {
+              localId: 'mock-user-id-123',
               email: 'test@example.com',
-            }],
-          }],
+              displayName: 'Test User',
+              emailVerified: true,
+              providerUserInfo: [
+                {
+                  providerId: 'password',
+                  email: 'test@example.com',
+                },
+              ],
+            },
+          ],
         }),
       });
     } else {
@@ -69,7 +73,7 @@ setup('authenticate', async ({ page }) => {
     const headers = route.request().headers();
     console.log('🌐 Backend API intercepted:', url);
     console.log('🌐 Authorization header:', headers.authorization);
-    
+
     await route.fulfill({
       status: 200,
       contentType: 'application/json',

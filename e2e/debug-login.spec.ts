@@ -19,8 +19,12 @@ test.describe('Debug Login Process', () => {
 
     // Step 3: Look for login elements
     const emailInput = page.locator('input#email, input[type="email"], input[name="email"]');
-    const passwordInput = page.locator('input#password, input[type="password"], input[name="password"]');
-    const loginButton = page.locator('button:has-text("Login"), button:has-text("Sign In"), button[type="submit"]');
+    const passwordInput = page.locator(
+      'input#password, input[type="password"], input[name="password"]'
+    );
+    const loginButton = page.locator(
+      'button:has-text("Login"), button:has-text("Sign In"), button[type="submit"]'
+    );
 
     console.log('🔍 Email input count:', await emailInput.count());
     console.log('🔍 Password input count:', await passwordInput.count());
@@ -42,7 +46,7 @@ test.describe('Debug Login Process', () => {
       console.log('✅ Email input found');
     } catch (error) {
       console.error('❌ Email input not found:', error);
-      
+
       // Debug what's actually on the page
       const allInputs = await page.locator('input').all();
       console.log('🔍 Found inputs:', allInputs.length);
@@ -51,9 +55,11 @@ test.describe('Debug Login Process', () => {
         const name = await input.getAttribute('name');
         const id = await input.getAttribute('id');
         const placeholder = await input.getAttribute('placeholder');
-        console.log(`   - Input: type="${type}" name="${name}" id="${id}" placeholder="${placeholder}"`);
+        console.log(
+          `   - Input: type="${type}" name="${name}" id="${id}" placeholder="${placeholder}"`
+        );
       }
-      
+
       const allButtons = await page.locator('button').all();
       console.log('🔍 Found buttons:', allButtons.length);
       for (const button of allButtons) {
@@ -61,7 +67,7 @@ test.describe('Debug Login Process', () => {
         const type = await button.getAttribute('type');
         console.log(`   - Button: text="${text}" type="${type}"`);
       }
-      
+
       throw error;
     }
 
@@ -80,14 +86,16 @@ test.describe('Debug Login Process', () => {
     // Step 8: Wait and see what happens
     console.log('⏳ Waiting for response...');
     await page.waitForTimeout(3000); // Wait 3 seconds to see what happens
-    
+
     console.log('📍 URL after submit:', page.url());
     console.log('📄 Title after submit:', await page.title());
-    
+
     await page.screenshot({ path: 'e2e/debug-04-after-submit.png', fullPage: true });
 
     // Step 9: Check for error messages
-    const errorElements = await page.locator('[role="alert"], .error, .error-message, .alert-error').all();
+    const errorElements = await page
+      .locator('[role="alert"], .error, .error-message, .alert-error')
+      .all();
     if (errorElements.length > 0) {
       console.log('❌ Found error elements:', errorElements.length);
       for (const error of errorElements) {

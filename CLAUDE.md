@@ -464,7 +464,7 @@ await page.route('https://identitytoolkit.googleapis.com/**', async (route) => {
   const postData = route.request().postData();
   console.log('🔥 Firebase Auth intercepted:', url);
   console.log('🔥 Request data:', postData);
-  
+
   // Handle different endpoints specifically
   if (url.includes('signInWithPassword')) {
     console.log('🔥 Responding to signInWithPassword with success');
@@ -485,16 +485,16 @@ test('debug actual login flow step by step', async ({ page }) => {
   // Step 1: Check initial state
   await page.goto('/');
   console.log('📍 Initial URL:', page.url());
-  
+
   // Step 2: Navigate to login
   await page.goto('/login');
   console.log('📍 After /login navigation:', page.url());
-  
+
   // Step 3: Fill and submit form
   await page.fill('input[type="email"]', 'test@example.com');
   await page.fill('input[type="password"]', 'testpassword123');
   await page.click('button[type="submit"]');
-  
+
   // Step 4: Check result
   console.log('📍 URL after submit:', page.url());
   const pageContent = await page.locator('body').textContent();
