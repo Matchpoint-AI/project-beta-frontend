@@ -2,7 +2,7 @@
 
 import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { CampaignContext } from '../../../context/CampaignContext';
+import { CampaignContext } from '../../../features/campaign/context/CampaignContext';
 import CardStats from './CardStats';
 import CampaignReviewButton from './CampaignReviewButton';
 import handleNavigate from '../../../helpers/handleNavigate';

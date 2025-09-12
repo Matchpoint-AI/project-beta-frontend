@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useContext, useEffect, useState } from 'react';
 import { BrandContext } from '../../features/brand/context/BrandContext';
-import { CampaignContext } from '../../context/CampaignContext';
+import { CampaignContext } from '../../features/campaign/context/CampaignContext';
 import CustomDialog from '../../features/campaign/components/CustomDialog';
 import { useNavigate } from 'react-router-dom';
 import FormsContainer from '../shared/FormsContainer';

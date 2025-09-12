@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { CampaignContext } from '../../../context/CampaignContext';
+import { CampaignContext } from '../../../features/campaign/context/CampaignContext';
 import { AiOutlineArrowRight } from 'react-icons/ai';
 import { useAuth } from '../../auth/context/AuthContext';
 import handleNavigate from '../../../helpers/handleNavigate';

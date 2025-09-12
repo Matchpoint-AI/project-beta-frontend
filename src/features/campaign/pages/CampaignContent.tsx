@@ -7,7 +7,10 @@ import { displayDuration, getPostingSchedule } from '../../../helpers/calculateT
 import { CampaignHeader, ButtonGroup, ApprovePopup, TabWrapper } from '../../../features/campaign';
 import { capitalizeFirstLetterOfEachWord } from '../../../helpers/formatters';
 import { trackContentReview, trackCampaignPublish } from '../../../helpers/analytics';
-import { CampaignContext, CampaignInfoType } from '../../../context/CampaignContext';
+import {
+  CampaignContext,
+  CampaignInfoType,
+} from '../../../features/campaign/context/CampaignContext';
 import type { Campaign } from '../../../components/TabWrapper';
 import handleNavigate from '../../../helpers/handleNavigate';
 
