@@ -450,6 +450,98 @@ Failed tests automatically capture:
 
 Artifacts are uploaded to GitHub Actions and retained for 30 days.
 
+### Fast Playwright Authentication Debugging Strategy
+
+When E2E authentication fails, use this systematic approach for rapid troubleshooting:
+
+#### 1. Add Comprehensive Logging to Route Interceptors
+
+Always log both requests and responses in your mocks:
+
+```typescript
+await page.route('https://identitytoolkit.googleapis.com/**', async (route) => {
+  const url = route.request().url();
+  const postData = route.request().postData();
+  console.log('🔥 Firebase Auth intercepted:', url);
+  console.log('🔥 Request data:', postData);
+  
+  // Handle different endpoints specifically
+  if (url.includes('signInWithPassword')) {
+    console.log('🔥 Responding to signInWithPassword with success');
+    // ... fulfill with proper response
+  } else if (url.includes('accounts:lookup')) {
+    console.log('🔥 Responding to accounts:lookup with user data');
+    // ... fulfill with proper response
+  }
+});
+```
+
+#### 2. Create Debug-First Test Specs
+
+Create a dedicated debug spec that runs through the flow step by step:
+
+```typescript
+test('debug actual login flow step by step', async ({ page }) => {
+  // Step 1: Check initial state
+  await page.goto('/');
+  console.log('📍 Initial URL:', page.url());
+  
+  // Step 2: Navigate to login
+  await page.goto('/login');
+  console.log('📍 After /login navigation:', page.url());
+  
+  // Step 3: Fill and submit form
+  await page.fill('input[type="email"]', 'test@example.com');
+  await page.fill('input[type="password"]', 'testpassword123');
+  await page.click('button[type="submit"]');
+  
+  // Step 4: Check result
+  console.log('📍 URL after submit:', page.url());
+  const pageContent = await page.locator('body').textContent();
+  console.log('📝 Page content after submit:', pageContent?.substring(0, 300));
+});
+```
+
+#### 3. Run Tests with Headed Mode for Visual Debugging
+
+```bash
+npx playwright test debug-login.spec.ts --headed
+```
+
+This lets you see exactly what the browser is doing and when.
+
+#### 4. Trace the Authentication Flow in Application Code
+
+Study the actual authentication flow to understand what API calls are made:
+
+1. **Frontend Auth Call**: `signInWithEmailAndPassword(auth, email, password)`
+2. **Token Retrieval**: `res.user.getIdToken()` (triggers `accounts:lookup`)
+3. **Backend Profile Call**: `fetch('/api/v1/user', { headers: { Authorization: Bearer ${token} }})`
+
+#### 5. Mock All Required Endpoints
+
+Ensure your mocks handle the complete authentication chain:
+
+- **Firebase signInWithPassword**: Returns user with `emailVerified: true`
+- **Firebase accounts:lookup**: Returns user data for token generation
+- **Backend /api/v1/user**: Returns user profile matching the authenticated user
+
+#### 6. Key Debugging Signals to Look For
+
+- **"Still on login page after submit"**: Authentication failed somewhere in the chain
+- **"Invalid username or password"**: Check if Firebase Auth is properly mocked
+- **Network errors in console**: Check if all API calls are intercepted
+- **JavaScript errors**: Check browser console for unhandled promise rejections
+
+#### 7. Common Authentication Mock Pitfalls
+
+- **Missing `emailVerified: true`**: App will sign user out immediately
+- **Mismatched user IDs**: Frontend and backend mocks must use same user ID
+- **Missing `uid` field**: Some auth contexts expect `uid` instead of `id`
+- **Token format issues**: Ensure consistent token format between mocks
+
+This approach allows you to identify authentication issues within minutes instead of hours by providing clear visibility into each step of the authentication flow.
+
 ## Helper Script Guidelines
 
 ### Recommended Directory for Helper Scripts

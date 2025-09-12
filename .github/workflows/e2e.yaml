@@ -58,27 +58,52 @@ jobs:
             const runUrl = `${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}`;
             const artifactUrl = `${runUrl}/artifacts`;
 
-            const body = `## 🎭 E2E Test Report
+            const testStatus = '${{ job.status }}' === 'success' ? '✅ PASSED' : '❌ FAILED';
+            const statusIcon = '${{ job.status }}' === 'success' ? '🎉' : '🚨';
 
-            **Test Status**: ${{ job.status == 'success' && '✅ Passed' || '❌ Failed' }}
-            **Run ID**: ${{ github.run_id }}
+            const body = `# ${statusIcon} E2E Test Results
 
-            ### 📊 View Test Report
-            🔗 **[Download Playwright Report Artifact](${artifactUrl})**
+            ## ${testStatus}
 
-            The artifact contains:
-            - 📹 **Videos** of all test runs (shows actual app usage!)
-            - 📸 **Screenshots** of any failures  
-            - 📊 **Interactive HTML report** with detailed test results
-            - 🔍 **Traces** for debugging failed tests
-
-            **To view**: Download the \`playwright-report\` artifact and open \`index.html\`
-
-            ### 🔧 GitHub Actions Run  
-            [View detailed logs and artifacts](${runUrl})
+            > **🎭 Playwright E2E Tests Completed**  
+            > **📅 Run Date**: ${new Date().toLocaleString('en-US', { timeZone: 'UTC' })} UTC  
+            > **🔢 Run ID**: ${{ github.run_id }}
 
             ---
-            *Artifact available for 7 days. This comment is auto-generated.*`;
+
+            ## 📊 **DOWNLOAD TEST ARTIFACTS**
+
+            ### 🎯 **[Click Here to Download Playwright Report](${artifactUrl})**
+
+            **What's included in the artifact:**
+
+            | 📁 **Folder** | 📝 **Contents** | 🎯 **Purpose** |
+            |---------------|------------------|----------------|
+            | **📹 Videos** | Complete recordings of each test | See exactly what the app did during tests |
+            | **📸 Screenshots** | Failure snapshots | Visual debugging of failed tests |
+            | **📊 HTML Report** | Interactive test results | Detailed test analysis with embedded media |
+            | **🔍 Traces** | Step-by-step execution | Debug failed tests with full context |
+
+            ---
+
+            ## 🚀 **How to View Results**
+
+            1. **Download** the \`playwright-report\` artifact from the link above
+            2. **Extract** the ZIP file to your computer  
+            3. **Open** \`index.html\` in your browser
+            4. **Navigate** through videos and traces to see test execution
+
+            ---
+
+            ## 🔗 **Additional Links**
+
+            - 📋 [**View GitHub Actions Run**](${runUrl}) - Full logs and workflow details
+            - 🔧 [**Download All Artifacts**](${artifactUrl}) - Complete test output
+            - 📖 **Retention**: Artifacts available for **7 days** from run date
+
+            ---
+
+            <sub>🤖 *This comment is automatically generated after each E2E test run*</sub>`;
 
             github.rest.issues.createComment({
               issue_number: context.issue.number,
