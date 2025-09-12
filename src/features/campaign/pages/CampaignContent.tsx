@@ -16,7 +16,7 @@ import handleNavigate from '../../../helpers/handleNavigate';
 
 const CampaignContent = () => {
   const [currentTab, setCurrentTab] = React.useState(1);
-  const [campaignContent, setCampaign] = useState<CampaignInfoType | undefined>();
+  const [campaignContent, setCampaign] = useState<Campaign | undefined>();
   const [title, setTitle] = useState('');
   const [service, setService] = useState('');
   const [timeFrame, setTimeFrame] = useState('');
@@ -275,7 +275,12 @@ const CampaignContent = () => {
             />
 
             <ButtonGroup
-              campaign={campaignContent as CampaignInfoType}
+              campaign={
+                {
+                  campaign_id: campaignContent?.campaign_id,
+                  campaign_data: campaignContent?.campaign_data,
+                } as CampaignInfoType
+              }
               currentTab={currentTab}
               setCurrentTab={setCurrentTab}
               setApprovePopup={setApprovePopup}

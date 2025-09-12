@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import { render, screen, waitFor, fireEvent, cleanup } from '@testing-library/react';
+import { render, screen, waitFor, fireEvent, cleanup, act } from '@testing-library/react';
 import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
 
 import { CostOptimizationDashboard } from './CostOptimizationDashboard';
@@ -213,10 +213,12 @@ describe('CostOptimizationDashboard', () => {
   });
 
   describe('Initial Loading', () => {
-    it('should show loading spinner initially', () => {
+    it('should show loading spinner initially', async () => {
       (costOptimizationApi.getDashboardData as any).mockImplementation(() => new Promise(() => {}));
 
-      render(<CostOptimizationDashboard />);
+      await act(async () => {
+        render(<CostOptimizationDashboard />);
+      });
 
       expect(screen.getByTestId('loading-spinner')).toBeInTheDocument();
       expect(screen.getByText('Loading...')).toBeInTheDocument();
@@ -225,7 +227,9 @@ describe('CostOptimizationDashboard', () => {
     it('should call API with default parameters', async () => {
       (costOptimizationApi.getDashboardData as any).mockResolvedValue(mockDashboardData);
 
-      render(<CostOptimizationDashboard />);
+      await act(async () => {
+        render(<CostOptimizationDashboard />);
+      });
 
       await waitFor(() => {
         expect(costOptimizationApi.getDashboardData).toHaveBeenCalledWith(30);
@@ -370,14 +374,18 @@ describe('CostOptimizationDashboard', () => {
     });
 
     it('should handle time range selection', async () => {
-      render(<CostOptimizationDashboard />);
+      await act(async () => {
+        render(<CostOptimizationDashboard />);
+      });
 
       await waitFor(() => {
         expect(screen.getByDisplayValue('30 Days')).toBeInTheDocument();
       });
 
-      const select = screen.getByDisplayValue('30 Days');
-      fireEvent.change(select, { target: { value: '7' } });
+      await act(async () => {
+        const select = screen.getByDisplayValue('30 Days');
+        fireEvent.change(select, { target: { value: '7' } });
+      });
 
       await waitFor(() => {
         expect(costOptimizationApi.getDashboardData).toHaveBeenCalledWith(7);
@@ -385,14 +393,18 @@ describe('CostOptimizationDashboard', () => {
     });
 
     it('should handle refresh button click', async () => {
-      render(<CostOptimizationDashboard />);
+      await act(async () => {
+        render(<CostOptimizationDashboard />);
+      });
 
       await waitFor(() => {
         expect(screen.getByText('Refresh')).toBeInTheDocument();
       });
 
-      const refreshButton = screen.getByText('Refresh');
-      fireEvent.click(refreshButton);
+      await act(async () => {
+        const refreshButton = screen.getByText('Refresh');
+        fireEvent.click(refreshButton);
+      });
 
       await waitFor(() => {
         expect(costOptimizationApi.getDashboardData).toHaveBeenCalledTimes(2);

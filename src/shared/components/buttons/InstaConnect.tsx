@@ -411,34 +411,30 @@ const PublishApproved: React.FC<PublishApprovedProps> = ({ stats, startDate, dur
   const navigate = useNavigate();
 
   const updatePostingDate = async (startDate: Dayjs) => {
-    try {
-      const endpointUrl = getServiceURL('content-gen');
-      // const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const endpointUrl = getServiceURL('content-gen');
+    // const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-      const formattedDate = dayjs(startDate).format('M/D/YYYY');
-      const response = await fetch(`${endpointUrl}/api/v1/campaign/updatePostingDate`, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${profile?.token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          campaign_id: id,
-          // timezone: userTimezone,
-          postingDate: formattedDate, // The new property you want to store
-        }),
-      });
+    const formattedDate = dayjs(startDate).format('M/D/YYYY');
+    const response = await fetch(`${endpointUrl}/api/v1/campaign/updatePostingDate`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${profile?.token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        campaign_id: id,
+        // timezone: userTimezone,
+        postingDate: formattedDate, // The new property you want to store
+      }),
+    });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.detail || 'Failed to update postingDate');
-      }
-
-      const data = await response.json();
-      return data;
-    } catch (_error) {
-      throw _error; // re-throw to let handlePublish catch it
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.detail || 'Failed to update postingDate');
     }
+
+    const data = await response.json();
+    return data;
   };
   useEffect(() => {
     const checkPublishedStatus = async () => {

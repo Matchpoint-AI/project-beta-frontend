@@ -4,8 +4,8 @@ import scrapeBrandWebsite from '../../brand/utils/scrapeBrandWebsite';
 // import { ConnectInstagram } from "./ConnectToInstagram";
 import { ScrapeWebsiteBtn } from '../../../components/ScrapeWebsiteBtn';
 import isUrl from 'is-url';
-import BusinessFormInput from '../../shared/components/inputs/BusinessFormInput';
-import ErrorToast from '../../shared/components/feedback/ErrorToast';
+import BusinessFormInput from '../../../shared/components/inputs/BusinessFormInput';
+import ErrorToast from '../../../shared/components/feedback/ErrorToast';
 
 export default function WebsiteScrapingForm() {
   const { businessInfo, setBusinessInfo } = useContext(BrandContext);

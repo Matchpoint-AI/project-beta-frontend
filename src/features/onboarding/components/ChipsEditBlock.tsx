@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
-import BrandDetailsInput from '../../shared/components/inputs/BrandDetailsInput';
-import PurpleButton from '../../shared/components/buttons/PurpleButton';
+import BrandDetailsInput from '../../../shared/components/inputs/BrandDetailsInput';
+import PurpleButton from '../../../shared/components/buttons/PurpleButton';
 // import { TbArrowBackUp } from "react-icons/tb";
 import { CampaignContext } from '../../campaign/context/CampaignContext';
 
@@ -65,7 +65,12 @@ export default function ChipsEditBlock({
         {values.map((v, i) => {
           return (
             <div key={i} className="flex items-center justify-between gap-[10px] mb-5">
-              <BrandDetailsInput value={v} onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(i, e.target.value)} />
+              <BrandDetailsInput
+                value={v}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  handleChange(i, e.target.value)
+                }
+              />
               <button type="button" onClick={() => handleRemove(i)}>
                 <img src="/src/assets/icons/remove_tag.svg" alt="remove tag" />
               </button>

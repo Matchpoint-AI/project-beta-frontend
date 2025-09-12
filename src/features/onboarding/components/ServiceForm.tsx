@@ -7,22 +7,22 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import Dropdown from '../../shared/components/ui/Dropdown';
+import Dropdown from '../../../shared/components/ui/Dropdown';
 import { CampaignContext } from '../../campaign/context/CampaignContext';
 import { BrandContext } from '../../brand/context/BrandContext';
 import FormsContainer from '../../../components/shared/FormsContainer';
 import WebsiteOwnership from '../../../components/WebsiteOwnership';
-import NextButton from '../../shared/components/buttons/NextButton';
-import BackButton from '../../shared/components/buttons/BackButton';
+import NextButton from '../../../shared/components/buttons/NextButton';
+import BackButton from '../../../shared/components/buttons/BackButton';
 import KeyFeatures from './KeyFeatures';
-import FormInputBox from '../../shared/components/inputs/FormInputBox';
-import { SparklesMessage } from '../../shared/components/ui/SparklesMessage';
-import ErrorToast from '../../shared/components/feedback/ErrorToast';
+import FormInputBox from '../../../shared/components/inputs/FormInputBox';
+import { SparklesMessage } from '../../../shared/components/ui/SparklesMessage';
+import ErrorToast from '../../../shared/components/feedback/ErrorToast';
 import { CircularProgress } from '@mui/material';
 import { useAuth } from '../../auth/context/AuthContext';
-import scrapeProductDefault from './scrapeProduct';
+import scrapeProductDefault from '../utils/scrapeProduct';
 
-import posthog from '../../helpers/posthog';
+import posthog from '../../../helpers/posthog';
 
 interface CampaignContextType {
   campaignInfo: {

@@ -106,7 +106,7 @@ const StepCampaignComponent: React.FC<StepCampaignProps> = ({
         }
         if (scraped) {
           features = scraped.product_features;
-          setCampaignInfo((prev: any) => ({
+          setCampaignInfo((prev: CampaignInfoType) => ({
             ...prev,
             product_features: features,
           }));

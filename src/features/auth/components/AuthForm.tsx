@@ -53,8 +53,8 @@ export default function AuthForm({ login = false, setAuthError }: AuthFormProps)
       }
 
       setAuthError('Verification email resent successfully!');
-    } catch (catchError) {
-      setAuthError(catchError instanceof Error ? catchError.message : 'An error occurred');
+    } catch (error) {
+      setAuthError(error instanceof Error ? error.message : 'An error occurred');
     } finally {
       setLoading(false);
     }
@@ -154,7 +154,7 @@ export default function AuthForm({ login = false, setAuthError }: AuthFormProps)
         }
       }
       setLoading(false);
-    } catch (_error) {
+    } catch (error) {
       setLoading(false);
       if (login) {
         const authError = _error as FirebaseError;
@@ -168,7 +168,7 @@ export default function AuthForm({ login = false, setAuthError }: AuthFormProps)
           setAuthError('Login failed. Please retry.');
         }
       } else {
-        if (_error === 'User already exists') {
+        if ((error as Error).message === 'User already exists') {
           setAuthError('Email already exists.');
         } else {
           setAuthError('Sign up failed. Please retry.');

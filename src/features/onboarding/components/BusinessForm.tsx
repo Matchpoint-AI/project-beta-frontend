@@ -3,12 +3,12 @@ import React, { FormEventHandler, useContext, useEffect, useState } from 'react'
 import FormsContainer from '../../../components/shared/FormsContainer';
 import { BrandContext } from '../../brand/context/BrandContext';
 import WebsiteOwnership from '../../../components/WebsiteOwnership';
-import NextButton from '../../shared/components/buttons/NextButton';
+import NextButton from '../../../shared/components/buttons/NextButton';
 import IndustryVertical from './IndustryVertical';
 import WebsiteScrapingForm from './WebsiteScrapingForm';
 import BrandDetails from '../../brand/components/BrandDetails';
 // import { ConnectInstagram } from "../ConnectToInstagram";
-import InstaConnect from '../../shared/components/buttons/InstaConnect';
+import InstaConnect from '../../../shared/components/buttons/InstaConnect';
 import type { Selectable } from '../../brand/context/BrandContext';
 
 export default function BusinessForm({ handleNext }: { handleNext: () => void }) {

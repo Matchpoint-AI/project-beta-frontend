@@ -37,6 +37,8 @@ interface Campaign {
       postingFrequency: number;
       deliveryDay: string;
       summary: string;
+      frequency: number;
+      durationNum: number;
     };
   };
 }

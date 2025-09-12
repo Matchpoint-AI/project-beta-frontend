@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { CampaignContext } from '../context/CampaignContext';
+import { CampaignContext, CampaignInfoType } from '../context/CampaignContext';
 
 interface Props {
   title: string;
@@ -8,7 +8,7 @@ interface Props {
 }
 
 const CampaignObjective: React.FC<Props> = ({ title, objective, onEdit }) => {
-  const { campaignInfo }: any = useContext(CampaignContext);
+  const { campaignInfo } = useContext(CampaignContext) as { campaignInfo: CampaignInfoType };
 
   return (
     <div className="flex items-center gap-4 mb-2 p-4 bg-gray-100 rounded-md">
@@ -25,7 +25,7 @@ const CampaignObjective: React.FC<Props> = ({ title, objective, onEdit }) => {
         onClick={onEdit}
         className="w-12 h-5 text-white bg-[#5145CD] text-xs p-2 flex justify-center items-center rounded-sm hover:bg-[#4338CA] focus:outline-none focus:ring-2 focus:ring-[#5145CD] focus:ring-opacity-50"
       >
-        {campaignInfo.campaign_brief !== true ? 'EDIT' : 'VIEW'}
+        {campaignInfo?.campaign_brief !== true ? 'EDIT' : 'VIEW'}
         {/* EDIT */}
       </button>
     </div>
