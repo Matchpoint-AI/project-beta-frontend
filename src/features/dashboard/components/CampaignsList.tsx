@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
 import EmptyDashboard from './EmptyDashboard';
 import Dropdown from '../../../shared/components/ui/Dropdown';
-import PromotionComponent from '../../../components/PromotionComponent';
+import PromotionComponent from './PromotionComponent';
 import { useNavigate } from 'react-router-dom';
-import { CampaignContext } from '../../../context/CampaignContext';
+import { CampaignContext } from '../../../features/campaign/context/CampaignContext';
 import { BrandContext } from '../../brand/context/BrandContext';
 import handleNavigate from '../../../helpers/handleNavigate';
 import { useAuth } from '../../auth/context/AuthContext';

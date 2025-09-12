@@ -6,7 +6,7 @@ import { BrandContext } from '../../features/brand/context/BrandContext';
 import CustomComponent from '../../features/campaign/components/CustomComponent';
 import BrandForm from '../../features/brand/components/BrandForm';
 import ReviewForm from '../onboard/ReviewForm';
-import { CampaignContext } from '../../context/CampaignContext';
+import { CampaignContext } from '../../campaign/context/CampaignContext';
 import OnboardStepsBar from '../onboard/OnboardStepsBar';
 import { useAuth } from '../../features/auth/context/AuthContext';
 import { getServiceURL } from '../../helpers/getServiceURL';

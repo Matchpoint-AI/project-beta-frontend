@@ -5,7 +5,7 @@ import { BrowserRouter } from 'react-router-dom';
 import CampaignsList from './CampaignsList';
 import { AuthContext } from '../../auth/context/AuthContext';
 import { BrandContext } from '../../brand/context/BrandContext';
-import { CampaignContext } from '../../../context/CampaignContext';
+import { CampaignContext } from '../../../features/campaign/context/CampaignContext';
 
 // Mock the modules
 vi.mock('../../../helpers/handleNavigate', () => ({

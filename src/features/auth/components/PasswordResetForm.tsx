@@ -1,12 +1,12 @@
 import { verifyPasswordResetCode, confirmPasswordReset } from 'firebase/auth';
 import React, { ChangeEventHandler, FormEventHandler, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { useAuthentication } from '../lib/firebase';
+import { useAuthentication } from '../../../lib/firebase';
 import { useNavigate } from 'react-router-dom';
 import { CircularProgress } from '@mui/material';
 import { FirebaseError } from 'firebase/app';
-import posthog from '../helpers/posthog';
-import { useAuth } from '../features/auth/context/AuthContext';
+import posthog from '../../../helpers/posthog';
+import { useAuth } from '../context/AuthContext';
 
 interface ToastState {
   open: boolean;

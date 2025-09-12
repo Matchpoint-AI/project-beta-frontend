@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { CampaignContext, CampaignInfoType } from '../../../context/CampaignContext';
+import { CampaignContext, CampaignInfoType } from '../context/CampaignContext';
 import { BrandContext } from '../../brand/context/BrandContext';
 import { useNavigate } from 'react-router-dom';
 // import { getAuth } from "firebase/auth";
@@ -8,7 +8,7 @@ import { useAuth } from '../../auth/context/AuthContext';
 import { getServiceURL } from '../../../helpers/getServiceURL';
 import { CircularProgress } from '@mui/material';
 import handleNavigate from '../../../helpers/handleNavigate';
-import scrapeProduct from './onboard/scrapeProduct';
+import scrapeProduct from '../../onboarding/utils/scrapeProduct';
 
 interface StepCampaignProps {
   title?: string;
@@ -19,8 +19,8 @@ interface StepCampaignProps {
   globalStep: number;
 }
 
-// Extend CampaignInfoType for local use - using any to avoid type conflicts
-interface ExtendedCampaignInfoType extends Omit<CampaignInfoType, 'duration'> {
+// Extend CampaignInfoType for local use
+interface ExtendedCampaignInfoType extends CampaignInfoType {
   campaign_id?: string;
   productDescription?: string;
   productLink?: string;
@@ -29,7 +29,7 @@ interface ExtendedCampaignInfoType extends Omit<CampaignInfoType, 'duration'> {
   postingFrequency?: number;
   deliveryDay?: string;
   summary?: string;
-  duration?: number | string;
+  duration?: number;
 }
 
 // Add Product type for products array
@@ -106,7 +106,7 @@ const StepCampaignComponent: React.FC<StepCampaignProps> = ({
         }
         if (scraped) {
           features = scraped.product_features;
-          setCampaignInfo((prev: any) => ({
+          setCampaignInfo((prev: ExtendedCampaignInfoType) => ({
             ...prev,
             product_features: features,
           }));

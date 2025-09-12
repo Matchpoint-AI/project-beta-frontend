@@ -10,10 +10,10 @@ import { render, screen, waitFor, fireEvent, cleanup } from '@testing-library/re
 import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
 
 import { CostOptimizationDashboard } from './CostOptimizationDashboard';
-import { costOptimizationApi } from '../../api/costOptimizationApi';
+import { costOptimizationApi } from '../api/costOptimizationApi';
 
 // Mock the API module
-vi.mock('../../api/costOptimizationApi', () => ({
+vi.mock('../api/costOptimizationApi', () => ({
   costOptimizationApi: {
     getDashboardData: vi.fn(),
   },
@@ -39,7 +39,7 @@ vi.mock('react-chartjs-2', () => ({
 }));
 
 // Mock UI components
-vi.mock('../ui/LoadingSpinner', () => ({
+vi.mock('../../../components/ui/LoadingSpinner', () => ({
   LoadingSpinner: vi.fn(({ size }) => (
     <div data-testid="loading-spinner" data-size={size}>
       Loading...
@@ -47,7 +47,7 @@ vi.mock('../ui/LoadingSpinner', () => ({
   )),
 }));
 
-vi.mock('../ui/Card', () => ({
+vi.mock('../../../components/ui/Card', () => ({
   Card: vi.fn(({ children, className, ...props }) => (
     <div data-testid="card" className={className} {...props}>
       {children}
@@ -55,7 +55,7 @@ vi.mock('../ui/Card', () => ({
   )),
 }));
 
-vi.mock('../ui/Badge', () => ({
+vi.mock('../../../components/ui/Badge', () => ({
   Badge: vi.fn(({ children, variant }) => (
     <span data-testid="badge" data-variant={variant}>
       {children}
@@ -63,7 +63,7 @@ vi.mock('../ui/Badge', () => ({
   )),
 }));
 
-vi.mock('../ui/Button', () => ({
+vi.mock('../../../components/ui/Button', () => ({
   Button: vi.fn(({ children, onClick, variant, size, ...props }) => (
     <button
       data-testid="button"

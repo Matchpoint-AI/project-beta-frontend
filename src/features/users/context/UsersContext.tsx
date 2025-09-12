@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { useAuth } from '../features/auth/context/AuthContext';
-import { getServiceURL } from '../helpers/getServiceURL';
+import { useAuth } from '../../auth/context/AuthContext';
+import { getServiceURL } from '../../../helpers/getServiceURL';
 
 type User = {
   id: string;

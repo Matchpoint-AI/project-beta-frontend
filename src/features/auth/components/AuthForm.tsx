@@ -13,7 +13,7 @@ import { Link } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import { getServiceURL } from '../../../helpers/getServiceURL';
 import { FirebaseError } from 'firebase/app';
-import registerUser from '../../../helpers/registerUser';
+import registerUser from '../../users/utils/registerUser';
 import { CircularProgress } from '@mui/material';
 
 interface AuthFormProps {
@@ -54,7 +54,7 @@ export default function AuthForm({ login = false, setAuthError }: AuthFormProps)
 
       setAuthError('Verification email resent successfully!');
     } catch (_error) {
-      setAuthError((_error as Error).message);
+      setAuthError(error.message);
     } finally {
       setLoading(false);
     }
@@ -157,7 +157,7 @@ export default function AuthForm({ login = false, setAuthError }: AuthFormProps)
     } catch (_error) {
       setLoading(false);
       if (login) {
-        const authError = _error as FirebaseError;
+        const authError = error as FirebaseError;
         if (authError.code === 'auth/invalid-credential') {
           setAuthError('Invalid username or password.');
         } else if (authError.code === 'auth/too-many-requests') {
@@ -168,7 +168,7 @@ export default function AuthForm({ login = false, setAuthError }: AuthFormProps)
           setAuthError('Login failed. Please retry.');
         }
       } else {
-        if (((_error as Error).message || _error) === 'User already exists') {
+        if (error === 'User already exists') {
           setAuthError('Email already exists.');
         } else {
           setAuthError('Sign up failed. Please retry.');

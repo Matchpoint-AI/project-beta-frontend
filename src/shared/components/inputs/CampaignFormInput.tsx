@@ -1,7 +1,7 @@
 import React, { useContext, ChangeEventHandler } from 'react';
 import FormInputBox from './FormInputBox';
 import ClearIcon from '@mui/icons-material/Clear';
-import { CampaignContext } from '../../../context/CampaignContext';
+import { CampaignContext } from '../../../features/campaign/context/CampaignContext';
 
 interface CampaignFormInputProps {
   name: string;

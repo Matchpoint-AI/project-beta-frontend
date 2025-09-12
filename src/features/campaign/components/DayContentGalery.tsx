@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Post } from '../../../pages/UserDataPage';
+import { Post } from '../../users/pages/UserDataPage';
 import { FaCheck } from 'react-icons/fa';
 
 function PostCard({ post, num }: { post: Post; num: number }) {

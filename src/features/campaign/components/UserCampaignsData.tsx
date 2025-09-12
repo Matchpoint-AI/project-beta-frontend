@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { CampaignData } from '../hooks/useFetchUserData';
+import { CampaignData } from '../../users/hooks/useFetchUserData';
 import { CircularProgress } from '@mui/material';
 
 function SecondaryButton({

@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import Sidebar from '../components/shared/Sidebar';
+import Sidebar from '../../../components/shared/Sidebar';
 import useFetchUserData from '../hooks/useFetchUserData';
-import UserDataBlocks from '../components/userdata/UserDataBlocks';
+import UserDataBlocks from '../components/UserDataBlocks';
 import { CircularProgress } from '@mui/material';
 import { RiErrorWarningLine } from 'react-icons/ri';
-import { getServiceURL } from '../helpers/getServiceURL';
-import { CampaignContentWin, CampaignThreadWin } from '../features/campaign';
-import { useAuth } from '../features/auth/context/AuthContext';
-import useFetchThreadMessages from '../hooks/useFetchThreadMessages';
+import { getServiceURL } from '../../../helpers/getServiceURL';
+import { CampaignContentWin, CampaignThreadWin } from '../../campaign';
+import { useAuth } from '../../auth/context/AuthContext';
+import useFetchThreadMessages from '../../../hooks/useFetchThreadMessages';
 
 export type Post = {
   text: string;
@@ -22,7 +22,8 @@ export type Messages = {
 };
 
 export default function UserDataPage() {
-  const [data, loading, _error, handleRetry] = useFetchUserData();
+  const [data, loading, handleRetry] = useFetchUserData();
+  const _error = false;
   const { profile } = useAuth();
   const [openContentWin, setOpenContentWin] = useState(false);
   const [content, setContent] = useState<Post[][][]>([]);

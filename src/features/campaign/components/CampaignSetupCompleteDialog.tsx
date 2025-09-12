@@ -7,7 +7,7 @@ import Dialog from '@mui/material/Dialog';
 
 import { useAuth } from '../../../features/auth/context/AuthContext';
 import { BrandContext } from '../../brand/context/BrandContext';
-import { CampaignContext } from '../../../context/CampaignContext';
+import { CampaignContext } from '../../../features/campaign/context/CampaignContext';
 import { getServiceURL } from '../../../helpers/getServiceURL';
 import handleNavigate from '../../../helpers/handleNavigate';
 import posthog from '../../../helpers/posthog';

@@ -7,8 +7,11 @@ import { displayDuration, getPostingSchedule } from '../../../helpers/calculateT
 import { CampaignHeader, ButtonGroup, ApprovePopup, TabWrapper } from '../../../features/campaign';
 import { capitalizeFirstLetterOfEachWord } from '../../../helpers/formatters';
 import { trackContentReview, trackCampaignPublish } from '../../../helpers/analytics';
-import { CampaignContext, CampaignInfoType } from '../../../context/CampaignContext';
-import type { Campaign } from '../components/TabWrapper';
+import {
+  CampaignContext,
+  CampaignInfoType,
+} from '../../../features/campaign/context/CampaignContext';
+import type { Campaign } from '../../../components/TabWrapper';
 import handleNavigate from '../../../helpers/handleNavigate';
 
 const CampaignContent = () => {
@@ -180,7 +183,7 @@ const CampaignContent = () => {
           }
         }
       } catch (_error) {
-        setError((_error as any) instanceof Error ? (_error as any).message : 'Failed to load campaign data');
+        setError(error instanceof Error ? error.message : 'Failed to load campaign data');
         setLoading(false);
       }
     };
@@ -226,7 +229,7 @@ const CampaignContent = () => {
 
   const navigateToCampaignView = () => {
     const data = campaignContent?.campaign_data?.campaign_variables;
-    if (data) {
+    if (_data) {
       setCampaignInfo((prev) => ({
         ...prev,
         summary: data?.summary,
@@ -251,7 +254,7 @@ const CampaignContent = () => {
         deliveryDay: data?.deliveryDay,
         campaign_id: campaignContent?.campaign_id,
         campaign_brief: true,
-        created_at: (campaignContent as any)?.timestamp,
+        created_at: campaignContent?.timestamp,
       }));
       handleNavigate(profile?.id ?? '', '/campaign', navigate);
     }

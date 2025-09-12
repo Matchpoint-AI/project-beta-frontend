@@ -1,7 +1,7 @@
 import React from 'react';
-import { UserData } from '../../hooks/useFetchUserData';
+import { UserData } from '../hooks/useFetchUserData';
 import UserBrandData from './UserBrandData';
-import UserCampaignsData from '../../features/campaign/components/UserCampaignsData';
+import UserCampaignsData from '../../campaign/components/UserCampaignsData';
 
 interface UserDataBlocksProps {
   data: UserData;
@@ -39,7 +39,7 @@ export default function UserDataBlocks({ data, viewContent, viewThread }: UserDa
           {data.campaigns.map((c, i) => (
             <UserCampaignsData
               key={i}
-              campaign={c as any}
+              campaign={c}
               viewContent={viewContent}
               viewThread={viewThread}
             />

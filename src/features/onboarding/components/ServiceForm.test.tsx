@@ -2,8 +2,13 @@ import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { vi, describe, it, expect, beforeEach, beforeAll } from 'vitest';
 import ServiceForm from './ServiceForm';
+<<<<<<< HEAD:src/components/onboard/ServiceForm.test.tsx
 import { BrandContext, type BusinessInfo } from '../../features/brand/context/BrandContext';
 import { CampaignContext } from '../../context/CampaignContext';
+=======
+import { BrandContext } from '../../features/brand/context/BrandContext';
+import { CampaignContext } from '../../campaign/context/CampaignContext';
+>>>>>>> origin/main:src/features/onboarding/components/ServiceForm.test.tsx
 
 
 // Create mock function for scrapeProduct

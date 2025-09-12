@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { vi } from 'vitest';
 import PurposeForm from './PurposeForm';
-import { CampaignContext } from '../../context/CampaignContext';
+import { CampaignContext } from '../../features/campaign/context/CampaignContext';
 import { BrandContext } from '../../features/brand/context/BrandContext';
 import { AuthContext } from '../../features/auth/context/AuthContext';
 

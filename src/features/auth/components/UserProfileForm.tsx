@@ -1,6 +1,6 @@
 import React, { FormEventHandler, useCallback, useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import updateUserProfile from '../../../helpers/updateUserProfile';
+import updateUserProfile from '../../users/utils/updateUserProfile';
 import ErrorToast from '../../../shared/components/feedback/ErrorToast';
 import { CircularProgress } from '@mui/material';
 import EditProfileInput from '../../../shared/components/inputs/EditProfileInput';
