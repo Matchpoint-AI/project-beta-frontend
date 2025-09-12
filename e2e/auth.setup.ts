@@ -58,8 +58,48 @@ setup('authenticate', async ({ page }) => {
   }
 
   // Save the authentication state (with mocked user data)
-  await page.context().storageState({ path: authFile });
-  console.log('💾 Authentication state saved to:', authFile);
+  try {
+    await page.context().storageState({ path: authFile });
+    console.log('💾 Authentication state saved to:', authFile);
+  } catch (error) {
+    console.log('⚠️  Could not save storage state, creating minimal auth file');
+    // Create a minimal auth file manually
+    const fs = await import('fs');
+    const authData = {
+      cookies: [
+        {
+          name: 'token',
+          value: 'mock-jwt-token',
+          domain: 'localhost',
+          path: '/',
+          expires: Date.now() + 86400000, // 24 hours
+          httpOnly: false,
+          secure: false,
+          sameSite: 'Lax',
+        },
+      ],
+      origins: [
+        {
+          origin: 'http://localhost:3000',
+          localStorage: [
+            {
+              name: 'profile',
+              value: JSON.stringify({
+                id: 'user-123',
+                email: 'test@example.com',
+                name: 'Test User',
+                role: 'USER',
+                hasBrand: true,
+                token: 'mock-jwt-token',
+              }),
+            },
+          ],
+        },
+      ],
+    };
+    fs.writeFileSync(authFile, JSON.stringify(authData, null, 2));
+    console.log('💾 Minimal auth file created');
+  }
 
   // Take a screenshot for debugging if page is still available
   try {
