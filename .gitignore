@@ -27,6 +27,11 @@ yarn-error.log*
 
 # vite cache
 .vite_cache/
-*.js
-*.js.map
-*.d.ts
+
+# TypeScript compilation artifacts
+# Only ignore JS files that have corresponding TS/TSX sources
+src/**/*.js
+src/**/*.js.map
+# Keep declaration files that are intentionally created
+!src/**/*.config.js
+!src/**/*.setup.js
