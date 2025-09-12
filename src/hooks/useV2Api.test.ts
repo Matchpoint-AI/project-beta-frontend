@@ -41,6 +41,9 @@ describe('useV2Api', () => {
   beforeEach(() => {
     // Arrange - Reset all mocks before each test
     vi.clearAllMocks();
+    
+    // Reset Firebase auth mock
+    mockUser.getIdToken.mockResolvedValue(mockToken);
     (getAuth as any).mockReturnValue(mockAuth);
     (initializeV2Api as any).mockResolvedValue(undefined);
   });
@@ -289,7 +292,7 @@ describe('useV2Api', () => {
       });
 
       // Assert
-      expect(campaignApiV2.getUserCampaigns).toHaveBeenCalledWith(mockToken);
+      expect(campaignApiV2.getUserCampaigns).toHaveBeenCalledWith(mockToken, undefined);
       expect(campaigns).toEqual(mockCampaigns);
     });
 

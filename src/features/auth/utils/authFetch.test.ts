@@ -117,10 +117,19 @@ describe('authFetch', () => {
     it('should handle storage access errors gracefully', () => {
       // Arrange
       const originalLocalStorage = global.localStorage;
-      Object.defineProperty(global, 'localStorage', {
-        get: () => {
+      const mockStorage = {
+        getItem: vi.fn(() => {
           throw new Error('Storage access denied');
-        },
+        }),
+        setItem: vi.fn(),
+        removeItem: vi.fn(),
+        clear: vi.fn(),
+        length: 0,
+        key: vi.fn(),
+      };
+      
+      Object.defineProperty(global, 'localStorage', {
+        value: mockStorage,
         configurable: true,
       });
 
@@ -140,8 +149,15 @@ describe('authFetch', () => {
     it('should handle undefined window object', () => {
       // Arrange
       const originalWindow = global.window;
+      const originalLocalStorage = global.localStorage;
+      const originalSessionStorage = global.sessionStorage;
+      
       // @ts-expect-error - Testing without window object
       delete global.window;
+      // @ts-expect-error - Testing without storage
+      delete global.localStorage;
+      // @ts-expect-error - Testing without storage
+      delete global.sessionStorage;
 
       // Act
       const token = getAuthToken();
@@ -151,6 +167,8 @@ describe('authFetch', () => {
 
       // Cleanup
       global.window = originalWindow;
+      global.localStorage = originalLocalStorage;
+      global.sessionStorage = originalSessionStorage;
     });
   });
 
