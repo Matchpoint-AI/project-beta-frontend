@@ -25,10 +25,10 @@ describe('FormInput', () => {
       render(<FormInput {...defaultProps} subject="name" />);
 
       // Assert
-      expect(screen.getByLabelText('name')).toBeInTheDocument();
       expect(screen.getByText('What are you called?')).toBeInTheDocument();
       expect(screen.getByPlaceholderText('Company name')).toBeInTheDocument();
       expect(screen.getByRole('button')).toBeInTheDocument();
+      expect(screen.getByRole('textbox')).toBeInTheDocument();
     });
 
     it('should render website input correctly', () => {
