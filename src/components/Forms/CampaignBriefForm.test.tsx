@@ -23,7 +23,7 @@ interface FormsContainerProps {
   className?: string;
 }
 
-vi.mock('../shared/FormsContainer', () => ({
+vi.mock('../../shared/components/layout/FormsContainer', () => ({
   default: ({ children, className }: FormsContainerProps) => (
     <div className={className} data-testid="forms-container">
       {children}
@@ -46,12 +46,18 @@ vi.mock('../../shared/components/buttons/BackButton', () => ({
 
 // Mock the ApproveButton component
 interface ApproveButtonProps {
-  onClick: () => void;
+  double: boolean;
+  handleApproveAll: () => void;
+  loading: boolean;
 }
 
 vi.mock('../../shared/components/buttons/ApproveButton', () => ({
-  default: ({ onClick }: ApproveButtonProps) => (
-    <button onClick={onClick} data-testid="approve-button">
+  default: ({ double, handleApproveAll, loading }: ApproveButtonProps) => (
+    <button 
+      onClick={handleApproveAll} 
+      data-testid="approve-button"
+      disabled={double || loading}
+    >
       Approve
     </button>
   ),
@@ -64,7 +70,7 @@ interface CampaignSetupCompleteDialogProps {
   setCurrentStep: (step: number) => void;
 }
 
-vi.mock('../campaign/CampaignSetupCompleteDialog', () => ({
+vi.mock('../../features/campaign/components/CampaignSetupCompleteDialog', () => ({
   default: ({
     open,
     onClose,
@@ -82,7 +88,7 @@ interface CustomDialogProps {
   onClose: () => void;
 }
 
-vi.mock('../campaign/CustomDialog', () => ({
+vi.mock('../../features/campaign/components/CustomDialog', () => ({
   default: ({ isOpen, onClose }: CustomDialogProps) =>
     isOpen ? (
       <div data-testid="custom-dialog" onClick={onClose}>
@@ -96,7 +102,7 @@ interface CampaignBriefTimingBlockProps {
   children: React.ReactNode;
 }
 
-vi.mock('../CampaignBriefTimingBlock', () => ({
+vi.mock('../../features/campaign/components/CampaignBriefTimingBlock', () => ({
   default: ({ title, children }: CampaignBriefTimingBlockProps) => (
     <div data-testid="timing-block">
       <h3>{title}</h3>
@@ -110,7 +116,7 @@ interface CampaignDetailsBlockProps {
   text: string;
 }
 
-vi.mock('../campaign/CampaignDetailsBlock', () => ({
+vi.mock('../../features/campaign/components/CampaignDetailsBlock', () => ({
   default: ({ title, text }: CampaignDetailsBlockProps) => (
     <div data-testid="campaign-details-block">
       <h4>{title}</h4>
@@ -119,21 +125,37 @@ vi.mock('../campaign/CampaignDetailsBlock', () => ({
   ),
 }));
 
-vi.mock('../campaign/CampaignDetails', () => ({
+vi.mock('../../features/campaign/components/CampaignDetails', () => ({
   default: () => <div data-testid="campaign-details" />,
 }));
 
-vi.mock('../CampaignSchedule', () => ({
+vi.mock('../../features/campaign/components/CampaignSchedule', () => ({
   default: () => <div data-testid="campaign-schedule" />,
 }));
 
 // Mock dayjs
 vi.mock('dayjs', () => ({
   default: (_date?: string | Date | number) => ({
-    format: (_format: string) => '01/01/24',
+    format: (format: string) => {
+      if (format === 'MM/DD/YY') return '01/01/24';
+      if (format === 'MMMM') return 'January';
+      return '01/01/24';
+    },
     add: () => ({
-      format: (_format: string) => '01/15/24',
+      format: (format: string) => {
+        if (format === 'MM/DD/YY') return '01/15/24';
+        if (format === 'MMMM') return 'January';
+        return '01/15/24';
+      },
+      get: (unit: string) => {
+        if (unit === 'D') return 1;
+        return 1;
+      },
     }),
+    get: (unit: string) => {
+      if (unit === 'D') return 1;
+      return 1;
+    },
   }),
 }));
 
@@ -168,6 +190,7 @@ describe('CampaignBriefForm', () => {
     start_date: '2024-01-01',
     durationNum: 4,
     logo: 'test-logo.png',
+    products: 'Test Products',
   };
 
   const mockCampaignInfo = {
@@ -176,9 +199,15 @@ describe('CampaignBriefForm', () => {
     duration: '4 weeks',
     durationNum: 4,
     startDate: '2024-01-01',
+    start_date: '2024-01-01',
     product: 'Test Product',
     campaign_brief: false,
     campaign_type: 'awareness',
+    frequency: 1,
+    audienceGender: 'all',
+    audienceInterests: 'technology',
+    product_features: ['Feature 1', 'Feature 2'],
+    summary: 'Test campaign summary',
   };
 
   const renderWithProviders = (component: React.ReactElement) => {
@@ -214,7 +243,7 @@ describe('CampaignBriefForm', () => {
             ],
           },
         }),
-    }) as unknown as jest.Mock;
+    }) as unknown as vi.Mock;
   });
 
   it('renders campaign brief form correctly', () => {
@@ -233,7 +262,8 @@ describe('CampaignBriefForm', () => {
     expect(screen.getByText('Test Campaign')).toBeInTheDocument();
   });
 
-  it('calls parent handleApprove when approve button is clicked', () => {
+  it('calls parent handleApprove when approve button is clicked', async () => {
+    // Arrange
     renderWithProviders(
       <CampaignBriefForm
         setCurrentStep={mockSetCurrentStep}
@@ -244,14 +274,19 @@ describe('CampaignBriefForm', () => {
       />
     );
 
+    // Act
     const approveButton = screen.getByTestId('approve-button');
     fireEvent.click(approveButton);
 
-    // Should call the parent handleApprove function
+    // Wait for any async operations to complete
+    await screen.findByTestId('campaign-setup-complete-dialog');
+
+    // Assert - Should call the parent handleApprove function
     expect(mockHandleApprove).toHaveBeenCalled();
   });
 
   it('calls handleBack when back button is clicked', () => {
+    // Arrange
     renderWithProviders(
       <CampaignBriefForm
         setCurrentStep={mockSetCurrentStep}
@@ -262,13 +297,16 @@ describe('CampaignBriefForm', () => {
       />
     );
 
+    // Act
     const backButton = screen.getByTestId('back-button');
     fireEvent.click(backButton);
 
+    // Assert
     expect(mockHandleBack).toHaveBeenCalled();
   });
 
-  it('shows campaign setup complete dialog after approval', () => {
+  it('shows campaign setup complete dialog after approval', async () => {
+    // Arrange
     renderWithProviders(
       <CampaignBriefForm
         setCurrentStep={mockSetCurrentStep}
@@ -279,14 +317,17 @@ describe('CampaignBriefForm', () => {
       />
     );
 
+    // Act
     const approveButton = screen.getByTestId('approve-button');
     fireEvent.click(approveButton);
 
-    // Should show the campaign setup complete dialog
+    // Assert - Should show the campaign setup complete dialog (wait for it to appear)
+    await screen.findByTestId('campaign-setup-complete-dialog');
     expect(screen.getByTestId('campaign-setup-complete-dialog')).toBeInTheDocument();
   });
 
   it('displays campaign details correctly', () => {
+    // Arrange & Act
     renderWithProviders(
       <CampaignBriefForm
         setCurrentStep={mockSetCurrentStep}
@@ -297,16 +338,16 @@ describe('CampaignBriefForm', () => {
       />
     );
 
-    // Should display the brand name
+    // Assert - Should display the brand name
     expect(screen.getByText('Test Business')).toBeInTheDocument();
 
-    // Should display the campaign name
+    // Assert - Should display the campaign name
     expect(screen.getByText('Test Campaign')).toBeInTheDocument();
 
-    // Should display timing blocks
+    // Assert - Should display timing blocks
     expect(screen.getAllByTestId('timing-block')).toHaveLength(2);
 
-    // Should display campaign details block for the product
-    expect(screen.getByTestId('campaign-details-block')).toBeInTheDocument();
+    // Assert - Should display campaign details blocks (there can be multiple)
+    expect(screen.getAllByTestId('campaign-details-block')).toHaveLength(2);
   });
 });
