@@ -67,7 +67,7 @@ const AudienceForm = ({ handleNext, handleBack, review = false }: AudienceFormPr
     })
       .then((response) => response.json())
       .then((_data) => {
-        const { choices } = data.response;
+        const { choices } = _data.response;
         const { content } = choices[0].message;
         const arrays = content.match(/\[.*?\]/g);
         if (arrays && arrays.length === 2) {

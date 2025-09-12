@@ -30,7 +30,7 @@ type Week = Day[];
 
 export const structureData = (data: Record<string, Record<string, unknown>>): Week[] => {
   // Transform the object into an array of weeks
-  return Object.keys(_data)
+  return Object.keys(data)
     .sort()
     .map((weekKey) => {
       const weekData = data[weekKey];

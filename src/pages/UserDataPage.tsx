@@ -22,7 +22,7 @@ export type Messages = {
 };
 
 export default function UserDataPage() {
-  const [data, loading, _error, handleRetry] = useFetchUserData();
+  const [data, loading, __error, handleRetry] = useFetchUserData();
   const { profile } = useAuth();
   const [openContentWin, setOpenContentWin] = useState(false);
   const [content, setContent] = useState<Post[][][]>([]);
@@ -56,14 +56,14 @@ export default function UserDataPage() {
             <h1 className="text-2xl font-semibold leading-9 text-gradient">Fetching user data</h1>
           </div>
         )}
-        {!loading && error && (
+        {!loading && _error && (
           <div className="w-full min-h-screen flex flex-col gap-5 justify-center items-center">
             <RiErrorWarningLine size={64} color="#F05252" />
             <h1 className="font-medium md:text-[42px] sm:text-[32px] text-[28px] text-center text-[#30175A]">
               Unexpected Error
             </h1>
             <p className="text-[#30175A] md:text-lg text-base text-center max-w-[600px]">
-              Sorry, unexpected error happend while fetching user data
+              Sorry, unexpected _error happend while fetching user data
               <br />
               Please retry.
             </p>
@@ -75,7 +75,7 @@ export default function UserDataPage() {
             </button>
           </div>
         )}
-        {!loading && !error && (
+        {!loading && !_error && (
           <div className="md:ml-[80px] flex-grow flex flex-col gap-8 p-8 md:mt-8 mt-[80px]">
             <UserDataBlocks
               data={data!}

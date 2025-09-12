@@ -139,13 +139,13 @@ export async function fetchCostOptimizationData(
     const data = await response.json();
     return transformDashboardData(data);
   } catch (_error) {
-    if (error instanceof CostOptimizationApiError) {
-      throw error;
+    if (_error instanceof CostOptimizationApiError) {
+      throw _error;
     }
     throw new CostOptimizationApiError(
-      `Error fetching cost optimization data: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      `Error fetching cost optimization data: ${_error instanceof Error ? _error.message : 'Unknown error'}`,
       undefined,
-      error
+      _error
     );
   }
 }
@@ -180,13 +180,13 @@ export async function trackApiUsage(usageData: TrackUsageData): Promise<void> {
       );
     }
   } catch (_error) {
-    if (error instanceof CostOptimizationApiError) {
-      throw error;
+    if (_error instanceof CostOptimizationApiError) {
+      throw _error;
     }
     throw new CostOptimizationApiError(
-      `Error tracking API usage: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      `Error tracking API usage: ${_error instanceof Error ? _error.message : 'Unknown error'}`,
       undefined,
-      error
+      _error
     );
   }
 }
@@ -233,13 +233,13 @@ export async function fetchModelComparison(
 
     return await response.json();
   } catch (_error) {
-    if (error instanceof CostOptimizationApiError) {
-      throw error;
+    if (_error instanceof CostOptimizationApiError) {
+      throw _error;
     }
     throw new CostOptimizationApiError(
-      `Error fetching model comparison: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      `Error fetching model comparison: ${_error instanceof Error ? _error.message : 'Unknown error'}`,
       undefined,
-      error
+      _error
     );
   }
 }
@@ -282,13 +282,13 @@ export async function exportCostData(startDate?: string, endDate?: string): Prom
 
     return await response.blob();
   } catch (_error) {
-    if (error instanceof CostOptimizationApiError) {
-      throw error;
+    if (_error instanceof CostOptimizationApiError) {
+      throw _error;
     }
     throw new CostOptimizationApiError(
-      `Error exporting cost data: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      `Error exporting cost data: ${_error instanceof Error ? _error.message : 'Unknown error'}`,
       undefined,
-      error
+      _error
     );
   }
 }
@@ -329,13 +329,13 @@ export async function updateOptimizationSettings(settings: {
       );
     }
   } catch (_error) {
-    if (error instanceof CostOptimizationApiError) {
-      throw error;
+    if (_error instanceof CostOptimizationApiError) {
+      throw _error;
     }
     throw new CostOptimizationApiError(
-      `Error updating optimization settings: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      `Error updating optimization settings: ${_error instanceof Error ? _error.message : 'Unknown error'}`,
       undefined,
-      error
+      _error
     );
   }
 }

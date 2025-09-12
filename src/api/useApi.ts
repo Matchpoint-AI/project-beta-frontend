@@ -53,7 +53,7 @@ export default function useApi<T = unknown>(
       const response = await apiHandler(action, profile.token);
       dispatch({ type: 'FETCH_SUCCESS', payload: response });
     } catch (_error) {
-      dispatch({ type: 'FETCH_FAILURE', payload: error });
+      dispatch({ type: 'FETCH_FAILURE', payload: _error });
     }
   }, [action.type, apiHandler, profile?.token]);
 

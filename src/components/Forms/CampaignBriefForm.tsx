@@ -103,7 +103,7 @@ Get ${campaignInfo?.audienceGender} who are interested in ${
     })
       .then((response) => response.json())
       .then((_data) => {
-        const { choices } = data.response;
+        const { choices } = _data.response;
         const { content } = choices[0].message;
         setCampaignSummary(content);
         setCampaignInfo((prev: any) => ({ ...prev, summary: content }));
