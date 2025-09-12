@@ -78,6 +78,11 @@ export const CampaignContext = createContext<{
   setCampaignId: () => {},
 });
 
+// Export a placeholder for CampaignContextProvider to satisfy imports
+export const CampaignContextProvider = ({ children }: { children: React.ReactNode }) => {
+  throw new Error('CampaignContextProvider not implemented');
+};
+
 /*import { createContext, useState } from 'react';
 
 export const CampaignContext = createContext({

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { BrandContext } from '../../features/brand/context/BrandContext';
+import { BrandContext } from '../../brand/context/BrandContext';
 
 interface StepProps {
   title: string;

@@ -5,7 +5,7 @@
  * Handles authentication(_error) handling, and data transformation for the frontend.
  */
 
-import { getToken } from '../features/auth/utils/authFetch';
+import { getAuthToken as getToken } from '../../auth/utils/authFetch';
 
 const CONTENT_GEN_URL = process.env.NEXT_PUBLIC_CONTENT_GEN_URL || 'http://localhost:8080';
 

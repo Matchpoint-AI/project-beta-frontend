@@ -11,12 +11,12 @@ import {
   CampaignContext,
   CampaignInfoType,
 } from '../../../features/campaign/context/CampaignContext';
-import type { Campaign } from '../../../components/TabWrapper';
+import type { Campaign } from '../components/TabWrapper';
 import handleNavigate from '../../../helpers/handleNavigate';
 
 const CampaignContent = () => {
   const [currentTab, setCurrentTab] = React.useState(1);
-  const [campaignContent, setCampaign] = useState<CampaignInfoType | undefined>();
+  const [campaignContent, setCampaign] = useState<Campaign | undefined>();
   const [title, setTitle] = useState('');
   const [service, setService] = useState('');
   const [timeFrame, setTimeFrame] = useState('');
@@ -183,7 +183,7 @@ const CampaignContent = () => {
           }
         }
       } catch (_error) {
-        setError(error instanceof Error ? error.message : 'Failed to load campaign data');
+        setError(_error instanceof Error ? _error.message : 'Failed to load campaign data');
         setLoading(false);
       }
     };
@@ -229,7 +229,7 @@ const CampaignContent = () => {
 
   const navigateToCampaignView = () => {
     const data = campaignContent?.campaign_data?.campaign_variables;
-    if (_data) {
+    if (data) {
       setCampaignInfo((prev) => ({
         ...prev,
         summary: data?.summary,
@@ -275,7 +275,10 @@ const CampaignContent = () => {
             />
 
             <ButtonGroup
-              campaign={campaignContent as CampaignInfoType}
+              campaign={{
+                campaign_id: campaignContent?.campaign_id,
+                campaign_data: campaignContent?.campaign_data,
+              } as CampaignInfoType}
               currentTab={currentTab}
               setCurrentTab={setCurrentTab}
               setApprovePopup={setApprovePopup}

@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react';
-import { useAuth } from '../features/auth/context/AuthContext';
-import OnboardForms from '../features/onboarding/components/OnboardForms';
-import BrandProfileEdit from '../features/brand/components/BrandProfileEdit';
+import { useAuth } from '../../auth/context/AuthContext';
+import OnboardForms from '../components/OnboardForms';
+import BrandProfileEdit from '../../brand/components/BrandProfileEdit';
 import { CircularProgress } from '@mui/material';
 
 const Onboard = () => {

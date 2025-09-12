@@ -129,6 +129,8 @@ const mockCampaign = {
       postingFrequency: 3,
       deliveryDay: 'Monday',
       summary: 'Campaign summary',
+      frequency: 3,
+      durationNum: 4,
     },
   },
 };
