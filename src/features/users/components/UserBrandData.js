@@ -1,9 +1,0 @@
-import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-export default function UserBrandData(_a) {
-    var data = _a.data;
-    if (!data) {
-        return _jsx("p", { className: "text-[#111928] text-center", children: "Did not setup a brand yet" });
-    }
-    return (_jsxs("div", { className: "p-5 flex gap-10 sm:flex-row flex-col items-center bg-white rounded-md", children: [_jsx("div", { children: data.logo ? (_jsx("img", { className: "w-24 h-auto", src: "https://storage.googleapis.com/matchpoint-brands-logos/".concat(data.logo), alt: "brand logo" })) : (_jsx("div", { className: "w-16 aspect-square bg-[#5145CD] text-white rounded-full flex items-center justify-center", children: _jsx("span", { className: "font-semibold text-2xl", children: data.name.slice(0, 1).toUpperCase() }) })) }), _jsxs("div", { className: "flex-grow flex items-center justify-between flex-wrap", children: [_jsxs("div", { children: [_jsx("p", { className: "text-[#6B7280] text-sm capitalize", children: "name: " }), _jsx("p", { className: "font-medium text-[#111928] mr-2 md:mb-0 mb-3", children: data.name })] }), _jsxs("div", { children: [_jsx("p", { className: "text-[#6B7280] text-sm capitalize", children: "website: " }), _jsx("p", { className: "font-medium text-[#111928] mr-2 md:mb-0 mb-3", children: data.website })] }), _jsxs("div", { children: [_jsx("p", { className: "text-[#6B7280] text-sm capitalize", children: "industry: " }), _jsx("p", { className: "font-medium text-[#111928] capitalize mr-2 md:mb-0 mb-3", children: data.industry })] }), _jsxs("div", { children: [_jsx("p", { className: "text-[#6B7280] text-sm capitalize", children: "vertical: " }), _jsx("p", { className: "font-medium text-[#111928] capitalize mr-2 md:mb-0 mb-3", children: data.vertical })] })] })] }));
-}
-//# sourceMappingURL=UserBrandData.js.map

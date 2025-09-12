@@ -4,29 +4,92 @@
 /node_modules
 /.pnp
 .pnp.js
+.yarn/install-state.gz
 
 # testing
 /coverage
 /playwright-report
+/playwright/.cache
+/test-results
+*.lcov
 
 # production
 /build
+/dist
 
 # misc
 .DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# local env files
+.env*.local
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
 
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+# vercel
+.vercel
 
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# vite
+.vite_cache/
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+
+# TypeScript compilation artifacts
+# Ignore all compiled JS files in src
+src/**/*.js
+src/**/*.js.map
+
+# Ignore auto-generated declaration files
+src/**/*.d.ts
+
+# But keep these specific files
+!src/**/*.config.js
+!src/**/*.setup.js
+!src/setupTests.ts
+!src/setupTests.d.ts
+!src/reportWebVitals.ts
+!src/reportWebVitals.d.ts
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.swp
+*.swo
+*~
 .history
 
-# vite cache
-.vite_cache/
-*.js
-*.js.map
-*.d.ts
+# OS files
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+
+# Temporary files
+*.tmp
+*.temp
+.tmp/
+.temp/

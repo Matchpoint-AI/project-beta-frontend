@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 import ServiceForm from './ServiceForm';
-import { BrandContext } from '../../brand/context/BrandContext';
+import { BrandContext, type BusinessInfo } from '../../brand/context/BrandContext';
 import { CampaignContext } from '../../campaign/context/CampaignContext';
 
 // Create mock function for scrapeProduct
@@ -14,7 +14,7 @@ vi.mock('./scrapeProduct', () => ({
 }));
 
 // Mock the posthog helper
-vi.mock('../../helpers/posthog', () => ({
+vi.mock('../../../helpers/posthog', () => ({
   default: {
     __loaded: false,
     capture: vi.fn(),

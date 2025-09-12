@@ -1,1 +1,1 @@
-export default function AuthActions(): import("react/jsx-runtime").JSX.Element;
+export default function AuthActions(): import('react/jsx-runtime').JSX.Element;
