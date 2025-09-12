@@ -1,4 +1,8 @@
 // Campaign feature exports
+
+// Context
+export { CampaignContext, CampaignContextProvider } from './context/CampaignContext';
+
 // Components
 export { default as ABTestDemo } from './components/ABTestDemo';
 export { default as CampaignStepsBar } from './components/CampaignStepsBar';

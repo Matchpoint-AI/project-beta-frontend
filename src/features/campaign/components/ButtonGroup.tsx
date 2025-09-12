@@ -8,7 +8,7 @@ import InstaConnect from '../../../shared/components/buttons/InstaConnect';
 import TabItems from './TabItems';
 // import CardStats from "./CardStats";
 import NewCardStats from '../dashboard/NewCardStats';
-import { CampaignInfoType } from '../../../context/CampaignContext';
+import { CampaignInfoType } from '../../../features/campaign/context/CampaignContext';
 
 interface Stats {
   approved: number;

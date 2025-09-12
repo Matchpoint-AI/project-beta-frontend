@@ -3,7 +3,7 @@ import { render, waitFor } from '@testing-library/react';
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 import CampaignSetupCompleteDialog from './CampaignSetupCompleteDialog';
 import { BrandContext } from '../../brand/context/BrandContext';
-import { CampaignContext } from '../../../context/CampaignContext';
+import { CampaignContext } from '../../../features/campaign/context/CampaignContext';
 import { useAuth } from '../../../features/auth/context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { plannerApi, policyApi } from '../../../api/contentGenerationApi';
