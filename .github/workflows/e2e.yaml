@@ -5,9 +5,9 @@ on:
     branches: [main]
 
 jobs:
-  # Basic validation checks - must pass before building image
-  validation:
-    name: Validation Checks
+  # Wait for CI workflow checks to pass
+  wait-for-ci:
+    name: Wait for CI Checks
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -36,7 +36,7 @@ jobs:
 
   build-app:
     name: Build Application
-    needs: validation # Only build if validation passes
+    needs: wait-for-ci # Only build if all checks pass
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -68,7 +68,7 @@ jobs:
 
   e2e-tests:
     name: E2E Tests (${{ matrix.browser }} - Shard ${{ matrix.shard }})
-    needs: [validation, build-app] # Must pass validation and have built app
+    needs: [wait-for-ci, build-app] # Must pass all CI checks and have built app
     runs-on: ubuntu-latest
     container:
       image: mcr.microsoft.com/playwright:v1.55.0-noble
@@ -217,7 +217,7 @@ jobs:
 
   smoke-tests:
     name: Smoke Tests (Quick Validation)
-    needs: validation # Only run smoke tests if validation passes
+    needs: wait-for-ci # Only run smoke tests if all CI checks pass
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code

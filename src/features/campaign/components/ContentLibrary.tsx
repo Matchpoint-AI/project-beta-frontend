@@ -258,14 +258,14 @@ const ContentLibrary = ({
                 brandName={brandName}
                 content={{
                   approved: val.approved,
-                  posts: val.posts.map(post => ({
+                  posts: val.posts.map((post) => ({
                     ...post,
                     text: post.text,
                     image_url: post.image_url,
                     approved: post.approved,
-                    posted: post.posted
+                    posted: post.posted,
                   })),
-                  dayIndex: val.dayIndex
+                  dayIndex: val.dayIndex,
                 }}
                 currentPage={currentPage}
                 generatedContentId={generatedContentId}

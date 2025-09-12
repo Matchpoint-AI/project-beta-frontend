@@ -68,7 +68,11 @@ export default function CampaignsList({
       // Filter out duplicate campaigns, keeping only the most recent one
       const uniqueCampaigns = campaigns.reduce((acc, campaign) => {
         const existing = acc.find((c) => c.campaign_id === campaign.campaign_id);
-        if (!existing || new Date(campaign.timestamp || '1970-01-01') > new Date(existing.timestamp || '1970-01-01')) {
+        if (
+          !existing ||
+          new Date(campaign.timestamp || '1970-01-01') >
+            new Date(existing.timestamp || '1970-01-01')
+        ) {
           // Remove existing if present
           acc = acc.filter((c) => c.campaign_id !== campaign.campaign_id);
           acc.push(campaign);

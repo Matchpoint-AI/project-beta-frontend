@@ -349,7 +349,9 @@ function VariablesBadge({ values }: VariablesBadgeProps) {
 
 interface EditableValuesCardProps {
   values: Array<{ selected: boolean; label: string; id?: number }>;
-  onChange: React.Dispatch<React.SetStateAction<Array<{ selected: boolean; label: string; id?: number }>>>;
+  onChange: React.Dispatch<
+    React.SetStateAction<Array<{ selected: boolean; label: string; id?: number }>>
+  >;
   onSave: () => void;
   isSaving: boolean;
 }

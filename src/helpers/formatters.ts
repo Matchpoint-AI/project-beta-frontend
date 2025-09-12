@@ -43,7 +43,7 @@ export const structureData = (data: Record<string, Record<string, unknown>>): We
         })
         .map((dayKey, dayIndex) => {
           const dayData = weekData[dayKey];
-          
+
           // Type guard to ensure dayData is an object
           if (!dayData || typeof dayData !== 'object') {
             return {
@@ -56,10 +56,10 @@ export const structureData = (data: Record<string, Record<string, unknown>>): We
               dayKey: dayKey,
             };
           }
-          
+
           const dayObj = dayData as Record<string, any>;
           const approved = dayObj.approved || false;
-          
+
           // Transform the posts within each day into an ordered array
           const posts = Object.keys(dayObj)
             .filter((postKey) => postKey.startsWith('post_'))
@@ -72,8 +72,10 @@ export const structureData = (data: Record<string, Record<string, unknown>>): We
               return {
                 ...(typeof postData === 'object' ? postData : {}),
                 postIndex: postIndex + 1, // Add post index (1-based)
-                approved: (postData && typeof postData === 'object' && (postData as any).approved) || false,
-                posted: (postData && typeof postData === 'object' && (postData as any).posted) || false,
+                approved:
+                  (postData && typeof postData === 'object' && (postData as any).approved) || false,
+                posted:
+                  (postData && typeof postData === 'object' && (postData as any).posted) || false,
               };
             });
           return {

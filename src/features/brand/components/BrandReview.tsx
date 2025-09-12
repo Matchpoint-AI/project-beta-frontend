@@ -77,7 +77,11 @@ export default function BrandReview({ toggleEdit, hasBrand, stepHandler }: Brand
             <p>{businessInfo?.summary}</p>
           </div>
         </div>
-        <BrandDetailsReview edit={true} hasBrand={hasBrand} stepHandler={stepHandler || (() => {})} />
+        <BrandDetailsReview
+          edit={true}
+          hasBrand={hasBrand}
+          stepHandler={stepHandler || (() => {})}
+        />
       </FormsContainer>
     </div>
   );
