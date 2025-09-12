@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { SparklesMessage } from '../shared/components/ui/SparklesMessage';
-import EditBlock from './shared/EditBlock';
+import EditBlock from '../shared/components/ui/EditBlock';
 import ChipComponent from '../shared/components/ui/ChipComponent';
 import ChipsEditBlock from '../features/onboarding/components/ChipsEditBlock';
 

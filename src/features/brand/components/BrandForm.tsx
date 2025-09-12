@@ -3,7 +3,7 @@ import React, { FormEventHandler, useContext, useEffect, useState } from 'react'
 import FileInput from '../../../shared/components/inputs/FileInput';
 import { BrandContext } from '../context/BrandContext';
 import ColorPicker from '../../../shared/components/ui/ColorPicker';
-import FormsContainer from '../../../components/shared/FormsContainer';
+import FormsContainer from '../../../shared/components/layout/FormsContainer';
 import ColorSpan from '../../../shared/components/ui/ColorSpan';
 import * as pdfjsLib from 'pdfjs-dist';
 import pdfWorker from 'pdfjs-dist/build/pdf.worker.mjs?worker&url';

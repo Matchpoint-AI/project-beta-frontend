@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import DetailsBlock from '../../../components/shared/DetailsBlock';
+import DetailsBlock from '../../../shared/components/ui/DetailsBlock';
 import { BrandContext, type Selectable } from '../context/BrandContext';
 import { useNavigate } from 'react-router-dom';
 

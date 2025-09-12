@@ -13,7 +13,7 @@ import BrandDataLoader from '../features/brand/components/BrandDataLoader';
 import AppRoutes from './AppRoutes';
 import { AppProvider } from '../context/appContext';
 import { UsersContextProvider } from '../features/users/context/UsersContext';
-import VersionDisplay from '../components/shared/VersionDisplay';
+import VersionDisplay from '../shared/components/feedback/VersionDisplay';
 
 function Fallback({ error }: { error: Error }) {
   const { profile } = useAuth();

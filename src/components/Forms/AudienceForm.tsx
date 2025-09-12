@@ -2,10 +2,10 @@
 import React, { FormEventHandler, useContext, useEffect, useState } from 'react';
 import { BrandContext } from '../../features/brand/context/BrandContext';
 import { CampaignContext } from '../../features/campaign/context/CampaignContext';
-import AgeDropdown from '../shared/AgeDropdown';
+import AgeDropdown from '../../shared/components/ui/AgeDropdown';
 import Dropdown from '../../shared/components/ui/Dropdown';
 // import CustomInput from "../shared/Inputs/CustomInput";
-import FormsContainer from '../shared/FormsContainer';
+import FormsContainer from '../../shared/components/layout/FormsContainer';
 import BackButton from '../../shared/components/buttons/BackButton';
 import NextButton from '../../shared/components/buttons/NextButton';
 import { getServiceURL } from '../../helpers/getServiceURL';
