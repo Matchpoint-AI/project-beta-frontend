@@ -5,7 +5,6 @@ import { BrowserRouter } from 'react-router-dom';
 import CampaignContent from './CampaignContent';
 import { AuthContext } from '../../auth/context/AuthContext';
 import { CampaignContext } from '../../../features/campaign/context/CampaignContext';
-import handleNavigate from '../../../helpers/handleNavigate';
 
 // Mock the modules
 vi.mock('../../../helpers/getServiceURL', () => ({
