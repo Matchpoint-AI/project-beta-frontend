@@ -33,7 +33,7 @@ test.describe('Smoke Tests', () => {
 
     // Test that the app doesn't crash and stays functional
     await expect(page.locator('html')).toBeVisible();
-    
+
     // If there are buttons or links, make sure the app is interactive
     const interactiveElements = await page.locator('button, a, input').count();
     expect(interactiveElements).toBeGreaterThan(0);
