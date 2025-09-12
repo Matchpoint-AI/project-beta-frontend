@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { SparklesMessage } from '../shared/components/ui/SparklesMessage';
 import EditBlock from './shared/EditBlock';
 import ChipComponent from '../shared/components/ui/ChipComponent';
-import ChipsEditBlock from './onboard/ChipsEditBlock';
+import ChipsEditBlock from '../features/onboarding/components/ChipsEditBlock';
 
 interface AudienceEmotionsProps {
   values: string[];
