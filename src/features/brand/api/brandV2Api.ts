@@ -76,7 +76,11 @@ export interface BrandKnowledge {
 const API_BASE_URL = getServiceURL('api'); // Assuming this points to the new v2 API
 
 class BrandV2ApiError extends Error {
-  constructor(message: string, public status?: number, public details?: any) {
+  constructor(
+    message: string,
+    public status?: number,
+    public details?: any
+  ) {
     super(message);
     this.name = 'BrandV2ApiError';
   }
@@ -106,11 +110,7 @@ const handleResponse = async (response: Response) => {
   return response.json();
 };
 
-const makeRequest = async (
-  endpoint: string,
-  options: RequestInit = {},
-  token?: string
-) => {
+const makeRequest = async (endpoint: string, options: RequestInit = {}, token?: string) => {
   const headers: HeadersInit = {
     'Content-Type': 'application/json',
     ...options.headers,
@@ -131,10 +131,14 @@ const makeRequest = async (
 export const brandV2Api = {
   // Brand Management
   async createBrand(data: BrandCreate, token: string): Promise<BrandResponse> {
-    return makeRequest('/api/v2/brands', {
-      method: 'POST',
-      body: JSON.stringify(data),
-    }, token);
+    return makeRequest(
+      '/api/v2/brands',
+      {
+        method: 'POST',
+        body: JSON.stringify(data),
+      },
+      token
+    );
   },
 
   async getBrand(brandId: string, token: string): Promise<BrandResponse> {
@@ -146,18 +150,30 @@ export const brandV2Api = {
   },
 
   async updateBrand(brandId: string, data: BrandUpdate, token: string): Promise<BrandResponse> {
-    return makeRequest(`/api/v2/brands/${brandId}`, {
-      method: 'PUT',
-      body: JSON.stringify(data),
-    }, token);
+    return makeRequest(
+      `/api/v2/brands/${brandId}`,
+      {
+        method: 'PUT',
+        body: JSON.stringify(data),
+      },
+      token
+    );
   },
 
   // Workflow Management
-  async createWorkflow(brandId: string, data: WorkflowRequest, token: string): Promise<WorkflowResponse> {
-    return makeRequest(`/api/v2/brands/${brandId}/workflows`, {
-      method: 'POST',
-      body: JSON.stringify(data),
-    }, token);
+  async createWorkflow(
+    brandId: string,
+    data: WorkflowRequest,
+    token: string
+  ): Promise<WorkflowResponse> {
+    return makeRequest(
+      `/api/v2/brands/${brandId}/workflows`,
+      {
+        method: 'POST',
+        body: JSON.stringify(data),
+      },
+      token
+    );
   },
 
   async getWorkflow(brandId: string, token: string): Promise<WorkflowResponse> {
@@ -165,19 +181,35 @@ export const brandV2Api = {
   },
 
   // Page Crawling
-  async createPage(brandId: string, data: CrawlPageRequest, token: string): Promise<CrawlPageResponse> {
-    return makeRequest(`/api/v2/brands/${brandId}/pages`, {
-      method: 'POST',
-      body: JSON.stringify(data),
-    }, token);
+  async createPage(
+    brandId: string,
+    data: CrawlPageRequest,
+    token: string
+  ): Promise<CrawlPageResponse> {
+    return makeRequest(
+      `/api/v2/brands/${brandId}/pages`,
+      {
+        method: 'POST',
+        body: JSON.stringify(data),
+      },
+      token
+    );
   },
 
   // Knowledge Extraction
-  async createKnowledge(brandId: string, data: ExtractKnowledgeRequest, token: string): Promise<BrandKnowledge> {
-    return makeRequest(`/api/v2/brands/${brandId}/knowledge`, {
-      method: 'POST',
-      body: JSON.stringify(data),
-    }, token);
+  async createKnowledge(
+    brandId: string,
+    data: ExtractKnowledgeRequest,
+    token: string
+  ): Promise<BrandKnowledge> {
+    return makeRequest(
+      `/api/v2/brands/${brandId}/knowledge`,
+      {
+        method: 'POST',
+        body: JSON.stringify(data),
+      },
+      token
+    );
   },
 
   async getKnowledge(brandId: string, token: string): Promise<BrandKnowledge | null> {
@@ -193,35 +225,35 @@ export const brandV2Api = {
 
   // Utility functions for workflow management
   async waitForWorkflowCompletion(
-    brandId: string, 
-    token: string, 
+    brandId: string,
+    token: string,
     onProgress?: (workflow: WorkflowResponse) => void,
     maxAttempts = 60,
     intervalMs = 2000
   ): Promise<WorkflowResponse> {
     let attempts = 0;
-    
+
     while (attempts < maxAttempts) {
       const workflow = await this.getWorkflow(brandId, token);
-      
+
       if (onProgress) {
         onProgress(workflow);
       }
-      
+
       if (workflow.status === 'completed' || workflow.currentStep === 'completed') {
         return workflow;
       }
-      
+
       if (workflow.status === 'failed' || workflow.status === 'error') {
         throw new BrandV2ApiError(`Workflow failed with status: ${workflow.status}`);
       }
-      
+
       attempts++;
       if (attempts < maxAttempts) {
-        await new Promise(resolve => setTimeout(resolve, intervalMs));
+        await new Promise((resolve) => setTimeout(resolve, intervalMs));
       }
     }
-    
+
     throw new BrandV2ApiError('Workflow timeout - maximum attempts exceeded');
   },
 
@@ -236,41 +268,42 @@ export const brandV2Api = {
     try {
       // Step 1: Create brand with website (triggers automatic workflow)
       onProgress?.('Creating brand and starting analysis...', 0.1);
-      const brand = await this.createBrand({ 
-        name, 
-        website, 
-        maxPages 
-      }, token);
+      const brand = await this.createBrand(
+        {
+          name,
+          website,
+          maxPages,
+        },
+        token
+      );
 
       // Step 2: Wait for workflow completion with progress updates
-      const workflow = await this.waitForWorkflowCompletion(
-        brand.id,
-        token,
-        (workflowStatus) => {
-          const step = workflowStatus.currentStep || 'processing';
-          const progress = Math.max(0.2, Math.min(0.9, workflowStatus.progress || 0.5));
-          onProgress?.(`${step}...`, progress);
-        }
-      );
+      const workflow = await this.waitForWorkflowCompletion(brand.id, token, (workflowStatus) => {
+        const step = workflowStatus.currentStep || 'processing';
+        const progress = Math.max(0.2, Math.min(0.9, workflowStatus.progress || 0.5));
+        onProgress?.(`${step}...`, progress);
+      });
 
       // Step 3: Get extracted knowledge
       onProgress?.('Retrieving brand knowledge...', 0.95);
       const knowledge = await this.getKnowledge(brand.id, token);
-      
+
       if (!knowledge) {
         throw new BrandV2ApiError('No knowledge was extracted from the website');
       }
 
       onProgress?.('Complete!', 1.0);
-      
+
       return { brand, knowledge };
     } catch (error) {
       if (error instanceof BrandV2ApiError) {
         throw error;
       }
-      throw new BrandV2ApiError(`Brand onboarding failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new BrandV2ApiError(
+        `Brand onboarding failed: ${error instanceof Error ? error.message : 'Unknown error'}`
+      );
     }
-  }
+  },
 };
 
 export { BrandV2ApiError };

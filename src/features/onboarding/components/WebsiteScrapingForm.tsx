@@ -10,7 +10,8 @@ import BusinessFormInput from '../../../shared/components/inputs/BusinessFormInp
 import ErrorToast from '../../../shared/components/feedback/ErrorToast';
 
 export default function WebsiteScrapingForm() {
-  const { businessInfo, setBusinessInfo, updateWorkflowState, clearWorkflow } = useContext(BrandContext);
+  const { businessInfo, setBusinessInfo, updateWorkflowState, clearWorkflow } =
+    useContext(BrandContext);
   const { profile } = useAuth();
   const [runValidation, setRunValidation] = useState(0);
   const [nameError, setNameError] = useState({ count: 0, error: false });
@@ -41,29 +42,32 @@ export default function WebsiteScrapingForm() {
     try {
       // Clear any existing workflow state
       clearWorkflow();
-      
+
       // Initialize workflow state
       updateWorkflowState({
         isActive: true,
         currentStep: 'crawling',
         progress: 0.1,
-        progressMessage: 'Starting brand analysis...'
+        progressMessage: 'Starting brand analysis...',
       });
 
       const onProgress = (step: string, progress?: number) => {
         updateWorkflowState({
           isActive: true,
-          currentStep: step.includes('crawling') ? 'crawling' : 
-                     step.includes('analyzing') ? 'analyzing' : 'completed',
+          currentStep: step.includes('crawling')
+            ? 'crawling'
+            : step.includes('analyzing')
+              ? 'analyzing'
+              : 'completed',
           progress: progress || 0.5,
-          progressMessage: step
+          progressMessage: step,
         });
       };
 
       await scrapeBrandWebsite(businessInfo, setBusinessInfo, {
         token: profile.token,
         onProgress,
-        maxPages: 50
+        maxPages: 50,
       });
 
       // Mark workflow as completed
@@ -71,15 +75,14 @@ export default function WebsiteScrapingForm() {
         isActive: false,
         currentStep: 'completed',
         progress: 1.0,
-        progressMessage: 'Analysis complete!'
+        progressMessage: 'Analysis complete!',
       });
-
     } catch (e) {
       updateWorkflowState({
         isActive: false,
         currentStep: 'failed',
         progress: 0,
-        error: e instanceof Error ? e.message : 'Analysis failed'
+        error: e instanceof Error ? e.message : 'Analysis failed',
       });
       setScrapingError(true);
     }
@@ -119,10 +122,10 @@ export default function WebsiteScrapingForm() {
         runValidation={runValidation}
         setFormError={setWebsiteError}
       />
-      
+
       {/* Progress Tracker */}
       <WorkflowProgressTracker workflow={businessInfo.workflow} />
-      
+
       <ScrapeWebsiteBtn
         handleSubmit={submitBrandData}
         nameError={nameError}

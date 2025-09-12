@@ -62,31 +62,33 @@ function AppContent() {
 
   // Helper functions for workflow management
   const updateWorkflowState = (workflowUpdate: Partial<WorkflowState>) => {
-    setBusinessInfo(prev => ({
+    setBusinessInfo((prev) => ({
       ...prev,
       workflow: {
         ...prev.workflow,
         ...workflowUpdate,
-      } as WorkflowState
+      } as WorkflowState,
     }));
   };
 
   const clearWorkflow = () => {
-    setBusinessInfo(prev => ({
+    setBusinessInfo((prev) => ({
       ...prev,
-      workflow: undefined
+      workflow: undefined,
     }));
   };
 
   return (
     <AppProvider>
       <UsersContextProvider>
-        <BrandContext.Provider value={{ 
-          businessInfo, 
-          setBusinessInfo,
-          updateWorkflowState,
-          clearWorkflow
-        }}>
+        <BrandContext.Provider
+          value={{
+            businessInfo,
+            setBusinessInfo,
+            updateWorkflowState,
+            clearWorkflow,
+          }}
+        >
           <CampaignContext.Provider
             value={{
               campaignInfo,

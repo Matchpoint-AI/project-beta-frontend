@@ -5,8 +5,8 @@ import type { BusinessInfo } from '../context/BrandContext';
 // Mock the new brandV2Api
 vi.mock('../api/brandV2Api', () => ({
   brandV2Api: {
-    completeBrandOnboarding: vi.fn()
-  }
+    completeBrandOnboarding: vi.fn(),
+  },
 }));
 
 // Mock convertToChipsArray to return the input array as chips
@@ -47,12 +47,12 @@ describe('scrapeBrandWebsite', () => {
       products: [{ name: 'Product 1' }],
       brandDescription: 'Test description',
       valueProposition: 'Test value prop',
-      targetAudience: 'Test audience'
+      targetAudience: 'Test audience',
     };
 
     (brandV2Api.completeBrandOnboarding as any).mockResolvedValueOnce({
       brand: mockBrand,
-      knowledge: mockKnowledge
+      knowledge: mockKnowledge,
     });
 
     await scrapeBrandWebsite(baseBusinessInfo, setBusinessInfo, { token: mockToken });
@@ -80,14 +80,12 @@ describe('scrapeBrandWebsite', () => {
       target_audience: 'Test audience',
       brandColors: ['#fff', '#000', '#ccc'],
       isFetched: true,
-      isSaved: false
+      isSaved: false,
     });
   });
 
   it('should handle API errors gracefully', async () => {
-    (brandV2Api.completeBrandOnboarding as any).mockRejectedValueOnce(
-      new Error('API Error')
-    );
+    (brandV2Api.completeBrandOnboarding as any).mockRejectedValueOnce(new Error('API Error'));
 
     await expect(
       scrapeBrandWebsite(baseBusinessInfo, setBusinessInfo, { token: mockToken })
@@ -96,7 +94,7 @@ describe('scrapeBrandWebsite', () => {
 
   it('should require name and website', async () => {
     const incompleteInfo = { ...baseBusinessInfo, name: '' };
-    
+
     await expect(
       scrapeBrandWebsite(incompleteInfo, setBusinessInfo, { token: mockToken })
     ).rejects.toThrow('Brand name and website are required');
@@ -110,12 +108,12 @@ describe('scrapeBrandWebsite', () => {
       toneAttributes: {},
       colorPalette: [], // Empty color palette
       products: [],
-      brandDescription: 'Test description'
+      brandDescription: 'Test description',
     };
 
     (brandV2Api.completeBrandOnboarding as any).mockResolvedValueOnce({
       brand: mockBrand,
-      knowledge: mockKnowledge
+      knowledge: mockKnowledge,
     });
 
     await scrapeBrandWebsite(baseBusinessInfo, setBusinessInfo, { token: mockToken });
