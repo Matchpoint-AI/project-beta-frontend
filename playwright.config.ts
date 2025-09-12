@@ -27,6 +27,7 @@ export default defineConfig({
     ['json', { outputFile: 'test-results/results.json' }],
     ['junit', { outputFile: 'test-results/junit.xml' }],
     process.env.CI ? ['github'] : ['list'],
+    ['line'],
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
@@ -39,8 +40,8 @@ export default defineConfig({
     /* Capture screenshots on failure */
     screenshot: 'only-on-failure',
 
-    /* Record videos on failure */
-    video: 'retain-on-failure',
+    /* Record videos - always for CI, on-failure for local */
+    video: process.env.CI ? 'on' : 'retain-on-failure',
 
     /* Custom test option for API mocking */
     ...{
@@ -98,4 +99,7 @@ export default defineConfig({
 
   /* Folder for test artifacts such as screenshots, videos, traces, etc. */
   outputDir: 'test-results/',
+
+  /* Preserve test artifacts for debugging */
+  preserveOutput: 'always',
 });
