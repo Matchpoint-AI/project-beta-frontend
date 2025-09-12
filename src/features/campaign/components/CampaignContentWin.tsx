@@ -6,7 +6,7 @@ import { TransitionProps } from '@mui/material/transitions';
 import { Post } from '../../users/pages/UserDataPage';
 import { ClearIcon } from '@mui/x-date-pickers/icons';
 import DayContentGalery from './DayContentGalery';
-import RawData from '../../../components/RawData';
+import RawData from '../../../shared/components/ui/RawData';
 
 interface CampaignContentWinProps {
   open: boolean;
