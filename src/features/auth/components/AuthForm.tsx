@@ -54,7 +54,7 @@ export default function AuthForm({ login = false, setAuthError }: AuthFormProps)
 
       setAuthError('Verification email resent successfully!');
     } catch (error) {
-      setAuthError((error as Error).message);
+      setAuthError(error instanceof Error ? error.message : 'An error occurred');
     } finally {
       setLoading(false);
     }

@@ -254,7 +254,7 @@ const CampaignContent = () => {
         deliveryDay: data?.deliveryDay,
         campaign_id: campaignContent?.campaign_id,
         campaign_brief: true,
-        created_at: campaignContent?.timestamp,
+        created_at: (campaignContent as any)?.timestamp,
       }));
       handleNavigate(profile?.id ?? '', '/campaign', navigate);
     }
