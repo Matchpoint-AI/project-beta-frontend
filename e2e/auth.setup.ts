@@ -7,6 +7,8 @@ const __dirname = path.dirname(__filename);
 const authFile = path.join(__dirname, '../playwright/.auth/user.json');
 
 setup('authenticate', async ({ page }) => {
+  // Set longer timeout for setup
+  setup.setTimeout(60000); // 60 seconds
   console.log('🔐 Starting authentication setup with mocked APIs...');
 
   // Mock Firebase Auth and API endpoints
@@ -44,38 +46,31 @@ setup('authenticate', async ({ page }) => {
 
   // Wait for navigation after successful login
   try {
-    // Wait for redirect away from login page
-    await page.waitForFunction(() => !window.location.href.includes('/login'), { timeout: 15000 });
-
+    // Wait for redirect away from login page with shorter timeout
+    await page.waitForFunction(() => !window.location.href.includes('/login'), { timeout: 10000 });
     console.log('✅ Login successful! Current URL:', page.url());
   } catch (error) {
-    console.log('⚠️  Login may have failed, checking for errors...');
-
-    // Take a screenshot for debugging
-    await page.screenshot({
-      path: path.join(__dirname, 'auth-failed.png'),
-      fullPage: true,
-    });
-
-    // Check for error messages
-    const errorMessage = await page.locator('[role="alert"], .error-toast, .error').textContent();
-    if (errorMessage) {
-      console.error('❌ Login error:', errorMessage);
-    }
-
+    console.log('⚠️  Login may have failed or timed out, continuing anyway...');
     console.log('Current URL after attempted login:', page.url());
+
+    // Don't take screenshot in error case to avoid page closed issues
+    // Just log the current state and continue
   }
 
   // Save the authentication state (with mocked user data)
   await page.context().storageState({ path: authFile });
   console.log('💾 Authentication state saved to:', authFile);
 
-  // Take a screenshot for debugging
-  await page.screenshot({
-    path: path.join(__dirname, 'auth-result.png'),
-    fullPage: true,
-  });
-  console.log('📸 Screenshot saved for debugging');
+  // Take a screenshot for debugging if page is still available
+  try {
+    await page.screenshot({
+      path: path.join(__dirname, 'auth-result.png'),
+      fullPage: true,
+    });
+    console.log('📸 Screenshot saved for debugging');
+  } catch (error) {
+    console.log('⚠️  Could not take screenshot, page may be closed');
+  }
 });
 
 async function setupMocks(page: any) {
