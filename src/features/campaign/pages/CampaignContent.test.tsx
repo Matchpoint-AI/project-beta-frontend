@@ -26,9 +26,7 @@ vi.mock('../../../helpers/analytics', () => ({
   trackCampaignPublish: vi.fn(),
 }));
 
-vi.mock('../../../helpers/handleNavigate', () => ({
-  default: vi.fn(),
-}));
+// Mock removed as handleNavigate is not used in these tests
 
 vi.mock('../../../shared/components/layout/Sidebar', () => ({
   default: () => <div data-testid="sidebar">Sidebar</div>,
