@@ -27,16 +27,16 @@ export default function BrandDetailsBlock({ category }: BrandDetailsBlockProps) 
     toneAndVoice: 'How your business speaks and verbally expresses its personality',
   };
 
-  const handleChipClose = (chipIndex: number) => {
+  const handleChipClose = (chipId: number, arrayIndex: number) => {
     const newChips = Array.from((businessInfo[category] as Selectable[]) ?? []);
-    newChips.splice(chipIndex, 1);
+    newChips.splice(arrayIndex, 1);
     setBusinessInfo({ ...businessInfo, [category]: newChips });
     if (newChips.length === 0) setError(true);
   };
 
-  const handleChipSelect = (chipIndex: number) => {
+  const handleChipSelect = (chipId: number, arrayIndex: number) => {
     const newChips = Array.from((businessInfo[category] as Selectable[]) ?? []) as Chip[];
-    newChips[chipIndex].selected = !newChips[chipIndex].selected;
+    newChips[arrayIndex].selected = !newChips[arrayIndex].selected;
     setBusinessInfo({ ...businessInfo, [category]: newChips });
     const selectedTags = newChips.filter((c) => c.selected);
     if (selectedTags.length === 0) setError(true);
@@ -92,8 +92,8 @@ export default function BrandDetailsBlock({ category }: BrandDetailsBlockProps) 
               label={chip.label}
               index={chip.id ?? index}
               selected={chip.selected}
-              onClose={handleChipClose}
-              onSelect={handleChipSelect}
+              onClose={(chipId) => handleChipClose(chipId, index)}
+              onSelect={(chipId) => handleChipSelect(chipId, index)}
             />
           ))}
         </div>

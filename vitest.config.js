@@ -65,11 +65,11 @@ export default defineConfig({
         '**/__mocks__',
       ],
       thresholds: {
-        // TODO: Gradually increase these thresholds as coverage improves
-        statements: 30,
-        branches: 30,
-        functions: 25,
-        lines: 30,
+        // Updated to reflect current coverage levels achieved with comprehensive brand feature tests
+        statements: 34,
+        branches: 60,
+        functions: 30,
+        lines: 34,
       },
     },
     // Use threads pool for parallel test execution
