@@ -44,3 +44,40 @@ jobs:
           retention-days: 7
           compression-level: 6
           overwrite: true
+
+      - name: Comment PR with Artifact Link
+        if: ${{ !cancelled() && github.event_name == 'pull_request' }}
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const runUrl = `${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}`;
+            const artifactUrl = `${runUrl}/artifacts`;
+            
+            const body = `## 🎭 E2E Test Report
+            
+            **Test Status**: ${{ job.status == 'success' && '✅ Passed' || '❌ Failed' }}
+            **Run ID**: ${{ github.run_id }}
+            
+            ### 📊 View Test Report
+            🔗 **[Download Playwright Report Artifact](${artifactUrl})**
+            
+            The artifact contains:
+            - 📹 **Videos** of all test runs (shows actual app usage!)
+            - 📸 **Screenshots** of any failures  
+            - 📊 **Interactive HTML report** with detailed test results
+            - 🔍 **Traces** for debugging failed tests
+            
+            **To view**: Download the \`playwright-report\` artifact and open \`index.html\`
+            
+            ### 🔧 GitHub Actions Run  
+            [View detailed logs and artifacts](${runUrl})
+            
+            ---
+            *Artifact available for 7 days. This comment is auto-generated.*`;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
+            });
