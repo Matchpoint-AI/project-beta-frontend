@@ -1,4 +1,4 @@
-import UserProfile from '../../../pages/UserProfile';
+import UserProfile from '../../../features/users/pages/UserProfile';
 import Integrations from './integrations';
 import SettingsLayout from './layout';
 // import UserProfile from "./profile";

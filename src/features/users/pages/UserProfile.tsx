@@ -1,7 +1,7 @@
 // UserProfile.tsx
 
 import React, { useState } from 'react';
-import { UserProfileForm } from '../features/auth';
+import { UserProfileForm } from '../../auth';
 
 const UserProfile: React.FC = () => {
   const [edit, setEdit] = useState(false);

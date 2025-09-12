@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { useAuth } from '../features/auth/context/AuthContext';
-import { getServiceURL } from '../helpers/getServiceURL';
+import { useAuth } from '../../auth/context/AuthContext';
+import { getServiceURL } from '../../../helpers/getServiceURL';
 import { useParams } from 'react-router-dom';
 
 export type BrandData = {
@@ -69,5 +69,5 @@ export default function useFetchUserData() {
     if (params.id) fetchUserData();
   }, [profile]);
 
-  return [data, loading(_error), handleRetry] as const;
+  return [data, loading, handleRetry] as const;
 }

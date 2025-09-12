@@ -1,6 +1,6 @@
 import React from 'react';
-import Sidebar from '../components/shared/Sidebar';
-import UsersTable from '../components/users/UsersTable';
+import Sidebar from '../../../components/shared/Sidebar';
+import UsersTable from '../components/UsersTable';
 
 export default function ManageUsers() {
   return (

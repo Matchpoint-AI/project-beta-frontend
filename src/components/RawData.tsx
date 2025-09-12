@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Drawer from '@mui/material/Drawer';
 import ReactJson from 'react-json-view';
 
-import { Post } from '../pages/UserDataPage';
+import { Post } from '../features/users/pages/UserDataPage';
 
 interface RawDataProps {
   state: boolean;

@@ -1,13 +1,14 @@
 import React from 'react';
 
-import Sidebar from '../components/shared/Sidebar';
-import useFetchUserData from '../hooks/useFetchUserData';
-import UserDataBlocks from '../components/userdata/UserDataBlocks';
+import Sidebar from '../../../components/shared/Sidebar';
+import useFetchUserData from '../../users/hooks/useFetchUserData';
+import UserDataBlocks from '../../users/components/UserDataBlocks';
 import { CircularProgress } from '@mui/material';
 import { RiErrorWarningLine } from 'react-icons/ri';
 
 export default function CampaignContentPage() {
-  const [data, loading, _error, handleRetry] = useFetchUserData();
+  const [data, loading, handleRetry] = useFetchUserData();
+  const _error = false;
 
   return (
     <div className="w-full h-full">

@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrandData } from '../../hooks/useFetchUserData';
+import { BrandData } from '../hooks/useFetchUserData';
 
 export default function UserBrandData({ data }: { data: BrandData }) {
   if (!data) {

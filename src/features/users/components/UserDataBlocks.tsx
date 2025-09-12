@@ -1,7 +1,7 @@
 import React from 'react';
-import { UserData } from '../../hooks/useFetchUserData';
+import { UserData } from '../hooks/useFetchUserData';
 import UserBrandData from './UserBrandData';
-import UserCampaignsData from '../UserCampaignsData';
+import UserCampaignsData from '../../campaign/components/UserCampaignsData';
 
 interface UserDataBlocksProps {
   data: UserData;

@@ -3,10 +3,10 @@ import React, { useState } from 'react';
 import Dialog from '@mui/material/Dialog';
 import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
-import { Post } from '../../../pages/UserDataPage';
+import { Post } from '../../users/pages/UserDataPage';
 import { ClearIcon } from '@mui/x-date-pickers/icons';
 import DayContentGalery from './DayContentGalery';
-import RawData from '../RawData';
+import RawData from '../../../components/RawData';
 
 interface CampaignContentWinProps {
   open: boolean;
