@@ -36,7 +36,21 @@ export default function BrandDetailsBlock({ category }: BrandDetailsBlockProps) 
 
   const handleChipSelect = (chipId: number, arrayIndex: number) => {
     const newChips = Array.from((businessInfo[category] as Selectable[]) ?? []) as Chip[];
-    newChips[arrayIndex].selected = !newChips[arrayIndex].selected;
+    
+    // Find the chip by arrayIndex (if valid), or fallback to finding by chipId
+    let targetIndex = -1;
+    if (arrayIndex >= 0 && arrayIndex < newChips.length && newChips[arrayIndex]) {
+      targetIndex = arrayIndex;
+    } else {
+      targetIndex = newChips.findIndex(chip => chip.id === chipId);
+    }
+    
+    if (targetIndex === -1 || !newChips[targetIndex]) {
+      console.warn(`Chip not found: chipId=${chipId}, arrayIndex=${arrayIndex}`);
+      return;
+    }
+    
+    newChips[targetIndex].selected = !newChips[targetIndex].selected;
     setBusinessInfo({ ...businessInfo, [category]: newChips });
     const selectedTags = newChips.filter((c) => c.selected);
     if (selectedTags.length === 0) setError(true);
