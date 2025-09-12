@@ -1,1 +1,1 @@
-export default function WebsiteOwnership(): import("react/jsx-runtime").JSX.Element;
+export default function WebsiteOwnership(): import('react/jsx-runtime').JSX.Element;

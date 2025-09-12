@@ -79,13 +79,13 @@ global.fetch = vi.fn(() =>
     statusText: 'OK',
     type: 'basic',
     url: '',
-    clone: () => ({} as any),
+    clone: () => ({}) as any,
     body: null,
     bodyUsed: false,
     arrayBuffer: () => Promise.resolve(new ArrayBuffer(0)),
     blob: () => Promise.resolve(new Blob()),
     formData: () => Promise.resolve(new FormData()),
-    text: () => Promise.resolve('')
+    text: () => Promise.resolve(''),
   } as Response)
 ) as any;
 

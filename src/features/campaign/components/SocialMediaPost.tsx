@@ -292,7 +292,7 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
         const selectedImageIndex = selectedImages[postIndex - 1] - 1;
 
         // Create updated text versions array
-        const updatedTextVersions = [...((currentPost.text_versions as any) || [] as string[])];
+        const updatedTextVersions = [...((currentPost.text_versions as any) || ([] as string[]))];
         updatedTextVersions[selectedImageIndex] = text;
 
         const response = await fetch(`${endpointUrl}/api/v1/contentgen/update-text-versions`, {
@@ -389,7 +389,7 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
           scene_type: sceneType as any,
           brand_voice: brandName as any,
           target_audience: currentPost.target_audience as any,
-          hashtags: (currentPost.hashtags as any) || [] as string[],
+          hashtags: (currentPost.hashtags as any) || ([] as string[]),
           max_length: 2200, // Instagram max
           include_cta: true,
           tone: (currentPost.tone as any) || 'casual',
@@ -408,7 +408,7 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
         const endpointUrl = getServiceURL('content-gen');
         const selectedImageIndex = selectedImages[postIndex - 1] - 1;
 
-        const updatedTextVersions = [...((currentPost.text_versions as any) || [] as string[])];
+        const updatedTextVersions = [...((currentPost.text_versions as any) || ([] as string[]))];
         updatedTextVersions[selectedImageIndex] = bestCaption.text;
 
         await fetch(`${endpointUrl}/api/v1/contentgen/update-text-versions`, {

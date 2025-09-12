@@ -1,6 +1,6 @@
 import React from 'react';
 interface VersionDisplayProps {
-    className?: string;
+  className?: string;
 }
 /**
  * VersionDisplay component shows the application version only in development and staging environments.

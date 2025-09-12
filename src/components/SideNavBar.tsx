@@ -136,7 +136,10 @@ export default function SideNavBar({
           onMouseEnter={() => setHoveredItem('onboard')}
           onMouseLeave={() => setHoveredItem(null)}
         >
-          <button type="button" onClick={() => profile?.id && handleNavigate(profile.id, '/onboard', navigate)}>
+          <button
+            type="button"
+            onClick={() => profile?.id && handleNavigate(profile.id, '/onboard', navigate)}
+          >
             <Link to="/onboard">
               <TbBriefcase size={30} color={pathname === '/onboard' ? '#5145CD' : '#111928'} />
             </Link>

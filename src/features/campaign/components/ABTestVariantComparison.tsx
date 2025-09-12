@@ -71,7 +71,11 @@ interface ABTestVariantComparisonProps {
   isOpen: boolean;
   onClose: () => void;
   testConfig: ABTestConfig;
-  onSaveVariant: (variantId: string, content: ABTestVariant['content'], notes?: string) => Promise<void>;
+  onSaveVariant: (
+    variantId: string,
+    content: ABTestVariant['content'],
+    notes?: string
+  ) => Promise<void>;
   onUpdateTrafficAllocation: (allocations: { [variantId: string]: number }) => Promise<void>;
   onStartTest: () => Promise<void>;
   onPauseTest: () => Promise<void>;

@@ -63,7 +63,9 @@ const DayBanner = ({
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [selectedImages, setSelectedImages] = useState(
     content.posts.map((post) =>
-      (post as any).text_versions ? (post as any).text_versions.findIndex((text: string) => text === post.text) + 1 : 1
+      (post as any).text_versions
+        ? (post as any).text_versions.findIndex((text: string) => text === post.text) + 1
+        : 1
     )
   );
 

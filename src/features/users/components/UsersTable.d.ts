@@ -1,1 +1,1 @@
-export default function UsersTable(): import("react/jsx-runtime").JSX.Element;
+export default function UsersTable(): import('react/jsx-runtime').JSX.Element;

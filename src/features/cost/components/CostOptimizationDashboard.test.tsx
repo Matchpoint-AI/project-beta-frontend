@@ -577,7 +577,7 @@ describe('CostOptimizationDashboard', () => {
 
     it('should prepare line chart data correctly', async () => {
       const { Line } = await import('react-chartjs-2');
-      
+
       render(<CostOptimizationDashboard />);
 
       await waitFor(() => {
@@ -595,7 +595,7 @@ describe('CostOptimizationDashboard', () => {
 
     it('should prepare bar chart data correctly', async () => {
       const { Bar } = await import('react-chartjs-2');
-      
+
       render(<CostOptimizationDashboard />);
 
       await waitFor(() => {
@@ -610,7 +610,7 @@ describe('CostOptimizationDashboard', () => {
 
     it('should prepare doughnut chart data correctly', async () => {
       const { Doughnut } = await import('react-chartjs-2');
-      
+
       render(<CostOptimizationDashboard />);
 
       await waitFor(() => {
