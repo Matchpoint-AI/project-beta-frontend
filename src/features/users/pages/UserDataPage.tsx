@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import Sidebar from '../components/shared/Sidebar';
+import Sidebar from '../../../components/shared/Sidebar';
 import useFetchUserData from '../hooks/useFetchUserData';
-import UserDataBlocks from '../components/userdata/UserDataBlocks';
+import UserDataBlocks from '../components/UserDataBlocks';
 import { CircularProgress } from '@mui/material';
 import { RiErrorWarningLine } from 'react-icons/ri';
-import { getServiceURL } from '../helpers/getServiceURL';
-import { CampaignContentWin, CampaignThreadWin } from '../features/campaign';
-import { useAuth } from '../features/auth/context/AuthContext';
-import useFetchThreadMessages from '../hooks/useFetchThreadMessages';
+import { getServiceURL } from '../../../helpers/getServiceURL';
+import { CampaignContentWin, CampaignThreadWin } from '../../campaign';
+import { useAuth } from '../../auth/context/AuthContext';
+import useFetchThreadMessages from '../../../hooks/useFetchThreadMessages';
 
 export type Post = {
   text: string;
@@ -22,7 +22,8 @@ export type Messages = {
 };
 
 export default function UserDataPage() {
-  const [data, loading, _error, handleRetry] = useFetchUserData();
+  const [data, loading, handleRetry] = useFetchUserData();
+  const _error = false;
   const { profile } = useAuth();
   const [openContentWin, setOpenContentWin] = useState(false);
   const [content, setContent] = useState<Post[][][]>([]);
@@ -56,7 +57,7 @@ export default function UserDataPage() {
             <h1 className="text-2xl font-semibold leading-9 text-gradient">Fetching user data</h1>
           </div>
         )}
-        {!loading && error && (
+        {!loading && _error && (
           <div className="w-full min-h-screen flex flex-col gap-5 justify-center items-center">
             <RiErrorWarningLine size={64} color="#F05252" />
             <h1 className="font-medium md:text-[42px] sm:text-[32px] text-[28px] text-center text-[#30175A]">
@@ -75,7 +76,7 @@ export default function UserDataPage() {
             </button>
           </div>
         )}
-        {!loading && !error && (
+        {!loading && !_error && (
           <div className="md:ml-[80px] flex-grow flex flex-col gap-8 p-8 md:mt-8 mt-[80px]">
             <UserDataBlocks
               data={data!}

@@ -1,4 +1,4 @@
-import { getServiceURL } from './getServiceURL';
+import { getServiceURL } from '../../../helpers/getServiceURL';
 
 type ProfileUpdate = {
   email: string;

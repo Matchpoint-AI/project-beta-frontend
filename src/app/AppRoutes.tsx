@@ -13,8 +13,8 @@ import { useAuth } from '../features/auth/context/AuthContext';
 import LandingPage from '../pages/LandingPage';
 import AuthActions from '../features/auth/pages/AuthActions';
 import settings from '../components/shared/settings';
-import ManageUsers from '../pages/ManageUsers';
-import UserDataPage from '../pages/UserDataPage';
+import ManageUsers from '../features/users/pages/ManageUsers';
+import UserDataPage from '../features/users/pages/UserDataPage';
 import PrivacyPolicy from '../pages/PrivacyPolicy';
 import { ABTestDemo } from '../features/campaign';
 
