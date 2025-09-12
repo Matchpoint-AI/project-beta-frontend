@@ -65,11 +65,12 @@ export default defineConfig({
         '**/__mocks__',
       ],
       thresholds: {
-        // Setting realistic coverage thresholds based on current state
-        statements: 36,
-        branches: 50,
-        functions: 33,
-        lines: 36,
+        // Set to current coverage levels to establish baseline and prevent regression
+        // Future PRs can incrementally increase these thresholds toward 75% target
+        statements: 38,
+        branches: 66,
+        functions: 37,
+        lines: 38,
       },
     },
     // Use threads pool for parallel test execution
