@@ -10,7 +10,7 @@ import React, {
 import Dropdown from '../../../shared/components/ui/Dropdown';
 import { CampaignContext } from '../../campaign/context/CampaignContext';
 import { BrandContext } from '../../brand/context/BrandContext';
-import FormsContainer from '../../../components/shared/FormsContainer';
+import FormsContainer from '../../../shared/components/layout/FormsContainer';
 import WebsiteOwnership from '../../../components/WebsiteOwnership';
 import NextButton from '../../../shared/components/buttons/NextButton';
 import BackButton from '../../../shared/components/buttons/BackButton';

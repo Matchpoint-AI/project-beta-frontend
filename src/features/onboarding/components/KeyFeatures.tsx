@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { CampaignContext } from '../../campaign/context/CampaignContext';
-import EditBlock from '../../../components/shared/EditBlock';
+import EditBlock from '../../../shared/components/ui/EditBlock';
 import ChipComponent from '../../../shared/components/ui/ChipComponent';
 import ChipsEditBlock from './ChipsEditBlock';
 
