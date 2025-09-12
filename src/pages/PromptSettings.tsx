@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { CircularProgress } from '@mui/material';
 import { RiErrorWarningLine } from 'react-icons/ri';
 
-import Sidebar from '../../../shared/components/layout/Sidebar';
+import Sidebar from '../shared/components/layout/Sidebar';
 import { useAuth } from '../features/auth/context/AuthContext';
 import fetchPrompts from '../helpers/fetchPrompts';
 import { PromptEditor } from '../features/campaign';

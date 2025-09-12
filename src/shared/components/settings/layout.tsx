@@ -1,5 +1,5 @@
 import { NavLink, Outlet } from 'react-router-dom';
-import Sidebar from '../Sidebar';
+import Sidebar from '../layout/Sidebar';
 import React from 'react';
 
 const navigation = [

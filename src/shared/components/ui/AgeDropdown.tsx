@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ChipComponent from '../../shared/components/ui/ChipComponent';
+import ChipComponent from './ChipComponent';
 
 interface AgeDropdownProps {
   options: string[];
