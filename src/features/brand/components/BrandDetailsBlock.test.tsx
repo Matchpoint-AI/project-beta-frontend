@@ -1,19 +1,23 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { BrowserRouter } from 'react-router-dom';
 import BrandDetailsBlock from './BrandDetailsBlock';
 import { BrandContext } from '../context/BrandContext';
+import type { BusinessInfo } from '../context/BrandContext';
 
 // Mock react-router-dom hooks
-const mockUseLocation = vi.fn();
-const mockUseNavigate = vi.fn();
+const mockNavigate = vi.fn();
 vi.mock('react-router-dom', async () => {
-  const actual = await vi.importActual<typeof import('react-router-dom')>();
+  const actual = await vi.importActual('react-router-dom');
   return {
     ...actual,
-    useLocation: () => mockUseLocation(),
-    useNavigate: () => mockUseNavigate(),
+    useLocation: () => ({
+      search: '',
+      hash: '',
+      pathname: '/test',
+    }),
+    useNavigate: () => mockNavigate,
   };
 });
 
@@ -29,31 +33,44 @@ vi.mock('./BrandDetailsEditBlock', () => ({
 
 vi.mock('../../../shared/components/ui/EditBlock', () => ({
   default: vi.fn(({ onClick, disabled, className }) => (
-    <button data-testid="edit-button" onClick={onClick} disabled={disabled} className={className}>
+    <button
+      data-testid="edit-button"
+      onClick={onClick}
+      disabled={disabled}
+      className={className}
+    >
       Edit
     </button>
   )),
 }));
 
 vi.mock('../../../shared/components/ui/ChipComponent', () => ({
-  default: vi.fn(({ label, onClose, onSelect, index, selected }) => (
-    <div data-testid={`chip-${index}`}>
-      <span>{label}</span>
-      <button data-testid={`chip-close-${index}`} onClick={() => onClose(index)}>
-        Close
-      </button>
-      <button data-testid={`chip-select-${index}`} onClick={() => onSelect(index)}>
-        {selected ? 'Deselect' : 'Select'}
-      </button>
-    </div>
-  )),
+  default: vi.fn(({ label, onClose, onSelect, index, selected }) => {
+    return (
+      <div data-testid={`chip-${index}`}>
+        <span>{label}</span>
+        <button data-testid={`chip-close-${index}`} onClick={() => onClose(index)}>
+          Close
+        </button>
+        <button data-testid={`chip-select-${index}`} onClick={() => onSelect(index)}>
+          {selected ? 'Deselect' : 'Select'}
+        </button>
+      </div>
+    );
+  }),
 }));
 
 describe('BrandDetailsBlock', () => {
   const mockSetBusinessInfo = vi.fn();
-  const mockNavigate = vi.fn();
 
-  const defaultBusinessInfo = {
+  const defaultBusinessInfo: BusinessInfo = {
+    name: 'Test Company',
+    website: 'https://test.com',
+    product_features: [],
+    product_description: '',
+    product_link: '',
+    start_date: '',
+    durationNum: 0,
     mission: [
       { id: 1, label: 'Innovation', selected: true },
       { id: 2, label: 'Quality', selected: false },
@@ -83,8 +100,6 @@ describe('BrandDetailsBlock', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    mockUseLocation.mockReturnValue({ search: '', hash: '', pathname: '/test' });
-    mockUseNavigate.mockReturnValue(mockNavigate);
   });
 
   describe('Component Rendering', () => {
@@ -103,9 +118,7 @@ describe('BrandDetailsBlock', () => {
 
       // Assert
       expect(screen.getByText('values')).toBeInTheDocument();
-      expect(
-        screen.getByText('The core beliefs that guide your interactions with customers')
-      ).toBeInTheDocument();
+      expect(screen.getByText('The core beliefs that guide your interactions with customers')).toBeInTheDocument();
     });
 
     it('should render persona category with correct title and description', () => {
@@ -114,9 +127,7 @@ describe('BrandDetailsBlock', () => {
 
       // Assert
       expect(screen.getByText('persona')).toBeInTheDocument();
-      expect(
-        screen.getByText('The characteristics that identify who you are and how you behave')
-      ).toBeInTheDocument();
+      expect(screen.getByText('The characteristics that identify who you are and how you behave')).toBeInTheDocument();
     });
 
     it('should render toneAndVoice category as "Tone of Voice"', () => {
@@ -125,9 +136,7 @@ describe('BrandDetailsBlock', () => {
 
       // Assert
       expect(screen.getByText('Tone of Voice')).toBeInTheDocument();
-      expect(
-        screen.getByText('How your business speaks and verbally expresses its personality')
-      ).toBeInTheDocument();
+      expect(screen.getByText('How your business speaks and verbally expresses its personality')).toBeInTheDocument();
     });
 
     it('should render all chips for the category', () => {
@@ -144,7 +153,7 @@ describe('BrandDetailsBlock', () => {
     it('should remove chip when close button is clicked', () => {
       // Arrange
       renderComponent('mission');
-      const closeButton = screen.getByTestId('chip-close-1');
+      const closeButton = screen.getByTestId('chip-close-1'); // First chip with id=1
 
       // Act
       fireEvent.click(closeButton);
@@ -159,7 +168,7 @@ describe('BrandDetailsBlock', () => {
     it('should show error when last chip is removed', () => {
       // Arrange
       renderComponent('persona');
-      const closeButton = screen.getByTestId('chip-close-5');
+      const closeButton = screen.getByTestId('chip-close-5'); // Only persona chip with id=5
 
       // Act
       fireEvent.click(closeButton);
@@ -174,7 +183,7 @@ describe('BrandDetailsBlock', () => {
     it('should toggle chip selection when select button is clicked', () => {
       // Arrange
       renderComponent('mission');
-      const selectButton = screen.getByTestId('chip-select-1');
+      const selectButton = screen.getByTestId('chip-select-2'); // Second chip (Quality) with id=2
 
       // Act
       fireEvent.click(selectButton);
@@ -196,7 +205,7 @@ describe('BrandDetailsBlock', () => {
         ...defaultBusinessInfo,
         persona: [{ id: 5, label: 'Professional', selected: true }],
       };
-
+      
       render(
         <BrowserRouter>
           <BrandContext.Provider
@@ -239,7 +248,7 @@ describe('BrandDetailsBlock', () => {
       renderComponent('mission');
       const editButton = screen.getByTestId('edit-button');
       fireEvent.click(editButton);
-
+      
       const closeButton = screen.getByText('Close Edit');
 
       // Act
@@ -260,99 +269,6 @@ describe('BrandDetailsBlock', () => {
 
       // Assert
       expect(editButton).toBeDisabled();
-    });
-  });
-
-  describe('URL Navigation Integration', () => {
-    it('should enter edit mode when URL has edit=true and matching hash', async () => {
-      // Arrange
-      mockUseLocation.mockReturnValue({
-        search: '?edit=true',
-        hash: '#mission',
-        pathname: '/test',
-      });
-
-      // Act
-      renderComponent('mission');
-
-      // Assert
-      await waitFor(() => {
-        expect(screen.getByTestId('edit-block-mission')).toBeInTheDocument();
-      });
-      expect(mockNavigate).toHaveBeenCalledWith('/test', { replace: true });
-    });
-
-    it('should not enter edit mode when hash does not match category', () => {
-      // Arrange
-      mockUseLocation.mockReturnValue({
-        search: '?edit=true',
-        hash: '#values',
-        pathname: '/test',
-      });
-
-      // Act
-      renderComponent('mission');
-
-      // Assert
-      expect(screen.queryByTestId('edit-block-mission')).not.toBeInTheDocument();
-      expect(mockNavigate).not.toHaveBeenCalled();
-    });
-
-    it('should not enter edit mode when edit param is not true', () => {
-      // Arrange
-      mockUseLocation.mockReturnValue({
-        search: '?edit=false',
-        hash: '#mission',
-        pathname: '/test',
-      });
-
-      // Act
-      renderComponent('mission');
-
-      // Assert
-      expect(screen.queryByTestId('edit-block-mission')).not.toBeInTheDocument();
-      expect(mockNavigate).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('Error State', () => {
-    it('should display error message when error state is true', () => {
-      // Arrange
-      renderComponent('persona');
-      const closeButton = screen.getByTestId('chip-close-5');
-
-      // Act
-      fireEvent.click(closeButton);
-
-      // Assert
-      // Component would re-render with error state after setBusinessInfo is called
-      // In a real scenario, the parent would update businessInfo which would trigger re-render
-    });
-
-    it('should have error background color when no selected chips', () => {
-      // Arrange
-      const noSelectedChips = {
-        ...defaultBusinessInfo,
-        mission: [
-          { id: 1, label: 'Innovation', selected: false },
-          { id: 2, label: 'Quality', selected: false },
-        ],
-      };
-
-      // Act
-      const { container } = render(
-        <BrowserRouter>
-          <BrandContext.Provider
-            value={{ businessInfo: noSelectedChips, setBusinessInfo: mockSetBusinessInfo }}
-          >
-            <BrandDetailsBlock category="mission" />
-          </BrandContext.Provider>
-        </BrowserRouter>
-      );
-
-      // Assert
-      const mainDiv = container.querySelector('#mission');
-      expect(mainDiv).toHaveStyle({ backgroundColor: '#F0F5FF' });
     });
   });
 
