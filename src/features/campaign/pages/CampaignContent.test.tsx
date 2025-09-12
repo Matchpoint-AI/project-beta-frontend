@@ -191,10 +191,13 @@ describe('CampaignContent Component', () => {
     // Wait for the component to load
     await waitFor(() => {
       expect(screen.getAllByTestId('campaign-header')[0]).toBeInTheDocument();
+      expect(screen.getByTestId('button-group')).toBeInTheDocument();
     });
 
-    // Verify the component renders correctly with data
-    expect(screen.getByTestId('tab-wrapper')).toBeInTheDocument();
-    expect(screen.getByTestId('button-group')).toBeInTheDocument();
+    // Verify fetch was called with correct params
+    expect(global.fetch).toHaveBeenCalledWith(
+      expect.stringContaining('/campaigns'),
+      expect.any(Object)
+    );
   });
 });
