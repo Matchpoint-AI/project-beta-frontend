@@ -58,10 +58,10 @@ export default defineConfig({
       name: 'setup',
       testMatch: /.*\.setup\.ts/,
     },
-    
+
     {
       name: 'chromium',
-      use: { 
+      use: {
         ...devices['Desktop Chrome'],
         // Use saved authentication state
         storageState: 'playwright/.auth/user.json',
