@@ -91,7 +91,7 @@ describe('ModifyPrompt', () => {
     it('should handle empty prompts', () => {
       const testPrompt = '';
       const result = testPrompt
-        ? testPrompt.replace(/^A (realistic )?(photograph|image) of /, '').trim()
+        ? (testPrompt as string).replace(/^A (realistic )?(photograph|image) of /, '').trim()
         : '';
 
       expect(result).toBe('');
@@ -100,7 +100,7 @@ describe('ModifyPrompt', () => {
 
   describe('prompt editing', () => {
     it('should not automatically add "A realistic photograph of" prefix', async () => {
-      (global.fetch as vi.Mock).mockResolvedValueOnce({
+      (global.fetch as any).mockResolvedValueOnce({
         ok: true,
         json: async () => ({ prompt: 'Young professionals in an office' }),
       });
@@ -119,7 +119,7 @@ describe('ModifyPrompt', () => {
     });
 
     it('should handle prompts with existing content', async () => {
-      (global.fetch as vi.Mock).mockResolvedValueOnce({
+      (global.fetch as any).mockResolvedValueOnce({
         ok: true,
         json: async () => ({
           prompt: 'A realistic photograph of young professionals. Additional content.',
@@ -142,7 +142,7 @@ describe('ModifyPrompt', () => {
 
   describe('form submission', () => {
     it('should submit prompt without hardcoded prefix', async () => {
-      (global.fetch as vi.Mock)
+      (global.fetch as any)
         .mockResolvedValueOnce({
           ok: true,
           json: async () => ({ prompt: 'Young professionals in an office' }),
@@ -178,7 +178,7 @@ describe('ModifyPrompt', () => {
     });
 
     it('should handle submission errors', async () => {
-      (global.fetch as vi.Mock)
+      (global.fetch as any)
         .mockResolvedValueOnce({
           ok: true,
           json: async () => ({ prompt: 'Test prompt' }),
@@ -205,7 +205,7 @@ describe('ModifyPrompt', () => {
 
   describe('remaining generations', () => {
     it('should fetch and display remaining generations', async () => {
-      (global.fetch as vi.Mock)
+      (global.fetch as any)
         .mockResolvedValueOnce({
           ok: true,
           json: async () => ({ prompt: 'Test prompt' }),
@@ -223,7 +223,7 @@ describe('ModifyPrompt', () => {
     });
 
     it('should disable regenerate button when no generations left', async () => {
-      (global.fetch as vi.Mock)
+      (global.fetch as any)
         .mockResolvedValueOnce({
           ok: true,
           json: async () => ({ prompt: 'Test prompt' }),
@@ -246,7 +246,7 @@ describe('ModifyPrompt', () => {
 
   describe('accessibility', () => {
     it('should have proper ARIA labels', async () => {
-      (global.fetch as vi.Mock).mockResolvedValueOnce({
+      (global.fetch as any).mockResolvedValueOnce({
         ok: true,
         json: async () => ({ prompt: 'Test prompt' }),
       });
@@ -260,7 +260,7 @@ describe('ModifyPrompt', () => {
     });
 
     it('should have proper form structure', async () => {
-      (global.fetch as vi.Mock).mockResolvedValueOnce({
+      (global.fetch as any).mockResolvedValueOnce({
         ok: true,
         json: async () => ({ prompt: 'Test prompt' }),
       });
@@ -276,7 +276,7 @@ describe('ModifyPrompt', () => {
 
   describe('error handling', () => {
     it('should handle network errors gracefully', async () => {
-      (global.fetch as vi.Mock).mockRejectedValueOnce(new Error('Network error'));
+      (global.fetch as any).mockRejectedValueOnce(new Error('Network error'));
 
       render(<ModifyPrompt {...defaultProps} />);
 
@@ -285,7 +285,7 @@ describe('ModifyPrompt', () => {
     });
 
     it('should handle authentication errors', async () => {
-      (global.fetch as vi.Mock).mockResolvedValueOnce({
+      (global.fetch as any).mockResolvedValueOnce({
         ok: false,
         status: 401,
       });

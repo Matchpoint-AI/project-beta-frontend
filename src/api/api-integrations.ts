@@ -20,7 +20,7 @@ export default function useIntegrationApi(action: TAction, manual?: 'TRIGGER') {
   return useApi(integrationApi, action, manual);
 }
 
-export async function integrationApi(action: TAction, token?: string) {
+export async function integrationApi(action: { type: unknown; [key: string]: unknown }, token?: string) {
   const { type, payload: app } = action;
 
   if (!token) {
@@ -50,6 +50,8 @@ export async function integrationApi(action: TAction, token?: string) {
     case 'USER':
       response = await _axios.get(`/${app}/me`, config);
       break;
+    default:
+      throw new Error(`Unknown action type: ${type}`);
   }
   return response.data;
 }

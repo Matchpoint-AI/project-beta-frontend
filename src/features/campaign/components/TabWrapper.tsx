@@ -53,7 +53,7 @@ interface TabWrapperProps {
 
 const TabWrapper: React.FC<TabWrapperProps> = ({ currentTab, campaign, setStats }) => {
   if (currentTab === '1') {
-    return <ContentLibrary campaign={campaign} setStats={setStats} />;
+    return <ContentLibrary campaign={campaign} setStats={setStats as any} />;
   } else if (currentTab === '2') {
     return <CalendarCampaign campaign={campaign} />;
   } else if (currentTab === '3') {

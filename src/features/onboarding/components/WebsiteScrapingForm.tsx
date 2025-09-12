@@ -10,8 +10,8 @@ import ErrorToast from '../../shared/components/feedback/ErrorToast';
 export default function WebsiteScrapingForm() {
   const { businessInfo, setBusinessInfo } = useContext(BrandContext);
   const [runValidation, setRunValidation] = useState(0);
-  const [nameError, setNameError] = useState({ count: 0, _error: false });
-  const [websiteError, setWebsiteError] = useState({ count: 0, _error: false });
+  const [nameError, setNameError] = useState({ count: 0, error: false });
+  const [websiteError, setWebsiteError] = useState({ count: 0, error: false });
   const [progressDescription, setProgressDescription] = useState('');
   const [scrapingError, setScrapingError] = useState(false);
 

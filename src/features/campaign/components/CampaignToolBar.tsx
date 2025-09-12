@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 // import Dropdown from '../../../shared/components/ui/Dropdown';
 import { IoIosArrowBack } from 'react-icons/io';
 import { IoIosArrowForward } from 'react-icons/io';
+import { NavigateAction } from 'react-big-calendar';
 
 interface CampaignToolBarProps {
   label: string;
   date: Date;
-  onNavigate: (action: number, date: Date) => void;
+  onNavigate: (navigate: NavigateAction, date?: Date) => void;
 }
 const CampaignToolBar = (props: CampaignToolBarProps) => {
   const [selectedMonth, setSelectedMonth] = useState<string>('');

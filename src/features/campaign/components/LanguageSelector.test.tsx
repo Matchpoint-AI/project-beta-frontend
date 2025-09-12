@@ -32,7 +32,7 @@ describe('LanguageSelector', () => {
     render(<LanguageSelector onLanguageChange={mockOnLanguageChange} />);
 
     const button = document.getElementById('language-selector');
-    fireEvent.click(button);
+    if (button) fireEvent.click(button);
 
     // Wait for dropdown to appear
     await waitFor(() => {
@@ -48,7 +48,7 @@ describe('LanguageSelector', () => {
     const button = document.getElementById('language-selector');
     expect(button).toBeInTheDocument();
 
-    fireEvent.click(button);
+    if (button) fireEvent.click(button);
 
     // Wait a bit for the dropdown to potentially open
     await new Promise((resolve) => setTimeout(resolve, 100));
@@ -96,7 +96,7 @@ describe('LanguageSelector', () => {
     render(<LanguageSelector onLanguageChange={mockOnLanguageChange} />);
 
     const button = document.getElementById('language-selector');
-    fireEvent.click(button);
+    if (button) fireEvent.click(button);
 
     await waitFor(() => {
       const menuItems = screen.getAllByRole('menuitem');

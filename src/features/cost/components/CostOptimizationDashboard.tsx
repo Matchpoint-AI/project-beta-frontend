@@ -587,7 +587,7 @@ export const CostOptimizationDashboard: React.FC = () => {
                   </span>
                 </div>
 
-                {metric.quality_impact !== null && (
+                {metric.quality_impact !== null && metric.quality_impact !== undefined && (
                   <div className="flex justify-between items-center">
                     <span className="text-sm text-gray-600">Quality:</span>
                     <span

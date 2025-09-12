@@ -19,7 +19,7 @@ const description = {
 };
 
 const mergeValues = (values: unknown) => {
-  const result = [
+  const result: Array<{ selected: boolean; label: string; id?: number }> = [
     { id: 0, label: '', selected: false },
     { id: 1, label: '', selected: false },
     { id: 2, label: '', selected: false },
@@ -65,7 +65,7 @@ export default function BrandProfileEdit({ hasBrand: _hasBrand }: BrandProfileEd
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${profile.token}`,
+          Authorization: `Bearer ${profile?.token}`,
         },
         body: JSON.stringify({
           mission: pMission,
@@ -327,16 +327,16 @@ function DetailsCard({
   );
 }
 interface VariablesBadgeProps {
-  values: Array<{ selected: boolean; label: string }>;
+  values: Array<{ selected: boolean; label: string; id?: number }>;
 }
 
 function VariablesBadge({ values }: VariablesBadgeProps) {
   return (
     <>
-      {values.map((c) =>
+      {values.map((c, index) =>
         c.label.length ? (
           <div
-            key={c.id}
+            key={c.id ?? index}
             className="py-1 px-[10px] bg-[#D1D5DB] text-xs font-medium leading-[18px] capitalize text-[#111928] rounded-md"
           >
             {c.label}
@@ -348,8 +348,8 @@ function VariablesBadge({ values }: VariablesBadgeProps) {
 }
 
 interface EditableValuesCardProps {
-  values: Array<{ selected: boolean; label: string }>;
-  onChange: (values: Array<{ selected: boolean; label: string }>) => void;
+  values: Array<{ selected: boolean; label: string; id?: number }>;
+  onChange: React.Dispatch<React.SetStateAction<Array<{ selected: boolean; label: string; id?: number }>>>;
   onSave: () => void;
   isSaving: boolean;
 }

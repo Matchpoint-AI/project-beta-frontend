@@ -64,7 +64,7 @@ export default function UserDataPage() {
               Unexpected Error
             </h1>
             <p className="text-[#30175A] md:text-lg text-base text-center max-w-[600px]">
-              Sorry, unexpected error happend while fetching user data
+              Sorry, unexpected _error happend while fetching user data
               <br />
               Please retry.
             </p>

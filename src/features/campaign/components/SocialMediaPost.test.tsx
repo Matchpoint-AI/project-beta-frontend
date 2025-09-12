@@ -73,8 +73,21 @@ global.fetch = vi.fn(() =>
   Promise.resolve({
     ok: true,
     json: async () => ({}),
-  })
-);
+    headers: new Headers(),
+    redirected: false,
+    status: 200,
+    statusText: 'OK',
+    type: 'basic',
+    url: '',
+    clone: () => ({} as any),
+    body: null,
+    bodyUsed: false,
+    arrayBuffer: () => Promise.resolve(new ArrayBuffer(0)),
+    blob: () => Promise.resolve(new Blob()),
+    formData: () => Promise.resolve(new FormData()),
+    text: () => Promise.resolve('')
+  } as Response)
+) as any;
 
 const mockProfile = {
   id: 'test-user-id',
@@ -263,8 +276,8 @@ describe('SocialMediaPost Component', () => {
       const fetchSpy = vi.spyOn(global, 'fetch');
       // Mock the initial calls that happen on mount
       fetchSpy
-        .mockResolvedValueOnce({ ok: true, json: async () => ({}) }) // initial call
-        .mockResolvedValueOnce({ ok: true, json: async () => ({}) }); // approval call
+        .mockResolvedValueOnce({ ok: true, json: async () => ({}) } as any) // initial call
+        .mockResolvedValueOnce({ ok: true, json: async () => ({}) } as any); // approval call
 
       await act(async () => {
         renderWithAuth();
@@ -282,7 +295,7 @@ describe('SocialMediaPost Component', () => {
 
       await waitFor(() => {
         expect(
-          fetchSpy.mock.calls.some((call) => call[0].includes('/api/v1/contentgen/approve'))
+          fetchSpy.mock.calls.some((call) => String(call[0]).includes('/api/v1/contentgen/approve'))
         ).toBe(true);
       });
 

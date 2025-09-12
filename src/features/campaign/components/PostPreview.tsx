@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import PaginationImage from './PaginationImage';
 import { BsThreeDots } from 'react-icons/bs';
-import InstagramIcons from '../InstagramIcons';
+import InstagramIcons from '../../../components/InstagramIcons';
 import Options from '../../../components/shared/Options';
 import { BrandContext } from '../../brand/context/BrandContext';
 import ModifyPromptForm from './ModifyPromptForm';
@@ -373,7 +373,7 @@ const PostPreview = ({
         <div className="w-full flex flex-row gap-2 items-center">
           <h1 className="font-medium text-sm text-black">Image Options:</h1>
           <PaginationImage
-            totalPages={content?.image_url !== undefined ? content?.image_url.length : 0}
+            images={content?.image_url || []}
             approved={content?.approved}
             currentPage={currentImage}
             onPageChange={handleImageChange}

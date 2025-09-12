@@ -103,7 +103,7 @@ Get ${campaignInfo?.audienceGender} who are interested in ${
     })
       .then((response) => response.json())
       .then((_data) => {
-        const { choices } = data.response;
+        const { choices } = _data.response;
         const { content } = choices[0].message;
         setCampaignSummary(content);
         setCampaignInfo((prev: any) => ({ ...prev, summary: content }));
@@ -225,7 +225,7 @@ Get ${campaignInfo?.audienceGender} who are interested in ${
       {campaignInfo?.campaign_brief !== true && (
         <div className={`flex justify-between mb-10 w-full ${isOpen ? 'blur-md' : ''}`}>
           <BackButton onClick={() => handleBack()} />
-          <ApproveButton onClick={handleApprove} />
+          <ApproveButton double={false} handleApproveAll={handleApprove} loading={false} />
         </div>
       )}
     </>

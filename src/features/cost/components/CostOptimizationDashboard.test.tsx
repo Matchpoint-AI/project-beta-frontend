@@ -577,13 +577,13 @@ describe('CostOptimizationDashboard', () => {
 
     it('should prepare line chart data correctly', async () => {
       const { Line } = await import('react-chartjs-2');
-
+      
       render(<CostOptimizationDashboard />);
 
       await waitFor(() => {
         expect(Line).toHaveBeenCalled();
 
-        const chartProps = Line.mock.calls[0][0];
+        const chartProps = (Line as any).mock.calls[0][0];
         expect(chartProps.data).toBeDefined();
         // Date format depends on locale, so check length instead of exact values
         expect(chartProps.data.labels).toHaveLength(2);
@@ -595,13 +595,13 @@ describe('CostOptimizationDashboard', () => {
 
     it('should prepare bar chart data correctly', async () => {
       const { Bar } = await import('react-chartjs-2');
-
+      
       render(<CostOptimizationDashboard />);
 
       await waitFor(() => {
         expect(Bar).toHaveBeenCalled();
 
-        const chartProps = Bar.mock.calls[0][0];
+        const chartProps = (Bar as any).mock.calls[0][0];
         expect(chartProps.data).toBeDefined();
         expect(chartProps.data.labels).toEqual(['Vision Model Switch', 'Gemini Routing']);
         expect(chartProps.data.datasets[0].data).toEqual([57135.0, 24421.5]);
@@ -610,13 +610,13 @@ describe('CostOptimizationDashboard', () => {
 
     it('should prepare doughnut chart data correctly', async () => {
       const { Doughnut } = await import('react-chartjs-2');
-
+      
       render(<CostOptimizationDashboard />);
 
       await waitFor(() => {
         expect(Doughnut).toHaveBeenCalled();
 
-        const chartProps = Doughnut.mock.calls[0][0];
+        const chartProps = (Doughnut as any).mock.calls[0][0];
         expect(chartProps.data).toBeDefined();
         expect(chartProps.data.labels).toHaveLength(5);
         expect(chartProps.data.datasets[0].data).toEqual([45.0, 32.0, 15.0, 5.0, 3.0]);

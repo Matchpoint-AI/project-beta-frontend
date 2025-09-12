@@ -92,8 +92,8 @@ const renderWithContext = (
 ) => {
   return render(
     <BrowserRouter>
-      <AuthContext.Provider value={authValue}>
-        <BrandContext.Provider value={brandValue}>
+      <AuthContext.Provider value={authValue as any}>
+        <BrandContext.Provider value={brandValue as any}>
           <Dashboard />
         </BrandContext.Provider>
       </AuthContext.Provider>
@@ -114,10 +114,10 @@ describe('Dashboard Component', () => {
   it('should render loading state when profile is not available', () => {
     const authValueWithoutProfile = {
       ...mockAuthContextValue,
-      profile: undefined,
+      profile: null,
     };
 
-    renderWithContext(authValueWithoutProfile);
+    renderWithContext(authValueWithoutProfile as any);
 
     expect(screen.getByText('Loading your profile...')).toBeInTheDocument();
   });
@@ -130,12 +130,11 @@ describe('Dashboard Component', () => {
         campaigns: [
           {
             campaign_id: 'test-campaign-1',
+            status: 'active',
             campaign_data: {
               campaign_variables: {
-                name: 'Test Campaign',
-                product_service: 'Test Product',
+                durationNum: 4,
                 start_date: '12/01/2024',
-                duration: '4 weeks',
               },
             },
           },
@@ -143,7 +142,7 @@ describe('Dashboard Component', () => {
       },
     };
 
-    renderWithContext(mockAuthContextValue, brandValueWithCampaigns);
+    renderWithContext(mockAuthContextValue as any, brandValueWithCampaigns as any);
 
     await waitFor(() => {
       expect(screen.getByTestId('campaigns-list')).toBeInTheDocument();
@@ -160,12 +159,11 @@ describe('Dashboard Component', () => {
         campaigns: [
           {
             campaign_id: 'test-campaign-1',
+            status: 'active',
             campaign_data: {
               campaign_variables: {
-                name: 'Test Campaign',
-                product_service: 'Test Product',
+                durationNum: 4,
                 start_date: '12/01/2024',
-                duration: '4 weeks',
               },
             },
           },
@@ -173,7 +171,7 @@ describe('Dashboard Component', () => {
       },
     };
 
-    renderWithContext(mockAuthContextValue, brandValueWithOneCampaign);
+    renderWithContext(mockAuthContextValue, brandValueWithOneCampaign as any);
 
     // Wait a bit to ensure no automatic navigation occurs
     await new Promise((resolve) => setTimeout(resolve, 100));

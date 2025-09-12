@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Sidebar from '../shared/Sidebar';
 import { BrandContext } from '../../features/brand/context/BrandContext';
-import CustomComponent from '../campaign/CustomComponent';
+import CustomComponent from '../../features/campaign/components/CustomComponent';
 import BrandForm from '../../features/brand/components/BrandForm';
 import ReviewForm from '../onboard/ReviewForm';
 import { CampaignContext } from '../../campaign/context/CampaignContext';

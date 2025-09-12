@@ -194,10 +194,10 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
     try {
       setLoading(true);
       const response = await fetch(
-        `${getServiceURL('content_generation')}/api/v1/brand-knowledge/by-brand/${businessInfo.id}`,
+        `${getServiceURL('content-gen')}/api/v1/brand-knowledge/by-brand/${businessInfo.id}`,
         {
           headers: {
-            Authorization: `Bearer ${authState.token}`,
+            Authorization: `Bearer ${authState?.token}`,
           },
         }
       );
@@ -350,12 +350,12 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
 
       const campaignIds = businessInfo.campaigns.map((c) => c.campaign_id);
       const response = await fetch(
-        `${getServiceURL('content_generation')}/api/v1/brand-knowledge/extract-from-campaigns`,
+        `${getServiceURL('content-gen')}/api/v1/brand-knowledge/extract-from-campaigns`,
         {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${authState.token}`,
+            Authorization: `Bearer ${authState?.token}`,
           },
           body: JSON.stringify({ campaign_ids: campaignIds }),
         }
@@ -375,7 +375,7 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
       }
     } catch (_err) {
       // Error handled silently
-      setError(err instanceof Error ? err.message : 'Failed to extract from campaigns');
+      setError(_err instanceof Error ? _err.message : 'Failed to extract from campaigns');
     } finally {
       setLoading(false);
     }
@@ -398,14 +398,14 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
       }
 
       const endpoint = existingData
-        ? `${getServiceURL('content_generation')}/api/v1/brand-knowledge/${existingData.brand_id}`
-        : `${getServiceURL('content_generation')}/api/v1/brand-knowledge`;
+        ? `${getServiceURL('content-gen')}/api/v1/brand-knowledge/${existingData.brand_id}`
+        : `${getServiceURL('content-gen')}/api/v1/brand-knowledge`;
 
       const response = await fetch(endpoint, {
         method: existingData ? 'PUT' : 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${authState.token}`,
+          Authorization: `Bearer ${authState?.token}`,
         },
         body: JSON.stringify(formData),
       });
@@ -430,7 +430,7 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
       }, 2000);
     } catch (_err) {
       // Error handled silently
-      setError(err instanceof Error ? err.message : 'Failed to save');
+      setError(_err instanceof Error ? _err.message : 'Failed to save');
     } finally {
       setSaving(false);
     }

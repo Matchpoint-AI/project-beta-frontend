@@ -50,7 +50,7 @@ export default function BrandDetailsReview({ stepHandler, edit = true }: BrandDe
           onClick={() => clickHandler('mission')}
         >
           <div className="flex flex-wrap gap-3">
-            {((businessInfo?.mission as Selectable[]) ?? [])
+            {(Array.isArray(businessInfo?.mission) ? businessInfo.mission : [])
               .filter((c: Selectable) => c.selected)
               .map((c: Selectable) => (
                 <div
@@ -112,10 +112,10 @@ export default function BrandDetailsReview({ stepHandler, edit = true }: BrandDe
             .filter((c) => c.selected)
             .map((c) => (
               <div
-                key={c.id}
+                key={String(c.id)}
                 className="py-1 px-[10px] bg-[#D1D5DB] text-xs font-medium leading-[18px] capitalize text-[#111928] rounded-md"
               >
-                {c.label}
+                {String(c.label)}
               </div>
             ))}
         </div>

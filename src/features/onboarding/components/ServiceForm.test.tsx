@@ -2,17 +2,21 @@ import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { vi, describe, it, expect, beforeEach, beforeAll } from 'vitest';
 import ServiceForm from './ServiceForm';
+<<<<<<< HEAD:src/components/onboard/ServiceForm.test.tsx
+import { BrandContext, type BusinessInfo } from '../../features/brand/context/BrandContext';
+import { CampaignContext } from '../../context/CampaignContext';
+=======
 import { BrandContext } from '../../features/brand/context/BrandContext';
 import { CampaignContext } from '../../campaign/context/CampaignContext';
+>>>>>>> origin/main:src/features/onboarding/components/ServiceForm.test.tsx
 
-// Extend window interface for test mocks
-interface TestWindow extends Window {
-  __mockScrapeProduct: ReturnType<typeof vi.fn>;
-}
+
+// Create mock function for scrapeProduct
+const mockScrapeProduct = vi.fn();
 
 // Mock the scrapeProduct helper using local import
 vi.mock('./scrapeProduct', () => ({
-  default: vi.fn(),
+  default: mockScrapeProduct,
 }));
 
 // Mock the posthog helper
@@ -150,16 +154,16 @@ describe('ServiceForm', () => {
   const mockSetBusinessInfo = vi.fn();
   const mockSetCampaignInfo = vi.fn();
 
-  const mockBusinessInfo = {
-    products: [
-      {
-        name: 'Test Product',
-        description: 'Test Description',
-        product_features: ['Feature 1', 'Feature 2'],
-      },
-    ],
+  const mockBusinessInfo: Partial<BusinessInfo> = {
+    name: 'Test Business',
+    website: 'https://test.com',
+    products: ['Test Product'],
     product_features: [],
     key_features: [],
+    product_description: 'Test Description',
+    product_link: 'https://test.com/product',
+    start_date: '2024-01-01',
+    durationNum: 30,
   };
 
   const mockCampaignInfo = {
@@ -172,10 +176,15 @@ describe('ServiceForm', () => {
   const renderWithProviders = (component: React.ReactElement) => {
     return render(
       <BrandContext.Provider
-        value={{ businessInfo: mockBusinessInfo, setBusinessInfo: mockSetBusinessInfo }}
+        value={{ businessInfo: mockBusinessInfo as BusinessInfo, setBusinessInfo: mockSetBusinessInfo }}
       >
         <CampaignContext.Provider
-          value={{ campaignInfo: mockCampaignInfo, setCampaignInfo: mockSetCampaignInfo }}
+          value={{ 
+            campaignInfo: mockCampaignInfo, 
+            setCampaignInfo: mockSetCampaignInfo,
+            campaignId: null,
+            setCampaignId: vi.fn()
+          }}
         >
           {component}
         </CampaignContext.Provider>
@@ -183,19 +192,10 @@ describe('ServiceForm', () => {
     );
   };
 
-  beforeAll(() => {
-    // Provide a global mock for scrapeProduct
-    (window as TestWindow).__mockScrapeProduct = vi.fn().mockResolvedValue({
-      name: 'Test Product',
-      description: 'Test Description',
-      product_features: ['Feature 1', 'Feature 2'],
-    });
-  });
-
   beforeEach(() => {
     vi.clearAllMocks();
     // Reset the mock implementation for each test
-    (window as TestWindow).__mockScrapeProduct.mockResolvedValue({
+    mockScrapeProduct.mockResolvedValue({
       name: 'Test Product',
       description: 'Test Description',
       product_features: ['Feature 1', 'Feature 2'],
@@ -218,14 +218,22 @@ describe('ServiceForm', () => {
   });
 
   it('renders new product form when no products exist', () => {
-    const emptyBusinessInfo = { products: [] };
+    const emptyBusinessInfo: BusinessInfo = {
+      ...mockBusinessInfo as BusinessInfo,
+      products: []
+    };
     const newProductCampaignInfo = { ...mockCampaignInfo, newProduct: true };
     render(
       <BrandContext.Provider
         value={{ businessInfo: emptyBusinessInfo, setBusinessInfo: mockSetBusinessInfo }}
       >
         <CampaignContext.Provider
-          value={{ campaignInfo: newProductCampaignInfo, setCampaignInfo: mockSetCampaignInfo }}
+          value={{ 
+            campaignInfo: newProductCampaignInfo, 
+            setCampaignInfo: mockSetCampaignInfo,
+            campaignId: null,
+            setCampaignId: vi.fn()
+          }}
         >
           <ServiceForm
             handleNext={mockHandleNext}
@@ -300,7 +308,7 @@ describe('ServiceForm', () => {
   });
 
   it('handles product scraping error', async () => {
-    (window as TestWindow).__mockScrapeProduct.mockRejectedValue(new Error('Scraping failed'));
+    mockScrapeProduct.mockRejectedValue(new Error('Scraping failed'));
     renderWithProviders(
       <ServiceForm
         handleNext={mockHandleNext}
@@ -357,7 +365,7 @@ describe('ServiceForm', () => {
   });
 
   it('handles empty product features gracefully', async () => {
-    (window as TestWindow).__mockScrapeProduct.mockResolvedValue({
+    mockScrapeProduct.mockResolvedValue({
       name: 'Test Product',
       description: 'Test Description',
       product_features: [],

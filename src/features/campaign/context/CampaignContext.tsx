@@ -21,6 +21,7 @@ export type CampaignInfoType = {
   purpose?: string;
   purposeAbout?: string;
   product?: string;
+  language?: string;
   frequency?: number;
   deliveryDay?: string;
   campaignSummary?: string;

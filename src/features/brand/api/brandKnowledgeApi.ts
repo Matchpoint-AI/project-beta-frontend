@@ -1,4 +1,4 @@
-import { getServiceURL } from '../helpers/getServiceURL';
+import { getServiceURL } from '../../../helpers/getServiceURL';
 
 export interface BrandKnowledgeData {
   brand_id: string;

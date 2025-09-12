@@ -63,7 +63,7 @@ const DayBanner = ({
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [selectedImages, setSelectedImages] = useState(
     content.posts.map((post) =>
-      post.text_versions ? post.text_versions.findIndex((text) => text === post.text) + 1 : 1
+      (post as any).text_versions ? (post as any).text_versions.findIndex((text: string) => text === post.text) + 1 : 1
     )
   );
 
@@ -269,13 +269,13 @@ const DayBanner = ({
                     key={postIndex}
                     day={index}
                     postIndex={postIndex + 1}
-                    setOpen={setOpen}
-                    content={post}
+                    setOpen={setOpen as any}
+                    content={post as any}
                     brandName={brandName}
                     id={generatedContentId}
                     week={currentPage}
                     postingTime={postTime}
-                    updataImage={updataImage}
+                    updataImage={updataImage as any}
                     selectedImages={selectedImages}
                     setSelectedImages={setSelectedImages}
                     onApprovalUpdate={(postIndexx, isApproved) =>

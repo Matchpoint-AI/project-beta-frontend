@@ -4,13 +4,37 @@ import { Document, HeadingLevel, Packer, Paragraph } from 'docx';
 import emojiRegex from 'emoji-regex';
 import { getServiceURL } from '../helpers/getServiceURL';
 
+// Helper function to safely access nested object properties
+const safeProp = (obj: Record<string, unknown>, path: string): string => {
+  const keys = path.split('.');
+  let current: any = obj;
+  
+  for (const key of keys) {
+    if (current && typeof current === 'object' && key in current) {
+      current = current[key];
+    } else {
+      return '';
+    }
+  }
+  
+  if (Array.isArray(current)) {
+    return current.join(', ');
+  }
+  
+  return String(current || '');
+};
+
 const fetchImageAsDataURL = async (url: string): Promise<string> => {
   const response = await fetch(url);
   const blob = await response.blob();
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onloadend = () => {
-      resolve(reader.result); // Get the data URL part
+      if (reader.result === null) {
+        reject(new Error('Failed to read file as data URL'));
+        return;
+      }
+      resolve(reader.result as string); // Get the data URL part
     };
     reader.onerror = reject;
     reader.readAsDataURL(blob);
@@ -59,25 +83,33 @@ const createBrandProfilePDF = async (
   };
 
   // Fetch human-readable color names from the color API for brandProfile.colors
+  const primaryBrandProfile = Array.isArray(clientRequest.primary_brand_profile) 
+    ? clientRequest.primary_brand_profile as string[]
+    : [];
+  
   const profileConvertedColors =
-    clientRequest.primary_brand_profile && clientRequest.primary_brand_profile.length > 0
-      ? await convertColors(clientRequest.primary_brand_profile)
+    primaryBrandProfile.length > 0
+      ? await convertColors(primaryBrandProfile)
       : [];
 
   const profileColors =
-    clientRequest.primary_brand_profile && profileConvertedColors.length > 0
-      ? mapColorsToReadable(clientRequest.primary_brand_profile, profileConvertedColors)
-      : clientRequest.primary_brand_profile; // Fallback to hex if no readable names are found
+    primaryBrandProfile.length > 0 && profileConvertedColors.length > 0
+      ? mapColorsToReadable(primaryBrandProfile, profileConvertedColors)
+      : primaryBrandProfile; // Fallback to hex if no readable names are found
 
+  const brandColors = Array.isArray(brandProfile.colors)
+    ? brandProfile.colors as string[]
+    : [];
+  
   const convertedColors =
-    brandProfile.colors && brandProfile.colors.length > 0
-      ? await convertColors(brandProfile.colors)
+    brandColors.length > 0
+      ? await convertColors(brandColors)
       : [];
 
   const colors =
-    brandProfile.colors && convertedColors.length > 0
-      ? mapColorsToReadable(brandProfile.colors, convertedColors)
-      : brandProfile.colors; // Fallback to hex if no readable names are found
+    brandColors.length > 0 && convertedColors.length > 0
+      ? mapColorsToReadable(brandColors, convertedColors)
+      : brandColors; // Fallback to hex if no readable names are found
   // Set title as Business Name from clientRequest (e.g., "Undefined Beauty")
   doc.setFontSize(20);
   doc.setFont('helvetica', 'bold');
@@ -104,13 +136,14 @@ const createBrandProfilePDF = async (
   doc.text(`- Campaign Purpose: ${clientRequest.campaign_purpose}`, 10, 90);
 
   // Target Audience
+  const targetPurpose = clientRequest.target_purpose as Record<string, any> | null;
   doc.setFont('helvetica', 'bold');
   doc.text('- Target Audience:', 10, 100);
   doc.setFont('helvetica', 'normal');
-  doc.text(`    - Gender: ${clientRequest.target_purpose.gender}`, 10, 110);
-  doc.text(`    - Race/Ethnicity: ${clientRequest.target_purpose.race_ethnicity}`, 10, 120);
-  doc.text(`    - Age Range: ${clientRequest.target_purpose.age_range.join(', ')}`, 10, 130);
-  doc.text(`    - Interests: ${clientRequest.target_purpose.interests.join(', ')}`, 10, 140);
+  doc.text(`    - Gender: ${targetPurpose?.gender || 'Not specified'}`, 10, 110);
+  doc.text(`    - Race/Ethnicity: ${targetPurpose?.race_ethnicity || 'Not specified'}`, 10, 120);
+  doc.text(`    - Age Range: ${Array.isArray(targetPurpose?.age_range) ? targetPurpose.age_range.join(', ') : 'Not specified'}`, 10, 130);
+  doc.text(`    - Interests: ${Array.isArray(targetPurpose?.interests) ? targetPurpose.interests.join(', ') : 'Not specified'}`, 10, 140);
 
   doc.text(`- Product/Service to Promote: ${clientRequest.product_service}`, 10, 150);
 
@@ -131,7 +164,10 @@ const createBrandProfilePDF = async (
   doc.setFont('helvetica', 'bold');
   doc.text('Mission', 10, 40);
   doc.setFont('helvetica', 'normal');
-  doc.text(brandProfile.mission.join(' '), 10, 50);
+  const mission = Array.isArray(brandProfile.mission) 
+    ? (brandProfile.mission as string[]).join(' ') 
+    : String(brandProfile.mission || 'Not specified');
+  doc.text(mission, 10, 50);
 
   // Values Section (Dynamically generated from values array)
   doc.setFont('helvetica', 'bold');
@@ -140,7 +176,10 @@ const createBrandProfilePDF = async (
 
   // Start positioning for the values
   let yOffset = 70; // Initial y position for the first value
-  brandProfile.values.forEach((value) => {
+  const values = Array.isArray(brandProfile.values) 
+    ? brandProfile.values as string[]
+    : [];
+  values.forEach((value: string) => {
     doc.text(`- ${value}`, 10, yOffset);
     yOffset += 10; // Move down for the next value
   });
@@ -149,13 +188,19 @@ const createBrandProfilePDF = async (
   doc.setFont('helvetica', 'bold');
   doc.text('Brand Persona', 10, yOffset + 10);
   doc.setFont('helvetica', 'normal');
-  doc.text(brandProfile.brand_persona.join(', '), 10, yOffset + 20);
+  const brandPersona = Array.isArray(brandProfile.brand_persona)
+    ? (brandProfile.brand_persona as string[]).join(', ')
+    : String(brandProfile.brand_persona || 'Not specified');
+  doc.text(brandPersona, 10, yOffset + 20);
 
   // Tone of Voice
   doc.setFont('helvetica', 'bold');
   doc.text('Tone of Voice', 10, yOffset + 30);
   doc.setFont('helvetica', 'normal');
-  doc.text(brandProfile.tone_of_voice.join(', '), 10, yOffset + 40);
+  const toneOfVoice = Array.isArray(brandProfile.tone_of_voice)
+    ? (brandProfile.tone_of_voice as string[]).join(', ')
+    : String(brandProfile.tone_of_voice || 'Not specified');
+  doc.text(toneOfVoice, 10, yOffset + 40);
 
   // Colors Section with Human-Readable Color Names or Not Available
   doc.setFont('helvetica', 'bold');
@@ -179,37 +224,37 @@ const createBrandProfilePDF = async (
 
   // Campaign Details
   doc.setFontSize(12);
-  doc.text(`- Campaign Name: ${campaignBrief.campaign_name}`, 10, 20);
-  doc.text(`- Brand: ${campaignBrief.brand}`, 10, 30);
+  doc.text(`- Campaign Name: ${safeProp(campaignBrief, 'campaign_name')}`, 10, 20);
+  doc.text(`- Brand: ${safeProp(campaignBrief, 'brand')}`, 10, 30);
 
   // Product Details
   doc.text('- Product:', 10, 40);
-  doc.text(`    - Name: ${campaignBrief.product.name}`, 10, 50);
-  doc.text(`    - Link: ${campaignBrief.product.link}`, 10, 60);
-  doc.text(`    - Differentiators: ${campaignBrief.product.differentiators}`, 10, 70);
-  doc.text(`    - Primary Ingredients: ${campaignBrief.product.primary_ingredients}`, 10, 80);
-  doc.text(`    - Benefits: ${campaignBrief.product.benefits}`, 10, 90);
+  doc.text(`    - Name: ${safeProp(campaignBrief, 'product.name')}`, 10, 50);
+  doc.text(`    - Link: ${safeProp(campaignBrief, 'product.link')}`, 10, 60);
+  doc.text(`    - Differentiators: ${safeProp(campaignBrief, 'product.differentiators')}`, 10, 70);
+  doc.text(`    - Primary Ingredients: ${safeProp(campaignBrief, 'product.primary_ingredients')}`, 10, 80);
+  doc.text(`    - Benefits: ${safeProp(campaignBrief, 'product.benefits')}`, 10, 90);
 
   // Target Audience
   doc.setFont('helvetica', 'bold');
   doc.text('- Target Audience:', 10, 100);
   doc.setFont('helvetica', 'normal');
-  doc.text(`    - Gender: ${campaignBrief.target_purpose.gender}`, 10, 110);
-  doc.text(`    - Race/Ethnicity: ${campaignBrief.target_purpose.race_ethnicity}`, 10, 120);
-  doc.text(`    - Age Range: ${campaignBrief.target_purpose.age_range.join(', ')}`, 10, 130);
-  doc.text(`    - Interests: ${campaignBrief.target_purpose.interests.join(', ')}`, 10, 140);
+  doc.text(`    - Gender: ${safeProp(campaignBrief, 'target_purpose.gender')}`, 10, 110);
+  doc.text(`    - Race/Ethnicity: ${safeProp(campaignBrief, 'target_purpose.race_ethnicity')}`, 10, 120);
+  doc.text(`    - Age Range: ${safeProp(campaignBrief, 'target_purpose.age_range')}`, 10, 130);
+  doc.text(`    - Interests: ${safeProp(campaignBrief, 'target_purpose.interests')}`, 10, 140);
 
   // Campaign Purpose and Timing
   doc.setFont('helvetica', 'bold');
-  doc.text(`- Campaign Purpose: ${campaignBrief.campaign_purpose}`, 10, 150);
+  doc.text(`- Campaign Purpose: ${safeProp(campaignBrief, 'campaign_purpose')}`, 10, 150);
   doc.setFont('helvetica', 'normal');
   doc.text('- Campaign Timing:', 10, 160);
-  doc.text(`    - Duration: ${campaignBrief.campaign_timing.duration || 'Not specified'}`, 10, 170);
-  doc.text(`    - Posts per day: ${campaignBrief.campaign_timing.post_per_day}`, 10, 180);
+  doc.text(`    - Duration: ${safeProp(campaignBrief, 'campaign_timing.duration') || 'Not specified'}`, 10, 170);
+  doc.text(`    - Posts per day: ${safeProp(campaignBrief, 'campaign_timing.post_per_day')}`, 10, 180);
 
   // Calculate the total deliverables
-  const durationWeeks = campaignBrief.campaign_timing.duration || 0; // Duration in weeks
-  const postsPerDay = campaignBrief.campaign_timing.post_per_day || 3; // Default posts per day is 3
+  const durationWeeks = parseInt(safeProp(campaignBrief, 'campaign_timing.duration')) || 0; // Duration in weeks
+  const postsPerDay = parseInt(safeProp(campaignBrief, 'campaign_timing.post_per_day')) || 3; // Default posts per day is 3
   const totalDeliverables = durationWeeks * 7 * postsPerDay;
 
   // Deliverables Section
@@ -267,7 +312,8 @@ export const createImageThumbnailsPDF = async (
   const margin = 5; // Margin from the top and bottom of the page
   let previousDayIndex = null; // Track the last day index
 
-  for (const [weekIndex, week] of weeksData.entries()) {
+  for (let weekIndex = 0; weekIndex < weeksData.length; weekIndex++) {
+    const week = weeksData[weekIndex];
     const actualWeekNumber = currentValues[weekIndex].split(' ')[1];
     doc.setFontSize(16);
     doc.text(`Week ${actualWeekNumber}`, 10, 10);
@@ -340,7 +386,7 @@ export const createImageThumbnailsPDF = async (
           const splitText = doc.splitTextToSize(finalText, textWidth);
 
           // Check if there's enough space on the current page for the text
-          splitText.forEach((line) => {
+          splitText.forEach((line: string) => {
             const lineHeight = doc.getTextDimensions(line).h + 2; // Height of the text line
             if (yOffset + lineHeight > pageHeight - margin) {
               doc.addPage();
@@ -365,7 +411,8 @@ export const createWordDocument = async (
 ) => {
   const sections = [];
 
-  for (const [weekIndex, week] of weeksData.entries()) {
+  for (let weekIndex = 0; weekIndex < weeksData.length; weekIndex++) {
+    const week = weeksData[weekIndex];
     const actualWeekNumber = currentValues[weekIndex].split(' ')[1];
     const weekChildren = [
       new Paragraph({
@@ -444,16 +491,20 @@ export const organizeAndSavePosts = async (
   bigFolder: JSZip,
   currentValues: string[]
 ) => {
-  for (const [weekIndex, week] of weeksData.entries()) {
+  for (let weekIndex = 0; weekIndex < weeksData.length; weekIndex++) {
+    const week = weeksData[weekIndex];
     const actualWeekNumber = currentValues[weekIndex].split(' ')[1];
 
     const weekFolder = bigFolder.folder(`week_${actualWeekNumber}`);
+    if (!weekFolder) continue;
 
     for (const day of week) {
       const dayFolder = weekFolder.folder(`day_${day.dayIndex}`);
+      if (!dayFolder) continue;
 
       for (const post of day.posts) {
         const postFolder = dayFolder.folder(`post_${post.postIndex}`);
+        if (!postFolder) continue;
         // const post = week[dayKey][postKey];
         // postFolder.file("caption.txt", post.text);
 
@@ -467,7 +518,9 @@ export const organizeAndSavePosts = async (
           });
         } else {
           const imagesFolder = postFolder.folder('images');
-          for (const [index, image] of post.image_url.entries()) {
+          if (!imagesFolder) continue;
+          for (let index = 0; index < post.image_url.length; index++) {
+            const image = post.image_url[index];
             const dataURL = await fetchImageAsDataURL(image);
             const base64Data = dataURL.split(',')[1];
             const mimeType = dataURL.split(';')[0].split(':')[1];
@@ -480,6 +533,7 @@ export const organizeAndSavePosts = async (
       }
     }
   }
+  return;
 };
 
 const convertColors = async (colors: string[]): Promise<Array<{ name?: string }>> => {
@@ -505,5 +559,6 @@ const convertColors = async (colors: string[]): Promise<Array<{ name?: string }>
     // Handle the response (log it or use it)
   } catch (_error) {
     // Error fetching the converted colors
+    return [];
   }
 };

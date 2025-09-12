@@ -216,12 +216,12 @@ export const QualityScoreIndicator: React.FC<QualityScoreIndicatorProps> = ({
   // Debounced quality calculation
   const debouncedCalculate = useMemo(
     () =>
-      debounce((text: string) => {
+      debounce((text: unknown) => {
         setIsCalculating(true);
 
         // Simulate async calculation
         setTimeout(() => {
-          const newMetrics = analyzeQuality(text);
+          const newMetrics = analyzeQuality(text as string);
           const newScore = Math.round(
             newMetrics.reduce((acc, metric) => acc + metric.score * metric.weight, 0)
           );
@@ -396,7 +396,7 @@ function calculateLengthScore(text: string, type: string): number {
     description: { min: 150, max: 500 },
   };
 
-  const range = optimalRanges[type] || optimalRanges.caption;
+  const range = (optimalRanges as any)[type] || optimalRanges.caption;
 
   if (length < range.min) {
     return Math.max(0, (length / range.min) * 80);
@@ -457,11 +457,11 @@ function calculateToneScore(text: string, targetTone: string): number {
     neutral: [],
   };
 
-  const indicators = toneIndicators[targetTone] || toneIndicators.neutral;
+  const indicators = (toneIndicators as any)[targetTone] || toneIndicators.neutral;
   if (indicators.length === 0) return 80;
 
   const lowerText = text.toLowerCase();
-  const matches = indicators.filter((word) => lowerText.includes(word));
+  const matches = indicators.filter((word: string) => lowerText.includes(word));
 
   return 70 + matches.length * 10;
 }
@@ -477,7 +477,7 @@ function getLengthSuggestions(text: string, type: string): string[] {
     description: { min: 150, max: 500 },
   };
 
-  const range = optimalRanges[type] || optimalRanges.caption;
+  const range = (optimalRanges as any)[type] || optimalRanges.caption;
 
   if (length < range.min) {
     suggestions.push(`Add ${range.min - length} more characters for optimal length`);
@@ -543,8 +543,8 @@ function getToneSuggestions(text: string, targetTone: string): string[] {
     urgent: 'Create urgency with time-sensitive language',
   };
 
-  if (toneGuides[targetTone]) {
-    suggestions.push(toneGuides[targetTone]);
+  if ((toneGuides as any)[targetTone]) {
+    suggestions.push((toneGuides as any)[targetTone]);
   }
 
   return suggestions;

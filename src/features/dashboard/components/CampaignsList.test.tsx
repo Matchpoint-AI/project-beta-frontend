@@ -84,8 +84,19 @@ const mockAuthContextValue = {
 
 const mockBrandContextValue = {
   businessInfo: {
+    id: 'test-id',
     campaigns: [],
     name: 'Test Business',
+    website: 'https://test.com',
+    product_features: [],
+    product_description: 'Test product',
+    product_link: 'https://test.com/product',
+    start_date: '2023-01-01',
+    durationNum: 7,
+    summary: 'Test summary',
+    brandLogo: 'test-logo.png',
+    logo: 'test-logo.png',
+    brandColors: [],
   },
   setBusinessInfo: vi.fn(),
 };
@@ -93,6 +104,8 @@ const mockBrandContextValue = {
 const mockCampaignContextValue = {
   campaignInfo: {},
   setCampaignInfo: vi.fn(),
+  campaignId: null,
+  setCampaignId: vi.fn(),
 };
 
 const createMockCampaign = (id: string, status: string, timestamp?: string) => ({
@@ -125,8 +138,15 @@ const createMockCampaign = (id: string, status: string, timestamp?: string) => (
   },
 });
 
+interface Campaign {
+  campaign_id: string;
+  status: string;
+  campaign_data: any;
+  timestamp?: string;
+}
+
 const renderWithContext = (
-  campaigns: Array<Record<string, unknown>> = [],
+  campaigns: Campaign[] = [],
   campaignType = 'All',
   _setCampaignType = vi.fn()
 ) => {

@@ -94,7 +94,7 @@ const InstaConnect: React.FC<InstaConnectProps> = ({
     }
   }, [data]);
 
-  if (_error) {
+  if (error) {
     return <div className="text-red-500">{error}</div>;
   }
 
@@ -437,7 +437,7 @@ const PublishApproved: React.FC<PublishApprovedProps> = ({ stats, startDate, dur
       const data = await response.json();
       return data;
     } catch (_error) {
-      throw error; // re-throw to let handlePublish catch it
+      throw _error; // re-throw to let handlePublish catch it
     }
   };
   useEffect(() => {

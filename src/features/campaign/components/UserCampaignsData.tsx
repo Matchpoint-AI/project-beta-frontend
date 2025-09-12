@@ -56,7 +56,7 @@ export default function UserCampaignsData({
   return (
     <div className="p-5 bg-white rounded-md mb-5 flex sm:flex-row flex-col sm:items-center items-start justify-between gap-5">
       <div className="flex-grow w-full">
-        <p className={`${statusColors[campaign.status]} font-medium`}>{campaign.status}</p>
+        <p className={`${(statusColors as any)[campaign.status]} font-medium`}>{campaign.status}</p>
         <div className="flex sm:flex-row flex-col sm:items-center justify-between sm:gap-0 gap-3">
           <h2 className="text-lg text-[#111928] capitalize font-semibold mr-5">{campaign.name}</h2>
           <div className="flex sm:flex-row flex-col sm:items-center sm:gap-12 gap-3 flex-wrap mt-1 flex-grow max-w-[70%]">

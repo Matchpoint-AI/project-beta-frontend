@@ -59,7 +59,7 @@ export default function PasswordResetForm({ setOpenToast }: PasswordResetFormPro
                 error: false,
                 message: 'Password reset successful!',
               });
-              if (posthog.__loaded) {
+              if (posthog.__loaded && profile) {
                 posthog.capture('Form Submitted', {
                   distinct_id: profile.id,
                   form_name: 'password reset', // Replace with actual form name

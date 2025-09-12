@@ -36,8 +36,8 @@ function ColorCodeInput({ onChange, value, type, className }: ColorCodeInputProp
 
 interface ColorPickerProps {
   selectedColors: string[];
-  selectColor: (updater: (colors: string[]) => string[]) => void;
-  saveColor: (updater: (businessInfo: BusinessInfo) => BusinessInfo) => void;
+  selectColor: React.Dispatch<React.SetStateAction<string[]>>;
+  saveColor: React.Dispatch<React.SetStateAction<BusinessInfo>>;
   className?: string;
   conseilPicker: (visible: boolean) => void;
 }
@@ -102,7 +102,7 @@ export default function ColorPicker({
       <div className="flex gap-2 mt-3">
         <div className="flex flex-col">
           <ColorCodeInput
-            onChange={handleHexChange}
+            onChange={(value) => handleHexChange(value as string)}
             value={hexColor}
             type="hex"
             className="w-[80px] rounded-md"
@@ -111,7 +111,7 @@ export default function ColorPicker({
         <div className="flex">
           <span className="flex flex-col">
             <ColorCodeInput
-              onChange={handleRgbChange}
+              onChange={(value, type) => handleRgbChange(value as number, type as 'r' | 'g' | 'b')}
               value={rgbColor[0]}
               type="r"
               className="w-[50px] rounded-tl-md rounded-bl-md"
@@ -119,7 +119,7 @@ export default function ColorPicker({
           </span>
           <span className="flex flex-col">
             <ColorCodeInput
-              onChange={handleRgbChange}
+              onChange={(value, type) => handleRgbChange(value as number, type as 'r' | 'g' | 'b')}
               value={rgbColor[1]}
               type="g"
               className="w-[50px]"
@@ -127,7 +127,7 @@ export default function ColorPicker({
           </span>
           <span className="flex flex-col">
             <ColorCodeInput
-              onChange={handleRgbChange}
+              onChange={(value, type) => handleRgbChange(value as number, type as 'r' | 'g' | 'b')}
               value={rgbColor[2]}
               type="b"
               className="w-[50px] rounded-tr-md rounded-br-md"

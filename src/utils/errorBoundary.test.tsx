@@ -34,12 +34,12 @@ describe('ErrorBoundary', () => {
 describe('safeMap', () => {
   it('maps over valid array', () => {
     const array = [1, 2, 3];
-    const result = safeMap(array, (item) => item * 2);
+    const result = safeMap(array, (item: number) => item * 2);
     expect(result).toEqual([2, 4, 6]);
   });
 
   it('returns fallback for null array', () => {
-    const result = safeMap(null, (item) => item * 2, [0]);
+    const result = safeMap(null, (item: number) => item * 2, [0]);
     expect(result).toEqual([0]);
   });
 });

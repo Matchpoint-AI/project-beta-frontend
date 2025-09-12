@@ -27,7 +27,7 @@ const DisplayContent = () => {
       const upscaledUrls = data?.results?.[0]?.final_result?.response?.data?.upscaled_urls || [];
       return upscaledUrls;
     } catch (_error) {
-      throw error; // Re-throw to allow handling in calling code
+      throw _error; // Re-throw to allow handling in calling code
     }
   };
 

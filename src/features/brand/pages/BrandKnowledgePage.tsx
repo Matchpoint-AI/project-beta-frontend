@@ -3,6 +3,40 @@ import { Container, Typography, Box, Stepper, Step, StepLabel } from '@mui/mater
 import { useNavigate } from 'react-router-dom';
 import BrandKnowledgeForm from '../components/BrandKnowledgeForm';
 
+// Import the BrandKnowledge type from the form component
+interface BrandPersonality {
+  traits: string[];
+  tone: Record<string, string>;
+  voice_attributes: string[];
+}
+
+interface VisualStyle {
+  color_palette: string[];
+  style_tags: string[];
+  photography_style: string;
+  composition_preferences: string[];
+}
+
+interface ProductDetails {
+  name: string;
+  generic_term: string;
+  category: string;
+  differentiators: string[];
+  usage_context: string;
+  ingredients: Array<{ name: string; purpose: string }>;
+}
+
+interface BrandKnowledge {
+  brand_id: string;
+  brand_name: string;
+  personality: BrandPersonality;
+  visual_style: VisualStyle;
+  products: ProductDetails[];
+  approved_scenes: string[];
+  avoid_list: string[];
+  guardrails: Record<string, unknown>;
+}
+
 const steps = ['Extract Knowledge', 'Review & Edit', 'Save & Apply'];
 
 /**
@@ -31,7 +65,7 @@ export const BrandKnowledgePage: React.FC = () => {
     }
   };
 
-  const handleSave = (_data: Record<string, unknown>) => {
+  const handleSave = (_data: BrandKnowledge) => {
     // Additional logic for handling saved data
   };
 

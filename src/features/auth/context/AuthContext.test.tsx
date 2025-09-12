@@ -22,7 +22,7 @@ vi.mock('../../../helpers/getServiceURL', () => ({
 }));
 
 vi.mock('react-router-dom', async (importOriginal) => {
-  const actual = await importOriginal();
+  const actual = await importOriginal<typeof import('react-router-dom')>();
   return {
     ...actual,
     useNavigate: () => vi.fn(),

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Week } from '../../types/ContentLibrary';
+import { Week, Post } from '../../../types/ContentLibrary';
 // import { useAuth } from "../../../features/auth/context/AuthContext";
 // import { getServiceURL } from "../../../helpers/getServiceURL";
 // import { useParams } from "react-router-dom";
@@ -27,7 +27,7 @@ const CampaignStats = ({ weeksData }: CampaignStatsProps) => {
     let totalPosts = 0;
     let approvedPosts = 0;
 
-    weekData[weekIndex].posts.forEach((post) => {
+    weekData[weekIndex].posts.forEach((post: Post) => {
       totalPosts++;
       if (post.approved) approvedPosts++;
     });

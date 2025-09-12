@@ -7,6 +7,11 @@
 import { useState, useEffect, useCallback } from 'react';
 import { getAuth } from 'firebase/auth';
 import { initializeV2Api, campaignApiV2, brandApiV2 } from '../api/v2';
+import type {
+  CreateBrandRequest,
+  UpdateBrandRequest,
+  CrawlWebsiteRequest,
+} from '../features/brand/api/brand-api';
 
 /**
  * Hook state interface
@@ -80,7 +85,7 @@ export function useV2Api() {
      * Create a new campaign
      */
     create: useCallback(
-      async (data: Record<string, unknown>) => {
+      async (data: any) => {
         const token = await getToken();
         return campaignApiV2.createCampaign(data, token);
       },
@@ -91,7 +96,7 @@ export function useV2Api() {
      * Update campaign
      */
     update: useCallback(
-      async (campaignId: string, data: Record<string, unknown>) => {
+      async (campaignId: string, data: any) => {
         const token = await getToken();
         return campaignApiV2.updateCampaign(campaignId, data, token);
       },
@@ -113,7 +118,7 @@ export function useV2Api() {
      * Generate content for campaign
      */
     generateContent: useCallback(
-      async (campaignId: string, options?: Record<string, unknown>) => {
+      async (campaignId: string, options?: any) => {
         const token = await getToken();
         return campaignApiV2.generateContent(campaignId, options || {}, token);
       },
@@ -135,7 +140,7 @@ export function useV2Api() {
      * List campaigns
      */
     list: useCallback(
-      async (filters?: Record<string, unknown>) => {
+      async (filters?: any) => {
         const token = await getToken();
         return campaignApiV2.getUserCampaigns(token, filters);
       },
@@ -149,7 +154,7 @@ export function useV2Api() {
      * Create brand
      */
     create: useCallback(
-      async (data: Record<string, unknown>) => {
+      async (data: CreateBrandRequest) => {
         const token = await getToken();
         return brandApiV2.createBrand(data, token);
       },
@@ -171,7 +176,7 @@ export function useV2Api() {
      * Update brand
      */
     update: useCallback(
-      async (brandId: string, data: Record<string, unknown>) => {
+      async (brandId: string, data: Omit<UpdateBrandRequest, 'brand_id'>) => {
         const token = await getToken();
         return brandApiV2.updateBrand(brandId, data, token);
       },
@@ -193,7 +198,7 @@ export function useV2Api() {
      * List brands
      */
     list: useCallback(
-      async (filters?: Record<string, unknown>) => {
+      async (filters?: { industry?: string; limit?: number; offset?: number }) => {
         const token = await getToken();
         return brandApiV2.getUserBrands(token, filters);
       },
@@ -204,7 +209,7 @@ export function useV2Api() {
      * Crawl website
      */
     crawlWebsite: useCallback(
-      async (data: Record<string, unknown>) => {
+      async (data: CrawlWebsiteRequest) => {
         const token = await getToken();
         return brandApiV2.crawlWebsite(data, token);
       },

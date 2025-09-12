@@ -81,7 +81,7 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
   const [errorText, setErrorText] = useState(''); // Track loading state
   const [edit, setEdit] = useState<boolean>(false);
   const textareaRef = useRef(null);
-  const [text, setText] = useState(content?.[postIndex - 1]?.text || '');
+  const [text, setText] = useState((content as any)?.[postIndex - 1]?.text || '');
   const [isLoadingText, setIsLoadingText] = useState(false);
   const [hovering, setHovering] = useState(false);
   const [openModifyPrompt, setOpenModifyPrompt] = useState(false);
@@ -155,7 +155,7 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
       if (error instanceof Error) {
         errorMessage = error.message;
       } else if (typeof error === 'object' && error !== null) {
-        errorMessage = JSON.stringify(_error);
+        errorMessage = JSON.stringify(error);
       }
       setErrorText(errorMessage);
       setErrorSaving(true);
@@ -203,7 +203,7 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
         setRemainingGenerations(data.remaining);
         setTotalAllowed(data.total_allowed);
       }
-    } catch (_error) {
+    } catch (error) {
       // Error handled silently
     }
   };
@@ -292,7 +292,7 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
         const selectedImageIndex = selectedImages[postIndex - 1] - 1;
 
         // Create updated text versions array
-        const updatedTextVersions = [...(currentPost.text_versions || [])];
+        const updatedTextVersions = [...((currentPost.text_versions as any) || [] as string[])];
         updatedTextVersions[selectedImageIndex] = text;
 
         const response = await fetch(`${endpointUrl}/api/v1/contentgen/update-text-versions`, {
@@ -320,7 +320,7 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
         currentPost.text = text;
         currentPost.text_versions = updatedTextVersions;
         setEdit(false);
-      } catch (_error) {
+      } catch (error) {
         setErrorText('Failed to update text versions');
         setErrorSaving(true);
       } finally {
@@ -386,13 +386,13 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
         id, // content ID
         {
           image_description: currentPost.image_prompt || '',
-          scene_type: sceneType as 'lifestyle' | 'product' | 'brand' | 'event',
-          brand_voice: brandName,
-          target_audience: currentPost.target_audience,
-          hashtags: currentPost.hashtags || [],
+          scene_type: sceneType as any,
+          brand_voice: brandName as any,
+          target_audience: currentPost.target_audience as any,
+          hashtags: (currentPost.hashtags as any) || [] as string[],
           max_length: 2200, // Instagram max
           include_cta: true,
-          tone: currentPost.tone || 'casual',
+          tone: (currentPost.tone as any) || 'casual',
         },
         profile.token
       );
@@ -408,7 +408,7 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
         const endpointUrl = getServiceURL('content-gen');
         const selectedImageIndex = selectedImages[postIndex - 1] - 1;
 
-        const updatedTextVersions = [...(currentPost.text_versions || [])];
+        const updatedTextVersions = [...((currentPost.text_versions as any) || [] as string[])];
         updatedTextVersions[selectedImageIndex] = bestCaption.text;
 
         await fetch(`${endpointUrl}/api/v1/contentgen/update-text-versions`, {
@@ -433,7 +433,7 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
         currentPost.text_versions = updatedTextVersions;
         currentPost.caption_id = captionData.caption_id; // Store for regeneration
       }
-    } catch (_error) {
+    } catch (error) {
       setErrorText('Failed to generate caption');
       setErrorSaving(true);
     } finally {
@@ -456,7 +456,7 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
 
       const captionData = await captionApi.regenerateCaption(
         id,
-        captionId,
+        captionId as any,
         {
           style,
           preserve_hashtags: true,
@@ -470,7 +470,7 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
         setText(captionData.caption.text);
         handleEdit(); // Apply the regenerated caption
       }
-    } catch (_error) {
+    } catch (error) {
       setErrorText('Failed to regenerate caption');
       setErrorSaving(true);
     } finally {

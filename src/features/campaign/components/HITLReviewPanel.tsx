@@ -428,7 +428,7 @@ const HITLReviewPanel: React.FC<HITLReviewPanelProps> = ({
         </DialogContent>
       </Dialog>
 
-      {error && <ErrorToast message={error} onClose={() => setError(null)} />}
+      {error && <ErrorToast open={!!error} message={error} onClose={() => setError(null)} />}
     </>
   );
 };
