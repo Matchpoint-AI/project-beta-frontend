@@ -10,25 +10,21 @@ const DisplayContent = () => {
   const endpointUrl = getServiceURL('data');
 
   const getUpscaledUrls = async () => {
-    try {
-      const response = await fetch(
-        `${endpointUrl}/api/v1/data/get/filtered?query_kind=generated_content&query_order=campaign_id&query_limit=1&filter_prop=campaign_id&filter_value=${campaign_id}`,
-        {
-          method: 'GET',
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error('Failed to get data');
+    const response = await fetch(
+      `${endpointUrl}/api/v1/data/get/filtered?query_kind=generated_content&query_order=campaign_id&query_limit=1&filter_prop=campaign_id&filter_value=${campaign_id}`,
+      {
+        method: 'GET',
       }
+    );
 
-      const data = await response.json();
-      // Add null safety checks for nested properties
-      const upscaledUrls = data?.results?.[0]?.final_result?.response?.data?.upscaled_urls || [];
-      return upscaledUrls;
-    } catch (_error) {
-      throw _error; // Re-throw to allow handling in calling code
+    if (!response.ok) {
+      throw new Error('Failed to get data');
     }
+
+    const data = await response.json();
+    // Add null safety checks for nested properties
+    const upscaledUrls = data?.results?.[0]?.final_result?.response?.data?.upscaled_urls || [];
+    return upscaledUrls;
   };
 
   const [upscaledUrls, setUpscaledUrls] = useState([]); // State to store URLs

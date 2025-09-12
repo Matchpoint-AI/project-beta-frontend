@@ -20,7 +20,7 @@ interface StepCampaignProps {
 }
 
 // Extend CampaignInfoType for local use
-interface ExtendedCampaignInfoType extends CampaignInfoType {
+interface ExtendedCampaignInfoType extends Omit<CampaignInfoType, 'duration'> {
   campaign_id?: string;
   productDescription?: string;
   productLink?: string;
@@ -29,7 +29,7 @@ interface ExtendedCampaignInfoType extends CampaignInfoType {
   postingFrequency?: number;
   deliveryDay?: string;
   summary?: string;
-  duration?: number;
+  duration?: string | number;
 }
 
 // Add Product type for products array
@@ -106,7 +106,7 @@ const StepCampaignComponent: React.FC<StepCampaignProps> = ({
         }
         if (scraped) {
           features = scraped.product_features;
-          setCampaignInfo((prev: ExtendedCampaignInfoType) => ({
+          setCampaignInfo((prev: CampaignInfoType) => ({
             ...prev,
             product_features: features,
           }));

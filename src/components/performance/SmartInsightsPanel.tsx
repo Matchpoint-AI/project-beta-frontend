@@ -60,20 +60,20 @@ interface OptimizationRecommendation {
 interface InsightsSummary {
   timestamp: string;
   brand_id: string | null;
-  insights_summary: {
+  insights_summary?: {
     total_insights: number;
     by_type: Record<string, number>;
     by_severity: Record<string, number>;
   };
   health_score: number;
   health_status: string;
-  top_recommendations: Array<{
+  top_recommendations?: Array<{
     title: string;
     category: string;
     priority_score: number;
     estimated_impact: string;
   }>;
-  key_metrics: {
+  key_metrics?: {
     critical_issues: number;
     high_priority_issues: number;
     total_recommendations: number;
@@ -382,20 +382,24 @@ export const SmartInsightsPanel: React.FC = () => {
         <div className="bg-white p-6 rounded-lg border">
           <h3 className="text-lg font-semibold mb-4">Top Recommendations</h3>
           <div className="space-y-3">
-            {summary.top_recommendations.map((rec, index) => (
-              <div key={index} className="flex justify-between items-center p-3 bg-gray-50 rounded">
-                <div>
-                  <div className="font-medium">{rec.title}</div>
-                  <div className="text-sm text-gray-600 capitalize">
-                    {rec.category} • {rec.estimated_impact}
+            {summary.top_recommendations && summary.top_recommendations.length > 0 ? (
+              summary.top_recommendations.map((rec, index) => (
+                <div key={index} className="flex justify-between items-center p-3 bg-gray-50 rounded">
+                  <div>
+                    <div className="font-medium">{rec.title}</div>
+                    <div className="text-sm text-gray-600 capitalize">
+                      {rec.category} • {rec.estimated_impact}
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <div className="font-bold text-blue-600">{rec.priority_score.toFixed(0)}</div>
+                    <div className="text-xs text-gray-500">Priority</div>
                   </div>
                 </div>
-                <div className="text-right">
-                  <div className="font-bold text-blue-600">{rec.priority_score.toFixed(0)}</div>
-                  <div className="text-xs text-gray-500">Priority</div>
-                </div>
-              </div>
-            ))}
+              ))
+            ) : (
+              <div className="text-center text-gray-500 py-4">No recommendations available</div>
+            )}
           </div>
         </div>
 
@@ -405,21 +409,29 @@ export const SmartInsightsPanel: React.FC = () => {
           <div className="grid grid-cols-2 gap-4">
             <div>
               <h4 className="font-medium mb-2">By Type</h4>
-              {Object.entries(summary.insights_summary.by_type).map(([type, count]) => (
-                <div key={type} className="flex justify-between text-sm">
-                  <span className="capitalize">{type.replace('_', ' ')}</span>
-                  <span className="font-medium">{count}</span>
-                </div>
-              ))}
+              {summary.insights_summary?.by_type ? (
+                Object.entries(summary.insights_summary.by_type).map(([type, count]) => (
+                  <div key={type} className="flex justify-between text-sm">
+                    <span className="capitalize">{type.replace('_', ' ')}</span>
+                    <span className="font-medium">{count}</span>
+                  </div>
+                ))
+              ) : (
+                <div className="text-center text-gray-500 py-2">No breakdown available</div>
+              )}
             </div>
             <div>
               <h4 className="font-medium mb-2">By Severity</h4>
-              {Object.entries(summary.insights_summary.by_severity).map(([severity, count]) => (
-                <div key={severity} className="flex justify-between text-sm">
-                  <span className="capitalize">{severity}</span>
-                  <span className="font-medium">{count}</span>
-                </div>
-              ))}
+              {summary.insights_summary?.by_severity ? (
+                Object.entries(summary.insights_summary.by_severity).map(([severity, count]) => (
+                  <div key={severity} className="flex justify-between text-sm">
+                    <span className="capitalize">{severity}</span>
+                    <span className="font-medium">{count}</span>
+                  </div>
+                ))
+              ) : (
+                <div className="text-center text-gray-500 py-2">No breakdown available</div>
+              )}
             </div>
           </div>
         </div>

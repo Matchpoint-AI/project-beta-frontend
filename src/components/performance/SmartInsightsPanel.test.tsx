@@ -1,7 +1,7 @@
 /** Tests for Smart Performance Insights Panel Component. */
 
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 import { SmartInsightsPanel } from './SmartInsightsPanel';
 
@@ -173,13 +173,15 @@ describe('SmartInsightsPanel', () => {
     },
   ];
 
-  it('renders the component correctly', () => {
+  it('renders the component correctly', async () => {
     mockFetch.mockResolvedValueOnce({
       ok: true,
       json: () => Promise.resolve(mockSummaryResponse),
     });
 
-    render(<SmartInsightsPanel />);
+    await act(async () => {
+      render(<SmartInsightsPanel />);
+    });
 
     expect(screen.getByText('Smart Performance Insights')).toBeInTheDocument();
     expect(
@@ -187,13 +189,15 @@ describe('SmartInsightsPanel', () => {
     ).toBeInTheDocument();
   });
 
-  it('displays tab navigation', () => {
+  it('displays tab navigation', async () => {
     mockFetch.mockResolvedValueOnce({
       ok: true,
       json: () => Promise.resolve(mockSummaryResponse),
     });
 
-    render(<SmartInsightsPanel />);
+    await act(async () => {
+      render(<SmartInsightsPanel />);
+    });
 
     const summaryTabs = screen.getAllByText('Summary');
     expect(summaryTabs.length).toBeGreaterThan(0);

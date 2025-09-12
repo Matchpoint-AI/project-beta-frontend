@@ -1,4 +1,4 @@
-import { getServiceURL } from '../../helpers/getServiceURL';
+import { getServiceURL } from '../../../helpers/getServiceURL';
 
 interface ScrapedProduct {
   name: string;
@@ -22,46 +22,42 @@ const scrapeProduct = async (
     throw new Error('No product URL or name/description provided');
   }
 
-  try {
-    const response = await fetch(endpointUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-    });
+  const response = await fetch(endpointUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body),
+  });
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
-    }
-
-    const parsedContent = await response.json();
-
-    if (!parsedContent) {
-      throw new Error('No data found in response');
-    }
-
-    // Ensure consistent field naming
-    const result: ScrapedProduct = {
-      name: parsedContent.name || name || '',
-      description: parsedContent.description || description || '',
-      product_features: Array.isArray(parsedContent.product_features)
-        ? parsedContent.product_features
-        : Array.isArray(parsedContent.key_features)
-          ? parsedContent.key_features
-          : [],
-    };
-
-    // Validate that we have at least a name
-    if (!result.name || result.name.trim() === '') {
-      throw new Error('No product name found in response');
-    }
-
-    return result;
-  } catch (_error) {
-    throw _error;
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
   }
+
+  const parsedContent = await response.json();
+
+  if (!parsedContent) {
+    throw new Error('No data found in response');
+  }
+
+  // Ensure consistent field naming
+  const result: ScrapedProduct = {
+    name: parsedContent.name || name || '',
+    description: parsedContent.description || description || '',
+    product_features: Array.isArray(parsedContent.product_features)
+      ? parsedContent.product_features
+      : Array.isArray(parsedContent.key_features)
+        ? parsedContent.key_features
+        : [],
+  };
+
+  // Validate that we have at least a name
+  if (!result.name || result.name.trim() === '') {
+    throw new Error('No product name found in response');
+  }
+
+  return result;
 };
 
 export default scrapeProduct;

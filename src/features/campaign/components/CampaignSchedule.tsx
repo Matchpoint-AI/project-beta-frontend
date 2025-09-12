@@ -1,9 +1,9 @@
 import React, { useContext, useRef } from 'react';
-import { CampaignContext } from '../features/campaign/context/CampaignContext';
+import { CampaignContext, CampaignInfoType } from '../context/CampaignContext';
 import dayjs from 'dayjs';
 
 export default function CampaignSchedule() {
-  const { campaignInfo } = useContext(CampaignContext);
+  const { campaignInfo } = useContext(CampaignContext) as { campaignInfo: CampaignInfoType };
   const startingDays = useRef<string[]>(
     (() => {
       const days = [];

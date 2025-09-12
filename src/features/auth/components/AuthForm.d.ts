@@ -6,9 +6,9 @@ interface AuthFormProps {
 }
 declare function AuthForm({ login, setAuthError }: AuthFormProps): import("react/jsx-runtime").JSX.Element;
 declare namespace AuthForm {
-    var propTypes: {
-        login: PropTypes.Requireable<boolean>;
-        setAuthError: PropTypes.Validator<(...args: any[]) => any>;
-    };
+  const propTypes: {
+    login: PropTypes.Requireable<boolean>;
+    setAuthError: PropTypes.Validator<(...args: any[]) => any>;
+  };
 }
 export default AuthForm;
