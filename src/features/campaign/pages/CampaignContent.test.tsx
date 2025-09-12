@@ -190,14 +190,12 @@ describe('CampaignContent Component', () => {
 
     renderWithContext();
 
-    // Wait for the component to load
+    // Wait for the component to load and data to be fetched
     await waitFor(() => {
       expect(screen.getAllByTestId('campaign-header')[0]).toBeInTheDocument();
+      // Wait for setCampaignInfo to be called after data is fetched
+      expect(mockSetCampaignInfo).toHaveBeenCalled();
     });
-
-    // Click the campaign header (use the first one if multiple exist)
-    const campaignHeaders = screen.getAllByTestId('campaign-header');
-    fireEvent.click(campaignHeaders[0]);
 
     // Verify that setCampaignInfo was called with the correct data
     expect(mockSetCampaignInfo).toHaveBeenCalledWith(expect.any(Function));
