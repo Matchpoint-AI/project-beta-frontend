@@ -11,95 +11,99 @@ test.describe('Brand Onboarding', () => {
     await onboardingPage.goto();
   });
 
-  test('should complete full brand onboarding flow', { tag: ['@smoke', '@critical'] }, async ({ page }, testInfo) => {
-    // Attach test metadata for better artifact organization
-    await testInfo.attach('test-metadata', {
-      body: JSON.stringify({
-        testName: 'Full Onboarding Flow',
-        timestamp: new Date().toISOString(),
-        browser: testInfo.project.name,
-      }),
-      contentType: 'application/json',
-    });
-    // Arrange
-    const brandData = {
-      name: 'Test Brand Co',
-      industry: 'Technology',
-      targetAudience: 'Small businesses and startups',
-      brandVoice: 'Professional, innovative, and approachable',
-      colors: ['#007bff', '#28a745', '#ffc107'],
-      competitors: [
-        { name: 'Competitor One', website: 'https://competitor1.com' },
-        { name: 'Competitor Two', website: 'https://competitor2.com' },
-      ],
-    };
+  test(
+    'should complete full brand onboarding flow',
+    { tag: ['@smoke', '@critical'] },
+    async ({ page }, testInfo) => {
+      // Attach test metadata for better artifact organization
+      await testInfo.attach('test-metadata', {
+        body: JSON.stringify({
+          testName: 'Full Onboarding Flow',
+          timestamp: new Date().toISOString(),
+          browser: testInfo.project.name,
+        }),
+        contentType: 'application/json',
+      });
+      // Arrange
+      const brandData = {
+        name: 'Test Brand Co',
+        industry: 'Technology',
+        targetAudience: 'Small businesses and startups',
+        brandVoice: 'Professional, innovative, and approachable',
+        colors: ['#007bff', '#28a745', '#ffc107'],
+        competitors: [
+          { name: 'Competitor One', website: 'https://competitor1.com' },
+          { name: 'Competitor Two', website: 'https://competitor2.com' },
+        ],
+      };
 
-    // Act & Assert - Step 1: Basic Information
-    await test.step('Fill basic brand information', async () => {
-      await onboardingPage.fillBasicInfo(
-        brandData.name,
-        brandData.industry,
-        brandData.targetAudience
-      );
-      await expect(onboardingPage.brandNameInput).toHaveValue(brandData.name);
-      await expect(onboardingPage.industrySelect).toHaveValue(brandData.industry);
-      await expect(onboardingPage.targetAudienceInput).toHaveValue(brandData.targetAudience);
-
-      await onboardingPage.goToNextStep();
-      expect(await onboardingPage.getCurrentStep()).toBe(2);
-    });
-
-    // Step 2: Brand Voice
-    await test.step('Define brand voice', async () => {
-      await onboardingPage.fillBrandVoice(brandData.brandVoice);
-      await expect(onboardingPage.brandVoiceTextarea).toHaveValue(brandData.brandVoice);
-
-      await onboardingPage.goToNextStep();
-      expect(await onboardingPage.getCurrentStep()).toBe(3);
-    });
-
-    // Step 3: Brand Colors
-    await test.step('Add brand colors', async () => {
-      await onboardingPage.addBrandColors(brandData.colors);
-
-      // Verify colors are added
-      for (const color of brandData.colors) {
-        const colorChip = onboardingPage.page.locator(`[data-color="${color}"]`);
-        await expect(colorChip).toBeVisible();
-      }
-
-      await onboardingPage.goToNextStep();
-      expect(await onboardingPage.getCurrentStep()).toBe(4);
-    });
-
-    // Step 4: Competitors
-    await test.step('Add competitors', async () => {
-      for (const competitor of brandData.competitors) {
-        await onboardingPage.addCompetitor(competitor.name, competitor.website);
-
-        // Verify competitor is added to the list
-        const competitorItem = onboardingPage.page.locator(
-          `[data-testid="competitor-${competitor.name}"]`
+      // Act & Assert - Step 1: Basic Information
+      await test.step('Fill basic brand information', async () => {
+        await onboardingPage.fillBasicInfo(
+          brandData.name,
+          brandData.industry,
+          brandData.targetAudience
         );
-        await expect(competitorItem).toBeVisible();
-      }
+        await expect(onboardingPage.brandNameInput).toHaveValue(brandData.name);
+        await expect(onboardingPage.industrySelect).toHaveValue(brandData.industry);
+        await expect(onboardingPage.targetAudienceInput).toHaveValue(brandData.targetAudience);
 
-      await onboardingPage.goToNextStep();
-      expect(await onboardingPage.getCurrentStep()).toBe(5);
-    });
+        await onboardingPage.goToNextStep();
+        expect(await onboardingPage.getCurrentStep()).toBe(2);
+      });
 
-    // Step 5: Complete Onboarding
-    await test.step('Complete onboarding', async () => {
-      await onboardingPage.completeOnboarding();
+      // Step 2: Brand Voice
+      await test.step('Define brand voice', async () => {
+        await onboardingPage.fillBrandVoice(brandData.brandVoice);
+        await expect(onboardingPage.brandVoiceTextarea).toHaveValue(brandData.brandVoice);
 
-      // Verify success message
-      const successMessage = await onboardingPage.waitForSuccessMessage();
-      expect(successMessage).toContain('Brand onboarding complete');
+        await onboardingPage.goToNextStep();
+        expect(await onboardingPage.getCurrentStep()).toBe(3);
+      });
 
-      // Verify onboarding is marked as complete
-      expect(await onboardingPage.isOnboardingComplete()).toBe(true);
-    });
-  });
+      // Step 3: Brand Colors
+      await test.step('Add brand colors', async () => {
+        await onboardingPage.addBrandColors(brandData.colors);
+
+        // Verify colors are added
+        for (const color of brandData.colors) {
+          const colorChip = onboardingPage.page.locator(`[data-color="${color}"]`);
+          await expect(colorChip).toBeVisible();
+        }
+
+        await onboardingPage.goToNextStep();
+        expect(await onboardingPage.getCurrentStep()).toBe(4);
+      });
+
+      // Step 4: Competitors
+      await test.step('Add competitors', async () => {
+        for (const competitor of brandData.competitors) {
+          await onboardingPage.addCompetitor(competitor.name, competitor.website);
+
+          // Verify competitor is added to the list
+          const competitorItem = onboardingPage.page.locator(
+            `[data-testid="competitor-${competitor.name}"]`
+          );
+          await expect(competitorItem).toBeVisible();
+        }
+
+        await onboardingPage.goToNextStep();
+        expect(await onboardingPage.getCurrentStep()).toBe(5);
+      });
+
+      // Step 5: Complete Onboarding
+      await test.step('Complete onboarding', async () => {
+        await onboardingPage.completeOnboarding();
+
+        // Verify success message
+        const successMessage = await onboardingPage.waitForSuccessMessage();
+        expect(successMessage).toContain('Brand onboarding complete');
+
+        // Verify onboarding is marked as complete
+        expect(await onboardingPage.isOnboardingComplete()).toBe(true);
+      });
+    }
+  );
 
   test('should allow navigating between steps', async () => {
     // Fill step 1
@@ -242,7 +246,7 @@ test.describe('Brand Onboarding', () => {
     await test.step('Upload brand logo', async () => {
       // Create a test logo file if it doesn't exist
       const fileInput = page.locator('input[type="file"][data-testid="logo-upload"]');
-      
+
       if (await fileInput.isVisible()) {
         // Create a dummy image file for testing
         await fileInput.setInputFiles({
@@ -275,7 +279,9 @@ test.describe('Brand Onboarding', () => {
       // Tab to next field
       await page.keyboard.press('Tab');
       // Industry select should be focused
-      const focusedElement = await page.evaluate(() => document.activeElement?.getAttribute('data-testid'));
+      const focusedElement = await page.evaluate(() =>
+        document.activeElement?.getAttribute('data-testid')
+      );
       expect(focusedElement).toBe('industry-select');
 
       // Use arrow keys to select option
@@ -311,7 +317,7 @@ test.describe('Brand Onboarding', () => {
 
   test('should measure performance metrics', async ({ page }, testInfo) => {
     const onboardingPage = new BrandOnboardingPage(page);
-    
+
     // Start performance measurement
     await page.evaluateOnNewDocument(() => {
       window.performanceMetrics = {
@@ -324,7 +330,7 @@ test.describe('Brand Onboarding', () => {
 
     // Measure step transition times
     const metrics = [];
-    
+
     await test.step('Measure step transitions', async () => {
       // Step 1
       const step1Start = Date.now();
@@ -348,7 +354,7 @@ test.describe('Brand Onboarding', () => {
     });
 
     // Assert reasonable performance
-    metrics.forEach(metric => {
+    metrics.forEach((metric) => {
       expect(metric.duration).toBeLessThan(3000); // Each step should complete within 3 seconds
     });
   });
@@ -363,17 +369,19 @@ test.describe('Brand Onboarding', () => {
     // Simulate network interruption
     await test.step('Simulate offline mode', async () => {
       await context.setOffline(true);
-      
+
       // Try to save - should handle gracefully
       await onboardingPage.saveProgress();
-      
+
       // Should show offline indicator or error
-      const errorVisible = await page.locator('[data-testid="offline-indicator"], .error-message').isVisible();
+      const errorVisible = await page
+        .locator('[data-testid="offline-indicator"], .error-message')
+        .isVisible();
       expect(errorVisible).toBe(true);
 
       // Restore network
       await context.setOffline(false);
-      
+
       // Retry save
       await onboardingPage.saveProgress();
       const successMessage = await onboardingPage.waitForSuccessMessage();
@@ -414,7 +422,7 @@ test.describe('Brand Onboarding', () => {
       const consoleLogs = await page.evaluate(() => {
         return window.consoleLogs || [];
       });
-      
+
       await testInfo.attach('console-logs', {
         body: JSON.stringify(consoleLogs),
         contentType: 'application/json',
@@ -422,11 +430,13 @@ test.describe('Brand Onboarding', () => {
 
       // Capture network activity
       const requests = [];
-      page.on('request', request => requests.push({
-        url: request.url(),
-        method: request.method(),
-        headers: request.headers(),
-      }));
+      page.on('request', (request) =>
+        requests.push({
+          url: request.url(),
+          method: request.method(),
+          headers: request.headers(),
+        })
+      );
 
       await testInfo.attach('network-requests', {
         body: JSON.stringify(requests),

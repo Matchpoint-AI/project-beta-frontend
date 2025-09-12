@@ -159,7 +159,6 @@ jobs:
           retention-days: 7
           if-no-files-found: ignore
 
-
   e2e-report:
     name: Merge E2E Test Reports
     needs: e2e-tests
