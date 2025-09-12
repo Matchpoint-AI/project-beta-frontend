@@ -402,14 +402,13 @@ describe('Analytics Helper Functions', () => {
     it('should track session duration', () => {
       // Arrange
       const activity = 'campaign_creation';
-      const startTime = Date.now();
-      
+
       // Act - Start session
       analytics.startSessionTimer();
-      
+
       // Advance time by 5 seconds
       vi.advanceTimersByTime(5000);
-      
+
       // End session
       analytics.endSessionTimer(activity);
 

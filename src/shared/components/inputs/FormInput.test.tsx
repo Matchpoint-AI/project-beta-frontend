@@ -1,13 +1,13 @@
 import React from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import FormInput from './FormInput';
 
 describe('FormInput', () => {
   const mockSaveInput = vi.fn();
   const mockValidateInput = vi.fn();
-  
+
   const defaultProps = {
     saveInput: mockSaveInput,
     subject: 'name' as const,
@@ -37,9 +37,13 @@ describe('FormInput', () => {
 
       // Assert
       expect(screen.getByText('Add you business website')).toBeInTheDocument();
-      expect(screen.getByText('Import information on your brand, products and audience from your website')).toBeInTheDocument();
+      expect(
+        screen.getByText(
+          'Import information on your brand, products and audience from your website'
+        )
+      ).toBeInTheDocument();
       expect(screen.getByPlaceholderText('Company website')).toBeInTheDocument();
-      
+
       // Should render website icon (SVG)
       const svgElement = document.querySelector('svg:not([data-testid="ClearIcon"])');
       expect(svgElement).toBeInTheDocument();
@@ -372,7 +376,7 @@ describe('FormInput', () => {
     it('should have proper placeholder text', () => {
       // Arrange & Act
       render(<FormInput {...defaultProps} subject="name" />);
-      
+
       // Assert
       expect(screen.getByPlaceholderText('Company name')).toBeInTheDocument();
     });
@@ -380,7 +384,7 @@ describe('FormInput', () => {
     it('should have proper placeholder text for website', () => {
       // Arrange & Act
       render(<FormInput {...defaultProps} subject="website" />);
-      
+
       // Assert
       expect(screen.getByPlaceholderText('Company website')).toBeInTheDocument();
     });

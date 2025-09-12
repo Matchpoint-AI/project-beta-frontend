@@ -18,7 +18,7 @@ describe('fetchWebsiteData', () => {
   beforeEach(() => {
     // Clear all mocks before each test
     vi.clearAllMocks();
-    
+
     // Setup default mocks
     (getServiceURL as any).mockReturnValue(mockLLMUrl);
   });
@@ -29,7 +29,7 @@ describe('fetchWebsiteData', () => {
     const mockWebsiteData = { content: 'Mock HTML content', title: 'Example Site' };
     const mockLocationResponse = [
       JSON.stringify({ Physical_locations: ['New York', 'Los Angeles'] }),
-      JSON.stringify({ Physical_locations: ['Chicago'] })
+      JSON.stringify({ Physical_locations: ['Chicago'] }),
     ];
 
     mockFetch
@@ -45,7 +45,7 @@ describe('fetchWebsiteData', () => {
 
     // Assert
     expect(getServiceURL).toHaveBeenCalledWith('llm');
-    
+
     expect(mockFetch).toHaveBeenCalledTimes(2);
     expect(mockFetch).toHaveBeenNthCalledWith(1, `${mockLLMUrl}/api/v1/llm/fetch-content`, {
       method: 'POST',
@@ -78,9 +78,7 @@ describe('fetchWebsiteData', () => {
     // Arrange
     const url = 'https://example.com';
     const mockWebsiteData = { content: 'Mock content without locations' };
-    const mockLocationResponse = [
-      JSON.stringify({ Physical_locations: [] })
-    ];
+    const mockLocationResponse = [JSON.stringify({ Physical_locations: [] })];
 
     mockFetch
       .mockResolvedValueOnce({
@@ -104,9 +102,7 @@ describe('fetchWebsiteData', () => {
     // Arrange
     const url = 'https://example.com';
     const mockWebsiteData = { content: 'Mock content' };
-    const mockLocationResponse = [
-      JSON.stringify({ other_data: 'no locations' })
-    ];
+    const mockLocationResponse = [JSON.stringify({ other_data: 'no locations' })];
 
     mockFetch
       .mockResolvedValueOnce({
@@ -134,7 +130,7 @@ describe('fetchWebsiteData', () => {
       JSON.stringify({ Physical_locations: ['Tokyo', 'Osaka'] }),
       JSON.stringify({ Physical_locations: ['London', 'Manchester'] }),
       JSON.stringify({ Physical_locations: [] }),
-      JSON.stringify({ Physical_locations: ['Sydney'] })
+      JSON.stringify({ Physical_locations: ['Sydney'] }),
     ];
 
     mockFetch
@@ -160,7 +156,9 @@ describe('fetchWebsiteData', () => {
     mockFetch.mockRejectedValueOnce(fetchError);
 
     // Act & Assert
-    await expect(fetchWebsiteData(url, mockSetProgressDescription)).rejects.toThrow('Network error');
+    await expect(fetchWebsiteData(url, mockSetProgressDescription)).rejects.toThrow(
+      'Network error'
+    );
     expect(getServiceURL).toHaveBeenCalledWith('llm');
     expect(mockSetProgressDescription).not.toHaveBeenCalled();
   });
@@ -178,7 +176,9 @@ describe('fetchWebsiteData', () => {
       .mockRejectedValueOnce(locationError);
 
     // Act & Assert
-    await expect(fetchWebsiteData(url, mockSetProgressDescription)).rejects.toThrow('Location API error');
+    await expect(fetchWebsiteData(url, mockSetProgressDescription)).rejects.toThrow(
+      'Location API error'
+    );
     expect(mockSetProgressDescription).toHaveBeenCalledWith('Extracting Physical Locations...');
   });
 
@@ -220,7 +220,7 @@ describe('fetchWebsiteData', () => {
     // Assert - Progress should be called after first fetch but before second
     const fetchCallOrder = mockFetch.mock.invocationCallOrder;
     const progressCallOrder = mockSetProgressDescription.mock.invocationCallOrder;
-    
+
     expect(progressCallOrder[0]).toBeGreaterThan(fetchCallOrder[0]);
     expect(progressCallOrder[0]).toBeLessThan(fetchCallOrder[1]);
   });
@@ -246,8 +246,16 @@ describe('fetchWebsiteData', () => {
     await fetchWebsiteData(url, mockSetProgressDescription);
 
     // Assert
-    expect(mockFetch).toHaveBeenNthCalledWith(1, `${customLLMUrl}/api/v1/llm/fetch-content`, expect.any(Object));
-    expect(mockFetch).toHaveBeenNthCalledWith(2, `${customLLMUrl}/api/v1/llm/physical-locations`, expect.any(Object));
+    expect(mockFetch).toHaveBeenNthCalledWith(
+      1,
+      `${customLLMUrl}/api/v1/llm/fetch-content`,
+      expect.any(Object)
+    );
+    expect(mockFetch).toHaveBeenNthCalledWith(
+      2,
+      `${customLLMUrl}/api/v1/llm/physical-locations`,
+      expect.any(Object)
+    );
   });
 
   it('should pass the correct prompt structure for location extraction', async () => {

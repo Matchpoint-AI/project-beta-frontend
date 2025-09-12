@@ -16,11 +16,7 @@ vi.mock('@mui/joy/Chip', () => ({
 
 vi.mock('@mui/joy/ChipDelete', () => ({
   default: ({ onDelete, children, ...props }: any) => (
-    <button
-      data-testid="chip-delete"
-      onClick={() => onDelete()}
-      {...props}
-    >
+    <button data-testid="chip-delete" onClick={() => onDelete()} {...props}>
       {children || 'Delete'}
     </button>
   ),
@@ -28,39 +24,30 @@ vi.mock('@mui/joy/ChipDelete', () => ({
 
 // Mock mui-chips-input
 vi.mock('mui-chips-input', () => ({
-  MuiChipsInput: ({ 
-    value, 
-    onChange, 
-    renderChip, 
-    ...props 
-  }: any) => {
+  MuiChipsInput: ({ value, onChange, renderChip, ...props }: any) => {
     return (
       <div data-testid="mui-chips-input" {...props}>
         <input
           data-testid="chips-input-field"
           onChange={(e) => {
-            const newValue = e.target.value;
+            const newValue = (e.target as HTMLInputElement).value;
             if (newValue && !value.includes(newValue)) {
               onChange([...value, newValue]);
             }
           }}
           onKeyDown={(e) => {
-            if (e.key === 'Enter' && e.target.value) {
-              const newValue = e.target.value;
+            if (e.key === 'Enter' && (e.target as HTMLInputElement).value) {
+              const newValue = (e.target as HTMLInputElement).value;
               if (!value.includes(newValue)) {
                 onChange([...value, newValue]);
               }
-              e.target.value = '';
+              (e.target as HTMLInputElement).value = '';
             }
           }}
         />
         <div data-testid="chips-container">
-          {value.map((chip: string, index: number) => 
-            renderChip(
-              'div',
-              `chip-${index}`,
-              { index, label: chip }
-            )
+          {value.map((chip: string, index: number) =>
+            renderChip('div', `chip-${index}`, { index, label: chip })
           )}
         </div>
       </div>
@@ -70,7 +57,7 @@ vi.mock('mui-chips-input', () => ({
 
 describe('CustomInput', () => {
   const mockSetOptions = vi.fn();
-  
+
   const defaultProps = {
     options: [],
     setOptions: mockSetOptions,
@@ -102,7 +89,7 @@ describe('CustomInput', () => {
       expect(screen.getByText('Option 1')).toBeInTheDocument();
       expect(screen.getByText('Option 2')).toBeInTheDocument();
       expect(screen.getByText('Option 3')).toBeInTheDocument();
-      
+
       const chips = screen.getAllByTestId('mui-chip');
       expect(chips).toHaveLength(3);
     });
@@ -188,7 +175,7 @@ describe('CustomInput', () => {
       const user = userEvent.setup();
       const options = ['Option 1', 'Option 2', 'Option 3'];
       render(<CustomInput {...defaultProps} options={options} />);
-      
+
       // Get the first delete button
       const deleteButtons = screen.getAllByTestId('chip-delete');
 
@@ -204,7 +191,7 @@ describe('CustomInput', () => {
       const user = userEvent.setup();
       const options = ['First', 'Middle', 'Last'];
       render(<CustomInput {...defaultProps} options={options} />);
-      
+
       const deleteButtons = screen.getAllByTestId('chip-delete');
 
       // Act - Delete middle chip (index 1)
@@ -219,7 +206,7 @@ describe('CustomInput', () => {
       const user = userEvent.setup();
       const options = ['First', 'Second', 'Last'];
       render(<CustomInput {...defaultProps} options={options} />);
-      
+
       const deleteButtons = screen.getAllByTestId('chip-delete');
 
       // Act - Delete last chip (index 2)
@@ -234,7 +221,7 @@ describe('CustomInput', () => {
       const user = userEvent.setup();
       const options = ['Only Option'];
       render(<CustomInput {...defaultProps} options={options} />);
-      
+
       const deleteButton = screen.getByTestId('chip-delete');
 
       // Act
@@ -322,7 +309,10 @@ describe('CustomInput', () => {
 
       // Assert
       const chip = screen.getByTestId('mui-chip');
-      expect(chip).toHaveAttribute('style', expect.stringContaining('backgroundColor: rgb(188, 240, 218)'));
+      expect(chip).toHaveAttribute(
+        'style',
+        expect.stringContaining('backgroundColor: rgb(188, 240, 218)')
+      );
       expect(chip).toHaveAttribute('style', expect.stringContaining('color: black'));
       expect(chip).toHaveAttribute('style', expect.stringContaining('borderRadius: 6px'));
     });
@@ -336,7 +326,10 @@ describe('CustomInput', () => {
 
       // Assert
       const deleteButton = screen.getByTestId('chip-delete');
-      expect(deleteButton).toHaveAttribute('style', expect.stringContaining('backgroundColor: rgb(188, 240, 218)'));
+      expect(deleteButton).toHaveAttribute(
+        'style',
+        expect.stringContaining('backgroundColor: rgb(188, 240, 218)')
+      );
       expect(deleteButton).toHaveAttribute('style', expect.stringContaining('color: gray'));
     });
 
@@ -412,7 +405,7 @@ describe('CustomInput', () => {
       render(<CustomInput {...defaultProps} options={specialChars} />);
 
       // Assert
-      specialChars.forEach(text => {
+      specialChars.forEach((text) => {
         expect(screen.getByText(text)).toBeInTheDocument();
       });
     });
@@ -420,9 +413,9 @@ describe('CustomInput', () => {
     it('should handle rapid deletion of multiple chips', async () => {
       // Arrange
       const user = userEvent.setup();
-      const options = ['A', 'B', 'C', 'D', 'E'];
+      const options: string[] = ['A', 'B', 'C', 'D', 'E'];
       render(<CustomInput {...defaultProps} options={options} />);
-      
+
       const deleteButtons = screen.getAllByTestId('chip-delete');
 
       // Act - Delete multiple chips rapidly
@@ -442,7 +435,7 @@ describe('CustomInput', () => {
       const options = ['Test'];
 
       // Act & Assert - Should not crash with negative limit
-      expect(() => 
+      expect(() =>
         render(<CustomInput {...defaultProps} options={options} limit={-5} />)
       ).not.toThrow();
     });
@@ -452,7 +445,7 @@ describe('CustomInput', () => {
       const options = ['Test'];
 
       // Act & Assert - Should not crash with very large limit
-      expect(() => 
+      expect(() =>
         render(<CustomInput {...defaultProps} options={options} limit={999999} />)
       ).not.toThrow();
     });

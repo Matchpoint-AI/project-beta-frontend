@@ -12,7 +12,7 @@ vi.mock('jspdf', () => ({
     text: vi.fn(),
     addPage: vi.fn(),
     output: vi.fn().mockReturnValue(new Uint8Array([1, 2, 3])),
-  }))
+  })),
 }));
 vi.mock('docx', () => ({
   Document: vi.fn(),
@@ -22,7 +22,7 @@ vi.mock('docx', () => ({
   Paragraph: vi.fn(),
 }));
 vi.mock('emoji-regex', () => ({
-  default: vi.fn(() => /\p{Emoji}/gu),
+  default: vi.fn(() => /😀|🎉|🎊|✨|🌟|🎈/g),
 }));
 
 // Mock global fetch
@@ -81,13 +81,10 @@ describe('exportUtils', () => {
       await fetchAndCreatePDF(id, endpointUrl, token);
 
       // Assert
-      expect(mockFetch).toHaveBeenCalledWith(
-        `${endpointUrl}/api/v1/getPdfData?campaign_id=${id}`,
-        {
-          method: 'GET',
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+      expect(mockFetch).toHaveBeenCalledWith(`${endpointUrl}/api/v1/getPdfData?campaign_id=${id}`, {
+        method: 'GET',
+        headers: { Authorization: `Bearer ${token}` },
+      });
     });
 
     it('should handle null data response', async () => {
