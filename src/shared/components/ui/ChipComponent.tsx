@@ -33,7 +33,7 @@ const ChipComponent: React.FC<ChipComponentProps> = ({
         onMouseLeave={() => setHover(false)}
         onClick={() => onClose(index)}
       >
-        <img src="/delete_tag.svg" />
+        <img src="/src/assets/icons/delete_tag.svg" />
       </button>
     </div>
   );

@@ -226,7 +226,7 @@ const TimingForm = ({ handleNext, handleBack, setTiming, review = false }: Timin
               className="w-full"
             />
             <div className="flex items-center gap-4 bg-[#EBF5FF] py-1 px-1 rounded-md my-2">
-              <img src="/sparkles.svg" alt="location" className="w-5 h-5" />
+              <img src="/src/assets/icons/sparkles.svg" alt="location" className="w-5 h-5" />
               <p className="text-sm text-[#1C64F2]">Recommendation: min 3 weeks</p>
             </div>
           </div>
@@ -251,7 +251,7 @@ const TimingForm = ({ handleNext, handleBack, setTiming, review = false }: Timin
               className="w-full"
             />
             <div className="flex items-center gap-4 bg-[#EBF5FF] py-1 px-1 rounded-md my-2">
-              <img src="/sparkles.svg" alt="location" className="w-5 h-5" />
+              <img src="/src/assets/icons/sparkles.svg" alt="location" className="w-5 h-5" />
               <p className="text-sm text-[#1C64F2]">Recommendation: min 3 posts per day</p>
             </div>
           </div>
@@ -278,7 +278,7 @@ const TimingForm = ({ handleNext, handleBack, setTiming, review = false }: Timin
               className="w-full"
             />
             {/* <div className="flex items-center gap-4 bg-[#EBF5FF] py-1 px-1 rounded-md my-2">
-              <img src="/sparkles.svg" alt="location" className="w-5 h-5" />
+              <img src="/src/assets/icons/sparkles.svg" alt="location" className="w-5 h-5" />
               <p className="text-sm text-[#1C64F2]">Recommendation: Thursday</p>
             </div> */}
           </div>

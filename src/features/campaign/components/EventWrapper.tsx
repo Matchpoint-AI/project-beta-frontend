@@ -68,7 +68,7 @@ const EventWrapper = (props: { event: EventType }) => {
             <>
               <h1 className="font-semibold text-xs text-gray-900">{day}</h1>
               <div className="bg-red-100 rounded-md font-medium flex flex-row justify-center items-center gap-1 p-1 px-2">
-                <img className="text-[#8E4B10]" src="/ai.svg" />
+                <img className="text-[#8E4B10]" src="/src/assets/icons/ai.svg" />
                 <h2 className="font-medium text-xs text-red-800">Generating...</h2>
               </div>
             </>

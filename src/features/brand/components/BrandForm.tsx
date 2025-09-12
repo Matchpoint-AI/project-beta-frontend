@@ -175,7 +175,11 @@ const BrandForm = ({ handleBack, handleNext }: BrandFormProps) => {
               >
                 3. Pick brand colors
               </label>
-              <img src="/info.svg" alt="info" className="w-4 h-4 inline-block mt-1" />
+              <img
+                src="/src/assets/icons/info.svg"
+                alt="info"
+                className="w-4 h-4 inline-block mt-1"
+              />
             </div>
             <p className="py-2 text-xs text-[#6B7280]">
               We&apos;ve detected these are your colors. If you&apos;d like to change these please

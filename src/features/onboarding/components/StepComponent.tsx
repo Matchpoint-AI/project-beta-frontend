@@ -33,7 +33,11 @@ const StepComponent: React.FC<StepProps> = ({ title, icon, step, currentStep, se
         {/* Step Icon */}
         <div className="mr-2">
           <img
-            src={currentStep === step ? `${icon}_active.svg` : `${icon}_gray.svg`}
+            src={
+              currentStep === step
+                ? `/src/assets/icons/${icon}_active.svg`
+                : `/src/assets/icons/${icon}_gray.svg`
+            }
             alt={icon}
             width={20}
             height={20}
