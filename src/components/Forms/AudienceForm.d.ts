@@ -3,5 +3,5 @@ interface AudienceFormProps {
     handleBack?: any;
     review?: boolean;
 }
-declare const AudienceForm: ({ handleNext, handleBack, review }: AudienceFormProps) => import("react/jsx-runtime").JSX.Element;
+declare const AudienceForm: ({ handleNext, handleBack, review }: AudienceFormProps) => any;
 export default AudienceForm;

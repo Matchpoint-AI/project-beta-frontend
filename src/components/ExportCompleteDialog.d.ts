@@ -1,2 +1,2 @@
-declare const ExportCompleteDialog: () => import("react/jsx-runtime").JSX.Element;
+declare const ExportCompleteDialog: () => any;
 export default ExportCompleteDialog;
