@@ -1,4 +1,4 @@
-import PhoneNavIcons from '../shared/PhoneNavIcons';
+import PhoneNavIcons from '../../../components/shared/PhoneNavIcons';
 import ProgressBar from '../../shared/components/ui/ProgressBar';
 import StepComponent from './StepComponent';
 import React, { useEffect } from 'react';

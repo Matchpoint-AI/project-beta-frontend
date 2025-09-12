@@ -1,6 +1,6 @@
 import React from 'react';
 import { SparklesMessage } from '../../shared/components/ui/SparklesMessage';
-import BrandIndustryBlock from '../../features/brand/components/BrandIndustryBlock';
+import BrandIndustryBlock from '../../brand/components/BrandIndustryBlock';
 
 export default function IndustryVertical() {
   return (

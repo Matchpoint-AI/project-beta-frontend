@@ -53,8 +53,8 @@ export default function AuthForm({ login = false, setAuthError }: AuthFormProps)
       }
 
       setAuthError('Verification email resent successfully!');
-    } catch (_error) {
-      setAuthError(error.message);
+    } catch (catchError) {
+      setAuthError(catchError instanceof Error ? catchError.message : 'An error occurred');
     } finally {
       setLoading(false);
     }
@@ -157,7 +157,7 @@ export default function AuthForm({ login = false, setAuthError }: AuthFormProps)
     } catch (_error) {
       setLoading(false);
       if (login) {
-        const authError = error as FirebaseError;
+        const authError = _error as FirebaseError;
         if (authError.code === 'auth/invalid-credential') {
           setAuthError('Invalid username or password.');
         } else if (authError.code === 'auth/too-many-requests') {
@@ -168,7 +168,7 @@ export default function AuthForm({ login = false, setAuthError }: AuthFormProps)
           setAuthError('Login failed. Please retry.');
         }
       } else {
-        if (error === 'User already exists') {
+        if (_error === 'User already exists') {
           setAuthError('Email already exists.');
         } else {
           setAuthError('Sign up failed. Please retry.');

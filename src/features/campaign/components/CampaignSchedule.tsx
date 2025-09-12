@@ -1,5 +1,5 @@
 import React, { useContext, useRef } from 'react';
-import { CampaignContext } from '../features/campaign/context/CampaignContext';
+import { CampaignContext } from '../context/CampaignContext';
 import dayjs from 'dayjs';
 
 export default function CampaignSchedule() {

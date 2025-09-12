@@ -1,18 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Sidebar from '../shared/Sidebar';
-import { BrandContext } from '../../features/brand/context/BrandContext';
-import CustomComponent from '../../features/campaign/components/CustomComponent';
-import BrandForm from '../../features/brand/components/BrandForm';
-import ReviewForm from '../onboard/ReviewForm';
+import Sidebar from '../../../components/shared/Sidebar';
+import { BrandContext } from '../../brand/context/BrandContext';
+import CustomComponent from '../../campaign/components/CustomComponent';
+import BrandForm from '../../brand/components/BrandForm';
+import ReviewForm from './ReviewForm';
 import { CampaignContext } from '../../campaign/context/CampaignContext';
-import OnboardStepsBar from '../onboard/OnboardStepsBar';
-import { useAuth } from '../../features/auth/context/AuthContext';
+import OnboardStepsBar from './OnboardStepsBar';
+import { useAuth } from '../../auth/context/AuthContext';
 import { getServiceURL } from '../../helpers/getServiceURL';
-import BusinessForm from '../onboard/BusinessForm';
+import BusinessForm from './BusinessForm';
 import ErrorToast from '../../shared/components/feedback/ErrorToast';
-import StepContainer from '../onboard/StepContainer';
+import StepContainer from './StepContainer';
 import handleNavigate from '../../helpers/handleNavigate';
 
 const Onboard = ({ edit = false }: any) => {

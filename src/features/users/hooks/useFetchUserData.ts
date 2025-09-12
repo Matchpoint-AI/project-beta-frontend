@@ -46,7 +46,7 @@ export default function useFetchUserData() {
 
     const response = await fetch(endpointUrl, {
       headers: {
-        Authorization: `Bearer ${profile.token}`,
+        Authorization: `Bearer ${profile?.token}`,
       },
     });
 

@@ -1,11 +1,11 @@
 import React, { FormEventHandler, useContext, useEffect, useState } from 'react';
-import { BrandContext } from '../../features/brand/context/BrandContext';
+import { BrandContext } from '../../brand/context/BrandContext';
 import BackButton from '../../shared/components/buttons/BackButton';
 import { getServiceURL } from '../../helpers/getServiceURL';
 import { CircularProgress } from '@mui/material';
-import FormsContainer from '../shared/FormsContainer';
-import BrandDetailsReview from '../../features/brand/components/BrandDetailsReview';
-import type { Selectable } from '../../features/brand/context/BrandContext';
+import FormsContainer from '../../../components/shared/FormsContainer';
+import BrandDetailsReview from '../../brand/components/BrandDetailsReview';
+import type { Selectable } from '../../brand/context/BrandContext';
 
 interface ReviewFormProps {
   setFormStep: (step: number) => void;
@@ -99,10 +99,10 @@ const ReviewForm = ({ setFormStep, handleBack, handleSave, saving }: ReviewFormP
     for (let i = 0; i < brandData.length; i++) {
       const selectedData =
         brandData[i] === 'values'
-          ? businessInfo.values?.filter((ticket) => ticket?.selected)
+          ? businessInfo.values?.filter((ticket: Selectable) => ticket?.selected)
           : brandData[i] === 'persona'
-            ? businessInfo.persona?.filter((ticket) => ticket?.selected)
-            : businessInfo.toneAndVoice?.filter((ticket) => ticket?.selected);
+            ? businessInfo.persona?.filter((ticket: Selectable) => ticket?.selected)
+            : businessInfo.toneAndVoice?.filter((ticket: Selectable) => ticket?.selected);
       if (selectedData?.length === 0) return false;
     }
     return true;

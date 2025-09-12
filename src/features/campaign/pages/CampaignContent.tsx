@@ -11,7 +11,7 @@ import {
   CampaignContext,
   CampaignInfoType,
 } from '../../../features/campaign/context/CampaignContext';
-import type { Campaign } from '../../../components/TabWrapper';
+import type { Campaign } from '../components/TabWrapper';
 import handleNavigate from '../../../helpers/handleNavigate';
 
 const CampaignContent = () => {
@@ -183,7 +183,7 @@ const CampaignContent = () => {
           }
         }
       } catch (_error) {
-        setError(error instanceof Error ? error.message : 'Failed to load campaign data');
+        setError(_error instanceof Error ? _error.message : 'Failed to load campaign data');
         setLoading(false);
       }
     };
@@ -229,7 +229,7 @@ const CampaignContent = () => {
 
   const navigateToCampaignView = () => {
     const data = campaignContent?.campaign_data?.campaign_variables;
-    if (_data) {
+    if (data) {
       setCampaignInfo((prev) => ({
         ...prev,
         summary: data?.summary,
@@ -254,7 +254,7 @@ const CampaignContent = () => {
         deliveryDay: data?.deliveryDay,
         campaign_id: campaignContent?.campaign_id,
         campaign_brief: true,
-        created_at: campaignContent?.timestamp,
+        created_at: (campaignContent as any)?.timestamp,
       }));
       handleNavigate(profile?.id ?? '', '/campaign', navigate);
     }

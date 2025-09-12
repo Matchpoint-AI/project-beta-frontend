@@ -1,8 +1,8 @@
 import React, { useState, useContext } from 'react';
-import { BrandContext } from '../../features/brand/context/BrandContext';
-import scrapeBrandWebsite from '../../features/brand/utils/scrapeBrandWebsite';
+import { BrandContext } from '../../brand/context/BrandContext';
+import scrapeBrandWebsite from '../../brand/utils/scrapeBrandWebsite';
 // import { ConnectInstagram } from "./ConnectToInstagram";
-import { ScrapeWebsiteBtn } from '../ScrapeWebsiteBtn';
+import { ScrapeWebsiteBtn } from '../../../components/ScrapeWebsiteBtn';
 import isUrl from 'is-url';
 import BusinessFormInput from '../../shared/components/inputs/BusinessFormInput';
 import ErrorToast from '../../shared/components/feedback/ErrorToast';
