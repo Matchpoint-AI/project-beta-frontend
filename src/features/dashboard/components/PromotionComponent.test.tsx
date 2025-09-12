@@ -218,7 +218,7 @@ describe('PromotionComponent', () => {
     renderWithContext(mockCampaign, 'Current');
     const contentLibraryButton = screen.getByText('Content Library');
     fireEvent.click(contentLibraryButton);
-    const handleNavigate = (await import('../helpers/handleNavigate')).default;
+    const handleNavigate = (await import('../../../helpers/handleNavigate')).default;
     expect(handleNavigate).toHaveBeenCalledWith(
       'test-user-id',
       '/campaign/content/test-campaign-1',
