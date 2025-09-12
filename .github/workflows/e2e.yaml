@@ -62,6 +62,7 @@ jobs:
     needs: e2e-health-check
     if: ${{ needs.e2e-health-check.outputs.should-continue == 'true' }}
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -137,6 +138,7 @@ jobs:
     needs: e2e-brand-onboarding
     if: success()
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     strategy:
       fail-fast: false
       matrix:
@@ -300,6 +302,7 @@ jobs:
     needs: e2e-health-check
     if: ${{ needs.e2e-health-check.outputs.should-continue == 'true' }}
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -323,13 +326,13 @@ jobs:
           echo $! > server.pid
           sleep 10
 
-      - name: Run smoke tests with shell script
+      - name: Run smoke tests directly
         run: |
-          chmod +x scripts/e2e/playwright-all.sh
-          ./scripts/e2e/playwright-all.sh smoke
+          npx playwright test e2e/smoke.spec.ts --project=chromium --reporter=json,github --timeout=10000
         env:
-          APP_URL: http://localhost:3000
-          BROWSER: chromium
+          BASE_URL: http://localhost:3000
+          MOCK_API: "true"
+          CI: "true"
 
       - name: Stop application
         if: always()
