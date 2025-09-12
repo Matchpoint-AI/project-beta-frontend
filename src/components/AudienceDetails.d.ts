@@ -6,5 +6,5 @@ interface AudienceEmotionsProps {
     description?: string;
     genre: 'emotion' | 'interests';
 }
-export default function AudienceDetails(props: AudienceEmotionsProps): import("react/jsx-runtime").JSX.Element;
+export default function AudienceDetails(props: AudienceEmotionsProps): any;
 export {};

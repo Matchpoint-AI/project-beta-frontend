@@ -1,17 +1,17 @@
 import React, { useContext, useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { CampaignContext } from '../features/campaign/context/CampaignContext';
+import { CampaignContext } from '../../../features/campaign/context/CampaignContext';
 import { signOut } from 'firebase/auth';
-import { useAuthentication } from '../lib/firebase';
+import { useAuthentication } from '../../../lib/firebase';
 import { TbLogout2 } from 'react-icons/tb';
 import { TbBriefcase } from 'react-icons/tb';
 import { TbPhoto } from 'react-icons/tb';
 import { PiUsersBold } from 'react-icons/pi';
 import { TbSparkles } from 'react-icons/tb';
 import Cookies from 'universal-cookie';
-import { useAuth } from '../features/auth/context/AuthContext';
-import posthog from '../helpers/posthog';
-import handleNavigate from '../helpers/handleNavigate';
+import { useAuth } from '../../../features/auth/context/AuthContext';
+import posthog from '../../../helpers/posthog';
+import handleNavigate from '../../../helpers/handleNavigate';
 
 export default function SideNavBar({
   className,

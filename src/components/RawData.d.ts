@@ -4,7 +4,7 @@ interface RawDataProps {
     onClose: () => void;
     data: Post[][][];
 }
-export default function RawData({ state, onClose, data }: RawDataProps): import("react/jsx-runtime").JSX.Element;
+export default function RawData({ state, onClose, data }: RawDataProps): any;
 export {};
 /**
  *
