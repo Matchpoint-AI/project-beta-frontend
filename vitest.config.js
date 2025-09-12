@@ -41,8 +41,8 @@ export default defineConfig({
       '@': resolve(__dirname, 'src'),
     },
   },
-  // Fix Vite cache directory issue
-  cacheDir: process.env.TEST_TMPDIR || '.vite_cache',
+  // Use proper cache directory for better performance
+  cacheDir: process.env.TEST_TMPDIR || 'node_modules/.vite',
   test: {
     globals: true,
     environment: 'jsdom',
@@ -71,11 +71,15 @@ export default defineConfig({
         lines: 90,
       },
     },
-    // Use threads pool which is more stable than forks
+    // Use threads pool for parallel test execution
     pool: 'threads',
     poolOptions: {
       threads: {
-        singleThread: true,
+        // Run tests in parallel for better performance
+        singleThread: false,
+        // Use available CPU cores for maximum parallelization
+        maxThreads: undefined,
+        minThreads: 1,
       },
     },
   },
