@@ -81,7 +81,7 @@ const ReviewForm = ({ setFormStep, handleBack, handleSave, saving }: ReviewFormP
     })
       .then((response) => response.json())
       .then((_data) => {
-        const { choices } = data.response;
+        const { choices } = _data.response;
         const { content } = choices[0].message;
         setSummary(content);
 

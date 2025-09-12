@@ -8,9 +8,10 @@ import { FaEdit } from 'react-icons/fa';
 interface BrandReviewProps {
   toggleEdit: () => void;
   hasBrand: boolean;
+  stepHandler?: (step: number) => void;
 }
 
-export default function BrandReview({ toggleEdit, hasBrand }: BrandReviewProps) {
+export default function BrandReview({ toggleEdit, hasBrand, stepHandler }: BrandReviewProps) {
   const { businessInfo } = useContext(BrandContext);
 
   return (
@@ -76,7 +77,7 @@ export default function BrandReview({ toggleEdit, hasBrand }: BrandReviewProps) 
             <p>{businessInfo?.summary}</p>
           </div>
         </div>
-        <BrandDetailsReview edit={true} hasBrand={hasBrand} />
+        <BrandDetailsReview edit={true} hasBrand={hasBrand} stepHandler={stepHandler || (() => {})} />
       </FormsContainer>
     </div>
   );

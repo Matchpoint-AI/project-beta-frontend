@@ -19,12 +19,24 @@ import { structureData } from '../../../helpers/formatters';
 // import { CircularProgress } from "@mui/material";
 import DayBanner from './DayBanner';
 
+interface Campaign {
+  campaign_data: {
+    campaign_variables: {
+      durationNum: number;
+      start_date: string;
+    };
+    biz_variables: {
+      brand_name: string;
+    };
+  };
+}
+
 const ContentLibrary = ({
   campaign,
   setStats,
 }: {
-  campaign: unknown;
-  setStats: React.Dispatch<React.SetStateAction<unknown>>;
+  campaign: Campaign | null;
+  setStats: React.Dispatch<React.SetStateAction<Stats>>;
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [open, setOpen] = React.useState(0);
@@ -41,7 +53,7 @@ const ContentLibrary = ({
   const endpointUrl = getServiceURL('content-gen');
 
   useEffect(() => {
-    if (campaign === undefined) return;
+    if (!campaign) return;
     setTotalPages(campaign.campaign_data.campaign_variables.durationNum);
     setBrandName(campaign.campaign_data.biz_variables.brand_name);
     setStartDate(campaign.campaign_data.campaign_variables.start_date);
@@ -64,8 +76,9 @@ const ContentLibrary = ({
     } else {
       setWeeksContent((old) => {
         const arr = Array.from(old) as Week[];
-        arr[week][day]['posts'][post]['image_url']?.push(newImage);
-        arr[week][day].posts[post].selected_image = newImage;
+        if (newImage) {
+          arr[week][day]['posts'][post]['image_url']?.push(newImage);
+        }
         arr[week][day].posts[post].text = newText;
         return arr;
       });
@@ -107,7 +120,7 @@ const ContentLibrary = ({
           return;
         }
 
-        const newData = structureData(data?.arr);
+        const newData = structureData(data?.arr) as Week[];
 
         setGeneratedContentId(data?.id);
         setWeeksContent((prevContent) => {
@@ -117,13 +130,14 @@ const ContentLibrary = ({
           const updatedContent = prevContent.map((week: Week, weekIndex: number) =>
             week.map((day, dayIndex) => ({
               ...day,
+              postIndex: day.postIndex,
               posts: day?.posts.map((post, postIndex) =>
-                post.image_url // Keep existing post if it has image_url
+                post.image_url && post.image_url.length > 0 // Keep existing post if it has image_url
                   ? post
                   : newData[weekIndex]?.[dayIndex]?.posts[postIndex] || post
               ),
             }))
-          );
+          ) as Week[];
 
           return updatedContent;
         });
@@ -242,7 +256,17 @@ const ContentLibrary = ({
             weeksContent[currentPage - 1]?.map((val: Day, index: number) => (
               <DayBanner
                 brandName={brandName}
-                content={val}
+                content={{
+                  approved: val.approved,
+                  posts: val.posts.map(post => ({
+                    ...post,
+                    text: post.text,
+                    image_url: post.image_url,
+                    approved: post.approved,
+                    posted: post.posted
+                  })),
+                  dayIndex: val.dayIndex
+                }}
                 currentPage={currentPage}
                 generatedContentId={generatedContentId}
                 handleApprovalUpdate={handleApprovalUpdate}

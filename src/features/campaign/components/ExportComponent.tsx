@@ -4,7 +4,7 @@ import { saveAs } from 'file-saver';
 import { useAuth } from '../../../features/auth/context/AuthContext';
 import { useParams } from 'react-router-dom';
 import { getServiceURL } from '../../../helpers/getServiceURL';
-import LoadingModal from '../ExportLoading';
+import LoadingModal from '../../../components/ExportLoading';
 import {
   createImageThumbnailsPDF,
   createWordDocument,
@@ -188,7 +188,9 @@ const ExportComponent = ({ campaign }: { campaign: CampaignInfoType }) => {
       updateStep(2, { loading: false, complete: true });
 
       updateStep(3, { loading: true });
-      await organizeAndSavePosts(data, bigFolder, currentValues);
+      if (bigFolder) {
+        await organizeAndSavePosts(data, bigFolder, currentValues);
+      }
       updateStep(3, { loading: false, complete: true });
 
       const content = await zip.generateAsync({ type: 'blob' });
@@ -249,7 +251,7 @@ const ExportComponent = ({ campaign }: { campaign: CampaignInfoType }) => {
       return;
     }
     const transformedWeeks = currentValues.map((week) => week.toLowerCase().replace(' ', '_'));
-    setLoading(true);
+    _setLoading(true);
     const endpointUrl = getServiceURL('data');
     try {
       const response = await fetch(`${endpointUrl}/api/v1/approve-all`, {
@@ -277,7 +279,7 @@ const ExportComponent = ({ campaign }: { campaign: CampaignInfoType }) => {
       setErrorSaving(true); // Display error toast
       setErrorText('An Error Occurred, Try Again Later!!');
     } finally {
-      setLoading(false);
+      _setLoading(false);
     }
   };
 

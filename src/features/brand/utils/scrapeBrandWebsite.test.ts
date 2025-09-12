@@ -1,5 +1,6 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import scrapeBrandWebsite from './scrapeBrandWebsite';
+import type { BusinessInfo } from '../../brand/context/BrandContext';
 
 // Mock getServiceURL to avoid actual network calls
 vi.mock('./getServiceURL', () => ({
@@ -14,7 +15,15 @@ vi.mock('./convertToChips', () => ({
 global.fetch = vi.fn();
 
 describe('scrapeBrandWebsite', () => {
-  const baseBusinessInfo = { website: 'https://example.com' } as Record<string, unknown>;
+  const baseBusinessInfo: BusinessInfo = { 
+    name: 'Test Company',
+    website: 'https://example.com',
+    product_features: [],
+    product_description: 'Test product',
+    product_link: 'https://example.com/product',
+    start_date: '2024-01-01',
+    durationNum: 30
+  };
   const setBusinessInfo = vi.fn();
 
   beforeEach(() => {

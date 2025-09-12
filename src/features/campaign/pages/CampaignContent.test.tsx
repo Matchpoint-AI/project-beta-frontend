@@ -86,8 +86,10 @@ const mockAuthContextValue = {
 
 const mockSetCampaignInfo = vi.fn();
 const mockCampaignContextValue = {
-  campaignInfo: {},
+  campaignInfo: {} as any,
   setCampaignInfo: mockSetCampaignInfo,
+  campaignId: 'test-campaign-id',
+  setCampaignId: vi.fn(),
 };
 
 const mockCampaignData = [
@@ -98,7 +100,7 @@ const mockCampaignData = [
       campaign_variables: {
         name: 'Test Campaign',
         product_service: 'Test Product',
-        frequency: 'daily',
+        // frequency: 'daily', // Removed duplicate
         start_date: '12/01/2024',
         durationNum: 4,
         summary: 'Test summary',

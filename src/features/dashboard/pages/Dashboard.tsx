@@ -48,7 +48,7 @@ const Dashboard = () => {
         throw new Error('Failed to fetch data');
       }
       const data = await response.json();
-      setCampaigns(_data);
+      setCampaigns(data);
       setBusinessInfo({ ...businessInfo, campaigns: data });
     } catch (_error) {
       setError(true);
@@ -188,7 +188,7 @@ const Dashboard = () => {
                         statistical confidence.
                       </p>
                       <button
-                        onClick={() => handleNavigate(navigate, '/demo/abtest')}
+                        onClick={() => handleNavigate(profile?.id || 'anonymous', '/demo/abtest', navigate)}
                         className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors text-sm"
                       >
                         View Demo

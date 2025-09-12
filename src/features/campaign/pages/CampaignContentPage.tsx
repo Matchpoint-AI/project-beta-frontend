@@ -1,8 +1,8 @@
 import React from 'react';
 
-import Sidebar from '../components/shared/Sidebar';
-import useFetchUserData from '../hooks/useFetchUserData';
-import UserDataBlocks from '../components/userdata/UserDataBlocks';
+import Sidebar from '../../../components/shared/Sidebar';
+import useFetchUserData from '../../../hooks/useFetchUserData';
+import UserDataBlocks from '../../../components/userdata/UserDataBlocks';
 import { CircularProgress } from '@mui/material';
 import { RiErrorWarningLine } from 'react-icons/ri';
 
@@ -41,7 +41,7 @@ export default function CampaignContentPage() {
         {!loading && !_error && (
           <div className="md:ml-[80px] flex-grow flex flex-col gap-8 p-8 md:mt-8 mt-[80px]">
             <UserDataBlocks
-              data={data}
+              data={data!}
               viewContent={async () => {
                 // Empty implementation - no content viewing functionality
               }}

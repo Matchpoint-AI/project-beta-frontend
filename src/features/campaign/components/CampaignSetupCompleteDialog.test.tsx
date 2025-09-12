@@ -33,7 +33,7 @@ vi.mock('../../../api/contentGenerationApi', () => ({
 }));
 
 // Mock posthog
-global.posthog = {
+(global as any).posthog = {
   __loaded: true,
   capture: vi.fn(),
 };
@@ -50,7 +50,20 @@ describe('CampaignSetupCompleteDialog - Default Values', () => {
 
   it('should provide default values for undefined campaign fields', async () => {
     const minimalCampaignInfo = { name: 'Test Campaign' };
-    const businessInfo = { name: 'Test Business' };
+    const businessInfo = {
+      name: 'Test Business',
+      website: 'https://test.com',
+      product_features: [],
+      product_description: 'Test description',
+      product_link: 'https://test.com/product',
+      start_date: '2024-01-01',
+      durationNum: 2,
+      campaigns: [],
+      summary: 'Test summary',
+      brandLogo: '',
+      logo: '',
+      brandColors: []
+    };
 
     (global.fetch as any).mockResolvedValueOnce({
       ok: true,
@@ -60,7 +73,7 @@ describe('CampaignSetupCompleteDialog - Default Values', () => {
     render(
       <BrandContext.Provider value={{ businessInfo, setBusinessInfo: vi.fn() }}>
         <CampaignContext.Provider
-          value={{ campaignInfo: minimalCampaignInfo, setCampaignInfo: vi.fn() }}
+          value={{ campaignInfo: minimalCampaignInfo, setCampaignInfo: vi.fn(), campaignId: null, setCampaignId: vi.fn() }}
         >
           <CampaignSetupCompleteDialog setCurrentStep={vi.fn()} open={true} />
         </CampaignContext.Provider>
@@ -94,7 +107,20 @@ describe('CampaignSetupCompleteDialog - Default Values', () => {
   });
 
   it('should handle completely empty campaign info', async () => {
-    const businessInfo = { name: 'Test Business' };
+    const businessInfo = {
+      name: 'Test Business',
+      website: 'https://test.com',
+      product_features: [],
+      product_description: 'Test description',
+      product_link: 'https://test.com/product',
+      start_date: '2024-01-01',
+      durationNum: 2,
+      campaigns: [],
+      summary: 'Test summary',
+      brandLogo: '',
+      logo: '',
+      brandColors: []
+    };
 
     (global.fetch as any).mockResolvedValueOnce({
       ok: true,
@@ -103,7 +129,7 @@ describe('CampaignSetupCompleteDialog - Default Values', () => {
 
     render(
       <BrandContext.Provider value={{ businessInfo, setBusinessInfo: vi.fn() }}>
-        <CampaignContext.Provider value={{ campaignInfo: {}, setCampaignInfo: vi.fn() }}>
+        <CampaignContext.Provider value={{ campaignInfo: {}, setCampaignInfo: vi.fn(), campaignId: null, setCampaignId: vi.fn() }}>
           <CampaignSetupCompleteDialog setCurrentStep={vi.fn()} open={true} />
         </CampaignContext.Provider>
       </BrandContext.Provider>
@@ -149,7 +175,21 @@ describe('CampaignSetupCompleteDialog - Scene Mix Integration', () => {
     };
     const businessInfo = {
       name: 'Test Business',
-      values: ['quality', 'innovation'],
+      website: 'https://test.com',
+      product_features: [],
+      product_description: 'Test description',
+      product_link: 'https://test.com/product',
+      start_date: '2024-01-01',
+      durationNum: 2,
+      campaigns: [],
+      summary: 'Test summary',
+      brandLogo: '',
+      logo: '',
+      brandColors: [],
+      values: [
+        { selected: true, value: 'quality' },
+        { selected: true, value: 'innovation' }
+      ],
     };
 
     // Mock successful campaign creation
@@ -179,7 +219,7 @@ describe('CampaignSetupCompleteDialog - Scene Mix Integration', () => {
 
     const { container: _container, baseElement: _baseElement } = render(
       <BrandContext.Provider value={{ businessInfo, setBusinessInfo: vi.fn() }}>
-        <CampaignContext.Provider value={{ campaignInfo, setCampaignInfo: vi.fn() }}>
+        <CampaignContext.Provider value={{ campaignInfo, setCampaignInfo: vi.fn(), campaignId: null, setCampaignId: vi.fn() }}>
           <CampaignSetupCompleteDialog setCurrentStep={vi.fn()} open={true} />
         </CampaignContext.Provider>
       </BrandContext.Provider>
@@ -253,8 +293,21 @@ describe('CampaignSetupCompleteDialog - Scene Mix Integration', () => {
       });
 
       render(
-        <BrandContext.Provider value={{ businessInfo: {}, setBusinessInfo: vi.fn() }}>
-          <CampaignContext.Provider value={{ campaignInfo, setCampaignInfo: vi.fn() }}>
+        <BrandContext.Provider value={{ businessInfo: {
+          name: 'Test Business',
+          website: 'https://test.com',
+          product_features: [],
+          product_description: 'Test description',
+          product_link: 'https://test.com/product',
+          start_date: '2024-01-01',
+          durationNum: 2,
+          campaigns: [],
+          summary: 'Test summary',
+          brandLogo: '',
+          logo: '',
+          brandColors: []
+        }, setBusinessInfo: vi.fn() }}>
+          <CampaignContext.Provider value={{ campaignInfo, setCampaignInfo: vi.fn(), campaignId: null, setCampaignId: vi.fn() }}>
             <CampaignSetupCompleteDialog setCurrentStep={vi.fn()} open={true} />
           </CampaignContext.Provider>
         </BrandContext.Provider>
@@ -296,8 +349,21 @@ describe('CampaignSetupCompleteDialog - Scene Mix Integration', () => {
     });
 
     render(
-      <BrandContext.Provider value={{ businessInfo: {}, setBusinessInfo: vi.fn() }}>
-        <CampaignContext.Provider value={{ campaignInfo, setCampaignInfo: vi.fn() }}>
+      <BrandContext.Provider value={{ businessInfo: {
+          name: 'Test Business',
+          website: 'https://test.com',
+          product_features: [],
+          product_description: 'Test description',
+          product_link: 'https://test.com/product',
+          start_date: '2024-01-01',
+          durationNum: 2,
+          campaigns: [],
+          summary: 'Test summary',
+          brandLogo: '',
+          logo: '',
+          brandColors: []
+        }, setBusinessInfo: vi.fn() }}>
+        <CampaignContext.Provider value={{ campaignInfo, setCampaignInfo: vi.fn(), campaignId: null, setCampaignId: vi.fn() }}>
           <CampaignSetupCompleteDialog setCurrentStep={vi.fn()} open={true} />
         </CampaignContext.Provider>
       </BrandContext.Provider>
@@ -341,8 +407,21 @@ describe('CampaignSetupCompleteDialog - Scene Mix Integration', () => {
     });
 
     render(
-      <BrandContext.Provider value={{ businessInfo: {}, setBusinessInfo: vi.fn() }}>
-        <CampaignContext.Provider value={{ campaignInfo, setCampaignInfo: vi.fn() }}>
+      <BrandContext.Provider value={{ businessInfo: {
+          name: 'Test Business',
+          website: 'https://test.com',
+          product_features: [],
+          product_description: 'Test description',
+          product_link: 'https://test.com/product',
+          start_date: '2024-01-01',
+          durationNum: 2,
+          campaigns: [],
+          summary: 'Test summary',
+          brandLogo: '',
+          logo: '',
+          brandColors: []
+        }, setBusinessInfo: vi.fn() }}>
+        <CampaignContext.Provider value={{ campaignInfo, setCampaignInfo: vi.fn(), campaignId: null, setCampaignId: vi.fn() }}>
           <CampaignSetupCompleteDialog setCurrentStep={vi.fn()} open={true} />
         </CampaignContext.Provider>
       </BrandContext.Provider>
@@ -390,8 +469,21 @@ describe('CampaignSetupCompleteDialog - Scene Mix Integration', () => {
     });
 
     render(
-      <BrandContext.Provider value={{ businessInfo: {}, setBusinessInfo: vi.fn() }}>
-        <CampaignContext.Provider value={{ campaignInfo, setCampaignInfo: vi.fn() }}>
+      <BrandContext.Provider value={{ businessInfo: {
+          name: 'Test Business',
+          website: 'https://test.com',
+          product_features: [],
+          product_description: 'Test description',
+          product_link: 'https://test.com/product',
+          start_date: '2024-01-01',
+          durationNum: 2,
+          campaigns: [],
+          summary: 'Test summary',
+          brandLogo: '',
+          logo: '',
+          brandColors: []
+        }, setBusinessInfo: vi.fn() }}>
+        <CampaignContext.Provider value={{ campaignInfo, setCampaignInfo: vi.fn(), campaignId: null, setCampaignId: vi.fn() }}>
           <CampaignSetupCompleteDialog setCurrentStep={vi.fn()} open={true} />
         </CampaignContext.Provider>
       </BrandContext.Provider>

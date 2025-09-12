@@ -106,6 +106,8 @@ const mockCampaignContextValue = {
 const mockCampaign = {
   campaign_id: 'test-campaign-1',
   thread_id: 'test-thread-1',
+  status: 'Current',
+  timestamp: '2024-01-01T00:00:00Z',
   campaign_data: {
     campaign_variables: {
       name: 'Test Campaign',
@@ -126,6 +128,8 @@ const mockCampaign = {
       postingFrequency: 3,
       deliveryDay: 'Monday',
       summary: 'Campaign summary',
+      frequency: 3,
+      durationNum: 4,
     },
   },
 };

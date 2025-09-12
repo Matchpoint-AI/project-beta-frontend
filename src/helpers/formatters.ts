@@ -43,26 +43,47 @@ export const structureData = (data: Record<string, Record<string, unknown>>): We
         })
         .map((dayKey, dayIndex) => {
           const dayData = weekData[dayKey];
-          const approved = dayData.approved || false;
+          
+          // Type guard to ensure dayData is an object
+          if (!dayData || typeof dayData !== 'object') {
+            return {
+              durationNum: 0,
+              start_date: '',
+              approved: false,
+              posts: [],
+              dayIndex: dayIndex + 1,
+              postIndex: null,
+              dayKey: dayKey,
+            };
+          }
+          
+          const dayObj = dayData as Record<string, any>;
+          const approved = dayObj.approved || false;
+          
           // Transform the posts within each day into an ordered array
-          const posts = Object.keys(dayData)
+          const posts = Object.keys(dayObj)
             .filter((postKey) => postKey.startsWith('post_'))
             .sort((a, b) => {
               // Sorting posts in numerical order (post_1, post_2, ...)
               return parseInt(a.split('_')[1]) - parseInt(b.split('_')[1]);
             })
-            .map((postKey, postIndex) => ({
-              ...dayData[postKey],
-              postIndex: postIndex + 1, // Add post index (1-based)
-              approved: dayData[postKey].approved || false,
-              posted: dayData[postKey].posted || false,
-            }));
+            .map((postKey, postIndex) => {
+              const postData = dayObj[postKey];
+              return {
+                ...(typeof postData === 'object' ? postData : {}),
+                postIndex: postIndex + 1, // Add post index (1-based)
+                approved: (postData && typeof postData === 'object' && (postData as any).approved) || false,
+                posted: (postData && typeof postData === 'object' && (postData as any).posted) || false,
+              };
+            });
           return {
-            durationNum: dayData.durationNum || 0,
-            start_date: dayData.start_date || '',
+            durationNum: dayObj.durationNum || 0,
+            start_date: dayObj.start_date || '',
             approved,
             posts,
             dayIndex: dayIndex + 1, // Add day index (1-based)
+            postIndex: null, // Add postIndex for compatibility
+            dayKey: dayKey,
           };
         });
     });

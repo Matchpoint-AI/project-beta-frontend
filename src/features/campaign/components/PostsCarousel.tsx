@@ -32,8 +32,8 @@ interface PostsCarouselProps {
     day: number,
     post: number,
     imageIndex: number,
-    imageUrl: string,
-    prepend?: boolean
+    imageUrl: string | null,
+    newText: string
   ) => void;
   handleApprovalUpdate: (week: number, day: number, postId: string, isApproved: boolean) => void;
   selectedImages: number[];
@@ -45,7 +45,7 @@ const PostsCarousel = ({
   postingTimes,
   index,
   setOpen,
-  //  brandName,
+  brandName,
   generatedContentId,
   week,
   updataImage,
@@ -67,13 +67,13 @@ const PostsCarousel = ({
           postIndex={postIndex + 1}
           postingTime={postingTimes[postIndex] || 'Unscheduled'}
           setOpen={setOpen}
-          //  brandName={brandName}
+          brandName={brandName}
           id={generatedContentId}
           week={week}
           content={post}
           updataImage={updataImage}
           onApprovalUpdate={(postId, isApproved) =>
-            handleApprovalUpdate(week - 1, index, postId, isApproved)
+            handleApprovalUpdate(week - 1, index, String(postId), isApproved)
           }
           selectedImages={selectedImages}
           setSelectedImages={setSelectedImages}

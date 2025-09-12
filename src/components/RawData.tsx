@@ -55,7 +55,7 @@ export default function RawData({ state, onClose, data }: RawDataProps) {
               src={formattedData}
               theme="monokai"
               displayDataTypes={false}
-              style={{ width: '900px', position: 'absolute top-0 left-0' }}
+              style={{ width: '900px', position: 'absolute', top: 0, left: 0 }}
             />
           </div>
         </Drawer>

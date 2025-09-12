@@ -5,7 +5,7 @@ import { BrandContext, BusinessInfo } from '../features/brand/context/BrandConte
 
 interface PhysicalLocationsProps {
   physicalLocations: string[];
-  setPhysicalLocations: (locations: string[]) => void;
+  setPhysicalLocations: React.Dispatch<React.SetStateAction<string[] | undefined>>;
 }
 
 export default function NoPhysicalLocations(props: PhysicalLocationsProps) {
@@ -13,10 +13,10 @@ export default function NoPhysicalLocations(props: PhysicalLocationsProps) {
   const [checkZip, setCheckZip] = useState<boolean>(false);
 
   const handleCheckBox = async () => {
-    setBusinessInfo((prev: BusinessInfo) => ({
-      ...prev,
+    setBusinessInfo({
+      ...businessInfo,
       checkZip: !checkZip,
-    }));
+    });
     setCheckZip(!checkZip);
   };
 
@@ -65,10 +65,10 @@ export function PhysicalLocationsFound(props: PhysicalLocationsProps) {
   const { businessInfo, setBusinessInfo } = useContext(BrandContext);
 
   const handleCheckBox = async () => {
-    setBusinessInfo((prev: BusinessInfo) => ({
-      ...prev,
+    setBusinessInfo({
+      ...businessInfo,
       checkZip: !checkZip,
-    }));
+    });
     setCheckZip(!checkZip);
   };
 

@@ -26,7 +26,7 @@ const FileInput = ({ accept, required, error, onChange }: FileInputProps) => {
 
   useEffect(() => {
     setRequiredError(required && error);
-  }, [required(_error)]);
+  }, [required, error]);
 
   useEffect(() => {
     if (requiredError) setStateColors(inputColors.errorColors);

@@ -31,6 +31,7 @@ export default function SideNavBar({
   const cookies = new Cookies();
 
   const handleNewCampaign = () => {
+    if (!profile?.id) return;
     setCampaignInfo({
       currentStep: 1,
     });
@@ -39,6 +40,7 @@ export default function SideNavBar({
 
   const handleLogout = () => {
     const _currentPath = window.location.pathname;
+    if (!auth) return;
     signOut(auth)
       .then(() => {
         cookies.remove('access_token', {
@@ -46,7 +48,7 @@ export default function SideNavBar({
         });
         if (posthog.__loaded) {
           posthog.capture('User Logged Out', {
-            distinct_id: profile.id,
+            distinct_id: profile?.id,
           });
         }
         navigate('/login');
@@ -110,7 +112,7 @@ export default function SideNavBar({
           <button
             className=""
             type="button"
-            onClick={() => handleNavigate(profile.id, '/dashboard', navigate)}
+            onClick={() => profile?.id && handleNavigate(profile.id, '/dashboard', navigate)}
           >
             <Link to="/dashboard">
               <TbPhoto
@@ -134,7 +136,7 @@ export default function SideNavBar({
           onMouseEnter={() => setHoveredItem('onboard')}
           onMouseLeave={() => setHoveredItem(null)}
         >
-          <button type="button" onClick={() => handleNavigate(profile.id, '/onboard', navigate)}>
+          <button type="button" onClick={() => profile?.id && handleNavigate(profile.id, '/onboard', navigate)}>
             <Link to="/onboard">
               <TbBriefcase size={30} color={pathname === '/onboard' ? '#5145CD' : '#111928'} />
             </Link>

@@ -22,6 +22,9 @@ describe('SmartSchedulingTimeline', () => {
       end_date: '01/31/2024',
       posting_frequency: 3,
     },
+    startDate: '01/01/2024',
+    duration: 4,
+    postsPerWeek: 3,
   };
 
   it('renders without crashing', () => {

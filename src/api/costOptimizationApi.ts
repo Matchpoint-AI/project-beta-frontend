@@ -52,6 +52,31 @@ interface CostDashboardData {
     baseline_cost: number;
     optimized_cost: number;
   }>;
+  cost_efficiency_trend: Array<{
+    date: string;
+    cost_efficiency: number;
+    requests_per_dollar: number;
+    savings_rate: number;
+  }>;
+  overall_quality_impact: number;
+  quality_by_optimization: Record<string, number>;
+  top_savings_by_optimization: Array<{
+    optimization_type: string;
+    annual_savings: number;
+    percentage_savings: number;
+    quality_impact: number;
+    implementation_status: string;
+  }>;
+  budget_utilization: number;
+  cost_alerts: Array<{
+    type: string;
+    optimization: string;
+    severity: string;
+    message: string;
+    current_value: number;
+    expected_value?: number;
+    threshold?: number;
+  }>;
   optimization_recommendations: Array<{
     recommendation: string;
     potential_savings: number;
@@ -389,6 +414,42 @@ function transformDashboardData(data: unknown): CostDashboardData {
           optimized_cost: number;
         }>)
       : [],
+    cost_efficiency_trend: Array.isArray(safeData?.cost_efficiency_trend)
+      ? (safeData.cost_efficiency_trend as Array<{
+          date: string;
+          cost_efficiency: number;
+          requests_per_dollar: number;
+          savings_rate: number;
+        }>)
+      : [],
+    overall_quality_impact:
+      typeof safeData?.overall_quality_impact === 'number' ? safeData.overall_quality_impact : 0,
+    quality_by_optimization:
+      typeof safeData?.quality_by_optimization === 'object'
+        ? (safeData.quality_by_optimization as Record<string, number>)
+        : {},
+    top_savings_by_optimization: Array.isArray(safeData?.top_savings_by_optimization)
+      ? (safeData.top_savings_by_optimization as Array<{
+          optimization_type: string;
+          annual_savings: number;
+          percentage_savings: number;
+          quality_impact: number;
+          implementation_status: string;
+        }>)
+      : [],
+    budget_utilization:
+      typeof safeData?.budget_utilization === 'number' ? safeData.budget_utilization : 0,
+    cost_alerts: Array.isArray(safeData?.cost_alerts)
+      ? (safeData.cost_alerts as Array<{
+          type: string;
+          optimization: string;
+          severity: string;
+          message: string;
+          current_value: number;
+          expected_value?: number;
+          threshold?: number;
+        }>)
+      : [],
     optimization_recommendations: Array.isArray(safeData?.optimization_recommendations)
       ? (safeData.optimization_recommendations as Array<{
           recommendation: string;
@@ -412,6 +473,7 @@ export function generateMockCostData(): CostDashboardData {
 
   // Generate daily savings data
   const dailySavings = [];
+  const costEfficiencyTrend = [];
   let cumulativeSavings = 0;
   for (let i = 0; i < 30; i++) {
     const date = new Date(startDate.getTime() + i * 24 * 60 * 60 * 1000);
@@ -427,6 +489,13 @@ export function generateMockCostData(): CostDashboardData {
       baseline_cost: dailyBaseline,
       optimized_cost: dailyOptimized,
     });
+
+    costEfficiencyTrend.push({
+      date: date.toISOString().split('T')[0],
+      cost_efficiency: 0.7 + Math.random() * 0.2,
+      requests_per_dollar: 20 + Math.random() * 10,
+      savings_rate: 0.3 + Math.random() * 0.4,
+    });
   }
 
   return {
@@ -437,6 +506,51 @@ export function generateMockCostData(): CostDashboardData {
     total_absolute_savings: savings,
     total_percentage_savings: percentageSavings,
     projected_annual_savings: savings * 12,
+    overall_quality_impact: 0.05,
+    quality_by_optimization: {
+      vision_model_switch: 0.1,
+      gemini_routing: 0.02,
+      flux_high_volume: -0.01,
+      imagen_text_clarity: 0.95,
+      smart_router_v2: 0.08,
+      scene_mix_bandits: 0.25,
+    },
+    budget_utilization: 0.75,
+    cost_efficiency_trend: costEfficiencyTrend,
+    top_savings_by_optimization: [
+      {
+        optimization_type: 'vision_model_switch',
+        annual_savings: 85000,
+        percentage_savings: 94,
+        quality_impact: 0.1,
+        implementation_status: 'completed',
+      },
+      {
+        optimization_type: 'flux_high_volume',
+        annual_savings: 75000,
+        percentage_savings: 90,
+        quality_impact: -0.01,
+        implementation_status: 'completed',
+      },
+      {
+        optimization_type: 'gemini_routing',
+        annual_savings: 50000,
+        percentage_savings: 67,
+        quality_impact: 0.02,
+        implementation_status: 'in_progress',
+      },
+    ],
+    cost_alerts: [
+      {
+        type: 'threshold_exceeded',
+        optimization: 'vision_model_switch',
+        severity: 'warning',
+        message: 'Usage spike detected - 15% above normal',
+        current_value: 1150,
+        expected_value: 1000,
+        threshold: 1200,
+      },
+    ],
     optimization_metrics: [
       {
         optimization_type: 'model_routing',
@@ -548,6 +662,20 @@ export function generateMockCostData(): CostDashboardData {
     ],
   };
 }
+
+// Create API object for convenient usage
+export const costOptimizationApi = {
+  getDashboardData: async (days?: number): Promise<CostDashboardData> => {
+    const endDate = new Date().toISOString();
+    const startDate = new Date(Date.now() - (days || 30) * 24 * 60 * 60 * 1000).toISOString();
+    return fetchCostOptimizationData(startDate, endDate);
+  },
+  trackUsage: trackApiUsage,
+  getModelComparison: fetchModelComparison,
+  exportData: exportCostData,
+  updateSettings: updateOptimizationSettings,
+  generateMockData: generateMockCostData,
+};
 
 // Export all types and functions
 export { CostOptimizationApiError };

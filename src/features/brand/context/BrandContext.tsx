@@ -47,7 +47,7 @@ export interface BusinessInfo {
 
 interface BrandContextType {
   businessInfo: BusinessInfo;
-  setBusinessInfo: (businessInfo: BusinessInfo) => void;
+  setBusinessInfo: React.Dispatch<React.SetStateAction<BusinessInfo>>;
 }
 
 export const BrandContext = createContext<BrandContextType>({

@@ -15,25 +15,25 @@ interface Campaign {
   timestamp?: string;
   campaign_data: {
     campaign_variables: {
-      name: string;
-      product_service: string;
-      start_date: string;
-      duration: string;
-      audience_ethnicity: string[];
-      emotion: string[];
-      audience_interests: string[];
-      product_service_description: string;
-      purpose_topic: string;
-      scene: string[];
-      currentStep: number;
-      key_feature: string[];
-      purpose: string;
-      audience_gender: string[];
-      audience_age: string[];
-      postingFrequency: number;
-      deliveryDay: string;
-      summary: string;
-      durationNum: number;
+      name?: string;
+      product_service?: string;
+      start_date?: string;
+      duration?: string;
+      audience_ethnicity?: string[];
+      emotion?: string[];
+      audience_interests?: string[];
+      product_service_description?: string;
+      purpose_topic?: string;
+      scene?: string[];
+      currentStep?: number;
+      key_feature?: string[];
+      purpose?: string;
+      audience_gender?: string[];
+      audience_age?: string[];
+      postingFrequency?: number;
+      deliveryDay?: string;
+      summary?: string;
+      durationNum?: number;
     };
   };
 }
@@ -68,7 +68,7 @@ export default function CampaignsList({
       // Filter out duplicate campaigns, keeping only the most recent one
       const uniqueCampaigns = campaigns.reduce((acc, campaign) => {
         const existing = acc.find((c) => c.campaign_id === campaign.campaign_id);
-        if (!existing || new Date(campaign.timestamp || '') > new Date(existing.timestamp || '')) {
+        if (!existing || new Date(campaign.timestamp || '1970-01-01') > new Date(existing.timestamp || '1970-01-01')) {
           // Remove existing if present
           acc = acc.filter((c) => c.campaign_id !== campaign.campaign_id);
           acc.push(campaign);
@@ -83,6 +83,10 @@ export default function CampaignsList({
           statuses[campaign.campaign_id] = 'Draft';
         } else {
           const { start_date, durationNum } = campaign_data.campaign_variables;
+          if (!start_date || durationNum === undefined) {
+            statuses[campaign.campaign_id] = 'Draft';
+            return;
+          }
           const startDate = new Date(start_date);
           const durationInMilliseconds = durationNum * 7 * 24 * 60 * 60 * 1000; // Convert weeks to milliseconds
           const endDate = new Date(startDate.getTime() + durationInMilliseconds);
@@ -164,8 +168,8 @@ export default function CampaignsList({
           <div className="flex flex-col gap-3 mb-2">
             {sortedCampaigns.map((campaign) => (
               <PromotionComponent
-                key={`${campaign.campaign_id}-${campaign.timestamp}`}
-                campaign={campaign}
+                key={`${campaign.campaign_id}-${campaign.timestamp || 'no-timestamp'}`}
+                campaign={{ ...campaign, timestamp: campaign.timestamp || '' } as any}
                 status={campaignStatuses[campaign.campaign_id]}
               />
             ))}

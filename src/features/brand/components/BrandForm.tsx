@@ -80,20 +80,15 @@ const BrandForm = ({ handleBack, handleNext }: BrandFormProps) => {
     const { choices } = data.response;
     const { content } = choices[0].message;
     const parsedContent = JSON.parse(content) as BrandGuideLines;
-    setSelectedColors((old: any) => {
-      const newColors = [
-        ...(parsedContent?.colors?.primary ?? []),
-        ...(parsedContent?.colors?.secondary ?? []),
-      ];
-      return [...old, ...newColors];
-    });
+    const newColors = [
+      ...selectedColors,
+      ...(parsedContent?.colors?.primary ?? []),
+      ...(parsedContent?.colors?.secondary ?? []),
+    ];
+    setSelectedColors(newColors);
     setBusinessInfo({
       ...businessInfo,
-      brandColors: [
-        ...selectedColors,
-        ...(parsedContent?.colors?.primary ?? []),
-        ...(parsedContent?.colors?.secondary ?? []),
-      ],
+      brandColors: newColors,
     });
     setAnalysePdf(false);
     trackBrandGuideUpload('guide');

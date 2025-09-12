@@ -46,7 +46,7 @@ export default function Integrations() {
   }, [profile]);
 
   useEffect(() => {
-    if (data && data.length) {
+    if (data && Array.isArray(data) && data.length > 0) {
       setIsConnected(true);
     }
   }, [data]);
@@ -59,7 +59,7 @@ export default function Integrations() {
       <div className="p-8">
         <ul role="list" className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {/* this is till need to be redone */}
-          {isConnected || (data && data.length) ? (
+          {isConnected || (data && Array.isArray(data) && data.length > 0) ? (
             <Connected onRevoke={() => setIsConnected(false)} />
           ) : (
             PLATFORMS.map((platform) => (

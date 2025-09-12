@@ -12,7 +12,7 @@ interface ModifyPromptProps {
   day: number;
   post: number;
   content_id: string;
-  image: unknown;
+  image: string | undefined;
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   regenerate: (prompt: string) => void;
@@ -40,7 +40,7 @@ const CancelButton = styled(Button)(() => ({
   color: '#ad1457',
   padding: '0.5rem 2rem',
   borderRadius: '0.3rem',
-  textTransform: 'none',
+  textTransform: 'none' as const,
   fontWeight: 500,
   '&:hover': {
     backgroundColor: '#f8bbd9',
@@ -291,7 +291,7 @@ export default function ModifyPrompt({
           </div>
 
           <div className="mb-4">
-            <img src={image} className="w-full h-64 object-cover object-top rounded-md" />
+            <img src={image as string} className="w-full h-64 object-cover object-top rounded-md" />
           </div>
 
           <div className="mb-4">
@@ -306,7 +306,7 @@ export default function ModifyPrompt({
                 multiline
                 rows={3}
                 value={splitPrompt(prompt).firstPart}
-                onChange={(e) => {
+                onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
                   const { rest } = splitPrompt(prompt);
                   // Don't automatically add prefix - let the campaign data drive the prompt
                   setPrompt(`${e.target.value}${rest}`);

@@ -13,8 +13,8 @@ const Step = ({
   description,
 }: {
   icon: string;
-  title: string;
-  description: string;
+  title: React.ReactNode;
+  description: React.ReactNode;
 }) => (
   <div className="flex flex-row lg:flex-col  items-center gap-6 w-full lg:w-[304px] text-center">
     <StepIcon icon={icon} />

@@ -16,6 +16,7 @@ import { plannerApi, policyApi } from '../../../api/contentGenerationApi';
 interface Props {
   setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
   open: boolean;
+  onClose?: () => void;
 }
 
 const CampaignSetupCompleteDialog: React.FC<Props> = ({ setCurrentStep, open }) => {
@@ -123,7 +124,7 @@ const CampaignSetupCompleteDialog: React.FC<Props> = ({ setCurrentStep, open }) 
     })
       .then((response) => {
         if (!response.ok) {
-          return response.json().then((_err) => {
+          return response.json().then((err) => {
             throw new Error(err.detail || 'Failed to create campaign');
           });
         }
@@ -272,7 +273,7 @@ const CampaignSetupCompleteDialog: React.FC<Props> = ({ setCurrentStep, open }) 
         );
 
         // Step 3: Trigger content generation with Scene Mix plan
-        const baseParams = {
+        const baseParams: Record<string, any> = {
           campaign_id: campaignId,
           use_scene_mix: 'true', // Flag to use new Scene Mix generation
           plan_id: planData.plan_id,
@@ -305,13 +306,13 @@ const CampaignSetupCompleteDialog: React.FC<Props> = ({ setCurrentStep, open }) 
 
         const _responseData = await response.json();
         return;
-      } catch (_error) {
+      } catch (error: any) {
         // Don't fall back to legacy - we want Scene Mix to work properly
         // This ensures we fix Scene Mix issues rather than masking them
         setError(
-          `Scene Mix generation failed: ${error.message || error}. Please try again or contact support.`
+          `Scene Mix generation failed: ${error?.message || error}. Please try again or contact support.`
         );
-        throw new Error(`Scene Mix generation failed: ${error.message || error}`);
+        throw new Error(`Scene Mix generation failed: ${error?.message || error}`);
       }
     };
   }, []);

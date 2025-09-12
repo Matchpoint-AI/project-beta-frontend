@@ -3,8 +3,16 @@ import React from 'react';
 interface CardProps {
   children: React.ReactNode;
   className?: string;
+  onClick?: () => void;
 }
 
-export const Card: React.FC<CardProps> = ({ children, className = '' }) => {
-  return <div className={`bg-white rounded-lg shadow border ${className}`}>{children}</div>;
+export const Card: React.FC<CardProps> = ({ children, className = '', onClick }) => {
+  return (
+    <div 
+      className={`bg-white rounded-lg shadow border ${className}`} 
+      onClick={onClick}
+    >
+      {children}
+    </div>
+  );
 };

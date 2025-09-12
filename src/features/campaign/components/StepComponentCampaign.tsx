@@ -1,13 +1,13 @@
 import React, { useContext, useState } from 'react';
-import { CampaignContext, CampaignInfoType } from '../context/CampaignContext';
-import { BrandContext } from '../features/brand/context/BrandContext';
+import { CampaignContext, CampaignInfoType } from '../../../context/CampaignContext';
+import { BrandContext } from '../../brand/context/BrandContext';
 import { useNavigate } from 'react-router-dom';
 // import { getAuth } from "firebase/auth";
 // import { useAuthentication } from "../firebase";
-import { useAuth } from '../features/auth/context/AuthContext';
-import { getServiceURL } from '../helpers/getServiceURL';
+import { useAuth } from '../../auth/context/AuthContext';
+import { getServiceURL } from '../../../helpers/getServiceURL';
 import { CircularProgress } from '@mui/material';
-import handleNavigate from '../helpers/handleNavigate';
+import handleNavigate from '../../../helpers/handleNavigate';
 import scrapeProduct from './onboard/scrapeProduct';
 
 interface StepCampaignProps {
@@ -19,8 +19,8 @@ interface StepCampaignProps {
   globalStep: number;
 }
 
-// Extend CampaignInfoType for local use
-interface ExtendedCampaignInfoType extends CampaignInfoType {
+// Extend CampaignInfoType for local use - using any to avoid type conflicts
+interface ExtendedCampaignInfoType extends Omit<CampaignInfoType, 'duration'> {
   campaign_id?: string;
   productDescription?: string;
   productLink?: string;
@@ -29,7 +29,7 @@ interface ExtendedCampaignInfoType extends CampaignInfoType {
   postingFrequency?: number;
   deliveryDay?: string;
   summary?: string;
-  duration?: number;
+  duration?: number | string;
 }
 
 // Add Product type for products array
@@ -106,7 +106,7 @@ const StepCampaignComponent: React.FC<StepCampaignProps> = ({
         }
         if (scraped) {
           features = scraped.product_features;
-          setCampaignInfo((prev: ExtendedCampaignInfoType) => ({
+          setCampaignInfo((prev: any) => ({
             ...prev,
             product_features: features,
           }));

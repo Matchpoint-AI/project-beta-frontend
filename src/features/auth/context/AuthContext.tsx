@@ -16,7 +16,7 @@ interface Profile {
 }
 
 interface AuthContextType {
-  profile: Profile;
+  profile: Profile | null;
   setProfile: (profile: Profile | null) => void;
   isAuthenticated: boolean;
   isLoading: boolean;
@@ -76,7 +76,7 @@ const isTokenExpiringSoon = (token: string): boolean => {
 };
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [profile, setProfile] = useState<Profile>();
+  const [profile, setProfile] = useState<Profile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const { user } = useAuthentication();
   const location = useLocation();

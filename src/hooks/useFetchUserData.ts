@@ -46,7 +46,7 @@ export default function useFetchUserData() {
 
     const response = await fetch(endpointUrl, {
       headers: {
-        Authorization: `Bearer ${profile.token}`,
+        Authorization: `Bearer ${profile?.token}`,
       },
     });
 
@@ -69,5 +69,5 @@ export default function useFetchUserData() {
     if (params.id) fetchUserData();
   }, [profile]);
 
-  return [data, loading(_error), handleRetry] as const;
+  return [data, loading, _error, handleRetry] as const;
 }

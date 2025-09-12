@@ -225,7 +225,7 @@ Get ${campaignInfo?.audienceGender} who are interested in ${
       {campaignInfo?.campaign_brief !== true && (
         <div className={`flex justify-between mb-10 w-full ${isOpen ? 'blur-md' : ''}`}>
           <BackButton onClick={() => handleBack()} />
-          <ApproveButton onClick={handleApprove} />
+          <ApproveButton double={false} handleApproveAll={handleApprove} loading={false} />
         </div>
       )}
     </>

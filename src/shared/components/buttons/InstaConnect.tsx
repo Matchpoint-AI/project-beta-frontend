@@ -94,8 +94,8 @@ const InstaConnect: React.FC<InstaConnectProps> = ({
     }
   }, [data]);
 
-  if (_error) {
-    return <div className="text-red-500">{_error}</div>;
+  if (error) {
+    return <div className="text-red-500">{error}</div>;
   }
 
   return (

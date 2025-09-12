@@ -12,6 +12,8 @@ export default function useFetchThreadMessages() {
   const { profile } = useAuth();
 
   const fetchMessages = async (thread_id: string) => {
+    if (!profile?.token) return;
+    
     const endpointUrl = getServiceURL('llm');
     const response = await fetch(`${endpointUrl}/api/v1/threads/${thread_id}`, {
       headers: {

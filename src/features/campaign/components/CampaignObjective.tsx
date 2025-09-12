@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { CampaignContext } from '../context/CampaignContext';
+import { CampaignContext, CampaignInfoType } from '../../../context/CampaignContext';
 
 interface Props {
   title: string;
@@ -8,7 +8,7 @@ interface Props {
 }
 
 const CampaignObjective: React.FC<Props> = ({ title, objective, onEdit }) => {
-  const { campaignInfo }: { campaignInfo: unknown } = useContext(CampaignContext);
+  const { campaignInfo } = useContext(CampaignContext);
 
   return (
     <div className="flex items-center gap-4 mb-2 p-4 bg-gray-100 rounded-md">

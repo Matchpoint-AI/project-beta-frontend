@@ -15,6 +15,8 @@ import { CircularProgress } from '@mui/material';
 interface Campaign {
   campaign_id: string;
   thread_id?: string;
+  status: string;
+  timestamp: string;
   campaign_data: {
     campaign_variables: {
       name: string;
@@ -35,6 +37,8 @@ interface Campaign {
       postingFrequency: number;
       deliveryDay: string;
       summary: string;
+      frequency: number;
+      durationNum: number;
     };
   };
 }

@@ -12,7 +12,6 @@ vi.mock('./firebase-config', () => ({
 
 // Global mock for scrapeProduct
 try {
-  // @ts-expect-error - vi is a global variable in vitest environment
   if (typeof vi !== 'undefined') {
     vi.mock('./helpers/scrapeProduct', () => ({
       default: vi.fn().mockResolvedValue({

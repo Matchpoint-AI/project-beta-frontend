@@ -202,7 +202,7 @@ const Campaign = () => {
               timing={timing}
               service={service}
               currentStep={currentStep}
-              campaignInfo={campaignInfo}
+              campaignInfo={campaignInfo as any}
             />
           </div>
           <div className="w-full lg:w-2/3 grow lg:grow-0">

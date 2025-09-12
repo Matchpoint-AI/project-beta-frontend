@@ -60,7 +60,7 @@ const scrapeProduct = async (
 
     return result;
   } catch (_error) {
-    throw error;
+    throw _error;
   }
 };
 

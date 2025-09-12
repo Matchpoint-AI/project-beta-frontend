@@ -65,7 +65,7 @@ const SceneMixPlanner: React.FC<SceneMixPlannerProps> = ({
 }) => {
   const { profile } = useAuth();
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [_error, setError] = useState<string | null>(null);
   const [contentPlan, setContentPlan] = useState<ContentPlan | null>(null);
   const [scenePolicy, setScenePolicy] = useState<ScenePolicy | null>(null);
   const [creatingPlan, setCreatingPlan] = useState(false);
@@ -98,20 +98,20 @@ const SceneMixPlanner: React.FC<SceneMixPlannerProps> = ({
 
       setContentPlan(planData);
       setScenePolicy(policyData);
-    } catch (_err) {
-      let errorMessage = 'Failed to load content plan';
+    } catch (_error) {
+      let _errorMessage = 'Failed to load content plan';
 
-      if (err instanceof Error) {
-        if (err.message.includes('404')) {
-          errorMessage = 'No existing content plan found for this campaign';
-        } else if (err.message.includes('401')) {
-          errorMessage = 'Authentication failed. Please refresh the page and try again.';
+      if (_error instanceof Error) {
+        if (_error.message.includes('404')) {
+          _errorMessage = 'No existing content plan found for this campaign';
+        } else if (_error.message.includes('401')) {
+          _errorMessage = 'Authentication failed. Please refresh the page and try again.';
         } else {
-          errorMessage = `Error loading plan: ${err.message}`;
+          _errorMessage = `Error loading plan: ${_error.message}`;
         }
       }
 
-      setError(errorMessage);
+      setError(_errorMessage);
     } finally {
       setLoading(false);
     }
@@ -169,22 +169,22 @@ const SceneMixPlanner: React.FC<SceneMixPlannerProps> = ({
       );
 
       setContentPlan(newPlan);
-    } catch (_err) {
-      let errorMessage = 'Failed to create content plan';
+    } catch (_error) {
+      let _errorMessage = 'Failed to create content plan';
 
-      if (err instanceof Error) {
-        if (err.message.includes('422')) {
-          errorMessage = 'Invalid request parameters. Please check your campaign settings.';
-        } else if (err.message.includes('401')) {
-          errorMessage = 'Authentication failed. Please refresh the page and try again.';
-        } else if (err.message.includes('500')) {
-          errorMessage = 'Server error occurred. Please try again in a few moments.';
+      if (_error instanceof Error) {
+        if (_error.message.includes('422')) {
+          _errorMessage = 'Invalid request parameters. Please check your campaign settings.';
+        } else if (_error.message.includes('401')) {
+          _errorMessage = 'Authentication failed. Please refresh the page and try again.';
+        } else if (_error.message.includes('500')) {
+          _errorMessage = 'Server _error occurred. Please try again in a few moments.';
         } else {
-          errorMessage = `Error: ${err.message}`;
+          _errorMessage = `Error: ${_error.message}`;
         }
       }
 
-      setError(errorMessage);
+      setError(_errorMessage);
     } finally {
       setCreatingPlan(false);
     }
@@ -205,7 +205,7 @@ const SceneMixPlanner: React.FC<SceneMixPlannerProps> = ({
   if (_error) {
     return (
       <Alert severity="error" sx={{ m: 2 }}>
-        {error}
+        {_error}
         <Button onClick={loadPlanAndPolicy} sx={{ ml: 2 }}>
           Retry
         </Button>

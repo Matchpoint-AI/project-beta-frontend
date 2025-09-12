@@ -4,7 +4,7 @@
  * Implements brand-related operations using protobuf messages.
  * All payloads are constructed using protobuf.js as per requirements.
  */
-import { ProtoService } from './proto-service';
+import { ProtoService } from '../../../api/v2/proto-service';
 
 /**
  * Brand request/response interfaces matching protobuf messages

@@ -3,26 +3,66 @@ import { Button, Box, Card, CardContent, Typography, Grid, Chip } from '@mui/mat
 import { FaFlask, FaPlay, FaChartBar } from 'react-icons/fa';
 import ABTestVariantComparison from './ABTestVariantComparison';
 
+// Type definitions for A/B test
+interface ABTestVariant {
+  id: string;
+  name: string;
+  type: 'image' | 'caption' | 'complete_post';
+  content: {
+    text?: string;
+    image_url?: string;
+    image_prompt?: string;
+  };
+  status: 'draft' | 'running' | 'paused' | 'completed' | 'winner';
+  trafficAllocation: number;
+  performance?: {
+    clicks: number;
+    impressions: number;
+    ctr: number;
+    engagement: number;
+    conversions: number;
+    cost: number;
+    confidenceLevel: number;
+  };
+  created_at: string;
+  updated_at: string;
+  author: string;
+  notes?: string;
+}
+
+interface ABTestConfig {
+  id: string;
+  name: string;
+  description: string;
+  status: 'draft' | 'running' | 'paused' | 'completed';
+  startDate: string;
+  endDate?: string;
+  minSampleSize: number;
+  significanceThreshold: number;
+  primaryMetric: 'ctr' | 'engagement' | 'conversions';
+  variants: ABTestVariant[];
+}
+
 // Demo data for the A/B test
-const demoTestConfig = {
+const demoTestConfig: ABTestConfig = {
   id: 'demo-test-123',
   name: 'Caption Engagement Test',
   description: 'Testing emoji vs. text-only captions for engagement',
-  status: 'running' as const,
+  status: 'running',
   startDate: '2024-01-20T00:00:00Z',
   endDate: '2024-02-03T23:59:59Z',
   minSampleSize: 2000,
   significanceThreshold: 0.95,
-  primaryMetric: 'ctr' as const,
+  primaryMetric: 'ctr',
   variants: [
     {
       id: 'demo-variant-1',
       name: 'Text-Only Control',
-      type: 'caption' as const,
+      type: 'caption',
       content: {
         text: 'Discover our premium skincare line. Transform your daily routine with science-backed formulas. #skincare #premium #beauty',
       },
-      status: 'running' as const,
+      status: 'running',
       trafficAllocation: 40,
       performance: {
         clicks: 320,
@@ -41,11 +81,11 @@ const demoTestConfig = {
     {
       id: 'demo-variant-2',
       name: 'Emoji-Rich Test',
-      type: 'caption' as const,
+      type: 'caption',
       content: {
         text: 'Discover our premium skincare line ✨ Transform your daily routine with science-backed formulas 🧴💫 #skincare #premium #beauty',
       },
-      status: 'running' as const,
+      status: 'running',
       trafficAllocation: 40,
       performance: {
         clicks: 425,
@@ -64,11 +104,11 @@ const demoTestConfig = {
     {
       id: 'demo-variant-3',
       name: 'Question Format',
-      type: 'caption' as const,
+      type: 'caption',
       content: {
         text: 'Ready to transform your skin? 🤔 Our premium skincare line combines science with luxury. What are you waiting for? ✨ #skincare #transformation',
       },
-      status: 'running' as const,
+      status: 'running',
       trafficAllocation: 20,
       performance: {
         clicks: 298,
@@ -89,7 +129,7 @@ const demoTestConfig = {
 
 const ABTestDemo: React.FC = () => {
   const [isComparisonOpen, setIsComparisonOpen] = useState(false);
-  const [demoData, setDemoData] = useState(demoTestConfig);
+  const [demoData, setDemoData] = useState<ABTestConfig>(demoTestConfig);
 
   const handleOpenComparison = () => {
     setIsComparisonOpen(true);
@@ -99,7 +139,7 @@ const ABTestDemo: React.FC = () => {
     setIsComparisonOpen(false);
   };
 
-  const handleSaveVariant = async (variantId: string, content: unknown, notes?: string) => {
+  const handleSaveVariant = async (variantId: string, content: ABTestVariant['content'], notes?: string) => {
     // Simulate API call
 
     // Update demo data
@@ -142,8 +182,8 @@ const ABTestDemo: React.FC = () => {
     }));
   };
 
-  const handleCreateVariant = async (variant: Partial<(typeof demoData.variants)[0]>) => {
-    const newVariant = {
+  const handleCreateVariant = async (variant: Partial<ABTestVariant>) => {
+    const newVariant: ABTestVariant = {
       id: `demo-variant-${Date.now()}`,
       name: `Variant ${demoData.variants.length + 1}`,
       type: 'caption' as const,
