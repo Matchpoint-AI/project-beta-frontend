@@ -33,12 +33,7 @@ vi.mock('./BrandDetailsEditBlock', () => ({
 
 vi.mock('../../../shared/components/ui/EditBlock', () => ({
   default: vi.fn(({ onClick, disabled, className }) => (
-    <button
-      data-testid="edit-button"
-      onClick={onClick}
-      disabled={disabled}
-      className={className}
-    >
+    <button data-testid="edit-button" onClick={onClick} disabled={disabled} className={className}>
       Edit
     </button>
   )),
@@ -63,7 +58,7 @@ vi.mock('../../../shared/components/ui/ChipComponent', () => ({
 describe('BrandDetailsBlock', () => {
   const mockSetBusinessInfo = vi.fn();
 
-  const defaultBusinessInfo: BusinessInfo = {
+  const defaultBusinessInfo = {
     name: 'Test Company',
     website: 'https://test.com',
     product_features: [],
@@ -71,10 +66,11 @@ describe('BrandDetailsBlock', () => {
     product_link: '',
     start_date: '',
     durationNum: 0,
+    // The type says mission is string but component treats it as array, so we use any
     mission: [
       { id: 1, label: 'Innovation', selected: true },
       { id: 2, label: 'Quality', selected: false },
-    ],
+    ] as any,
     values: [
       { id: 3, label: 'Integrity', selected: true },
       { id: 4, label: 'Trust', selected: true },
@@ -84,7 +80,7 @@ describe('BrandDetailsBlock', () => {
       { id: 6, label: 'Friendly', selected: false },
       { id: 7, label: 'Approachable', selected: true },
     ],
-  };
+  } as BusinessInfo;
 
   const renderComponent = (category: 'mission' | 'persona' | 'values' | 'toneAndVoice') => {
     return render(
@@ -118,7 +114,9 @@ describe('BrandDetailsBlock', () => {
 
       // Assert
       expect(screen.getByText('values')).toBeInTheDocument();
-      expect(screen.getByText('The core beliefs that guide your interactions with customers')).toBeInTheDocument();
+      expect(
+        screen.getByText('The core beliefs that guide your interactions with customers')
+      ).toBeInTheDocument();
     });
 
     it('should render persona category with correct title and description', () => {
@@ -127,7 +125,9 @@ describe('BrandDetailsBlock', () => {
 
       // Assert
       expect(screen.getByText('persona')).toBeInTheDocument();
-      expect(screen.getByText('The characteristics that identify who you are and how you behave')).toBeInTheDocument();
+      expect(
+        screen.getByText('The characteristics that identify who you are and how you behave')
+      ).toBeInTheDocument();
     });
 
     it('should render toneAndVoice category as "Tone of Voice"', () => {
@@ -136,7 +136,9 @@ describe('BrandDetailsBlock', () => {
 
       // Assert
       expect(screen.getByText('Tone of Voice')).toBeInTheDocument();
-      expect(screen.getByText('How your business speaks and verbally expresses its personality')).toBeInTheDocument();
+      expect(
+        screen.getByText('How your business speaks and verbally expresses its personality')
+      ).toBeInTheDocument();
     });
 
     it('should render all chips for the category', () => {
@@ -205,7 +207,7 @@ describe('BrandDetailsBlock', () => {
         ...defaultBusinessInfo,
         persona: [{ id: 5, label: 'Professional', selected: true }],
       };
-      
+
       render(
         <BrowserRouter>
           <BrandContext.Provider
@@ -248,7 +250,7 @@ describe('BrandDetailsBlock', () => {
       renderComponent('mission');
       const editButton = screen.getByTestId('edit-button');
       fireEvent.click(editButton);
-      
+
       const closeButton = screen.getByText('Close Edit');
 
       // Act
@@ -277,7 +279,7 @@ describe('BrandDetailsBlock', () => {
       // Arrange
       const emptyCategory = {
         ...defaultBusinessInfo,
-        mission: [],
+        mission: [] as any,
       };
 
       // Act
@@ -300,7 +302,7 @@ describe('BrandDetailsBlock', () => {
       // Arrange
       const invalidData = {
         ...defaultBusinessInfo,
-        mission: 'not an array' as any,
+        mission: 'not an array',
       };
 
       // Act

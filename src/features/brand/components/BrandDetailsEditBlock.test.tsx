@@ -29,10 +29,17 @@ describe('BrandDetailsEditBlock', () => {
   const mockCloseEdit = vi.fn();
 
   const defaultBusinessInfo = {
+    name: '',
+    website: '',
+    product_features: [],
+    product_description: '',
+    product_link: '',
+    start_date: '',
+    durationNum: 0,
     mission: [
       { id: 1, label: 'Innovation', selected: true },
       { id: 2, label: 'Quality', selected: false },
-    ],
+    ] as any,
     values: [],
     persona: [],
     toneAndVoice: [],
