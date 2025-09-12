@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 // import { Link } from "react-router-dom";
-import SideNavBar from '../../../components/SideNavBar';
+import SideNavBar from './SideNavBar';
 
 interface SidebarProps {
   currentStep?: number;
