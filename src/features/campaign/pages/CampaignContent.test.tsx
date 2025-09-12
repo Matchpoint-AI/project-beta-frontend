@@ -195,7 +195,7 @@ describe('CampaignContent Component', () => {
 
     // Verify fetch was called with correct params
     expect(global.fetch).toHaveBeenCalledWith(
-      expect.stringContaining('/campaigns'),
+      expect.stringContaining('/api/v1/data/get/complex'),
       expect.any(Object)
     );
   });

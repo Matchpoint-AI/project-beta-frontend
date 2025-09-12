@@ -195,7 +195,9 @@ describe('CampaignsList Component', () => {
 
     renderWithContext(campaigns);
 
-    expect(screen.getAllByTestId('promotion-component')).toHaveLength(2);
+    // Should render both campaigns
+    expect(screen.getByText('Campaign Campaign-1')).toBeInTheDocument();
+    expect(screen.getByText('Campaign Campaign-2')).toBeInTheDocument();
     expect(screen.getByText('Test Business Campaigns')).toBeInTheDocument();
   });
 
