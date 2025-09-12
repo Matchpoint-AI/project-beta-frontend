@@ -43,7 +43,7 @@ describe('fetchWebsiteData', () => {
     // Arrange
     const url = 'https://example.com';
     const mockWebsiteData = { content: 'Mock content' };
-    
+
     mockFetch
       .mockResolvedValueOnce({
         json: () => Promise.resolve(mockWebsiteData),
@@ -91,7 +91,9 @@ describe('fetchWebsiteData', () => {
     mockFetch.mockRejectedValueOnce(fetchError);
 
     // Act & Assert
-    await expect(fetchWebsiteData(url, mockSetProgressDescription)).rejects.toThrow('Network error');
+    await expect(fetchWebsiteData(url, mockSetProgressDescription)).rejects.toThrow(
+      'Network error'
+    );
     expect(getServiceURL).toHaveBeenCalledWith('llm');
     expect(mockSetProgressDescription).not.toHaveBeenCalled();
   });
@@ -149,7 +151,7 @@ describe('fetchWebsiteData', () => {
     // Arrange
     const url = 'https://test-site.com';
     const customLLMUrl = 'https://custom-llm.com';
-    
+
     (getServiceURL as any).mockReturnValue(customLLMUrl);
     mockFetch.mockRejectedValueOnce(new Error('Test error'));
 
@@ -161,6 +163,9 @@ describe('fetchWebsiteData', () => {
     }
 
     // Assert
-    expect(mockFetch).toHaveBeenCalledWith(`${customLLMUrl}/api/v1/llm/fetch-content`, expect.any(Object));
+    expect(mockFetch).toHaveBeenCalledWith(
+      `${customLLMUrl}/api/v1/llm/fetch-content`,
+      expect.any(Object)
+    );
   });
 });
