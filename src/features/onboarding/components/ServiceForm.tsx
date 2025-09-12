@@ -8,7 +8,7 @@ import React, {
   useState,
 } from 'react';
 import Dropdown from '../../shared/components/ui/Dropdown';
-import { CampaignContext } from '../../features/campaign/context/CampaignContext';
+import { CampaignContext } from '../../campaign/context/CampaignContext';
 import { BrandContext } from '../../features/brand/context/BrandContext';
 import FormsContainer from '../shared/FormsContainer';
 import WebsiteOwnership from '../WebsiteOwnership';
