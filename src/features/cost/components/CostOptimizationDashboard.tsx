@@ -37,11 +37,11 @@ import {
   Award,
 } from 'lucide-react';
 
-import { costOptimizationApi } from '../../api/costOptimizationApi';
-import { LoadingSpinner } from '../ui/LoadingSpinner';
-import { Card } from '../ui/Card';
-import { Badge } from '../ui/Badge';
-import { Button } from '../ui/Button';
+import { costOptimizationApi } from '../api/costOptimizationApi';
+import { LoadingSpinner } from '../../../components/ui/LoadingSpinner';
+import { Card } from '../../../components/ui/Card';
+import { Badge } from '../../../components/ui/Badge';
+import { Button } from '../../../components/ui/Button';
 
 // Register Chart.js components
 ChartJS.register(
