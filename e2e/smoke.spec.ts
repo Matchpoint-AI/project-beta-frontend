@@ -10,19 +10,23 @@ test.describe('Smoke Tests', () => {
     await expect(page.locator('html')).toBeVisible();
 
     // Check for React root or app container
-    const hasRoot = await page.locator('#root, [data-reactroot], .app, .app-container, main').count();
+    const hasRoot = await page
+      .locator('#root, [data-reactroot], .app, .app-container, main')
+      .count();
     expect(hasRoot).toBeGreaterThan(0);
 
     // Verify page title is set
     const title = await page.title();
     expect(title).toBeTruthy();
     expect(title.length).toBeGreaterThan(0);
-    
+
     // Check if we're in authenticated state (not on login page)
     const isLoginPage = page.url().includes('login') || page.url().includes('auth');
     if (!isLoginPage) {
       // Look for authenticated app elements
-      const appElements = await page.locator('[data-testid="dashboard"], .dashboard, nav, [role="navigation"]').count();
+      const appElements = await page
+        .locator('[data-testid="dashboard"], .dashboard, nav, [role="navigation"]')
+        .count();
       console.log('Authenticated app elements found:', appElements);
     }
   });

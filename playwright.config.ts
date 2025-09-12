@@ -60,30 +60,30 @@ export default defineConfig({
       name: 'setup',
       testMatch: /.*\.setup\.ts/,
     },
-    
+
     {
       name: 'chromium',
-      use: { 
+      use: {
         ...devices['Desktop Chrome'],
-        storageState: 'e2e/auth-state.json'
+        storageState: 'e2e/auth-state.json',
       },
       dependencies: ['setup'],
     },
 
     {
       name: 'firefox',
-      use: { 
+      use: {
         ...devices['Desktop Firefox'],
-        storageState: 'e2e/auth-state.json'
+        storageState: 'e2e/auth-state.json',
       },
       dependencies: ['setup'],
     },
 
     {
       name: 'webkit',
-      use: { 
+      use: {
         ...devices['Desktop Safari'],
-        storageState: 'e2e/auth-state.json'
+        storageState: 'e2e/auth-state.json',
       },
       dependencies: ['setup'],
     },
@@ -91,17 +91,17 @@ export default defineConfig({
     /* Test against mobile viewports. */
     {
       name: 'Mobile Chrome',
-      use: { 
+      use: {
         ...devices['Pixel 5'],
-        storageState: 'e2e/auth-state.json'
+        storageState: 'e2e/auth-state.json',
       },
       dependencies: ['setup'],
     },
     {
       name: 'Mobile Safari',
-      use: { 
+      use: {
         ...devices['iPhone 12'],
-        storageState: 'e2e/auth-state.json'
+        storageState: 'e2e/auth-state.json',
       },
       dependencies: ['setup'],
     },
