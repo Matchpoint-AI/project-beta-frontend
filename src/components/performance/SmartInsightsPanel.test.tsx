@@ -201,7 +201,8 @@ describe('SmartInsightsPanel', () => {
 
     const summaryTabs = screen.getAllByText('Summary');
     expect(summaryTabs.length).toBeGreaterThan(0);
-    expect(screen.getByText('Smart Insights')).toBeInTheDocument();
+    const smartInsightsTabs = screen.getAllByText('Smart Insights');
+    expect(smartInsightsTabs.length).toBeGreaterThan(0);
     expect(screen.getByText('Predictions')).toBeInTheDocument();
     expect(screen.getByText('Recommendations')).toBeInTheDocument();
   });
