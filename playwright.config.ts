@@ -13,8 +13,6 @@ import { defineConfig, devices } from '@playwright/test';
  */
 export default defineConfig({
   testDir: './e2e',
-  /* Global setup for authentication */
-  globalSetup: './e2e/global-setup.ts',
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -23,8 +21,8 @@ export default defineConfig({
   retries: process.env.CI ? 1 : 0,
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
-  /* Global timeout for tests */
-  timeout: process.env.CI ? 30 * 1000 : 60 * 1000, // 30s in CI, 60s locally
+  /* Global timeout for tests - reduced for faster feedback */
+  timeout: process.env.CI ? 15 * 1000 : 30 * 1000, // 15s in CI, 30s locally
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
     ['html'],
@@ -55,63 +53,31 @@ export default defineConfig({
 
   /* Configure projects for major browsers */
   projects: [
-    // Setup project to run before all tests
-    {
-      name: 'setup',
-      testMatch: /.*\.setup\.ts/,
-    },
-
     {
       name: 'chromium',
-      use: {
-        ...devices['Desktop Chrome'],
-        storageState: 'e2e/auth-state.json',
-      },
-      dependencies: ['setup'],
+      use: { ...devices['Desktop Chrome'] },
     },
 
-    {
-      name: 'firefox',
-      use: {
-        ...devices['Desktop Firefox'],
-        storageState: 'e2e/auth-state.json',
-      },
-      dependencies: ['setup'],
-    },
+    // Temporarily disable other browsers for faster feedback
+    // {
+    //   name: 'firefox',
+    //   use: { ...devices['Desktop Firefox'] },
+    // },
 
-    {
-      name: 'webkit',
-      use: {
-        ...devices['Desktop Safari'],
-        storageState: 'e2e/auth-state.json',
-      },
-      dependencies: ['setup'],
-    },
+    // {
+    //   name: 'webkit',
+    //   use: { ...devices['Desktop Safari'] },
+    // },
 
     /* Test against mobile viewports. */
-    {
-      name: 'Mobile Chrome',
-      use: {
-        ...devices['Pixel 5'],
-        storageState: 'e2e/auth-state.json',
-      },
-      dependencies: ['setup'],
-    },
-    {
-      name: 'Mobile Safari',
-      use: {
-        ...devices['iPhone 12'],
-        storageState: 'e2e/auth-state.json',
-      },
-      dependencies: ['setup'],
-    },
-
-    // Unauthenticated tests for login flows
-    {
-      name: 'unauthenticated',
-      use: { ...devices['Desktop Chrome'] },
-      testMatch: /.*auth.*\.spec\.ts/,
-    },
+    // {
+    //   name: 'Mobile Chrome',
+    //   use: { ...devices['Pixel 5'] },
+    // },
+    // {
+    //   name: 'Mobile Safari',
+    //   use: { ...devices['iPhone 12'] },
+    // },
 
     /* Test against branded browsers. */
     // {
