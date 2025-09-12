@@ -3,15 +3,15 @@ import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { BrowserRouter } from 'react-router-dom';
 import PromotionComponent from './PromotionComponent';
-import { AuthContext } from '../features/auth/context/AuthContext';
-import { CampaignContext } from '../context/CampaignContext';
+import { AuthContext } from '../../auth/context/AuthContext';
+import { CampaignContext } from '../../../context/CampaignContext';
 
 // Mock the modules
-vi.mock('../helpers/handleNavigate', () => ({
+vi.mock('../../../helpers/handleNavigate', () => ({
   default: vi.fn(),
 }));
 
-vi.mock('../features/dashboard/components/CardStats', () => ({
+vi.mock('./CardStats', () => ({
   default: ({ id }: { id: string }) => <div data-testid="card-stats">Stats for {id}</div>,
 }));
 
