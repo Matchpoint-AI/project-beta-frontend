@@ -1,1 +1,1 @@
-export declare function ConnectInstagram(): import("react/jsx-runtime").JSX.Element;
+export declare function ConnectInstagram(): import('react/jsx-runtime').JSX.Element;

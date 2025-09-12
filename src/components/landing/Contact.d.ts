@@ -1,2 +1,2 @@
-declare const Contact: () => import("react/jsx-runtime").JSX.Element;
+declare const Contact: () => import('react/jsx-runtime').JSX.Element;
 export default Contact;

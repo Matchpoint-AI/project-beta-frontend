@@ -1,6 +1,6 @@
 declare module 'swiper/react' {
   import * as React from 'react';
-  
+
   export interface SwiperProps {
     slidesPerView?: number;
     spaceBetween?: number;
@@ -9,7 +9,7 @@ declare module 'swiper/react' {
     className?: string;
     children?: React.ReactNode;
   }
-  
+
   export const Swiper: React.FC<SwiperProps>;
   export const SwiperSlide: React.FC<{ children: React.ReactNode; key?: any }>;
 }

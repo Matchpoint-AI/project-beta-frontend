@@ -1,7 +1,10 @@
 interface BrandDetailsReviewProps {
-    stepHandler: (step: number) => void;
-    edit?: boolean;
-    hasBrand?: boolean;
+  stepHandler: (step: number) => void;
+  edit?: boolean;
+  hasBrand?: boolean;
 }
-export default function BrandDetailsReview({ stepHandler, edit }: BrandDetailsReviewProps): import("react/jsx-runtime").JSX.Element;
+export default function BrandDetailsReview({
+  stepHandler,
+  edit,
+}: BrandDetailsReviewProps): import('react/jsx-runtime').JSX.Element;
 export {};
