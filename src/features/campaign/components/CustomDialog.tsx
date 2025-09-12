@@ -2,7 +2,7 @@ import React, { FC, useContext } from 'react';
 import AudienceForm from '../../../components/Forms/AudienceForm';
 // import CampaignSetupCompleteDialog from "./CampaignSetupCompleteDialog";
 import PurposeForm from '../../../components/Forms/PurposeForm';
-import ServiceForm from '../../../components/onboard/ServiceForm';
+import ServiceForm from '../../onboarding/components/ServiceForm';
 import TimingForm from '../../../components/Forms/TimingForm';
 import { CampaignContext } from '../../../context/CampaignContext';
 

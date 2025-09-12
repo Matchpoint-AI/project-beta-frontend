@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Login from '../features/auth/pages/Login';
 import Signup from '../features/auth/pages/Signup';
-import Onboard from '../pages/Onboard';
+import Onboard from '../features/onboarding/pages/Onboard';
 import Campaign from '../features/campaign/pages/Campaign';
 import Dashboard from '../features/dashboard/pages/Dashboard';
 import CampaignContent from '../features/campaign/pages/CampaignContent';

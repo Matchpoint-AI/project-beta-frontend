@@ -6,7 +6,7 @@ import ErrorToast from '../../../shared/components/feedback/ErrorToast';
 import AudienceForm from '../../../components/Forms/AudienceForm';
 import CampaignBriefForm from '../../../components/Forms/CampaignBriefForm';
 import PurposeForm from '../../../components/Forms/PurposeForm';
-import ServiceForm from '../../../components/onboard/ServiceForm';
+import ServiceForm from '../../onboarding/components/ServiceForm';
 import TimingForm from '../../../components/Forms/TimingForm';
 import Sidebar from '../../../components/shared/Sidebar';
 import { useAuth } from '../../auth/context/AuthContext';

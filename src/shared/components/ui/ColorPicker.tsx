@@ -2,7 +2,7 @@ import React from 'react';
 import { ChangeEventHandler, useState } from 'react';
 import { HexColorPicker } from 'react-colorful';
 import * as convert from 'color-convert';
-import { BusinessInfo } from '../../../context/BrandContext';
+import { BusinessInfo } from '../../../features/brand/context/BrandContext';
 
 interface ColorCodeInputProps {
   onChange: (value: string | number, type?: string) => void;

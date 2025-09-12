@@ -1,14 +1,14 @@
 import React, { useContext, useState } from 'react';
-import { CampaignContext, CampaignInfoType } from '../context/CampaignContext';
-import { BrandContext } from '../features/brand/context/BrandContext';
+import { CampaignContext, CampaignInfoType } from '../../../context/CampaignContext';
+import { BrandContext } from '../../brand/context/BrandContext';
 import { useNavigate } from 'react-router-dom';
 // import { getAuth } from "firebase/auth";
 // import { useAuthentication } from "../firebase";
-import { useAuth } from '../features/auth/context/AuthContext';
-import { getServiceURL } from '../helpers/getServiceURL';
+import { useAuth } from '../../auth/context/AuthContext';
+import { getServiceURL } from '../../../helpers/getServiceURL';
 import { CircularProgress } from '@mui/material';
-import handleNavigate from '../helpers/handleNavigate';
-import scrapeProduct from './onboard/scrapeProduct';
+import handleNavigate from '../../../helpers/handleNavigate';
+import scrapeProduct from '../../onboarding/utils/scrapeProduct';
 
 interface StepCampaignProps {
   title?: string;
