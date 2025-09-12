@@ -3,7 +3,7 @@ import { BrandContext } from '../../brand/context/BrandContext';
 import BackButton from '../../../shared/components/buttons/BackButton';
 import { getServiceURL } from '../../../helpers/getServiceURL';
 import { CircularProgress } from '@mui/material';
-import FormsContainer from '../../../components/shared/FormsContainer';
+import FormsContainer from '../../../shared/components/layout/FormsContainer';
 import BrandDetailsReview from '../../brand/components/BrandDetailsReview';
 import type { Selectable } from '../../brand/context/BrandContext';
 

@@ -8,7 +8,7 @@ import CampaignBriefForm from '../../../components/Forms/CampaignBriefForm';
 import PurposeForm from '../../../components/Forms/PurposeForm';
 import ServiceForm from '../../onboarding/components/ServiceForm';
 import TimingForm from '../../../components/Forms/TimingForm';
-import Sidebar from '../../../components/shared/Sidebar';
+import Sidebar from '../../../shared/components/layout/Sidebar';
 import { useAuth } from '../../auth/context/AuthContext';
 import { BrandContext } from '../../brand/context/BrandContext';
 import { CampaignContext } from '../context/CampaignContext';

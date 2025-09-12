@@ -6,7 +6,7 @@ import { BrandContext } from '../../features/brand/context/BrandContext';
 import { CampaignContext } from '../../features/campaign/context/CampaignContext';
 import CustomDialog from '../../features/campaign/components/CustomDialog';
 import { useNavigate } from 'react-router-dom';
-import FormsContainer from '../shared/FormsContainer';
+import FormsContainer from '../../../shared/components/layout/FormsContainer';
 import BackButton from '../../shared/components/buttons/BackButton';
 import ApproveButton from '../../shared/components/buttons/ApproveButton';
 import CampaignSetupCompleteDialog from '../../features/campaign/components/CampaignSetupCompleteDialog';

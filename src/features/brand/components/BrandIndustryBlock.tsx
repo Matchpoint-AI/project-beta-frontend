@@ -1,6 +1,6 @@
 import React, { ChangeEventHandler, useContext, useEffect, useState } from 'react';
 import { BrandContext } from '../context/BrandContext';
-import EditBlock from '../../../components/shared/EditBlock';
+import EditBlock from '../../../shared/components/ui/EditBlock';
 import BrandDetailsInput from '../../../shared/components/inputs/BrandDetailsInput';
 import PurpleButton from '../../../shared/components/buttons/PurpleButton';
 

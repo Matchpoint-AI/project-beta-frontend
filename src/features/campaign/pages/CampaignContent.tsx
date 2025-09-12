@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import Sidebar from '../../../components/shared/Sidebar';
+import Sidebar from '../../../shared/components/layout/Sidebar';
 import { useAuth } from '../../auth/context/AuthContext';
 import { getServiceURL } from '../../../helpers/getServiceURL';
 import { useNavigate, useParams } from 'react-router-dom';

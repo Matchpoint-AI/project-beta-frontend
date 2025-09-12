@@ -19,7 +19,7 @@ import {
 import { LuPlus, LuTrash2, LuChevronDown, LuChevronUp } from 'react-icons/lu';
 import { AuthContext } from '../../auth/context/AuthContext';
 import { BrandContext } from '../context/BrandContext';
-import FormsContainer from '../../../components/shared/FormsContainer';
+import FormsContainer from '../../../shared/components/layout/FormsContainer';
 import NextButton from '../../../shared/components/buttons/NextButton';
 import BackButton from '../../../shared/components/buttons/BackButton';
 // import ColorPicker from '../../../shared/components/ui/ColorPicker';

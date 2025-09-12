@@ -1,5 +1,5 @@
 import React from 'react';
-import Sidebar from '../../../components/shared/Sidebar';
+import Sidebar from '../../../shared/components/layout/Sidebar';
 import { useNavigate } from 'react-router-dom';
 import handleNavigate from '../../../helpers/handleNavigate';
 import { useAuth } from '../../auth/context/AuthContext';

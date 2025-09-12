@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { BrandContext } from '../context/BrandContext';
-import EditBlock from '../../../components/shared/EditBlock';
+import EditBlock from '../../../shared/components/ui/EditBlock';
 import ChipComponent from '../../../shared/components/ui/ChipComponent';
 import { Chip } from '../../../helpers/convertToChips';
 import BrandDetailsEditBlock from './BrandDetailsEditBlock';

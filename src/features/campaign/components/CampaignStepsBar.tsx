@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import StepCampaignComponent from './StepComponentCampaign';
-import PhoneNavIcons from '../../../components/shared/PhoneNavIcons';
+import PhoneNavIcons from '../../../shared/components/ui/PhoneNavIcons';
 import { CampaignInfoType } from '../../../features/campaign/context/CampaignContext';
 
 interface CampaignStepsBar {

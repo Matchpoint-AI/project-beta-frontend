@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Sidebar from '../../../components/shared/Sidebar';
+import Sidebar from '../../../shared/components/layout/Sidebar';
 import { BrandContext } from '../../brand/context/BrandContext';
 import CustomComponent from '../../campaign/components/CustomComponent';
 import BrandForm from '../../brand/components/BrandForm';
