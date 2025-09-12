@@ -96,7 +96,7 @@ vi.mock('./KeyFeatures', () => ({
 }));
 
 // Mock the WebsiteOwnership component
-vi.mock('../../../components/WebsiteOwnership', () => ({
+vi.mock('../../brand/components/WebsiteOwnership', () => ({
   default: () => <div data-testid="website-ownership" />,
 }));
 
