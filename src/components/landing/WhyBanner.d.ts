@@ -1,2 +1,2 @@
-declare const WhyBanner: () => import("react/jsx-runtime").JSX.Element;
+declare const WhyBanner: () => any;
 export default WhyBanner;
