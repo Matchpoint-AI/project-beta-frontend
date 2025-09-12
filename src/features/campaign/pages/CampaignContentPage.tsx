@@ -42,21 +42,23 @@ export default function CampaignContentPage() {
         {!loading && !_error && (
           <div className="md:ml-[80px] flex-grow flex flex-col gap-8 p-8 md:mt-8 mt-[80px]">
             <UserDataBlocks
-              data={data || { 
-                id: '',
-                name: '',
-                email: '',
-                plan: '',
-                created_at: '',
-                brand: {
+              data={
+                data || {
+                  id: '',
                   name: '',
-                  website: '',
-                  logo: '',
-                  industry: '',
-                  vertical: ''
-                },
-                campaigns: []
-              }}
+                  email: '',
+                  plan: '',
+                  created_at: '',
+                  brand: {
+                    name: '',
+                    website: '',
+                    logo: '',
+                    industry: '',
+                    vertical: '',
+                  },
+                  campaigns: [],
+                }
+              }
               viewContent={async () => {
                 // Empty implementation - no content viewing functionality
               }}

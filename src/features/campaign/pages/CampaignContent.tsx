@@ -275,10 +275,12 @@ const CampaignContent = () => {
             />
 
             <ButtonGroup
-              campaign={{
-                campaign_id: campaignContent?.campaign_id,
-                campaign_data: campaignContent?.campaign_data,
-              } as CampaignInfoType}
+              campaign={
+                {
+                  campaign_id: campaignContent?.campaign_id,
+                  campaign_data: campaignContent?.campaign_data,
+                } as CampaignInfoType
+              }
               currentTab={currentTab}
               setCurrentTab={setCurrentTab}
               setApprovePopup={setApprovePopup}
