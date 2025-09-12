@@ -1,7 +1,9 @@
 import { test, expect } from '../fixtures/mock-api.fixture';
 import { BrandOnboardingPage } from '../pages/BrandOnboardingPage';
+import path from 'path';
 
 test.describe('Brand Onboarding', () => {
+  test.describe.configure({ mode: 'parallel' });
   let onboardingPage: BrandOnboardingPage;
 
   test.beforeEach(async ({ mockAPI }) => {
@@ -9,7 +11,16 @@ test.describe('Brand Onboarding', () => {
     await onboardingPage.goto();
   });
 
-  test('should complete full brand onboarding flow', async () => {
+  test('should complete full brand onboarding flow', { tag: ['@smoke', '@critical'] }, async ({ page }, testInfo) => {
+    // Attach test metadata for better artifact organization
+    await testInfo.attach('test-metadata', {
+      body: JSON.stringify({
+        testName: 'Full Onboarding Flow',
+        timestamp: new Date().toISOString(),
+        browser: testInfo.project.name,
+      }),
+      contentType: 'application/json',
+    });
     // Arrange
     const brandData = {
       name: 'Test Brand Co',
@@ -219,5 +230,215 @@ test.describe('Brand Onboarding', () => {
 
     // Verify completion with minimal data
     expect(await onboardingPage.isOnboardingComplete()).toBe(true);
+  });
+
+  test('should handle file upload for brand logo', async ({ page }) => {
+    // Arrange
+    const logoPath = path.join(__dirname, '../fixtures/test-assets/brand-logo.png');
+    const onboardingPage = new BrandOnboardingPage(page);
+    await onboardingPage.goto();
+
+    // Act & Assert
+    await test.step('Upload brand logo', async () => {
+      // Create a test logo file if it doesn't exist
+      const fileInput = page.locator('input[type="file"][data-testid="logo-upload"]');
+      
+      if (await fileInput.isVisible()) {
+        // Create a dummy image file for testing
+        await fileInput.setInputFiles({
+          name: 'test-logo.png',
+          mimeType: 'image/png',
+          buffer: Buffer.from('fake-png-data'),
+        });
+
+        // Verify upload preview
+        const preview = page.locator('[data-testid="logo-preview"]');
+        await expect(preview).toBeVisible({ timeout: 5000 });
+      }
+    });
+  });
+
+  test('should be accessible via keyboard navigation', async ({ page }) => {
+    const onboardingPage = new BrandOnboardingPage(page);
+    await onboardingPage.goto();
+
+    // Test keyboard navigation
+    await test.step('Navigate with keyboard', async () => {
+      // Tab to first input
+      await page.keyboard.press('Tab');
+      await expect(onboardingPage.brandNameInput).toBeFocused();
+
+      // Fill using keyboard
+      await page.keyboard.type('Keyboard Test Brand');
+      await expect(onboardingPage.brandNameInput).toHaveValue('Keyboard Test Brand');
+
+      // Tab to next field
+      await page.keyboard.press('Tab');
+      // Industry select should be focused
+      const focusedElement = await page.evaluate(() => document.activeElement?.getAttribute('data-testid'));
+      expect(focusedElement).toBe('industry-select');
+
+      // Use arrow keys to select option
+      await page.keyboard.press('ArrowDown');
+      await page.keyboard.press('Enter');
+
+      // Tab to continue
+      await page.keyboard.press('Tab');
+      await expect(onboardingPage.targetAudienceInput).toBeFocused();
+    });
+  });
+
+  test('should handle concurrent form updates', async ({ page }) => {
+    const onboardingPage = new BrandOnboardingPage(page);
+    await onboardingPage.goto();
+
+    // Simulate rapid concurrent updates
+    await test.step('Rapid form updates', async () => {
+      const updates = [
+        onboardingPage.brandNameInput.fill('Update 1'),
+        onboardingPage.targetAudienceInput.fill('Audience 1'),
+        onboardingPage.brandNameInput.fill('Update 2'),
+        onboardingPage.targetAudienceInput.fill('Audience 2'),
+      ];
+
+      await Promise.all(updates);
+
+      // Verify final state
+      await expect(onboardingPage.brandNameInput).toHaveValue('Update 2');
+      await expect(onboardingPage.targetAudienceInput).toHaveValue('Audience 2');
+    });
+  });
+
+  test('should measure performance metrics', async ({ page }, testInfo) => {
+    const onboardingPage = new BrandOnboardingPage(page);
+    
+    // Start performance measurement
+    await page.evaluateOnNewDocument(() => {
+      window.performanceMetrics = {
+        startTime: Date.now(),
+        interactions: [],
+      };
+    });
+
+    await onboardingPage.goto();
+
+    // Measure step transition times
+    const metrics = [];
+    
+    await test.step('Measure step transitions', async () => {
+      // Step 1
+      const step1Start = Date.now();
+      await onboardingPage.fillBasicInfo('Perf Test', 'Technology', 'Users');
+      await onboardingPage.goToNextStep();
+      const step1End = Date.now();
+      metrics.push({ step: 1, duration: step1End - step1Start });
+
+      // Step 2
+      const step2Start = Date.now();
+      await onboardingPage.fillBrandVoice('Fast and efficient');
+      await onboardingPage.goToNextStep();
+      const step2End = Date.now();
+      metrics.push({ step: 2, duration: step2End - step2Start });
+    });
+
+    // Attach performance metrics
+    await testInfo.attach('performance-metrics', {
+      body: JSON.stringify(metrics),
+      contentType: 'application/json',
+    });
+
+    // Assert reasonable performance
+    metrics.forEach(metric => {
+      expect(metric.duration).toBeLessThan(3000); // Each step should complete within 3 seconds
+    });
+  });
+
+  test('should handle network interruptions gracefully', async ({ page, context }) => {
+    const onboardingPage = new BrandOnboardingPage(page);
+    await onboardingPage.goto();
+
+    // Fill some data
+    await onboardingPage.fillBasicInfo('Network Test', 'Technology', 'Everyone');
+
+    // Simulate network interruption
+    await test.step('Simulate offline mode', async () => {
+      await context.setOffline(true);
+      
+      // Try to save - should handle gracefully
+      await onboardingPage.saveProgress();
+      
+      // Should show offline indicator or error
+      const errorVisible = await page.locator('[data-testid="offline-indicator"], .error-message').isVisible();
+      expect(errorVisible).toBe(true);
+
+      // Restore network
+      await context.setOffline(false);
+      
+      // Retry save
+      await onboardingPage.saveProgress();
+      const successMessage = await onboardingPage.waitForSuccessMessage();
+      expect(successMessage).toBeTruthy();
+    });
+  });
+
+  test('should capture visual regression snapshots', async ({ page }, testInfo) => {
+    const onboardingPage = new BrandOnboardingPage(page);
+    await onboardingPage.goto();
+
+    // Only run visual tests in Chromium for consistency
+    if (testInfo.project.name === 'chromium') {
+      await test.step('Capture step snapshots', async () => {
+        // Step 1 snapshot
+        await expect(page).toHaveScreenshot('onboarding-step-1.png', {
+          fullPage: true,
+          animations: 'disabled',
+        });
+
+        // Fill and move to step 2
+        await onboardingPage.fillBasicInfo('Visual Test', 'Technology', 'Users');
+        await onboardingPage.goToNextStep();
+
+        // Step 2 snapshot
+        await expect(page).toHaveScreenshot('onboarding-step-2.png', {
+          fullPage: true,
+          animations: 'disabled',
+        });
+      });
+    }
+  });
+
+  test.afterEach(async ({ page }, testInfo) => {
+    // Capture additional debug info on failure
+    if (testInfo.status === 'failed') {
+      // Capture console logs
+      const consoleLogs = await page.evaluate(() => {
+        return window.consoleLogs || [];
+      });
+      
+      await testInfo.attach('console-logs', {
+        body: JSON.stringify(consoleLogs),
+        contentType: 'application/json',
+      });
+
+      // Capture network activity
+      const requests = [];
+      page.on('request', request => requests.push({
+        url: request.url(),
+        method: request.method(),
+        headers: request.headers(),
+      }));
+
+      await testInfo.attach('network-requests', {
+        body: JSON.stringify(requests),
+        contentType: 'application/json',
+      });
+
+      // Capture DOM snapshot
+      const html = await page.content();
+      await testInfo.attach('dom-snapshot', {
+        body: html,
+        contentType: 'text/html',
+      });
+    }
   });
 });

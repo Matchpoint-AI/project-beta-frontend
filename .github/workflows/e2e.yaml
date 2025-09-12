@@ -110,6 +110,7 @@ jobs:
         env:
           BASE_URL: http://localhost:3000
           MOCK_API: "true"
+          CI: "true"
         run: |
           npx playwright test \
             --project=${{ matrix.browser }} \
@@ -126,13 +127,38 @@ jobs:
             playwright-report/
           retention-days: 30
 
-      - name: Upload videos on failure
-        if: failure()
+      - name: Upload test videos
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: playwright-videos-${{ matrix.browser }}-${{ matrix.shard }}
-          path: test-results/**/video.webm
+          path: |
+            test-results/**/*.webm
+            test-results/**/*.mp4
           retention-days: 7
+          if-no-files-found: ignore
+
+      - name: Upload screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-screenshots-${{ matrix.browser }}-${{ matrix.shard }}
+          path: |
+            test-results/**/*.png
+            test-results/**/*.jpg
+            test-results/**/*.jpeg
+          retention-days: 7
+          if-no-files-found: ignore
+
+      - name: Upload trace files
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-traces-${{ matrix.browser }}-${{ matrix.shard }}
+          path: test-results/**/*.zip
+          retention-days: 7
+          if-no-files-found: ignore
+
 
   e2e-report:
     name: Merge E2E Test Reports
@@ -201,7 +227,11 @@ jobs:
               ? '✨ All tests passed successfully!' 
               : '⚠️ Some tests failed. Check the artifacts for details.';
 
-            resultsText += '\n\n[View Full Report](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})';
+            resultsText += '\n\n### 📦 Test Artifacts\n';
+            resultsText += '- [📹 Videos](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}#artifacts)\n';
+            resultsText += '- [📸 Screenshots](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}#artifacts)\n';
+            resultsText += '- [📊 HTML Report](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}#artifacts)\n';
+            resultsText += '\n[View Full Report](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})';
 
             // Post comment
             await github.rest.issues.createComment({
