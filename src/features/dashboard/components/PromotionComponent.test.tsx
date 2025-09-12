@@ -18,6 +18,8 @@ vi.mock('./CardStats', () => ({
 interface Campaign {
   campaign_id: string;
   thread_id?: string;
+  status: string;
+  timestamp?: string;
   campaign_data?: {
     campaign_variables?: {
       [key: string]: unknown;
@@ -106,6 +108,7 @@ const mockCampaignContextValue = {
 const mockCampaign = {
   campaign_id: 'test-campaign-1',
   thread_id: 'test-thread-1',
+  status: 'active',
   campaign_data: {
     campaign_variables: {
       name: 'Test Campaign',
