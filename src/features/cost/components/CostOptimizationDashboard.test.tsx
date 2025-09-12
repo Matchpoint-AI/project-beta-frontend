@@ -654,9 +654,10 @@ describe('CostOptimizationDashboard', () => {
       await waitFor(() => {
         // Should still render the dashboard but without optimization cards
         expect(screen.getByText('Cost Optimization Dashboard')).toBeInTheDocument();
-        // Check that no optimization cards are rendered
-        const optimizationCards = screen.queryAllByText(/Vision Model Switch|Gemini Routing/);
-        expect(optimizationCards).toHaveLength(0);
+        // Check that no optimization-specific cards are rendered by looking for the optimization grid section
+        // The optimization grid should exist but be empty
+        const optimizationGrid = screen.getByTestId('optimization-grid');
+        expect(optimizationGrid.children).toHaveLength(0);
       });
     });
 
