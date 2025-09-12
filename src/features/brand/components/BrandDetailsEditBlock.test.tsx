@@ -386,6 +386,8 @@ describe('BrandDetailsEditBlock', () => {
           value={{
             businessInfo: defaultBusinessInfo,
             setBusinessInfo: mockSetBusinessInfo,
+            updateWorkflowState: mockUpdateWorkflowState,
+            clearWorkflow: mockClearWorkflow,
           }}
         >
           <BrandDetailsEditBlock

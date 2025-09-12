@@ -130,12 +130,17 @@ describe('BrandForm', () => {
     return file;
   };
 
+  const mockUpdateWorkflowState = vi.fn();
+  const mockClearWorkflow = vi.fn();
+
   const renderComponent = (businessInfo = defaultBusinessInfo) => {
     return render(
       <BrandContext.Provider
         value={{
           businessInfo,
           setBusinessInfo: mockSetBusinessInfo,
+          updateWorkflowState: mockUpdateWorkflowState,
+          clearWorkflow: mockClearWorkflow,
         }}
       >
         <BrandForm handleBack={mockHandleBack} handleNext={mockHandleNext} />

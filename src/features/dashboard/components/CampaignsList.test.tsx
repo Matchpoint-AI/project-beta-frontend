@@ -99,6 +99,8 @@ const mockBrandContextValue = {
     brandColors: [],
   },
   setBusinessInfo: vi.fn(),
+  updateWorkflowState: vi.fn(),
+  clearWorkflow: vi.fn(),
 };
 
 const mockCampaignContextValue = {

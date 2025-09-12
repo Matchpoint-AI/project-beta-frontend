@@ -1,6 +1,6 @@
 import React from 'react';
 import { LinearProgress, Box, Typography, Paper } from '@mui/material';
-import { CheckCircle, AutoAwesome, Web, Analysis } from '@mui/icons-material';
+import { CheckCircle, AutoAwesome, Web, Analytics } from '@mui/icons-material';
 import { WorkflowState } from '../context/BrandContext';
 
 interface WorkflowProgressTrackerProps {
@@ -10,7 +10,7 @@ interface WorkflowProgressTrackerProps {
 
 const stepIcons = {
   crawling: <Web sx={{ color: '#5145CD' }} />,
-  analyzing: <Analysis sx={{ color: '#5145CD' }} />,
+  analyzing: <Analytics sx={{ color: '#5145CD' }} />,
   completed: <CheckCircle sx={{ color: '#4CAF50' }} />,
   failed: <AutoAwesome sx={{ color: '#F05252' }} />,
 };

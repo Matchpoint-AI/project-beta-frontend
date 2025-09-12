@@ -209,7 +209,7 @@ describe('CampaignBriefForm', () => {
   const renderWithProviders = (component: React.ReactElement) => {
     return render(
       <BrandContext.Provider
-        value={{ businessInfo: mockBusinessInfo as any, setBusinessInfo: vi.fn() }}
+        value={{ businessInfo: mockBusinessInfo as any, setBusinessInfo: vi.fn(), updateWorkflowState: vi.fn(), clearWorkflow: vi.fn() }}
       >
         <CampaignContext.Provider
           value={{

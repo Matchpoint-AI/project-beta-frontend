@@ -182,6 +182,8 @@ describe('ServiceForm', () => {
         value={{
           businessInfo: mockBusinessInfo as BusinessInfo,
           setBusinessInfo: mockSetBusinessInfo,
+          updateWorkflowState: vi.fn(),
+          clearWorkflow: vi.fn(),
         }}
       >
         <CampaignContext.Provider
@@ -231,7 +233,7 @@ describe('ServiceForm', () => {
     const newProductCampaignInfo = { ...mockCampaignInfo, newProduct: true };
     render(
       <BrandContext.Provider
-        value={{ businessInfo: emptyBusinessInfo, setBusinessInfo: mockSetBusinessInfo }}
+        value={{ businessInfo: emptyBusinessInfo, setBusinessInfo: mockSetBusinessInfo, updateWorkflowState: vi.fn(), clearWorkflow: vi.fn() }}
       >
         <CampaignContext.Provider
           value={{
@@ -424,6 +426,8 @@ describe('ServiceForm', () => {
         value={{
           businessInfo: mockBusinessInfo as BusinessInfo,
           setBusinessInfo: mockSetBusinessInfo,
+          updateWorkflowState: vi.fn(),
+          clearWorkflow: vi.fn(),
         }}
       >
         <CampaignContext.Provider
@@ -477,6 +481,8 @@ describe('ServiceForm', () => {
         value={{
           businessInfo: mockBusinessInfo as BusinessInfo,
           setBusinessInfo: mockSetBusinessInfo,
+          updateWorkflowState: vi.fn(),
+          clearWorkflow: vi.fn(),
         }}
       >
         <CampaignContext.Provider
@@ -521,6 +527,8 @@ describe('ServiceForm', () => {
         value={{
           businessInfo: mockBusinessInfo as BusinessInfo,
           setBusinessInfo: mockSetBusinessInfo,
+          updateWorkflowState: vi.fn(),
+          clearWorkflow: vi.fn(),
         }}
       >
         <CampaignContext.Provider
@@ -571,6 +579,8 @@ describe('ServiceForm', () => {
         value={{
           businessInfo: mockBusinessInfo as BusinessInfo,
           setBusinessInfo: mockSetBusinessInfo,
+          updateWorkflowState: vi.fn(),
+          clearWorkflow: vi.fn(),
         }}
       >
         <CampaignContext.Provider
