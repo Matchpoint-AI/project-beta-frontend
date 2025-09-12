@@ -39,9 +39,7 @@ vi.mock('./SideNavBar', () => {
 // Test wrapper with required providers
 const TestWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <BrowserRouter>
-    <AuthProvider>
-      {children}
-    </AuthProvider>
+    <AuthProvider>{children}</AuthProvider>
   </BrowserRouter>
 );
 
@@ -49,6 +47,8 @@ const renderWithProviders = (ui: React.ReactElement) => {
   return render(ui, { wrapper: TestWrapper });
 };
 
+// TODO: Fix SideNavBar mocking - component tests fail due to complex mocking requirements
+// These tests need proper component mocking to work correctly
 describe.skip('Sidebar', () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -270,7 +270,7 @@ describe.skip('Sidebar', () => {
       expect(mobileSidenav).toHaveStyle({ right: '0px' });
 
       // Re-render with different prop
-      rerenderWithProviders(<Sidebar currentStep={2} />);
+      rerender(<Sidebar currentStep={2} />);
 
       // Assert - State should be maintained
       expect(mobileSidenav).toHaveStyle({ right: '0px' });

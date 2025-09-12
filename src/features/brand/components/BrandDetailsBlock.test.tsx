@@ -55,7 +55,7 @@ vi.mock('../../../shared/components/ui/ChipComponent', () => ({
   }),
 }));
 
-describe.skip('BrandDetailsBlock', () => {
+describe('BrandDetailsBlock', () => {
   const mockSetBusinessInfo = vi.fn();
 
   const defaultBusinessInfo = {
