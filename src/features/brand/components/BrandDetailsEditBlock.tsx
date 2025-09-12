@@ -66,7 +66,7 @@ export default function BrandDetailsEditBlock({
                 onChange={(e) => handleChange(i, e.target.value)}
               />
               <button onClick={() => handleRemove(i)}>
-                <img src="/remove_tag.svg" alt="remove tag" />
+                <img src="/src/assets/icons/remove_tag.svg" alt="remove tag" />
               </button>
             </div>
           );

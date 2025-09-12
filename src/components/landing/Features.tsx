@@ -86,7 +86,7 @@ const Features = () => {
       {/* iPhone Image Section */}
       <div className="relative w-full flex flex-col lg:flex-row justify-start items-start gap-7 ">
         <img
-          src="/IphoneDisplay.png"
+          src="/src/assets/images/IphoneDisplay.png"
           alt="iPhone"
           className="w-[350px] drop-shadow-lg hidden lg:block"
         />

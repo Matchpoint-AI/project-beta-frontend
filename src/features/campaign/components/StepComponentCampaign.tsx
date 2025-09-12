@@ -214,7 +214,7 @@ const StepCampaignComponent: React.FC<StepCampaignProps> = ({
           <div className={`w-4 h-4 ${isActive ? 'bg-[#5145CD]' : 'bg-[#6B7280]'} rounded-full`} />
         ) : (
           <div className={`w-4 h-4 bg-[#5145CD] rounded-full items-center flex justify-center`}>
-            <img src="/thumbs_up.svg" alt="step_inactive" width={10} height={10} />
+            <img src="/src/assets/icons/thumbs_up.svg" alt="step_inactive" width={10} height={10} />
           </div>
         )}
         {/* Step Title */}

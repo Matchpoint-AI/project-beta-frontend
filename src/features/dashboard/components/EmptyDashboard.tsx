@@ -20,7 +20,7 @@ const EmptyDashboard = () => {
           Ready to start your new campaign?
         </h1>
         <div className="flex flex-col justify-center items-center gap-4">
-          <img src="createCampaign.png" />
+          <img src="/src/assets/images/createCampaign.png" />
           <div className="flex flex-col gap-0 justify-center items-center">
             {/* <h1 className="text-gray-900 text-2xl font-bold leading-9">
               Super easy. Let’s create your next campaign brief and your content

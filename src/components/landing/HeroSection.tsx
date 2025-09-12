@@ -52,7 +52,11 @@ const HeroSection: React.FC = () => {
       <div className="lg:w-1/2 flex justify-center lg:mt-0">
         {/* Main Image */}
         <div className="relative rounded-lg overflow-hidden">
-          <img src="poster.png" alt="Main visual" className="w-full h-auto object-cover" />
+          <img
+            src="/src/assets/images/poster.png"
+            alt="Main visual"
+            className="w-full h-auto object-cover"
+          />
         </div>
       </div>
     </div>

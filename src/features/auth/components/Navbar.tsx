@@ -32,7 +32,7 @@ export default function Navbar({ style = '' }: NavbarProps) {
       >
         <button type="button" onClick={handleToLanding}>
           <Link to="/landing" className="items-center space-x-3 rtl:space-x-reverse flex md:hidden">
-            <img src="logo.svg" className="h-8" alt="Matchpoint Logo" />
+            <img src="/src/assets/icons/logo.svg" className="h-8" alt="Matchpoint Logo" />
           </Link>
         </button>
         <div className="items-center justify-center  hidden w-full md:flex md:w-auto md:order-1 ">
@@ -80,7 +80,7 @@ export default function Navbar({ style = '' }: NavbarProps) {
           onClick={() => setDisplaySidebar((old) => !old)}
           className="block md:hidden absolute right-4 top-1/2 translate-y-[-50%]"
         >
-          <img src="/burger.svg" alt="burger-menu" />
+          <img src="/src/assets/icons/burger.svg" alt="burger-menu" />
         </button>
         {displaySidebar && (
           <div className="bg-white absolute right-0 top-full h-screen p-3 shadow-lg">
@@ -136,7 +136,7 @@ export default function Navbar({ style = '' }: NavbarProps) {
     >
       <button type="button" onClick={handleToLanding}>
         <Link to="/landing" className="items-center space-x-3 rtl:space-x-reverse flex md:hidden">
-          <img src="logo.svg" className="h-8" alt="Matchpoint Logo" />
+          <img src="/src/assets/icons/logo.svg" className="h-8" alt="Matchpoint Logo" />
         </Link>
       </button>
       {/* <div className="items-center justify-center hidden w-full md:flex md:w-auto md:order-1">
@@ -198,7 +198,7 @@ export default function Navbar({ style = '' }: NavbarProps) {
         onClick={() => setDisplaySidebar((old) => !old)}
         className="block md:hidden absolute right-4 top-1/2 translate-y-[-50%]"
       >
-        <img src="/burger.svg" alt="burger-menu" />
+        <img src="/src/assets/icons/burger.svg" alt="burger-menu" />
       </button>
       {displaySidebar && (
         <div className="bg-white absolute right-0 top-full h-screen p-3 shadow-lg">

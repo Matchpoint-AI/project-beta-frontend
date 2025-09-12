@@ -1,1 +1,1 @@
-export default function CampaignSchedule(): import('react/jsx-runtime').JSX.Element;
+export default function CampaignSchedule(): import("react/jsx-runtime").JSX.Element;

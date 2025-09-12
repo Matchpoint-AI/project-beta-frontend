@@ -358,7 +358,10 @@ const CampaignSetupCompleteDialog: React.FC<Props> = ({ setCurrentStep, open }) 
 
         {/* Image can be replaced with actual path */}
         <div className="flex items-center justify-center my-10">
-          <img src="/campaignCompleted.png" className="max-w-[450px] h-auto w-full" />
+          <img
+            src="/src/assets/images/campaignCompleted.png"
+            className="max-w-[450px] h-auto w-full"
+          />
         </div>
         {/* <ProgressComponent progress={progress} /> */}
         <div className="flex flex-col-reverse sm:flex-row justify-center gap-4">

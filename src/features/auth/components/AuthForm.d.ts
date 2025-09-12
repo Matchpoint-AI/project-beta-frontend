@@ -1,13 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 interface AuthFormProps {
-  login?: boolean;
-  setAuthError: (error: string | React.ReactElement) => void;
+    login?: boolean;
+    setAuthError: (error: string | React.ReactElement) => void;
 }
-declare function AuthForm({
-  login,
-  setAuthError,
-}: AuthFormProps): import('react/jsx-runtime').JSX.Element;
+declare function AuthForm({ login, setAuthError }: AuthFormProps): import("react/jsx-runtime").JSX.Element;
 declare namespace AuthForm {
   const propTypes: {
     login: PropTypes.Requireable<boolean>;

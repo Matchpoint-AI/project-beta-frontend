@@ -10,7 +10,7 @@ export function SparklesMessage({
   return (
     <div className="flex items-center rounded-md gap-2 bg-[#EBF5FF] p-1.5">
       <img
-        src={loading ? 'loading_spinner.svg' : '/sparkles.svg'}
+        src={loading ? '/src/assets/icons/loading_spinner.svg' : '/src/assets/icons/sparkles.svg'}
         alt="location"
         className="w-5 h-5"
       />

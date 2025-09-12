@@ -1,9 +1,21 @@
 import React from 'react';
-declare const ContentLibrary: ({
-  campaign,
-  setStats,
-}: {
-  campaign: unknown;
-  setStats: React.Dispatch<React.SetStateAction<unknown>>;
-}) => import('react/jsx-runtime').JSX.Element;
+interface Stats {
+    approved: number;
+    ready_for_review: number;
+}
+interface Campaign {
+    campaign_data: {
+        campaign_variables: {
+            durationNum: number;
+            start_date: string;
+        };
+        biz_variables: {
+            brand_name: string;
+        };
+    };
+}
+declare const ContentLibrary: ({ campaign, setStats, }: {
+    campaign: Campaign | null;
+    setStats: React.Dispatch<React.SetStateAction<Stats>>;
+}) => import("react/jsx-runtime").JSX.Element;
 export default ContentLibrary;

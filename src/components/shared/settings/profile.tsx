@@ -28,7 +28,11 @@ export default function UserProfile() {
             COMPANY
           </div>
 
-          <img className="w-[156px] h-[18.69px]" src="/business_logo.svg" alt="logo" />
+          <img
+            className="w-[156px] h-[18.69px]"
+            src="/src/assets/icons/business_logo.svg"
+            alt="logo"
+          />
         </div>
         <div className="w-[633px] h-[0px] border-[0.5px] border-gray-400"></div>
         <div className="flex items-center my-8 gap-20">

@@ -17,7 +17,7 @@ const NavButton = ({ href, text, onClick }: NavButtonProps) => {
       >
         {text}
         <img
-          src="/angle-right-outline.svg"
+          src="/src/assets/icons/angle-right-outline.svg"
           alt="arrow-right"
           className="w-4 h-4 inline-block ms-2"
         />

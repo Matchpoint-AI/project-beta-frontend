@@ -21,7 +21,7 @@ const NewCardStats = ({ id: _id, stats }: { id: string; stats: Stats }) => {
           <p className="text-[#6B7280] font-semibold text-xs">Total Content</p>
           <p className="text-xs font-bold bg-[#E1EFFE] text-[#1E429F] w-10 h-6 rounded-md flex items-center justify-evenly">
             {/* <HiCollection /> */}
-            <img src="/collection.svg" />
+            <img src="/src/assets/icons/collection.svg" />
             {stats?.total_content}
           </p>
         </div>
@@ -29,7 +29,7 @@ const NewCardStats = ({ id: _id, stats }: { id: string; stats: Stats }) => {
           <p className="text-[#6B7280] font-semibold text-xs">Generating</p>
           <p className="text-xs font-bold bg-[#FBD5D5] text-[#8E4B10] w-10 h-6 rounded-md flex items-center justify-evenly">
             {/* <GoClock /> */}
-            <img src="/ai.svg" />
+            <img src="/src/assets/icons/ai.svg" />
             {stats?.generating}
           </p>
         </div>
@@ -55,7 +55,7 @@ const NewCardStats = ({ id: _id, stats }: { id: string; stats: Stats }) => {
           <p className="text-[#6B7280] font-semibold text-xs">Published</p>
           <p className="text-xs font-bold bg-[#82FFC9] text-[#046C4E] w-10 h-6 rounded-md flex items-center justify-evenly">
             {/* <GrDownload className="transfrom rotate-180" /> */}
-            <img src="/publish.svg" className="w-[10px] h-[10px]" />
+            <img src="/src/assets/icons/publish.svg" className="w-[10px] h-[10px]" />
             {stats?.published}
           </p>
         </div>

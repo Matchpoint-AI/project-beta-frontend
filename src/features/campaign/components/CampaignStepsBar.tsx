@@ -61,7 +61,12 @@ export default function CampaignStepsBar({
           <div className="flex flex-col gap-4 my-10">
             <div className="flex">
               <div className="mr-2">
-                <img src="/calendar_active.svg" alt="calendar" width={20} height={20} />
+                <img
+                  src="/src/assets/icons/calendar_active.svg"
+                  alt="calendar"
+                  width={20}
+                  height={20}
+                />
               </div>
               <p className="text-lg font-semibold text-[#5145CD]">Campaign Creation</p>
             </div>

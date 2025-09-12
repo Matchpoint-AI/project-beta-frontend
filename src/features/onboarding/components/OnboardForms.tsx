@@ -225,13 +225,13 @@ const Onboard = ({ edit = false }: any) => {
             You&apos;ve got 3 steps and then boom – your campaign content is on the way!
           </h3>
           <div className="flex-wrap items-center justify-between grid grid-cols-1 md:grid-cols-3 gap-3">
-            <StepContainer icon="/briefcase.svg" title="Business & Brand info">
+            <StepContainer icon="/src/assets/icons/briefcase.svg" title="Business & Brand info">
               Ensures your campaign content is unique to you
             </StepContainer>
-            <StepContainer icon="/palette_active.svg" title="Campaign Brief">
+            <StepContainer icon="/src/assets/icons/palette_active.svg" title="Campaign Brief">
               Creates a guide that keeps your campaign targeted and timely
             </StepContainer>
-            <StepContainer icon="/notes.svg" title="Campaign Content Review">
+            <StepContainer icon="/src/assets/icons/notes.svg" title="Campaign Content Review">
               Allows you to review and tweak your content as you like
             </StepContainer>
           </div>

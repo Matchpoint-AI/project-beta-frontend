@@ -20,7 +20,7 @@ const ZipCodeInput = ({ currentValues, setCurrentValues }: ZipCodeInputProps) =>
 
   useEffect(() => {
     const myMap = new Map<string, string>();
-    fetch('/zip_codes.json')
+    fetch('/src/assets/data/zip_codes.json')
       .then((response) => response.json())
       .then((result) => {
         result.map((item: { zip: string; city_state: string }) => {

@@ -380,7 +380,7 @@ const ConfirmDate: React.FC<ConfirmDateProps> = ({
                 <CircularProgress sx={{ color: '#046C4E' }} size={25} thickness={5} />
               ) : (
                 <>
-                  <img src="/publish.svg" className="w-4 h-4 text-[#046C4E]" />
+                  <img src="/src/assets/icons/publish.svg" className="w-4 h-4 text-[#046C4E]" />
                   <h3 className="text-base font-bold text-[#046C4E]">
                     Confirm & Publish {stats.approved} of {stats.total_content}
                   </h3>
@@ -550,7 +550,7 @@ const PublishApproved: React.FC<PublishApprovedProps> = ({ stats, startDate, dur
           onClick={checkApproved}
           className={`flex relative flex-row w-fit items-center gap-2 rounded-lg px-5 py-3 bg-[#82FFC9] hover:bg-[#59fab4]`}
         >
-          <img src="/publish.svg" className="w-4 h-4" />
+          <img src="/src/assets/icons/publish.svg" className="w-4 h-4" />
           <h3 className="text-base font-bold text-green-700">Publish Approved Posts</h3>
           <div className="absolute -top-3 -right-2 text-center w-[30px] h-[30px] flex justify-center items-center rounded-full bg-[#046C4E]">
             <span className="text-[#82FFC9] text-base font-bold">{stats.approved}</span>
