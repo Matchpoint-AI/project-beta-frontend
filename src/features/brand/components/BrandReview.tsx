@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
-import FormsContainer from '../../../components/shared/FormsContainer';
+import FormsContainer from '../../../shared/components/layout/FormsContainer';
 import BrandDetailsReview from './BrandDetailsReview';
 import { BrandContext } from '../context/BrandContext';
-import Sidebar from '../../../components/shared/Sidebar';
+import Sidebar from '../../../shared/components/layout/Sidebar';
 import { FaEdit } from 'react-icons/fa';
 
 interface BrandReviewProps {

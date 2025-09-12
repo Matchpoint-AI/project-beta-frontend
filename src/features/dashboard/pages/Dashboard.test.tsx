@@ -15,7 +15,7 @@ vi.mock('../../../helpers/handleNavigate', () => ({
   default: vi.fn(),
 }));
 
-vi.mock('../../../components/shared/Sidebar', () => ({
+vi.mock('../../../shared/components/layout/Sidebar', () => ({
   default: () => <div data-testid="sidebar">Sidebar</div>,
 }));
 

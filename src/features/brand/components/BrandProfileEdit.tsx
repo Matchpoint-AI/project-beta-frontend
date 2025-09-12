@@ -7,7 +7,7 @@ import { BrandContext } from '../context/BrandContext';
 import { getServiceURL } from '../../../helpers/getServiceURL';
 import PurpleButton from '../../../shared/components/buttons/PurpleButton';
 import BrandDetailsInput from '../../../shared/components/inputs/BrandDetailsInput';
-import Sidebar from '../../../components/shared/Sidebar';
+import Sidebar from '../../../shared/components/layout/Sidebar';
 
 const description = {
   mission: 'The goal you want to achieve as a company',

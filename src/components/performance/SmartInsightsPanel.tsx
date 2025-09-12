@@ -384,7 +384,10 @@ export const SmartInsightsPanel: React.FC = () => {
           <div className="space-y-3">
             {summary.top_recommendations && summary.top_recommendations.length > 0 ? (
               summary.top_recommendations.map((rec, index) => (
-                <div key={index} className="flex justify-between items-center p-3 bg-gray-50 rounded">
+                <div
+                  key={index}
+                  className="flex justify-between items-center p-3 bg-gray-50 rounded"
+                >
                   <div>
                     <div className="font-medium">{rec.title}</div>
                     <div className="text-sm text-gray-600 capitalize">

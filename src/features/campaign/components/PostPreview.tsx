@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import PaginationImage from './PaginationImage';
 import { BsThreeDots } from 'react-icons/bs';
 import InstagramIcons from '../../../components/InstagramIcons';
-import Options from '../../../components/shared/Options';
+import Options from '../../../shared/components/ui/Options';
 import { BrandContext } from '../../brand/context/BrandContext';
 import ModifyPromptForm from './ModifyPromptForm';
 import { TiArrowMaximise } from 'react-icons/ti';

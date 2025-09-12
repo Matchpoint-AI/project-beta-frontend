@@ -1,5 +1,5 @@
 import React from 'react';
-import Sidebar from '../../../components/shared/Sidebar';
+import Sidebar from '../../../shared/components/layout/Sidebar';
 import UsersTable from '../components/UsersTable';
 
 export default function ManageUsers() {

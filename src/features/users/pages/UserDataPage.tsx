@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Sidebar from '../../../components/shared/Sidebar';
+import Sidebar from '../../../shared/components/layout/Sidebar';
 import useFetchUserData from '../hooks/useFetchUserData';
 import UserDataBlocks from '../components/UserDataBlocks';
 import { CircularProgress } from '@mui/material';
