@@ -89,11 +89,11 @@ describe('BrandDetailsBlock', () => {
     return render(
       <BrowserRouter>
         <BrandContext.Provider
-          value={{ 
-            businessInfo: defaultBusinessInfo, 
+          value={{
+            businessInfo: defaultBusinessInfo,
             setBusinessInfo: mockSetBusinessInfo,
             updateWorkflowState: mockUpdateWorkflowState,
-            clearWorkflow: mockClearWorkflow
+            clearWorkflow: mockClearWorkflow,
           }}
         >
           <BrandDetailsBlock category={category} />
@@ -219,11 +219,11 @@ describe('BrandDetailsBlock', () => {
       render(
         <BrowserRouter>
           <BrandContext.Provider
-            value={{ 
-              businessInfo: singleSelectedChip, 
+            value={{
+              businessInfo: singleSelectedChip,
               setBusinessInfo: mockSetBusinessInfo,
               updateWorkflowState: mockUpdateWorkflowState,
-              clearWorkflow: mockClearWorkflow
+              clearWorkflow: mockClearWorkflow,
             }}
           >
             <BrandDetailsBlock category="persona" />

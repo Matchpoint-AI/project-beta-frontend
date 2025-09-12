@@ -43,7 +43,9 @@ const mockBrandContextValue = {
     industry: 'Technology',
     vertical: 'SaaS',
   },
-  setBusinessInfo: mockSetBusinessInfo, updateWorkflowState: mockUpdateWorkflowState, clearWorkflow: mockClearWorkflow,
+  setBusinessInfo: mockSetBusinessInfo,
+  updateWorkflowState: mockUpdateWorkflowState,
+  clearWorkflow: mockClearWorkflow,
 };
 
 const mockAuthContextValue = {
