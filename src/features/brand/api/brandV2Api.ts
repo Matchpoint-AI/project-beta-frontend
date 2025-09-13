@@ -1,4 +1,4 @@
-import { getServiceURL } from '../../../helpers/getServiceURL';
+import { getServiceURL } from '../../../shared/utils/getServiceURL';
 
 // Types for the new API
 export interface BrandCreate {
