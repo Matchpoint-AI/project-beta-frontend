@@ -52,7 +52,7 @@ describe('LoadingModal', () => {
       // Assert
       const overlay = container.querySelector('.fixed.inset-0.bg-gray-800.bg-opacity-50');
       const modal = container.querySelector('.bg-white.p-8.rounded.shadow-lg');
-      
+
       expect(overlay).toBeInTheDocument();
       expect(modal).toBeInTheDocument();
       expect(overlay).toHaveClass('flex', 'justify-center', 'items-center', 'z-50');
@@ -77,8 +77,8 @@ describe('LoadingModal', () => {
       // Assert
       const checkmarks = container.querySelectorAll('svg.text-green-500');
       expect(checkmarks).toHaveLength(3);
-      
-      checkmarks.forEach(checkmark => {
+
+      checkmarks.forEach((checkmark) => {
         expect(checkmark).toHaveClass('h-5', 'w-5', 'text-green-500');
       });
     });
@@ -123,12 +123,12 @@ describe('LoadingModal', () => {
       render(<LoadingModal steps={mockSteps} isOpen={true} />);
 
       // Assert
-      const stepContainers = screen.getAllByText(/export|content/).map(text => 
-        text.closest('.flex.items-center.mb-4')
-      );
-      
+      const stepContainers = screen
+        .getAllByText(/export|content/)
+        .map((text) => text.closest('.flex.items-center.mb-4'));
+
       expect(stepContainers).toHaveLength(3);
-      stepContainers.forEach(container => {
+      stepContainers.forEach((container) => {
         expect(container).toHaveClass('flex', 'items-center', 'mb-4');
       });
     });
@@ -163,9 +163,7 @@ describe('LoadingModal', () => {
 
     it('should handle single step', () => {
       // Arrange
-      const singleStep = [
-        { label: 'Only step', loading: true, complete: false }
-      ];
+      const singleStep = [{ label: 'Only step', loading: true, complete: false }];
 
       // Act
       render(<LoadingModal steps={singleStep} isOpen={true} />);
@@ -193,7 +191,14 @@ describe('LoadingModal', () => {
 
       // Assert
       const overlay = container.firstChild;
-      expect(overlay).toHaveClass('fixed', 'inset-0', 'flex', 'justify-center', 'items-center', 'z-50');
+      expect(overlay).toHaveClass(
+        'fixed',
+        'inset-0',
+        'flex',
+        'justify-center',
+        'items-center',
+        'z-50'
+      );
     });
   });
 
@@ -204,7 +209,7 @@ describe('LoadingModal', () => {
 
       // Assert
       const progressIndicators = screen.getAllByTestId('circular-progress');
-      progressIndicators.forEach(indicator => {
+      progressIndicators.forEach((indicator) => {
         expect(indicator).toHaveAttribute('data-size', '20');
       });
     });
