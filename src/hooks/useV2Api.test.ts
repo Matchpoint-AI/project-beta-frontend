@@ -141,7 +141,10 @@ describe('useV2Api', () => {
       const campaign = await result.current.campaign.get('campaign-1');
 
       expect(campaign).toEqual(mockCampaign);
-      expect(mockCampaignApiV2.getCampaign).toHaveBeenCalledWith('campaign-1', 'mock-firebase-token');
+      expect(mockCampaignApiV2.getCampaign).toHaveBeenCalledWith(
+        'campaign-1',
+        'mock-firebase-token'
+      );
     });
 
     it('should create campaign successfully', async () => {
@@ -158,7 +161,10 @@ describe('useV2Api', () => {
       const campaign = await result.current.campaign.create(campaignData);
 
       expect(campaign).toEqual(mockCreatedCampaign);
-      expect(mockCampaignApiV2.createCampaign).toHaveBeenCalledWith(campaignData, 'mock-firebase-token');
+      expect(mockCampaignApiV2.createCampaign).toHaveBeenCalledWith(
+        campaignData,
+        'mock-firebase-token'
+      );
     });
 
     it('should update campaign successfully', async () => {
@@ -175,7 +181,11 @@ describe('useV2Api', () => {
       const campaign = await result.current.campaign.update('campaign-1', updateData);
 
       expect(campaign).toEqual(mockUpdatedCampaign);
-      expect(mockCampaignApiV2.updateCampaign).toHaveBeenCalledWith('campaign-1', updateData, 'mock-firebase-token');
+      expect(mockCampaignApiV2.updateCampaign).toHaveBeenCalledWith(
+        'campaign-1',
+        updateData,
+        'mock-firebase-token'
+      );
     });
 
     it('should delete campaign successfully', async () => {
@@ -190,7 +200,10 @@ describe('useV2Api', () => {
       const result_delete = await result.current.campaign.delete('campaign-1');
 
       expect(result_delete).toEqual({ success: true });
-      expect(mockCampaignApiV2.deleteCampaign).toHaveBeenCalledWith('campaign-1', 'mock-firebase-token');
+      expect(mockCampaignApiV2.deleteCampaign).toHaveBeenCalledWith(
+        'campaign-1',
+        'mock-firebase-token'
+      );
     });
 
     it('should generate content for campaign', async () => {
@@ -207,7 +220,11 @@ describe('useV2Api', () => {
       const content = await result.current.campaign.generateContent('campaign-1', options);
 
       expect(content).toEqual(mockContent);
-      expect(mockCampaignApiV2.generateContent).toHaveBeenCalledWith('campaign-1', options, 'mock-firebase-token');
+      expect(mockCampaignApiV2.generateContent).toHaveBeenCalledWith(
+        'campaign-1',
+        options,
+        'mock-firebase-token'
+      );
     });
 
     it('should generate content with default options', async () => {
@@ -223,7 +240,11 @@ describe('useV2Api', () => {
       const content = await result.current.campaign.generateContent('campaign-1');
 
       expect(content).toEqual(mockContent);
-      expect(mockCampaignApiV2.generateContent).toHaveBeenCalledWith('campaign-1', {}, 'mock-firebase-token');
+      expect(mockCampaignApiV2.generateContent).toHaveBeenCalledWith(
+        'campaign-1',
+        {},
+        'mock-firebase-token'
+      );
     });
 
     it('should get campaign content', async () => {
@@ -239,7 +260,10 @@ describe('useV2Api', () => {
       const content = await result.current.campaign.getContent('campaign-1');
 
       expect(content).toEqual(mockContent);
-      expect(mockCampaignApiV2.getCampaignContent).toHaveBeenCalledWith('campaign-1', 'mock-firebase-token');
+      expect(mockCampaignApiV2.getCampaignContent).toHaveBeenCalledWith(
+        'campaign-1',
+        'mock-firebase-token'
+      );
     });
 
     it('should list campaigns', async () => {
@@ -256,7 +280,10 @@ describe('useV2Api', () => {
       const campaigns = await result.current.campaign.list(filters);
 
       expect(campaigns).toEqual(mockCampaigns);
-      expect(mockCampaignApiV2.getUserCampaigns).toHaveBeenCalledWith('mock-firebase-token', filters);
+      expect(mockCampaignApiV2.getUserCampaigns).toHaveBeenCalledWith(
+        'mock-firebase-token',
+        filters
+      );
     });
   });
 
@@ -308,7 +335,11 @@ describe('useV2Api', () => {
       const brand = await result.current.brand.update('brand-1', updateData);
 
       expect(brand).toEqual(mockUpdatedBrand);
-      expect(mockBrandApiV2.updateBrand).toHaveBeenCalledWith('brand-1', updateData, 'mock-firebase-token');
+      expect(mockBrandApiV2.updateBrand).toHaveBeenCalledWith(
+        'brand-1',
+        updateData,
+        'mock-firebase-token'
+      );
     });
 
     it('should delete brand successfully', async () => {
@@ -373,7 +404,10 @@ describe('useV2Api', () => {
       const knowledge = await result.current.brand.getKnowledge('brand-1');
 
       expect(knowledge).toEqual(mockKnowledge);
-      expect(mockBrandApiV2.getBrandKnowledge).toHaveBeenCalledWith('brand-1', 'mock-firebase-token');
+      expect(mockBrandApiV2.getBrandKnowledge).toHaveBeenCalledWith(
+        'brand-1',
+        'mock-firebase-token'
+      );
     });
   });
 

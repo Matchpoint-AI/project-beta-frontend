@@ -28,12 +28,15 @@ global.fetch = mockFetch;
 
 // Helper to render hook with router
 const renderHookWithRouter = (userId: string = '123') => {
-  const wrapper = ({ children }: { children: React.ReactNode }) => (
-    React.createElement(MemoryRouter, {
-      initialEntries: [`/users/${userId}`],
-      initialIndex: 0
-    }, children)
-  );
+  const wrapper = ({ children }: { children: React.ReactNode }) =>
+    React.createElement(
+      MemoryRouter,
+      {
+        initialEntries: [`/users/${userId}`],
+        initialIndex: 0,
+      },
+      children
+    );
 
   return renderHook(() => useFetchUserData(), { wrapper });
 };
@@ -108,14 +111,11 @@ describe('useFetchUserData', () => {
 
     expect(data).toEqual(mockUserData);
     expect(loading).toBe(false);
-    expect(mockFetch).toHaveBeenCalledWith(
-      'http://localhost:8000/api/v1/users/123',
-      {
-        headers: {
-          Authorization: 'Bearer mock-token',
-        },
-      }
-    );
+    expect(mockFetch).toHaveBeenCalledWith('http://localhost:8000/api/v1/users/123', {
+      headers: {
+        Authorization: 'Bearer mock-token',
+      },
+    });
   });
 
   it('should not fetch when no user ID is provided', async () => {
@@ -125,7 +125,7 @@ describe('useFetchUserData', () => {
     renderHookWithRouter();
 
     // Wait a bit to ensure no fetch is called
-    await new Promise(resolve => setTimeout(resolve, 100));
+    await new Promise((resolve) => setTimeout(resolve, 100));
 
     expect(mockFetch).not.toHaveBeenCalled();
   });
@@ -155,7 +155,7 @@ describe('useFetchUserData', () => {
     const { result } = renderHookWithRouter();
 
     // Wait for the hook to process the error
-    await new Promise(resolve => setTimeout(resolve, 100));
+    await new Promise((resolve) => setTimeout(resolve, 100));
 
     const [data, loading] = result.current;
 
@@ -222,14 +222,11 @@ describe('useFetchUserData', () => {
       expect(mockFetch).toHaveBeenCalledTimes(2);
     });
 
-    expect(mockFetch).toHaveBeenLastCalledWith(
-      'http://localhost:8000/api/v1/users/123',
-      {
-        headers: {
-          Authorization: 'Bearer new-token',
-        },
-      }
-    );
+    expect(mockFetch).toHaveBeenLastCalledWith('http://localhost:8000/api/v1/users/123', {
+      headers: {
+        Authorization: 'Bearer new-token',
+      },
+    });
   });
 
   it('should handle retry functionality', async () => {
@@ -289,7 +286,7 @@ describe('useFetchUserData', () => {
     const { result } = renderHookWithRouter();
 
     // Wait for the hook to process the error
-    await new Promise(resolve => setTimeout(resolve, 100));
+    await new Promise((resolve) => setTimeout(resolve, 100));
 
     const [data, loading] = result.current;
 
@@ -328,14 +325,11 @@ describe('useFetchUserData', () => {
       expect(result.current[1]).toBe(false); // loading should be false
     });
 
-    expect(mockFetch).toHaveBeenCalledWith(
-      'http://localhost:8000/api/v1/users/456',
-      {
-        headers: {
-          Authorization: 'Bearer mock-token',
-        },
-      }
-    );
+    expect(mockFetch).toHaveBeenCalledWith('http://localhost:8000/api/v1/users/456', {
+      headers: {
+        Authorization: 'Bearer mock-token',
+      },
+    });
   });
 
   it('should handle campaigns with null thread_id', async () => {

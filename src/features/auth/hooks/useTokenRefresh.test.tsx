@@ -164,7 +164,11 @@ describe('useTokenRefresh', () => {
     };
 
     it('should make successful request with current token', async () => {
-      const mockResponse = { ok: true, status: 200, json: () => Promise.resolve({ success: true }) };
+      const mockResponse = {
+        ok: true,
+        status: 200,
+        json: () => Promise.resolve({ success: true }),
+      };
       mockFetch.mockResolvedValue(mockResponse);
 
       const { result } = renderHook(() => useTokenRefresh());
@@ -179,7 +183,7 @@ describe('useTokenRefresh', () => {
         ...testOptions,
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer old-token',
+          Authorization: 'Bearer old-token',
         },
       });
     });
@@ -216,7 +220,7 @@ describe('useTokenRefresh', () => {
         ...testOptions,
         headers: {
           'Custom-Header': 'custom-value',
-          'Authorization': 'Bearer should-be-overridden',
+          Authorization: 'Bearer should-be-overridden',
         },
       };
 
@@ -231,7 +235,7 @@ describe('useTokenRefresh', () => {
         headers: {
           'Content-Type': 'application/json',
           'Custom-Header': 'custom-value',
-          'Authorization': 'Bearer old-token',
+          Authorization: 'Bearer old-token',
         },
       });
     });
@@ -241,9 +245,7 @@ describe('useTokenRefresh', () => {
       const successResponse = { ok: true, status: 200 };
       const newToken = 'new-refreshed-token';
 
-      mockFetch
-        .mockResolvedValueOnce(unauthorizedResponse)
-        .mockResolvedValueOnce(successResponse);
+      mockFetch.mockResolvedValueOnce(unauthorizedResponse).mockResolvedValueOnce(successResponse);
       mockUser.getIdToken.mockResolvedValue(newToken);
 
       const { result } = renderHook(() => useTokenRefresh());
@@ -259,14 +261,14 @@ describe('useTokenRefresh', () => {
         ...testOptions,
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer old-token',
+          Authorization: 'Bearer old-token',
         },
       });
       expect(mockFetch).toHaveBeenNthCalledWith(2, testUrl, {
         ...testOptions,
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer new-refreshed-token',
+          Authorization: 'Bearer new-refreshed-token',
         },
       });
     });
@@ -279,9 +281,9 @@ describe('useTokenRefresh', () => {
       const { result } = renderHook(() => useTokenRefresh());
 
       await act(async () => {
-        await expect(
-          result.current.fetchWithTokenRefresh(testUrl, testOptions)
-        ).rejects.toThrow('Authentication failed. Please log in again.');
+        await expect(result.current.fetchWithTokenRefresh(testUrl, testOptions)).rejects.toThrow(
+          'Authentication failed. Please log in again.'
+        );
       });
 
       expect(mockLogout).toHaveBeenCalled();
@@ -329,9 +331,9 @@ describe('useTokenRefresh', () => {
       const { result } = renderHook(() => useTokenRefresh());
 
       await act(async () => {
-        await expect(
-          result.current.fetchWithTokenRefresh(testUrl, testOptions)
-        ).rejects.toThrow('Network error');
+        await expect(result.current.fetchWithTokenRefresh(testUrl, testOptions)).rejects.toThrow(
+          'Network error'
+        );
       });
     });
 
@@ -350,7 +352,7 @@ describe('useTokenRefresh', () => {
       expect(mockFetch).toHaveBeenCalledWith(testUrl, {
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer old-token',
+          Authorization: 'Bearer old-token',
         },
       });
     });
@@ -359,12 +361,14 @@ describe('useTokenRefresh', () => {
   describe('integration tests', () => {
     it('should handle complete token refresh flow', async () => {
       const unauthorizedResponse = { ok: false, status: 401 };
-      const successResponse = { ok: true, status: 200, json: () => Promise.resolve({ data: 'success' }) };
+      const successResponse = {
+        ok: true,
+        status: 200,
+        json: () => Promise.resolve({ data: 'success' }),
+      };
       const newToken = 'completely-new-token';
 
-      mockFetch
-        .mockResolvedValueOnce(unauthorizedResponse)
-        .mockResolvedValueOnce(successResponse);
+      mockFetch.mockResolvedValueOnce(unauthorizedResponse).mockResolvedValueOnce(successResponse);
       mockUser.getIdToken.mockResolvedValue(newToken);
 
       const { result } = renderHook(() => useTokenRefresh());

@@ -31,7 +31,8 @@ describe('useFetchThreadMessages', () => {
   it('should initialize with correct default values', () => {
     const { result } = renderHook(() => useFetchThreadMessages());
 
-    const [messages, openThreadWin, setOpenThreadWin, fetchMessages, addMessage, popMessage] = result.current;
+    const [messages, openThreadWin, setOpenThreadWin, fetchMessages, addMessage, popMessage] =
+      result.current;
 
     expect(messages).toBeNull();
     expect(openThreadWin).toBe(false);
@@ -64,14 +65,11 @@ describe('useFetchThreadMessages', () => {
       messages: mockMessages,
     });
     expect(openThreadWin).toBe(true);
-    expect(mockFetch).toHaveBeenCalledWith(
-      'http://localhost:8000/api/v1/threads/thread-123',
-      {
-        headers: {
-          Authorization: 'Bearer mock-token',
-        },
-      }
-    );
+    expect(mockFetch).toHaveBeenCalledWith('http://localhost:8000/api/v1/threads/thread-123', {
+      headers: {
+        Authorization: 'Bearer mock-token',
+      },
+    });
   });
 
   it('should not fetch messages when no token is available', async () => {
