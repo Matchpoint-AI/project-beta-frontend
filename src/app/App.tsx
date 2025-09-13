@@ -6,7 +6,7 @@ import { AuthProvider } from '../features/auth/context/AuthContext';
 import { withErrorBoundary } from 'react-error-boundary';
 import { RiErrorWarningLine } from 'react-icons/ri';
 import { useAuth } from '../features/auth/context/AuthContext';
-import posthog from "../shared/utils/posthog";
+import posthog from '../shared/utils/posthog';
 
 import './App.css';
 import BrandDataLoader from '../features/brand/components/BrandDataLoader';

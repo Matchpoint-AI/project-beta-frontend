@@ -1,4 +1,4 @@
-import { getServiceURL } from "../shared/utils/getServiceURL";
+import { getServiceURL } from '../shared/utils/getServiceURL';
 
 const CONTENT_GEN_URL = getServiceURL('content-gen');
 
