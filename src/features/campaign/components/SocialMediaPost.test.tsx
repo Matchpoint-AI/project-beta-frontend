@@ -57,11 +57,11 @@ Element.prototype.getBoundingClientRect = vi.fn(() => ({
 // --- END BROWSER API MOCKS ---
 
 // Mock dependencies
-vi.mock('../../../helpers/getServiceURL', () => ({
+vi.mock('../../../shared/utils/getServiceURL', () => ({
   getServiceURL: vi.fn(() => 'http://localhost:8000'),
 }));
 
-vi.mock('../../../helpers/posthog', () => ({
+vi.mock('../../../shared/utils/posthog', () => ({
   default: {
     __loaded: true,
     capture: vi.fn(),

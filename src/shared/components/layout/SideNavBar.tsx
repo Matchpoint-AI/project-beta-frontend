@@ -10,8 +10,8 @@ import { PiUsersBold } from 'react-icons/pi';
 import { TbSparkles } from 'react-icons/tb';
 import Cookies from 'universal-cookie';
 import { useAuth } from '../../../features/auth/context/AuthContext';
-import posthog from '../../../helpers/posthog';
-import handleNavigate from '../../../helpers/handleNavigate';
+import posthog from '../../utils/posthog';
+import handleNavigate from '../../utils/handleNavigate';
 
 export default function SideNavBar({
   className,

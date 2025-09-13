@@ -14,7 +14,7 @@ vi.mock('../../../features/auth/context/AuthContext', () => ({
   }),
 }));
 
-vi.mock('../../../helpers/getServiceURL', () => ({
+vi.mock('../../../shared/utils/getServiceURL', () => ({
   getServiceURL: () => 'http://test-url',
 }));
 

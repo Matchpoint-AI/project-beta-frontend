@@ -2,7 +2,7 @@ import JSZip from 'jszip';
 import { jsPDF } from 'jspdf';
 import { Document, HeadingLevel, Packer, Paragraph } from 'docx';
 import emojiRegex from 'emoji-regex';
-import { getServiceURL } from '../helpers/getServiceURL';
+import { getServiceURL } from "./getServiceURL";
 
 // Helper function to safely access nested object properties
 const safeProp = (obj: Record<string, unknown>, path: string): string => {

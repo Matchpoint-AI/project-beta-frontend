@@ -1,5 +1,5 @@
 import { useLocation } from 'react-router-dom';
-import { getServiceURL } from '../helpers/getServiceURL';
+import { getServiceURL } from "../shared/utils/getServiceURL";
 import InstagramIcon from '../shared/components/ui/InstagramIcon';
 import React, { useEffect } from 'react';
 

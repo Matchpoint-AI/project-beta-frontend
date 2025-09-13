@@ -12,10 +12,10 @@ import Sidebar from '../../../shared/components/layout/Sidebar';
 import { useAuth } from '../../auth/context/AuthContext';
 import { BrandContext } from '../../brand/context/BrandContext';
 import { CampaignContext } from '../context/CampaignContext';
-import { getServiceURL } from '../../../helpers/getServiceURL';
-import { displayPeriod } from '../../../helpers/calculateTiming';
-import handleNavigate from '../../../helpers/handleNavigate';
-import { trackCampaignBriefCreation, trackFeatureUsage } from '../../../helpers/analytics';
+import { getServiceURL } from '../../../shared/utils/getServiceURL';
+import { displayPeriod } from '../../../shared/utils/calculateTiming';
+import handleNavigate from '../../../shared/utils/handleNavigate';
+import { trackCampaignBriefCreation, trackFeatureUsage } from '../../../shared/utils/analytics';
 
 interface CampaignInfo {
   currentStep?: number;

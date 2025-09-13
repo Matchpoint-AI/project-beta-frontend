@@ -5,14 +5,14 @@ import { BrowserRouter } from 'react-router-dom';
 import EmptyDashboard from './EmptyDashboard';
 import { CampaignContext } from '../../campaign/context/CampaignContext';
 import { useAuth } from '../../auth/context/AuthContext';
-import handleNavigate from '../../../helpers/handleNavigate';
+import handleNavigate from '../../../shared/utils/handleNavigate';
 
 // Mock dependencies
 vi.mock('../../auth/context/AuthContext', () => ({
   useAuth: vi.fn(),
 }));
 
-vi.mock('../../../helpers/handleNavigate', () => ({
+vi.mock('../../../shared/utils/handleNavigate', () => ({
   default: vi.fn(),
 }));
 

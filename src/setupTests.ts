@@ -13,7 +13,7 @@ vi.mock('./firebase-config', () => ({
 // Global mock for scrapeProduct
 try {
   if (typeof vi !== 'undefined') {
-    vi.mock('./helpers/scrapeProduct', () => ({
+    vi.mock('./features/onboarding/utils/scrapeProduct', () => ({
       default: vi.fn().mockResolvedValue({
         name: 'Test Product',
         description: 'Test Description',

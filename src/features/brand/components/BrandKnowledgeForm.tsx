@@ -23,7 +23,7 @@ import FormsContainer from '../../../shared/components/layout/FormsContainer';
 import NextButton from '../../../shared/components/buttons/NextButton';
 import BackButton from '../../../shared/components/buttons/BackButton';
 // import ColorPicker from '../../../shared/components/ui/ColorPicker';
-import { getServiceURL } from '../../../helpers/getServiceURL';
+import { getServiceURL } from '../../../shared/utils/getServiceURL';
 
 // Types matching backend brand_knowledge.py models
 interface BrandPersonality {

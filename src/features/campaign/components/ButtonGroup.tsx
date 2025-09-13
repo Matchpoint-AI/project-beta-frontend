@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 // import CampaignStats from "./CampaignStats";
 // import CampaignReviewButton from "./CampaignReviewButton";
 // import { useAuth } from "../../../features/auth/context/AuthContext";
-// import { getServiceURL } from "../../../helpers/getServiceURL";
+// import { getServiceURL } from "../../../shared/utils/getServiceURL";
 import InstaConnect from '../../../shared/components/buttons/InstaConnect';
 import TabItems from './TabItems';
 // import CardStats from "./CardStats";

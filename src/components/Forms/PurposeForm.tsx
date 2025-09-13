@@ -8,7 +8,7 @@ import Dropdown from '../../features/campaign/components/CampaignDropdown';
 import LanguageSelector from '../../features/campaign/components/LanguageSelector';
 import { BrandContext } from '../../features/brand/context/BrandContext';
 import { useAuth } from '../../features/auth/context/AuthContext';
-import posthog from '../../helpers/posthog';
+import posthog from '../../shared/utils/posthog';
 
 interface PurposeFormProps {
   handleNext?: (step?: number) => void;

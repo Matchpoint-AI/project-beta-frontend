@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaArrowRightLong } from 'react-icons/fa6';
 import { CampaignContext } from '../../../features/campaign/context/CampaignContext';
-import handleNavigate from '../../../helpers/handleNavigate';
+import handleNavigate from '../../../shared/utils/handleNavigate';
 import { useAuth } from '../../../features/auth/context/AuthContext';
 
 const ExportPopup = ({ campaignName, onClose }: { campaignName: string; onClose: () => void }) => {

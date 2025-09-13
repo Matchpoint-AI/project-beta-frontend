@@ -1,6 +1,6 @@
-import { getServiceURL } from '../../../helpers/getServiceURL';
+import { getServiceURL } from '../../../shared/utils/getServiceURL';
 import { BusinessInfo } from '../context/BrandContext';
-import convertToChipsArray from '../../../helpers/convertToChips';
+import convertToChipsArray from '../../../shared/utils/convertToChips';
 
 const scrapeBrandWebsite = async (
   businessInfo: BusinessInfo,

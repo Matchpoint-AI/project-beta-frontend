@@ -22,7 +22,7 @@ import { CircularProgress } from '@mui/material';
 import { useAuth } from '../../auth/context/AuthContext';
 import scrapeProductDefault from '../utils/scrapeProduct';
 
-import posthog from '../../../helpers/posthog';
+import posthog from '../../../shared/utils/posthog';
 
 interface CampaignContextType {
   campaignInfo: {

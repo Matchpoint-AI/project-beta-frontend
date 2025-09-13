@@ -14,7 +14,7 @@ vi.mock('../utils/scrapeProduct', () => ({
 const mockScrapeProduct = vi.mocked(scrapeProduct);
 
 // Mock the posthog helper
-vi.mock('../../../helpers/posthog', () => ({
+vi.mock('../../../shared/utils/posthog', () => ({
   default: {
     __loaded: false,
     capture: vi.fn(),

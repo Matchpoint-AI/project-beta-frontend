@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Week, Post } from '../../../types/ContentLibrary';
 // import { useAuth } from "../../../features/auth/context/AuthContext";
-// import { getServiceURL } from "../../../helpers/getServiceURL";
+// import { getServiceURL } from "../../../shared/utils/getServiceURL";
 // import { useParams } from "react-router-dom";
 // import { CampaignContext } from "../../../context/CampaignContext";
 // import Dropdown from "../../../shared/components/ui/Dropdown";

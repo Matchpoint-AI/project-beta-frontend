@@ -4,7 +4,7 @@ import { RiErrorWarningLine } from 'react-icons/ri';
 
 import Sidebar from '../shared/components/layout/Sidebar';
 import { useAuth } from '../features/auth/context/AuthContext';
-import fetchPrompts from '../helpers/fetchPrompts';
+import fetchPrompts from "../shared/utils/fetchPrompts";
 import { PromptEditor } from '../features/campaign';
 
 export interface Prompt {

@@ -1,13 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Sidebar from '../../../shared/components/layout/Sidebar';
 import { useAuth } from '../../auth/context/AuthContext';
-import { getServiceURL } from '../../../helpers/getServiceURL';
+import { getServiceURL } from '../../../shared/utils/getServiceURL';
 import { BrandContext } from '../../brand/context/BrandContext';
 import { CircularProgress } from '@mui/material';
 import { RiErrorWarningLine } from 'react-icons/ri';
 import CampaignsList from '../components/CampaignsList';
 import { useNavigate } from 'react-router-dom';
-import handleNavigate from '../../../helpers/handleNavigate';
+import handleNavigate from '../../../shared/utils/handleNavigate';
 import PerformancePredictionDashboard from '../../../components/performance/PerformancePredictionDashboard';
 import { FaFlask, FaExternalLinkAlt } from 'react-icons/fa';
 

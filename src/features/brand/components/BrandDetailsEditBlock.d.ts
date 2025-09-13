@@ -1,4 +1,4 @@
-import { Chip } from '../../../helpers/convertToChips';
+import { Chip } from '../../../shared/utils/convertToChips';
 interface BrandDetailsEditBlockProps {
     category: 'mission' | 'persona' | 'values' | 'toneAndVoice';
     initValues: Chip[];

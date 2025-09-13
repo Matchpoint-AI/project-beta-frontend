@@ -5,7 +5,7 @@ import PromotionComponent from './PromotionComponent';
 import { useNavigate } from 'react-router-dom';
 import { CampaignContext } from '../../../features/campaign/context/CampaignContext';
 import { BrandContext } from '../../brand/context/BrandContext';
-import handleNavigate from '../../../helpers/handleNavigate';
+import handleNavigate from '../../../shared/utils/handleNavigate';
 import { useAuth } from '../../auth/context/AuthContext';
 
 interface Campaign {

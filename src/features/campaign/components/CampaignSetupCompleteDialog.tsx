@@ -8,9 +8,9 @@ import Dialog from '@mui/material/Dialog';
 import { useAuth } from '../../../features/auth/context/AuthContext';
 import { BrandContext } from '../../brand/context/BrandContext';
 import { CampaignContext } from '../../../features/campaign/context/CampaignContext';
-import { getServiceURL } from '../../../helpers/getServiceURL';
-import handleNavigate from '../../../helpers/handleNavigate';
-import posthog from '../../../helpers/posthog';
+import { getServiceURL } from '../../../shared/utils/getServiceURL';
+import handleNavigate from '../../../shared/utils/handleNavigate';
+import posthog from '../../../shared/utils/posthog';
 import { plannerApi, policyApi } from '../../../api/contentGenerationApi';
 
 interface Props {

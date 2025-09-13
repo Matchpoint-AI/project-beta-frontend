@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import { BrandContext } from '../context/BrandContext';
 import EditBlock from '../../../shared/components/ui/EditBlock';
 import ChipComponent from '../../../shared/components/ui/ChipComponent';
-import { Chip } from '../../../helpers/convertToChips';
+import { Chip } from '../../../shared/utils/convertToChips';
 import BrandDetailsEditBlock from './BrandDetailsEditBlock';
 import ReportProblemOutlinedIcon from '@mui/icons-material/ReportProblemOutlined';
 import { Selectable } from '../context/BrandContext';

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { getServiceURL } from '../../helpers/getServiceURL';
+import { getServiceURL } from '../utils/getServiceURL';
 import { useAuth } from '../../features/auth/context/AuthContext';
 export type Messages = {
   thread_id: string;

@@ -1,4 +1,4 @@
-import { getServiceURL } from '../../../helpers/getServiceURL';
+import { getServiceURL } from '../../../shared/utils/getServiceURL';
 
 interface ScrapedProduct {
   name: string;
