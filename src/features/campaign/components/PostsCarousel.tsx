@@ -1,12 +1,5 @@
-import React from 'react';
-// import "@splidejs/react-splide/css"; // Import default Splide CSS
-// import { Splide, SplideSlide } from "@splidejs/react-splide";
+import React, { useState } from 'react';
 import SocialMediaPost from './SocialMediaPost';
-
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import { Navigation } from 'swiper/modules';
 
 interface Post {
   approved: boolean;
@@ -52,36 +45,71 @@ const PostsCarousel = ({
   handleApprovalUpdate,
   selectedImages,
   setSelectedImages,
-}: PostsCarouselProps) => (
-  <Swiper
-    slidesPerView={3} // Show 3 posts at a time
-    spaceBetween={10} // Space between slides
-    navigation={true} // Enables arrows
-    modules={[Navigation]}
-    className="w-full"
-  >
-    {content.posts.map((post, postIndex) => (
-      <SwiperSlide key={postIndex}>
-        <SocialMediaPost
-          day={index}
-          postIndex={postIndex + 1}
-          postingTime={postingTimes[postIndex] || 'Unscheduled'}
-          setOpen={setOpen}
-          brandName={brandName}
-          id={generatedContentId}
-          week={week}
-          content={post}
-          updataImage={updataImage}
-          onApprovalUpdate={(postId, isApproved) =>
-            handleApprovalUpdate(week - 1, index, String(postId), isApproved)
-          }
-          selectedImages={selectedImages}
-          setSelectedImages={setSelectedImages}
-        />
-      </SwiperSlide>
-    ))}
-  </Swiper>
-);
+}: PostsCarouselProps) => {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const postsPerView = 3;
+  const totalSlides = Math.ceil(content.posts.length / postsPerView);
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % totalSlides);
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + totalSlides) % totalSlides);
+  };
+
+  return (
+    <div className="w-full relative">
+      {totalSlides > 1 && (
+        <>
+          <button
+            onClick={prevSlide}
+            className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-white shadow-lg rounded-full p-2 hover:bg-gray-50"
+            aria-label="Previous posts"
+          >
+            ←
+          </button>
+          <button
+            onClick={nextSlide}
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-white shadow-lg rounded-full p-2 hover:bg-gray-50"
+            aria-label="Next posts"
+          >
+            →
+          </button>
+        </>
+      )}
+      <div className="overflow-hidden">
+        <div
+          className="flex transition-transform duration-300 ease-in-out gap-2"
+          style={{
+            transform: `translateX(-${currentSlide * 100}%)`,
+          }}
+        >
+          {content.posts.map((post, postIndex) => (
+            <div key={postIndex} className="flex-none w-1/3">
+              <SocialMediaPost
+                day={index}
+                postIndex={postIndex + 1}
+                postingTime={postingTimes[postIndex] || 'Unscheduled'}
+                setOpen={setOpen}
+                brandName={brandName}
+                id={generatedContentId}
+                week={week}
+                content={post}
+                updataImage={updataImage}
+                onApprovalUpdate={(postId, isApproved) =>
+                  handleApprovalUpdate(week - 1, index, String(postId), isApproved)
+                }
+                selectedImages={selectedImages}
+                setSelectedImages={setSelectedImages}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
 
 // const PostsCarousel = ({
 //   content,

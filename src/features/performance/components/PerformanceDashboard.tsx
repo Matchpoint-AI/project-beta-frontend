@@ -16,7 +16,7 @@ import {
 import { Bar, Doughnut } from 'react-chartjs-2';
 import { AlertTriangle, TrendingUp, TrendingDown, Minus, Activity } from 'lucide-react';
 
-import { performanceApi } from '../../api/performanceApi';
+import { performanceApi } from '../../../api/performanceApi';
 
 // Register Chart.js components
 ChartJS.register(
