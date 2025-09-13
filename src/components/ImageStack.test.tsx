@@ -80,8 +80,8 @@ describe('ImageStack', () => {
       // Assert
       const images = screen.getAllByRole('img');
       expect(images).toHaveLength(3);
-      
-      images.forEach(img => {
+
+      images.forEach((img) => {
         expect(img.tagName).toBe('IMG');
       });
     });
@@ -103,7 +103,7 @@ describe('ImageStack', () => {
 
       // Assert
       const images = screen.getAllByRole('img');
-      
+
       expect(images[0]).toHaveAttribute('alt', 'First');
       expect(images[1]).toHaveAttribute('alt', 'Second');
       expect(images[2]).toHaveAttribute('alt', 'Third');
