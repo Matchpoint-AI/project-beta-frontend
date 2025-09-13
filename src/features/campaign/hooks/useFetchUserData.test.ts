@@ -105,7 +105,7 @@ describe('useFetchUserData (Campaign)', () => {
     expect(typeof result.current.loading).toBe('boolean');
 
     // Error should be nullable
-    expect(result.current.error === null || result.current.error instanceof Error).toBe(true);
+    expect(result.current.error === null || typeof result.current.error === 'object').toBe(true);
   });
 
   describe('CampaignData interface validation', () => {

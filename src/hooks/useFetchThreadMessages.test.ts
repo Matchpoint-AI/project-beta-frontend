@@ -108,41 +108,31 @@ describe('useFetchThreadMessages', () => {
   it('should add message to existing messages', () => {
     const { result } = renderHook(() => useFetchThreadMessages());
 
-    // First set some initial messages
-    act(() => {
-      result.current[0] = {
-        thread_id: 'thread-123',
-        messages: ['Hello'],
-      };
-    });
-
+    // Note: We can't directly mutate the hook's state, so we test that the function exists
+    // and can be called without errors
     act(() => {
       const [, , , , addMessage] = result.current;
       addMessage('New message');
     });
 
-    // Note: Since we can't directly mutate the state, we need to test the function behavior
-    // In a real scenario, this would update the messages array
+    // Function should exist and be callable
+    const [, , , , addMessage] = result.current;
+    expect(typeof addMessage).toBe('function');
   });
 
   it('should pop message from existing messages', () => {
     const { result } = renderHook(() => useFetchThreadMessages());
 
-    // First set some initial messages
-    act(() => {
-      result.current[0] = {
-        thread_id: 'thread-123',
-        messages: ['Hello', 'World'],
-      };
-    });
-
+    // Note: We can't directly mutate the hook's state, so we test that the function exists
+    // and can be called without errors
     act(() => {
       const [, , , , , popMessage] = result.current;
       popMessage();
     });
 
-    // Note: Since we can't directly mutate the state, we need to test the function behavior
-    // In a real scenario, this would remove the last message
+    // Function should exist and be callable
+    const [, , , , , popMessage] = result.current;
+    expect(typeof popMessage).toBe('function');
   });
 
   it('should handle addMessage when messages is null', () => {
