@@ -3,9 +3,6 @@ import { getServiceURL } from '../../../helpers/getServiceURL';
 // Types for the new API
 export interface BrandCreate {
   name: string;
-  // Website will trigger automatic scraping workflow
-  website?: string;
-  maxPages?: number;
 }
 
 export interface BrandUpdate {
@@ -17,8 +14,8 @@ export interface BrandResponse {
   id: string;
   name: string;
   status: 'active' | 'inactive';
-  created_at: string;
-  updated_at: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface WorkflowRequest {
@@ -266,25 +263,34 @@ export const brandV2Api = {
     onProgress?: (step: string, progress?: number) => void
   ): Promise<{ brand: BrandResponse; knowledge: BrandKnowledge }> {
     try {
-      // Step 1: Create brand with website (triggers automatic workflow)
-      onProgress?.('Creating brand and starting analysis...', 0.1);
+      // Step 1: Create brand (no longer triggers automatic workflow)
+      onProgress?.('Creating brand...', 0.1);
       const brand = await this.createBrand(
         {
           name,
-          website,
+        },
+        token
+      );
+
+      // Step 2: Create workflow for the brand
+      onProgress?.('Starting website analysis workflow...', 0.2);
+      await this.createWorkflow(
+        brand.id,
+        {
+          sources: [website],
           maxPages,
         },
         token
       );
 
-      // Step 2: Wait for workflow completion with progress updates
+      // Step 3: Wait for workflow completion with progress updates
       await this.waitForWorkflowCompletion(brand.id, token, (workflowStatus) => {
         const step = workflowStatus.currentStep || 'processing';
-        const progress = Math.max(0.2, Math.min(0.9, workflowStatus.progress || 0.5));
+        const progress = Math.max(0.3, Math.min(0.9, workflowStatus.progress || 0.5));
         onProgress?.(`${step}...`, progress);
       });
 
-      // Step 3: Get extracted knowledge
+      // Step 4: Get extracted knowledge
       onProgress?.('Retrieving brand knowledge...', 0.95);
       const knowledge = await this.getKnowledge(brand.id, token);
 

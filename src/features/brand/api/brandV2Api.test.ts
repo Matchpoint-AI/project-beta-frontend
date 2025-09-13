@@ -21,16 +21,14 @@ describe('brandV2Api', () => {
       // Arrange
       const brandData: BrandCreate = {
         name: 'Test Brand',
-        website: 'https://test.com',
-        maxPages: 50,
       };
 
       const mockResponse = {
         id: 'brand-123',
         name: 'Test Brand',
         status: 'active',
-        created_at: '2024-01-01T00:00:00Z',
-        updated_at: '2024-01-01T00:00:00Z',
+        createdAt: '2024-01-01T00:00:00Z',
+        updatedAt: '2024-01-01T00:00:00Z',
       };
 
       mockFetch.mockResolvedValueOnce({
@@ -57,7 +55,6 @@ describe('brandV2Api', () => {
       // Arrange
       const brandData: BrandCreate = {
         name: 'Test Brand',
-        website: 'https://test.com',
       };
 
       mockFetch.mockResolvedValueOnce({
@@ -81,8 +78,8 @@ describe('brandV2Api', () => {
         id: 'brand-123',
         name: 'Test Brand',
         status: 'active',
-        created_at: '2024-01-01T00:00:00Z',
-        updated_at: '2024-01-01T00:00:00Z',
+        createdAt: '2024-01-01T00:00:00Z',
+        updatedAt: '2024-01-01T00:00:00Z',
       };
 
       mockFetch.mockResolvedValueOnce({
@@ -127,15 +124,15 @@ describe('brandV2Api', () => {
           id: 'brand-1',
           name: 'Brand 1',
           status: 'active',
-          created_at: '2024-01-01T00:00:00Z',
-          updated_at: '2024-01-01T00:00:00Z',
+          createdAt: '2024-01-01T00:00:00Z',
+          updatedAt: '2024-01-01T00:00:00Z',
         },
         {
           id: 'brand-2',
           name: 'Brand 2',
           status: 'inactive',
-          created_at: '2024-01-02T00:00:00Z',
-          updated_at: '2024-01-02T00:00:00Z',
+          createdAt: '2024-01-02T00:00:00Z',
+          updatedAt: '2024-01-02T00:00:00Z',
         },
       ];
 
@@ -170,8 +167,8 @@ describe('brandV2Api', () => {
         id: 'brand-123',
         name: 'Updated Brand',
         status: 'inactive',
-        created_at: '2024-01-01T00:00:00Z',
-        updated_at: '2024-01-02T00:00:00Z',
+        createdAt: '2024-01-01T00:00:00Z',
+        updatedAt: '2024-01-02T00:00:00Z',
       };
 
       mockFetch.mockResolvedValueOnce({
