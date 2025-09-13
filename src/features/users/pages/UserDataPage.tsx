@@ -7,7 +7,7 @@ import { RiErrorWarningLine } from 'react-icons/ri';
 import { getServiceURL } from '../../../helpers/getServiceURL';
 import { CampaignContentWin, CampaignThreadWin } from '../../campaign';
 import { useAuth } from '../../auth/context/AuthContext';
-import useFetchThreadMessages from '../../../hooks/useFetchThreadMessages';
+import useFetchThreadMessages from '../../../shared/hooks/useFetchThreadMessages';
 
 export type Post = {
   text: string;

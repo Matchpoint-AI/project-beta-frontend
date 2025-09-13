@@ -1,7 +1,7 @@
 import React, { useState, useContext, MouseEventHandler, useEffect } from 'react';
 import { CircularProgress } from '@mui/material';
-import { BrandContext } from '../features/brand/context/BrandContext';
-import { SparklesMessage } from '../shared/components/ui/SparklesMessage';
+import { BrandContext } from '../context/BrandContext';
+import { SparklesMessage } from '../../../shared/components/ui/SparklesMessage';
 
 interface ErrorState {
   error: boolean;

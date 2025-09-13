@@ -2,7 +2,7 @@ import React, { FormEventHandler, useContext, useEffect, useRef, useState } from
 import { CampaignContext } from '../../features/campaign/context/CampaignContext';
 import FormsContainer from '../../shared/components/layout/FormsContainer';
 import NextButton from '../../shared/components/buttons/NextButton';
-import WebsiteOwnership from '../WebsiteOwnership';
+import WebsiteOwnership from '../../features/brand/components/WebsiteOwnership';
 import CampaignFormInput from '../../shared/components/inputs/CampaignFormInput';
 import Dropdown from '../../features/campaign/components/CampaignDropdown';
 import LanguageSelector from '../../features/campaign/components/LanguageSelector';

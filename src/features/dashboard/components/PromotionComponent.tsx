@@ -9,7 +9,7 @@ import handleNavigate from '../../../helpers/handleNavigate';
 import { useAuth } from '../../auth/context/AuthContext';
 import { GiElectric } from 'react-icons/gi';
 import CampaignThreadWin from '../../campaign/components/CampaignThreadWin';
-import useFetchThreadMessages from '../../../hooks/useFetchThreadMessages';
+import useFetchThreadMessages from '../../../shared/hooks/useFetchThreadMessages';
 import { CircularProgress } from '@mui/material';
 
 interface Campaign {
