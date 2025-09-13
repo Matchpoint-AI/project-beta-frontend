@@ -1,5 +1,5 @@
 import React from 'react';
-import LandingInput from '../../shared/components/inputs/LandingInput';
+import LandingInput from '../../../shared/components/inputs/LandingInput';
 
 const Contact = () => {
   // TODO functionality of saving data and sending email

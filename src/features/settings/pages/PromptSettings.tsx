@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { CircularProgress } from '@mui/material';
 import { RiErrorWarningLine } from 'react-icons/ri';
 
-import Sidebar from '../shared/components/layout/Sidebar';
-import { useAuth } from '../features/auth/context/AuthContext';
-import fetchPrompts from '../shared/utils/fetchPrompts';
-import { PromptEditor } from '../features/campaign';
+import Sidebar from '../../../shared/components/layout/Sidebar';
+import { useAuth } from '../../auth/context/AuthContext';
+import fetchPrompts from '../../../shared/utils/fetchPrompts';
+import { PromptEditor } from '../../campaign';
 
 export interface Prompt {
   prompt: string;
