@@ -39,7 +39,7 @@ vi.mock('react-chartjs-2', () => ({
 }));
 
 // Mock UI components
-vi.mock('../../../components/ui/LoadingSpinner', () => ({
+vi.mock('../../../shared/components/ui/LoadingSpinner', () => ({
   LoadingSpinner: vi.fn(({ size }) => (
     <div data-testid="loading-spinner" data-size={size}>
       Loading...
@@ -47,7 +47,7 @@ vi.mock('../../../components/ui/LoadingSpinner', () => ({
   )),
 }));
 
-vi.mock('../../../components/ui/Card', () => ({
+vi.mock('../../../shared/components/ui/Card', () => ({
   Card: vi.fn(({ children, className, ...props }) => (
     <div data-testid="card" className={className} {...props}>
       {children}
@@ -55,7 +55,7 @@ vi.mock('../../../components/ui/Card', () => ({
   )),
 }));
 
-vi.mock('../../../components/ui/Badge', () => ({
+vi.mock('../../../shared/components/ui/Badge', () => ({
   Badge: vi.fn(({ children, variant }) => (
     <span data-testid="badge" data-variant={variant}>
       {children}
@@ -63,7 +63,7 @@ vi.mock('../../../components/ui/Badge', () => ({
   )),
 }));
 
-vi.mock('../../../components/ui/Button', () => ({
+vi.mock('../../../shared/components/ui/Button', () => ({
   Button: vi.fn(({ children, onClick, variant, size, ...props }) => (
     <button
       data-testid="button"
