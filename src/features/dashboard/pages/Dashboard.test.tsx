@@ -43,7 +43,7 @@ vi.mock('../components/CampaignsList', () => ({
 }));
 
 // Mock the PerformancePredictionDashboard component
-vi.mock('../../../components/performance/PerformancePredictionDashboard', () => ({
+vi.mock('../../performance/components/PerformancePredictionDashboard', () => ({
   default: () => <div data-testid="performance-prediction">Performance Prediction Dashboard</div>,
 }));
 

@@ -8,7 +8,7 @@ import { RiErrorWarningLine } from 'react-icons/ri';
 import CampaignsList from '../components/CampaignsList';
 import { useNavigate } from 'react-router-dom';
 import handleNavigate from '../../../shared/utils/handleNavigate';
-import PerformancePredictionDashboard from '../../../components/performance/PerformancePredictionDashboard';
+import PerformancePredictionDashboard from '../../performance/components/PerformancePredictionDashboard';
 import { FaFlask, FaExternalLinkAlt } from 'react-icons/fa';
 
 const Dashboard = () => {
