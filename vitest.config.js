@@ -69,7 +69,7 @@ export default defineConfig({
         // Future PRs can incrementally increase these thresholds toward 75% target
         statements: 38.5,
         branches: 67.7,
-        functions: 37,
+        functions: 38.5,
         lines: 38.5,
       },
     },
