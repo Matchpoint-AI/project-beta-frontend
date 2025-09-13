@@ -1,4 +1,4 @@
-import { getServiceURL } from '../helpers/getServiceURL';
+import { getServiceURL } from '../shared/utils/getServiceURL';
 import axios from 'axios';
 import useApi from './useApi';
 

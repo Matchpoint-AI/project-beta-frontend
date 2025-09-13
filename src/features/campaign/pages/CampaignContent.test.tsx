@@ -7,20 +7,20 @@ import { AuthContext } from '../../auth/context/AuthContext';
 import { CampaignContext } from '../../../features/campaign/context/CampaignContext';
 
 // Mock the modules
-vi.mock('../../../helpers/getServiceURL', () => ({
+vi.mock('../../../shared/utils/getServiceURL', () => ({
   getServiceURL: vi.fn(() => 'http://localhost:8080'),
 }));
 
-vi.mock('../../../helpers/calculateTiming', () => ({
+vi.mock('../../../shared/utils/calculateTiming', () => ({
   displayDuration: vi.fn(() => 'Dec 1 - Dec 28, 2024'),
   getPostingSchedule: vi.fn(() => 'Daily'),
 }));
 
-vi.mock('../../../helpers/formatters', () => ({
+vi.mock('../../../shared/utils/formatters', () => ({
   capitalizeFirstLetterOfEachWord: vi.fn((str) => str),
 }));
 
-vi.mock('../../../helpers/analytics', () => ({
+vi.mock('../../../shared/utils/analytics', () => ({
   trackContentReview: vi.fn(),
   trackCampaignPublish: vi.fn(),
 }));

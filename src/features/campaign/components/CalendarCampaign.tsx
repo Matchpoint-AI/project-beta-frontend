@@ -9,7 +9,7 @@ import MonthHeader from './MonthHeader';
 import EventWrapper from './EventWrapper';
 import { useAuth } from '../../../features/auth/context/AuthContext';
 import { useParams } from 'react-router-dom';
-import { getServiceURL } from '../../../helpers/getServiceURL';
+import { getServiceURL } from '../../../shared/utils/getServiceURL';
 
 interface Campaign {
   campaign_id: string;

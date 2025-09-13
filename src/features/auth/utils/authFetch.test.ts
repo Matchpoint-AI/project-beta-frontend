@@ -1,9 +1,9 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { authFetch, getAuthToken, authApi } from './authFetch';
-import { getServiceURL } from '../../../helpers/getServiceURL';
+import { getServiceURL } from '../../../shared/utils/getServiceURL';
 
 // Mock dependencies
-vi.mock('../../../helpers/getServiceURL', () => ({
+vi.mock('../../../shared/utils/getServiceURL', () => ({
   getServiceURL: vi.fn((service) => `http://localhost:8000/${service}`),
 }));
 

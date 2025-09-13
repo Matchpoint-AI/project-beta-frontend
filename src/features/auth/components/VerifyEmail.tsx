@@ -6,7 +6,7 @@ import { IoMdCheckmarkCircleOutline } from 'react-icons/io';
 import { RiErrorWarningLine } from 'react-icons/ri';
 import { useAuthentication } from '../../../lib/firebase';
 import { CircularProgress } from '@mui/material';
-import { getServiceURL } from '../../../helpers/getServiceURL';
+import { getServiceURL } from '../../../shared/utils/getServiceURL';
 import Cookies from 'universal-cookie';
 
 interface VerifyEmailProps {

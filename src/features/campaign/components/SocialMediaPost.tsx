@@ -3,13 +3,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PaginationImage from './PaginationImage';
 import { useAuth } from '../../../features/auth/context/AuthContext';
-import { getServiceURL } from '../../../helpers/getServiceURL';
+import { getServiceURL } from '../../../shared/utils/getServiceURL';
 import { CircularProgress, Dialog, DialogContent, Menu, MenuItem } from '@mui/material';
 import ErrorToast from '../../../shared/components/feedback/ErrorToast';
 import moment from 'moment-timezone';
 import { FaCheck } from 'react-icons/fa';
 import { IoMdCheckmark, IoMdRefresh } from 'react-icons/io';
-import posthog from '../../../helpers/posthog';
+import posthog from '../../../shared/utils/posthog';
 import { MdClose, MdModeEdit, MdOutlineClose, MdOutlinePublishedWithChanges } from 'react-icons/md';
 import { MdCancel } from 'react-icons/md';
 import ModifyPrompt from './ModifyPrompt';
@@ -21,7 +21,7 @@ import { IoClose } from 'react-icons/io5';
 import { captionApi } from '../../../api/contentGenerationApi';
 import QualityScoreIndicator from './QualityScoreIndicator';
 
-// import { trackFeatureUsage } from "../helpers/analytics";
+// import { trackFeatureUsage } from "../shared/utils/analytics";
 
 interface Post {
   approved: boolean;

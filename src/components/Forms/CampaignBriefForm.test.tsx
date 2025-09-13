@@ -156,17 +156,17 @@ vi.mock('dayjs', () => ({
 }));
 
 // Mock the getServiceURL helper
-vi.mock('../../helpers/getServiceURL', () => ({
+vi.mock('../../shared/utils/getServiceURL', () => ({
   getServiceURL: (service: string) => `https://mock-${service}-service.com`,
 }));
 
 // Mock the analytics helper
-vi.mock('../../helpers/analytics', () => ({
+vi.mock('../../shared/utils/analytics', () => ({
   trackCampaignBriefCreation: vi.fn(),
 }));
 
 // Mock the handleNavigate helper
-vi.mock('../../helpers/handleNavigate', () => ({
+vi.mock('../../shared/utils/handleNavigate', () => ({
   default: vi.fn(),
 }));
 

@@ -26,11 +26,11 @@ vi.mock('pdfjs-dist/build/pdf.worker.mjs?worker&url', () => ({
   default: 'mock-worker-url',
 }));
 
-vi.mock('../../../helpers/getServiceURL', () => ({
+vi.mock('../../../shared/utils/getServiceURL', () => ({
   getServiceURL: vi.fn(() => 'http://mock-service'),
 }));
 
-vi.mock('../../../helpers/analytics', () => ({
+vi.mock('../../../shared/utils/analytics', () => ({
   trackBrandGuideUpload: vi.fn(),
 }));
 
@@ -268,7 +268,7 @@ describe('BrandForm', () => {
 
     it('should track PDF upload analytics', async () => {
       // Arrange
-      const { trackBrandGuideUpload } = await import('../../../helpers/analytics');
+      const { trackBrandGuideUpload } = await import('../../../shared/utils/analytics');
       renderComponent();
       const pdfInput = screen.getByTestId('pdf-input');
       const pdfFile = createFile('pdf content', 'brand-guide.pdf', 'application/pdf');
@@ -302,7 +302,7 @@ describe('BrandForm', () => {
 
     it('should track logo upload analytics', async () => {
       // Arrange
-      const { trackBrandGuideUpload } = await import('../../../helpers/analytics');
+      const { trackBrandGuideUpload } = await import('../../../shared/utils/analytics');
       renderComponent();
       const logoInput = screen.getByTestId('image-input');
       const logoFile = new File(['logo'], 'logo.png', { type: 'image/png' });

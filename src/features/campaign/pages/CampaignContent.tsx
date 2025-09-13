@@ -1,18 +1,18 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Sidebar from '../../../shared/components/layout/Sidebar';
 import { useAuth } from '../../auth/context/AuthContext';
-import { getServiceURL } from '../../../helpers/getServiceURL';
+import { getServiceURL } from '../../../shared/utils/getServiceURL';
 import { useNavigate, useParams } from 'react-router-dom';
-import { displayDuration, getPostingSchedule } from '../../../helpers/calculateTiming';
+import { displayDuration, getPostingSchedule } from '../../../shared/utils/calculateTiming';
 import { CampaignHeader, ButtonGroup, ApprovePopup, TabWrapper } from '../../../features/campaign';
-import { capitalizeFirstLetterOfEachWord } from '../../../helpers/formatters';
-import { trackContentReview, trackCampaignPublish } from '../../../helpers/analytics';
+import { capitalizeFirstLetterOfEachWord } from '../../../shared/utils/formatters';
+import { trackContentReview, trackCampaignPublish } from '../../../shared/utils/analytics';
 import {
   CampaignContext,
   CampaignInfoType,
 } from '../../../features/campaign/context/CampaignContext';
 import type { Campaign } from '../components/TabWrapper';
-import handleNavigate from '../../../helpers/handleNavigate';
+import handleNavigate from '../../../shared/utils/handleNavigate';
 
 const CampaignContent = () => {
   const [currentTab, setCurrentTab] = React.useState(1);

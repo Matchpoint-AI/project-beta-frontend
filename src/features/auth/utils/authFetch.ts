@@ -3,7 +3,7 @@
  * This ensures ALL API calls to backend services include proper authentication
  */
 
-import { getServiceURL } from '../../../helpers/getServiceURL';
+import { getServiceURL } from '../../../shared/utils/getServiceURL';
 
 type Service = 'data' | 'llm' | 'content-gen' | 'campaign-manager';
 

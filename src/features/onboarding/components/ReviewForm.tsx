@@ -1,7 +1,7 @@
 import React, { FormEventHandler, useContext, useEffect, useState } from 'react';
 import { BrandContext } from '../../brand/context/BrandContext';
 import BackButton from '../../../shared/components/buttons/BackButton';
-import { getServiceURL } from '../../../helpers/getServiceURL';
+import { getServiceURL } from '../../../shared/utils/getServiceURL';
 import { CircularProgress } from '@mui/material';
 import FormsContainer from '../../../shared/components/layout/FormsContainer';
 import BrandDetailsReview from '../../brand/components/BrandDetailsReview';

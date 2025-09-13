@@ -10,7 +10,7 @@ import FormsContainer from '../../shared/components/layout/FormsContainer';
 import BackButton from '../../shared/components/buttons/BackButton';
 import ApproveButton from '../../shared/components/buttons/ApproveButton';
 import CampaignSetupCompleteDialog from '../../features/campaign/components/CampaignSetupCompleteDialog';
-import { getServiceURL } from '../../helpers/getServiceURL';
+import { getServiceURL } from '../../shared/utils/getServiceURL';
 import { SparklesMessage } from '../../shared/components/ui/SparklesMessage';
 import CampaignBriefTimingBlock from '../../features/campaign/components/CampaignBriefTimingBlock';
 import dayjs from 'dayjs';
@@ -18,9 +18,9 @@ import { MdEdit } from 'react-icons/md';
 import CampaignDetails from '../../features/campaign/components/CampaignDetails';
 import CampaignSchedule from '../../features/campaign/components/CampaignSchedule';
 import CampaignDetailsBlock from '../../features/campaign/components/CampaignDetailsBlock';
-import handleNavigate from '../../helpers/handleNavigate';
+import handleNavigate from '../../shared/utils/handleNavigate';
 import { useAuth } from '../../features/auth/context/AuthContext';
-import { trackCampaignBriefCreation } from '../../helpers/analytics';
+import { trackCampaignBriefCreation } from '../../shared/utils/analytics';
 
 type CampaignBriefFormProps = {
   onClose?: () => void;

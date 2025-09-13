@@ -7,7 +7,7 @@ import { BrandContext } from '../../features/brand/context/BrandContext';
 import { AuthContext } from '../../features/auth/context/AuthContext';
 
 // Mock dependencies
-vi.mock('../../helpers/posthog', () => ({
+vi.mock('../../shared/utils/posthog', () => ({
   default: {
     __loaded: false,
     capture: vi.fn(),

@@ -10,7 +10,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import FormsContainer from '../../shared/components/layout/FormsContainer';
 import BackButton from '../../shared/components/buttons/BackButton';
 import NextButton from '../../shared/components/buttons/NextButton';
-import posthog from '../../helpers/posthog';
+import posthog from '../../shared/utils/posthog';
 import { useAuth } from '../../features/auth/context/AuthContext';
 
 interface TimingFormProps {

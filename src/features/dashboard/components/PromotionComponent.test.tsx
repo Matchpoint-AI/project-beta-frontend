@@ -7,7 +7,7 @@ import { AuthContext } from '../../auth/context/AuthContext';
 import { CampaignContext } from '../../../features/campaign/context/CampaignContext';
 
 // Mock the modules
-vi.mock('../../../helpers/handleNavigate', () => ({
+vi.mock('../../../shared/utils/handleNavigate', () => ({
   default: vi.fn(),
 }));
 
@@ -223,7 +223,7 @@ describe('PromotionComponent', () => {
     renderWithContext(mockCampaign, 'Current');
     const contentLibraryButton = screen.getByText('Content Library');
     fireEvent.click(contentLibraryButton);
-    const handleNavigate = (await import('../../../helpers/handleNavigate')).default;
+    const handleNavigate = (await import('../../../shared/utils/handleNavigate')).default;
     expect(handleNavigate).toHaveBeenCalledWith(
       'test-user-id',
       '/campaign/content/test-campaign-1',

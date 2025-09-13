@@ -29,14 +29,14 @@ vi.mock('../../users/utils/registerUser', () => ({
   default: vi.fn(),
 }));
 
-vi.mock('../../../helpers/posthog', () => ({
+vi.mock('../../../shared/utils/posthog', () => ({
   default: {
     __loaded: false,
     capture: vi.fn(),
   },
 }));
 
-vi.mock('../../../helpers/getServiceURL', () => ({
+vi.mock('../../../shared/utils/getServiceURL', () => ({
   getServiceURL: vi.fn(() => 'http://localhost:8000'),
 }));
 

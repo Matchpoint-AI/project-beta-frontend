@@ -4,7 +4,7 @@ import PostPreview from './PostPreview';
 import { useAuth } from '../../../features/auth/context/AuthContext';
 import { IoIosArrowBack } from 'react-icons/io';
 import { IoIosArrowForward } from 'react-icons/io';
-import { getServiceURL } from '../../../helpers/getServiceURL';
+import { getServiceURL } from '../../../shared/utils/getServiceURL';
 import { CircularProgress, Dialog, DialogContent } from '@mui/material';
 import ErrorToast from '../../../shared/components/feedback/ErrorToast';
 import moment from 'moment-timezone';

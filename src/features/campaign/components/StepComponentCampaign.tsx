@@ -5,9 +5,9 @@ import { useNavigate } from 'react-router-dom';
 // import { getAuth } from "firebase/auth";
 // import { useAuthentication } from "../firebase";
 import { useAuth } from '../../auth/context/AuthContext';
-import { getServiceURL } from '../../../helpers/getServiceURL';
+import { getServiceURL } from '../../../shared/utils/getServiceURL';
 import { CircularProgress } from '@mui/material';
-import handleNavigate from '../../../helpers/handleNavigate';
+import handleNavigate from '../../../shared/utils/handleNavigate';
 import scrapeProduct from '../../onboarding/utils/scrapeProduct';
 
 interface StepCampaignProps {

@@ -1,7 +1,7 @@
 // TabItems.tsx
 
 import React from 'react';
-import { getServiceURL } from '../../../helpers/getServiceURL';
+import { getServiceURL } from '../../../shared/utils/getServiceURL';
 import { useParams } from 'react-router-dom';
 import { useAuth } from '../../../features/auth/context/AuthContext';
 import { MdCalendarToday } from 'react-icons/md';

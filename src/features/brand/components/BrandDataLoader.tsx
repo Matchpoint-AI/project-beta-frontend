@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { getServiceURL } from '../../../helpers/getServiceURL';
+import { getServiceURL } from '../../../shared/utils/getServiceURL';
 import { useAuth } from '../../auth/context/AuthContext';
 import { BrandContext } from '../context/BrandContext';
 // import { useNavigate } from "react-router-dom";
 
 import { RiErrorWarningLine } from 'react-icons/ri';
-import convertToChipsArray from '../../../helpers/convertToChips';
+import convertToChipsArray from '../../../shared/utils/convertToChips';
 
 export default function BrandDataLoader({ children }: { children: React.ReactNode }) {
   const { profile } = useAuth();

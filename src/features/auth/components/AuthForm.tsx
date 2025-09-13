@@ -7,11 +7,11 @@ import {
 import { useAuthentication } from '../../../lib/firebase';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import posthog from '../../../helpers/posthog';
+import posthog from '../../../shared/utils/posthog';
 import { useAuth } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
 import Cookies from 'universal-cookie';
-import { getServiceURL } from '../../../helpers/getServiceURL';
+import { getServiceURL } from '../../../shared/utils/getServiceURL';
 import { FirebaseError } from 'firebase/app';
 import registerUser from '../../users/utils/registerUser';
 import { CircularProgress } from '@mui/material';

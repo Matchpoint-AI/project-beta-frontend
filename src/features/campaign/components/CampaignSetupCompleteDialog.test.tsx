@@ -11,10 +11,10 @@ import { plannerApi, policyApi } from '../../../api/contentGenerationApi';
 // Mock dependencies
 vi.mock('../../../features/auth/context/AuthContext');
 vi.mock('react-router-dom');
-vi.mock('../../../helpers/getServiceURL', () => ({
+vi.mock('../../../shared/utils/getServiceURL', () => ({
   getServiceURL: () => 'https://mock-service.com',
 }));
-vi.mock('../../../helpers/handleNavigate', () => ({
+vi.mock('../../../shared/utils/handleNavigate', () => ({
   default: vi.fn(),
 }));
 vi.mock('../../../api/contentGenerationApi', () => ({

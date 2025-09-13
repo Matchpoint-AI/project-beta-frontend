@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { CampaignContext } from '../../../features/campaign/context/CampaignContext';
 import CardStats from './CardStats';
 import CampaignReviewButton from './CampaignReviewButton';
-import handleNavigate from '../../../helpers/handleNavigate';
+import handleNavigate from '../../../shared/utils/handleNavigate';
 import { useAuth } from '../../auth/context/AuthContext';
 import { GiElectric } from 'react-icons/gi';
 import CampaignThreadWin from '../../campaign/components/CampaignThreadWin';
