@@ -4,7 +4,7 @@ import { FaRegEdit } from 'react-icons/fa';
 import { LuFileMinus } from 'react-icons/lu';
 import { useAuth } from '../../auth/context/AuthContext';
 import { BrandContext } from '../context/BrandContext';
-import { getServiceURL } from '../../../helpers/getServiceURL';
+import { getServiceURL } from '../../../shared/utils/getServiceURL';
 import PurpleButton from '../../../shared/components/buttons/PurpleButton';
 import BrandDetailsInput from '../../../shared/components/inputs/BrandDetailsInput';
 import Sidebar from '../../../shared/components/layout/Sidebar';

@@ -14,7 +14,7 @@ vi.mock('../utils/scrapeProduct', () => ({
 const mockScrapeProduct = vi.mocked(scrapeProduct);
 
 // Mock the posthog helper
-vi.mock('../../../helpers/posthog', () => ({
+vi.mock('../../../shared/utils/posthog', () => ({
   default: {
     __loaded: false,
     capture: vi.fn(),
@@ -96,7 +96,7 @@ vi.mock('./KeyFeatures', () => ({
 }));
 
 // Mock the WebsiteOwnership component
-vi.mock('../../../components/WebsiteOwnership', () => ({
+vi.mock('../../brand/components/WebsiteOwnership', () => ({
   default: () => <div data-testid="website-ownership" />,
 }));
 

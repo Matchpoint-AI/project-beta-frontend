@@ -5,7 +5,7 @@ import { useAuthentication } from '../../../lib/firebase';
 import { useNavigate } from 'react-router-dom';
 import { CircularProgress } from '@mui/material';
 import { FirebaseError } from 'firebase/app';
-import posthog from '../../../helpers/posthog';
+import posthog from '../../../shared/utils/posthog';
 import { useAuth } from '../context/AuthContext';
 
 interface ToastState {

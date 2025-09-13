@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CampaignContext } from '../../../features/campaign/context/CampaignContext';
 import { useAuth } from '../../auth/context/AuthContext';
-import handleNavigate from '../../../helpers/handleNavigate';
+import handleNavigate from '../../../shared/utils/handleNavigate';
 
 interface Campaign {
   campaign_id: string;

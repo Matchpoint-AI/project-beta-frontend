@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PurpleButton from '../../../shared/components/buttons/PurpleButton';
 import { CircularProgress } from '@mui/material';
 import ErrorToast from '../../../shared/components/feedback/ErrorToast';
-import { getServiceURL } from '../../../helpers/getServiceURL';
+import { getServiceURL } from '../../../shared/utils/getServiceURL';
 import { useAuth } from '../../../features/auth/context/AuthContext';
 
 interface SavePromptBtnProps {

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { CampaignContext } from '../../../features/campaign/context/CampaignContext';
-import { getServiceURL } from '../../../helpers/getServiceURL';
+import { getServiceURL } from '../../../shared/utils/getServiceURL';
 import { useAuth } from '../../../features/auth/context/AuthContext';
 import { CircularProgress } from '@mui/material';
 import CampaignDetailsBlock from './CampaignDetailsBlock';

@@ -8,11 +8,11 @@ import ReviewForm from './ReviewForm';
 import { CampaignContext } from '../../campaign/context/CampaignContext';
 import OnboardStepsBar from './OnboardStepsBar';
 import { useAuth } from '../../auth/context/AuthContext';
-import { getServiceURL } from '../../../helpers/getServiceURL';
+import { getServiceURL } from '../../../shared/utils/getServiceURL';
 import BusinessForm from './BusinessForm';
 import ErrorToast from '../../../shared/components/feedback/ErrorToast';
 import StepContainer from './StepContainer';
-import handleNavigate from '../../../helpers/handleNavigate';
+import handleNavigate from '../../../shared/utils/handleNavigate';
 
 const Onboard = ({ edit = false }: any) => {
   const { setCampaignInfo }: any = useContext(CampaignContext);

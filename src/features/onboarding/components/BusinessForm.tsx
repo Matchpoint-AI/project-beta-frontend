@@ -2,7 +2,7 @@ import React, { FormEventHandler, useContext, useEffect, useState } from 'react'
 
 import FormsContainer from '../../../shared/components/layout/FormsContainer';
 import { BrandContext } from '../../brand/context/BrandContext';
-import WebsiteOwnership from '../../../components/WebsiteOwnership';
+import WebsiteOwnership from '../../brand/components/WebsiteOwnership';
 import NextButton from '../../../shared/components/buttons/NextButton';
 import IndustryVertical from './IndustryVertical';
 import WebsiteScrapingForm from './WebsiteScrapingForm';

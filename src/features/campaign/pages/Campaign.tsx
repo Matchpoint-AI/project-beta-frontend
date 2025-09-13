@@ -3,19 +3,19 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import CampaignStepsBar from '../components/CampaignStepsBar';
 import CustomComponent from '../components/CustomComponent';
 import ErrorToast from '../../../shared/components/feedback/ErrorToast';
-import AudienceForm from '../../../components/Forms/AudienceForm';
-import CampaignBriefForm from '../../../components/Forms/CampaignBriefForm';
-import PurposeForm from '../../../components/Forms/PurposeForm';
+import AudienceForm from '../components/AudienceForm';
+import CampaignBriefForm from '../components/CampaignBriefForm';
+import PurposeForm from '../components/PurposeForm';
 import ServiceForm from '../../onboarding/components/ServiceForm';
-import TimingForm from '../../../components/Forms/TimingForm';
+import TimingForm from '../components/TimingForm';
 import Sidebar from '../../../shared/components/layout/Sidebar';
 import { useAuth } from '../../auth/context/AuthContext';
 import { BrandContext } from '../../brand/context/BrandContext';
 import { CampaignContext } from '../context/CampaignContext';
-import { getServiceURL } from '../../../helpers/getServiceURL';
-import { displayPeriod } from '../../../helpers/calculateTiming';
-import handleNavigate from '../../../helpers/handleNavigate';
-import { trackCampaignBriefCreation, trackFeatureUsage } from '../../../helpers/analytics';
+import { getServiceURL } from '../../../shared/utils/getServiceURL';
+import { displayPeriod } from '../../../shared/utils/calculateTiming';
+import handleNavigate from '../../../shared/utils/handleNavigate';
+import { trackCampaignBriefCreation, trackFeatureUsage } from '../../../shared/utils/analytics';
 
 interface CampaignInfo {
   currentStep?: number;

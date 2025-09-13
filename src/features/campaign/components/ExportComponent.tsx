@@ -3,22 +3,22 @@ import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
 import { useAuth } from '../../../features/auth/context/AuthContext';
 import { useParams } from 'react-router-dom';
-import { getServiceURL } from '../../../helpers/getServiceURL';
+import { getServiceURL } from '../../../shared/utils/getServiceURL';
 import LoadingModal from '../../../components/ExportLoading';
 import {
   createImageThumbnailsPDF,
   createWordDocument,
   fetchAndCreatePDF,
   organizeAndSavePosts,
-} from '../../../helpers/exportUtils';
+} from '../../../shared/utils/exportUtils';
 import WeekSelector from './WeekSelector';
 import ExportButton from './ExportButton';
 import ErrorDisplay from '../../../shared/components/feedback/ErrorDisplay';
 // import ApproveButton from '../ApproveButton';
 import ErrorToast from '../../../shared/components/feedback/ErrorToast';
 import ExportPopup from './ExportPopup';
-import { capitalizeFirstLetterOfEachWord, structureData } from '../../../helpers/formatters';
-import posthog from '../../../helpers/posthog';
+import { capitalizeFirstLetterOfEachWord, structureData } from '../../../shared/utils/formatters';
+import posthog from '../../../shared/utils/posthog';
 import { CampaignInfoType } from '../../../features/campaign/context/CampaignContext';
 // import ApprovePopup from "./ApprovePopup";
 // import { CircularProgress } from "@mui/material";

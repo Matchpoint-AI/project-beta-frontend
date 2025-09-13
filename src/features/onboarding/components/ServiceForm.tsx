@@ -11,7 +11,7 @@ import Dropdown from '../../../shared/components/ui/Dropdown';
 import { CampaignContext } from '../../campaign/context/CampaignContext';
 import { BrandContext } from '../../brand/context/BrandContext';
 import FormsContainer from '../../../shared/components/layout/FormsContainer';
-import WebsiteOwnership from '../../../components/WebsiteOwnership';
+import WebsiteOwnership from '../../brand/components/WebsiteOwnership';
 import NextButton from '../../../shared/components/buttons/NextButton';
 import BackButton from '../../../shared/components/buttons/BackButton';
 import KeyFeatures from './KeyFeatures';
@@ -22,7 +22,7 @@ import { CircularProgress } from '@mui/material';
 import { useAuth } from '../../auth/context/AuthContext';
 import scrapeProductDefault from '../utils/scrapeProduct';
 
-import posthog from '../../../helpers/posthog';
+import posthog from '../../../shared/utils/posthog';
 
 interface CampaignContextType {
   campaignInfo: {

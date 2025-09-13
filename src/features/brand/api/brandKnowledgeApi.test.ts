@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { brandKnowledgeApi, BrandKnowledgeData } from './brandKnowledgeApi';
 
 // Mock getServiceURL
-vi.mock('../../../helpers/getServiceURL', () => ({
+vi.mock('../../../shared/utils/getServiceURL', () => ({
   getServiceURL: vi.fn(() => 'http://mock-content-gen'),
 }));
 

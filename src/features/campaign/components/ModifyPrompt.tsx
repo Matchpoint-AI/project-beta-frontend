@@ -1,7 +1,7 @@
 import React, { FormEventHandler, useEffect, useState } from 'react';
 import { useAuth } from '../../../features/auth/context/AuthContext';
 import { Button, Dialog, DialogContent, TextField } from '@mui/material';
-import { getServiceURL } from '../../../helpers/getServiceURL';
+import { getServiceURL } from '../../../shared/utils/getServiceURL';
 import Cookies from 'universal-cookie';
 import { PiArrowsClockwiseBold } from 'react-icons/pi';
 import styled from '@emotion/styled';

@@ -1,6 +1,6 @@
 import { BusinessInfo } from '../context/BrandContext';
 import { brandV2Api, BrandKnowledge } from '../api/brandV2Api';
-import convertToChipsArray from '../../../helpers/convertToChips';
+import convertToChipsArray from '../../../shared/utils/convertToChips';
 
 interface ScrapeBrandWebsiteOptions {
   maxPages?: number;
@@ -48,7 +48,7 @@ const scrapeBrandWebsite = async (
   setBusinessInfo: React.Dispatch<React.SetStateAction<BusinessInfo>>,
   options: ScrapeBrandWebsiteOptions
 ) => {
-  const { maxPages = 50, onProgress, token } = options;
+  const { onProgress, token } = options;
 
   if (!businessInfo.name || !businessInfo.website) {
     throw new Error('Brand name and website are required');
@@ -60,7 +60,6 @@ const scrapeBrandWebsite = async (
       businessInfo.name,
       businessInfo.website,
       token,
-      maxPages,
       onProgress
     );
 

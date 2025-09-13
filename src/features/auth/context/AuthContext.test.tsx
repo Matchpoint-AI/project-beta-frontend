@@ -17,7 +17,7 @@ vi.mock('../../../firebase', () => ({
   useAuthentication: vi.fn(() => ({ user: null })),
 }));
 
-vi.mock('../../../helpers/getServiceURL', () => ({
+vi.mock('../../../shared/utils/getServiceURL', () => ({
   getServiceURL: vi.fn(() => 'http://localhost:8000'),
 }));
 

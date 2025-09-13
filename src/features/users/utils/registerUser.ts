@@ -1,5 +1,5 @@
-import { getServiceURL } from '../../../helpers/getServiceURL';
-import posthog from '../../../helpers/posthog';
+import { getServiceURL } from '../../../shared/utils/getServiceURL';
+import posthog from '../../../shared/utils/posthog';
 
 export default async function registerUser(email: string, name: string, password: string) {
   const endpointUrl = getServiceURL('data');

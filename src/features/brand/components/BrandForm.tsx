@@ -10,9 +10,9 @@ import pdfWorker from 'pdfjs-dist/build/pdf.worker.mjs?worker&url';
 import CircularProgress from '@mui/material/CircularProgress';
 import BackButton from '../../../shared/components/buttons/BackButton';
 import NextButton from '../../../shared/components/buttons/NextButton';
-import { getServiceURL } from '../../../helpers/getServiceURL';
+import { getServiceURL } from '../../../shared/utils/getServiceURL';
 import { LuPlus } from 'react-icons/lu';
-import { trackBrandGuideUpload } from '../../../helpers/analytics';
+import { trackBrandGuideUpload } from '../../../shared/utils/analytics';
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker;
 

@@ -1,9 +1,9 @@
 import React, { FC, useContext } from 'react';
-import AudienceForm from '../../../components/Forms/AudienceForm';
+import AudienceForm from './AudienceForm';
 // import CampaignSetupCompleteDialog from "./CampaignSetupCompleteDialog";
-import PurposeForm from '../../../components/Forms/PurposeForm';
+import PurposeForm from './PurposeForm';
 import ServiceForm from '../../onboarding/components/ServiceForm';
-import TimingForm from '../../../components/Forms/TimingForm';
+import TimingForm from './TimingForm';
 import { CampaignContext } from '../context/CampaignContext';
 
 interface CustomDialogProps {

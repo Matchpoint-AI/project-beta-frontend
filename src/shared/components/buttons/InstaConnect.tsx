@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { getServiceURL } from '../../../helpers/getServiceURL';
+import { getServiceURL } from '../../utils/getServiceURL';
 import { useAuth } from '../../../features/auth/context/AuthContext';
-import useAppContext from '../../../context/appContext';
+import useAppContext from '../../context/appContext';
 import useIntegrationApi, {
   authenticateApp,
   getAvailableIntegrations,

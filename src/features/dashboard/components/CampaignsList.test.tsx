@@ -8,7 +8,7 @@ import { BrandContext } from '../../brand/context/BrandContext';
 import { CampaignContext } from '../../../features/campaign/context/CampaignContext';
 
 // Mock the modules
-vi.mock('../../../helpers/handleNavigate', () => ({
+vi.mock('../../../shared/utils/handleNavigate', () => ({
   default: vi.fn(),
 }));
 
@@ -211,7 +211,7 @@ describe('CampaignsList Component', () => {
     const newCampaignButton = screen.getByText('New Campaign');
     fireEvent.click(newCampaignButton);
 
-    const handleNavigate = (await import('../../../helpers/handleNavigate')).default;
+    const handleNavigate = (await import('../../../shared/utils/handleNavigate')).default;
     expect(handleNavigate).toHaveBeenCalledWith('test-user-id', '/campaign', expect.any(Function));
   });
 

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { CampaignContext } from '../../../features/campaign/context/CampaignContext';
 import { AiOutlineArrowRight } from 'react-icons/ai';
 import { useAuth } from '../../auth/context/AuthContext';
-import handleNavigate from '../../../helpers/handleNavigate';
+import handleNavigate from '../../../shared/utils/handleNavigate';
 
 const EmptyDashboard = () => {
   const navigate = useNavigate();

@@ -6,12 +6,12 @@ import { AuthProvider } from '../features/auth/context/AuthContext';
 import { withErrorBoundary } from 'react-error-boundary';
 import { RiErrorWarningLine } from 'react-icons/ri';
 import { useAuth } from '../features/auth/context/AuthContext';
-import posthog from '../helpers/posthog';
+import posthog from '../shared/utils/posthog';
 
 import './App.css';
 import BrandDataLoader from '../features/brand/components/BrandDataLoader';
 import AppRoutes from './AppRoutes';
-import { AppProvider } from '../context/appContext';
+import { AppProvider } from '../shared/context/appContext';
 import { UsersContextProvider } from '../features/users/context/UsersContext';
 import VersionDisplay from '../shared/components/feedback/VersionDisplay';
 

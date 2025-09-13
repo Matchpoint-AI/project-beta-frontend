@@ -16,7 +16,7 @@ vi.mock('../lib/firebase', () => ({
 }));
 
 // Mock PostHog
-vi.mock('../helpers/posthog', () => ({
+vi.mock('../shared/utils/posthog', () => ({
   default: {
     __loaded: false,
     capture: vi.fn(),

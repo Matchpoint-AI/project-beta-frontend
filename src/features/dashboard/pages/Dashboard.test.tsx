@@ -7,11 +7,11 @@ import { AuthContext } from '../../auth/context/AuthContext';
 import { BrandContext } from '../../brand/context/BrandContext';
 
 // Mock the modules with proper paths and implementations
-vi.mock('../../../helpers/getServiceURL', () => ({
+vi.mock('../../../shared/utils/getServiceURL', () => ({
   getServiceURL: vi.fn(() => 'http://localhost:8080'),
 }));
 
-vi.mock('../../../helpers/handleNavigate', () => ({
+vi.mock('../../../shared/utils/handleNavigate', () => ({
   default: vi.fn(),
 }));
 
@@ -43,7 +43,7 @@ vi.mock('../components/CampaignsList', () => ({
 }));
 
 // Mock the PerformancePredictionDashboard component
-vi.mock('../../../components/performance/PerformancePredictionDashboard', () => ({
+vi.mock('../../performance/components/PerformancePredictionDashboard', () => ({
   default: () => <div data-testid="performance-prediction">Performance Prediction Dashboard</div>,
 }));
 
@@ -225,7 +225,7 @@ describe('Dashboard Component', () => {
     await new Promise((resolve) => setTimeout(resolve, 100));
 
     // Assert - The handleNavigate mock should NOT have been called
-    const handleNavigate = (await import('../../../helpers/handleNavigate')).default;
+    const handleNavigate = (await import('../../../shared/utils/handleNavigate')).default;
     expect(handleNavigate).not.toHaveBeenCalled();
   });
 });
