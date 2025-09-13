@@ -6,7 +6,7 @@ import useIntegrationApi, {
   revokeAuthApp,
 } from '../../../api/api-integrations';
 import React, { useEffect, useState } from 'react';
-import useAppContext from '../../../context/appContext';
+import useAppContext from '../../context/appContext';
 import { getServiceURL } from '../../../helpers/getServiceURL';
 import { useAuth } from '../../../features/auth/context/AuthContext';
 

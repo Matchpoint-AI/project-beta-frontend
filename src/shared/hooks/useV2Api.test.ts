@@ -2,7 +2,7 @@ import { renderHook, waitFor, act } from '@testing-library/react';
 import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { useV2Api } from './useV2Api';
 import { getAuth } from 'firebase/auth';
-import { initializeV2Api, campaignApiV2, brandApiV2 } from '../api/v2';
+import { initializeV2Api, campaignApiV2, brandApiV2 } from '../../api/v2';
 
 // Mock Firebase auth
 vi.mock('firebase/auth', () => ({
@@ -10,7 +10,7 @@ vi.mock('firebase/auth', () => ({
 }));
 
 // Mock V2 API modules
-vi.mock('../api/v2', () => ({
+vi.mock('../../api/v2', () => ({
   initializeV2Api: vi.fn(),
   campaignApiV2: {
     getCampaign: vi.fn(),

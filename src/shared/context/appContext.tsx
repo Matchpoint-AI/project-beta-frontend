@@ -1,5 +1,5 @@
 import React, { createContext, useContext } from 'react';
-import useIntegrationApi, { getAvailableIntegrations } from '../api/api-integrations';
+import useIntegrationApi, { getAvailableIntegrations } from '../../api/api-integrations';
 
 type TAppContext = {
   integrations: {
