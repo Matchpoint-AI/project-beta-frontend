@@ -17,7 +17,7 @@ import {
   FaChevronDown as ChevronDown,
 } from 'react-icons/fa';
 import { CircularProgress, LinearProgress, Chip } from '@mui/material';
-import { useAuth } from '../../features/auth/context/AuthContext';
+import { useAuth } from '../../auth/context/AuthContext';
 
 // Performance visualization component without external chart dependencies
 

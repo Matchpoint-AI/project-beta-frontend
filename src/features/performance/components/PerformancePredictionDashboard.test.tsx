@@ -6,10 +6,10 @@ import React from 'react';
 import { render, screen, waitFor, fireEvent, within } from '@testing-library/react';
 import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
 import PerformancePredictionDashboard from './PerformancePredictionDashboard';
-import { useAuth } from '../../features/auth/context/AuthContext';
+import { useAuth } from '../../auth/context/AuthContext';
 
 // Mock the dependencies
-vi.mock('../../api/performanceApi', () => ({
+vi.mock('../../../api/performanceApi', () => ({
   performanceApi: {
     recordMetric: vi.fn().mockResolvedValue({ success: true }),
     getMetricsSummary: vi.fn().mockResolvedValue({}),
@@ -19,7 +19,7 @@ vi.mock('../../api/performanceApi', () => ({
   },
 }));
 
-vi.mock('../../features/auth/context/AuthContext');
+vi.mock('../../auth/context/AuthContext');
 // No chart mocking needed - using CSS-based visualizations
 
 describe('PerformancePredictionDashboard', () => {
