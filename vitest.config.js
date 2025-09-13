@@ -67,10 +67,10 @@ export default defineConfig({
       thresholds: {
         // Set to current coverage levels to establish baseline and prevent regression
         // Future PRs can incrementally increase these thresholds toward 75% target
-        statements: 38,
-        branches: 66,
+        statements: 38.5,
+        branches: 67.7,
         functions: 37,
-        lines: 38,
+        lines: 38.5,
       },
     },
     // Use threads pool for parallel test execution
