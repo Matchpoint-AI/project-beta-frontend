@@ -2,11 +2,11 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 import CampaignBriefForm from './CampaignBriefForm';
-import { BrandContext } from '../../features/brand/context/BrandContext';
-import { CampaignContext } from '../../features/campaign/context/CampaignContext';
+import { BrandContext } from '../../brand/context/BrandContext';
+import { CampaignContext } from '../context/CampaignContext';
 
 // Mock the useAuth hook
-vi.mock('../../features/auth/context/AuthContext', () => ({
+vi.mock('../../auth/context/AuthContext', () => ({
   useAuth: () => ({
     profile: { id: 'test-user-id' },
   }),
@@ -23,7 +23,7 @@ interface FormsContainerProps {
   className?: string;
 }
 
-vi.mock('../../shared/components/layout/FormsContainer', () => ({
+vi.mock('../../../shared/components/layout/FormsContainer', () => ({
   default: ({ children, className }: FormsContainerProps) => (
     <div className={className} data-testid="forms-container">
       {children}
@@ -36,7 +36,7 @@ interface BackButtonProps {
   onClick: () => void;
 }
 
-vi.mock('../../shared/components/buttons/BackButton', () => ({
+vi.mock('../../../shared/components/buttons/BackButton', () => ({
   default: ({ onClick }: BackButtonProps) => (
     <button onClick={onClick} data-testid="back-button">
       Back
@@ -51,7 +51,7 @@ interface ApproveButtonProps {
   loading: boolean;
 }
 
-vi.mock('../../shared/components/buttons/ApproveButton', () => ({
+vi.mock('../../../shared/components/buttons/ApproveButton', () => ({
   default: ({ double, handleApproveAll, loading }: ApproveButtonProps) => (
     <button onClick={handleApproveAll} data-testid="approve-button" disabled={double || loading}>
       Approve
@@ -66,7 +66,7 @@ interface CampaignSetupCompleteDialogProps {
   setCurrentStep: (step: number) => void;
 }
 
-vi.mock('../../features/campaign/components/CampaignSetupCompleteDialog', () => ({
+vi.mock('./CampaignSetupCompleteDialog', () => ({
   default: ({
     open,
     onClose,
@@ -84,7 +84,7 @@ interface CustomDialogProps {
   onClose: () => void;
 }
 
-vi.mock('../../features/campaign/components/CustomDialog', () => ({
+vi.mock('./CustomDialog', () => ({
   default: ({ isOpen, onClose }: CustomDialogProps) =>
     isOpen ? (
       <div data-testid="custom-dialog" onClick={onClose}>
@@ -98,7 +98,7 @@ interface CampaignBriefTimingBlockProps {
   children: React.ReactNode;
 }
 
-vi.mock('../../features/campaign/components/CampaignBriefTimingBlock', () => ({
+vi.mock('./CampaignBriefTimingBlock', () => ({
   default: ({ title, children }: CampaignBriefTimingBlockProps) => (
     <div data-testid="timing-block">
       <h3>{title}</h3>
@@ -112,7 +112,7 @@ interface CampaignDetailsBlockProps {
   text: string;
 }
 
-vi.mock('../../features/campaign/components/CampaignDetailsBlock', () => ({
+vi.mock('./CampaignDetailsBlock', () => ({
   default: ({ title, text }: CampaignDetailsBlockProps) => (
     <div data-testid="campaign-details-block">
       <h4>{title}</h4>
@@ -121,11 +121,11 @@ vi.mock('../../features/campaign/components/CampaignDetailsBlock', () => ({
   ),
 }));
 
-vi.mock('../../features/campaign/components/CampaignDetails', () => ({
+vi.mock('./CampaignDetails', () => ({
   default: () => <div data-testid="campaign-details" />,
 }));
 
-vi.mock('../../features/campaign/components/CampaignSchedule', () => ({
+vi.mock('./CampaignSchedule', () => ({
   default: () => <div data-testid="campaign-schedule" />,
 }));
 
@@ -156,17 +156,17 @@ vi.mock('dayjs', () => ({
 }));
 
 // Mock the getServiceURL helper
-vi.mock('../../shared/utils/getServiceURL', () => ({
+vi.mock('../../../shared/utils/getServiceURL', () => ({
   getServiceURL: (service: string) => `https://mock-${service}-service.com`,
 }));
 
 // Mock the analytics helper
-vi.mock('../../shared/utils/analytics', () => ({
+vi.mock('../../../shared/utils/analytics', () => ({
   trackCampaignBriefCreation: vi.fn(),
 }));
 
 // Mock the handleNavigate helper
-vi.mock('../../shared/utils/handleNavigate', () => ({
+vi.mock('../../../shared/utils/handleNavigate', () => ({
   default: vi.fn(),
 }));
 

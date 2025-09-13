@@ -1,17 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { FormEventHandler, useContext, useEffect, useState } from 'react';
-import { BrandContext } from '../../features/brand/context/BrandContext';
-import { CampaignContext } from '../../features/campaign/context/CampaignContext';
-import AgeDropdown from '../../shared/components/ui/AgeDropdown';
-import Dropdown from '../../shared/components/ui/Dropdown';
+import { BrandContext } from '../../brand/context/BrandContext';
+import { CampaignContext } from '../context/CampaignContext';
+import AgeDropdown from '../../../shared/components/ui/AgeDropdown';
+import Dropdown from '../../../shared/components/ui/Dropdown';
 // import CustomInput from "../shared/Inputs/CustomInput";
-import FormsContainer from '../../shared/components/layout/FormsContainer';
-import BackButton from '../../shared/components/buttons/BackButton';
-import NextButton from '../../shared/components/buttons/NextButton';
-import { getServiceURL } from '../../shared/utils/getServiceURL';
-import AudienceDetails from '../AudienceDetails';
-import posthog from '../../shared/utils/posthog';
-import { useAuth } from '../../features/auth/context/AuthContext';
+import FormsContainer from '../../../shared/components/layout/FormsContainer';
+import BackButton from '../../../shared/components/buttons/BackButton';
+import NextButton from '../../../shared/components/buttons/NextButton';
+import { getServiceURL } from '../../../shared/utils/getServiceURL';
+import AudienceDetails from '../../../components/AudienceDetails';
+import posthog from '../../../shared/utils/posthog';
+import { useAuth } from '../../auth/context/AuthContext';
 
 interface AudienceFormProps {
   handleNext?: any;

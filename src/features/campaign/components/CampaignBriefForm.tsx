@@ -2,25 +2,25 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useContext, useEffect, useState } from 'react';
-import { BrandContext } from '../../features/brand/context/BrandContext';
-import { CampaignContext } from '../../features/campaign/context/CampaignContext';
-import CustomDialog from '../../features/campaign/components/CustomDialog';
+import { BrandContext } from '../../brand/context/BrandContext';
+import { CampaignContext } from '../context/CampaignContext';
+import CustomDialog from './CustomDialog';
 import { useNavigate } from 'react-router-dom';
-import FormsContainer from '../../shared/components/layout/FormsContainer';
-import BackButton from '../../shared/components/buttons/BackButton';
-import ApproveButton from '../../shared/components/buttons/ApproveButton';
-import CampaignSetupCompleteDialog from '../../features/campaign/components/CampaignSetupCompleteDialog';
-import { getServiceURL } from '../../shared/utils/getServiceURL';
-import { SparklesMessage } from '../../shared/components/ui/SparklesMessage';
-import CampaignBriefTimingBlock from '../../features/campaign/components/CampaignBriefTimingBlock';
+import FormsContainer from '../../../shared/components/layout/FormsContainer';
+import BackButton from '../../../shared/components/buttons/BackButton';
+import ApproveButton from '../../../shared/components/buttons/ApproveButton';
+import CampaignSetupCompleteDialog from './CampaignSetupCompleteDialog';
+import { getServiceURL } from '../../../shared/utils/getServiceURL';
+import { SparklesMessage } from '../../../shared/components/ui/SparklesMessage';
+import CampaignBriefTimingBlock from './CampaignBriefTimingBlock';
 import dayjs from 'dayjs';
 import { MdEdit } from 'react-icons/md';
-import CampaignDetails from '../../features/campaign/components/CampaignDetails';
-import CampaignSchedule from '../../features/campaign/components/CampaignSchedule';
-import CampaignDetailsBlock from '../../features/campaign/components/CampaignDetailsBlock';
-import handleNavigate from '../../shared/utils/handleNavigate';
-import { useAuth } from '../../features/auth/context/AuthContext';
-import { trackCampaignBriefCreation } from '../../shared/utils/analytics';
+import CampaignDetails from './CampaignDetails';
+import CampaignSchedule from './CampaignSchedule';
+import CampaignDetailsBlock from './CampaignDetailsBlock';
+import handleNavigate from '../../../shared/utils/handleNavigate';
+import { useAuth } from '../../auth/context/AuthContext';
+import { trackCampaignBriefCreation } from '../../../shared/utils/analytics';
 
 type CampaignBriefFormProps = {
   onClose?: () => void;
