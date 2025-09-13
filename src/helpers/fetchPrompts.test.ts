@@ -1,104 +1,123 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import fetchPrompts from './fetchPrompts';
-import * as getServiceURLModule from './getServiceURL';
+import { getServiceURL } from './getServiceURL';
 
-// Mock the getServiceURL module
+// Mock getServiceURL
 vi.mock('./getServiceURL', () => ({
   getServiceURL: vi.fn(),
 }));
 
-describe('fetchPrompts', () => {
-  const mockToken = 'test-token-123';
-  const mockServiceURL = 'https://api.example.com';
-  const mockResponse = {
-    content_generation: [
-      { version: 3, id: 'cg-3' },
-      { version: 1, id: 'cg-1' },
-      { version: 2, id: 'cg-2' },
-    ],
-    scrape_website: [
-      { version: 2, id: 'sw-2' },
-      { version: 1, id: 'sw-1' },
-      { version: 3, id: 'sw-3' },
-    ],
-  };
+// Mock global fetch
+global.fetch = vi.fn();
 
+describe('fetchPrompts', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    global.fetch = vi.fn();
-    vi.mocked(getServiceURLModule.getServiceURL).mockReturnValue(mockServiceURL);
+    (getServiceURL as any).mockReturnValue('https://api.example.com');
   });
 
-  it('should fetch prompts successfully and sort by version', async () => {
+  it('should fetch prompts successfully and sort them by version', async () => {
     // Arrange
-    vi.mocked(global.fetch).mockResolvedValue({
+    const mockToken = 'test-token-123';
+    const mockResponse = {
+      content_generation: [
+        { version: 3, content: 'prompt3' },
+        { version: 1, content: 'prompt1' },
+        { version: 2, content: 'prompt2' },
+      ],
+      scrape_website: [
+        { version: 2, content: 'scrape2' },
+        { version: 1, content: 'scrape1' },
+      ],
+    };
+
+    (global.fetch as any).mockResolvedValue({
       ok: true,
-      json: () => Promise.resolve(mockResponse),
-    } as Response);
+      json: async () => mockResponse,
+    });
 
     // Act
     const result = await fetchPrompts(mockToken);
 
     // Assert
-    expect(getServiceURLModule.getServiceURL).toHaveBeenCalledWith('content-gen');
-    expect(global.fetch).toHaveBeenCalledWith(`${mockServiceURL}/api/v1/app_prompts`, {
+    expect(getServiceURL).toHaveBeenCalledWith('content-gen');
+    expect(global.fetch).toHaveBeenCalledWith('https://api.example.com/api/v1/app_prompts', {
       headers: {
         Authorization: `Bearer ${mockToken}`,
       },
     });
-    expect(result).toEqual({
-      content_generation: [
-        { version: 1, id: 'cg-1' },
-        { version: 2, id: 'cg-2' },
-        { version: 3, id: 'cg-3' },
-      ],
-      scrape_website: [
-        { version: 1, id: 'sw-1' },
-        { version: 2, id: 'sw-2' },
-        { version: 3, id: 'sw-3' },
-      ],
-    });
+    expect(result.content_generation).toEqual([
+      { version: 1, content: 'prompt1' },
+      { version: 2, content: 'prompt2' },
+      { version: 3, content: 'prompt3' },
+    ]);
+    expect(result.scrape_website).toEqual([
+      { version: 1, content: 'scrape1' },
+      { version: 2, content: 'scrape2' },
+    ]);
   });
 
   it('should return null when response is not ok', async () => {
     // Arrange
-    vi.mocked(global.fetch).mockResolvedValue({
+    const mockToken = 'test-token-123';
+    (global.fetch as any).mockResolvedValue({
       ok: false,
-      status: 404,
-    } as Response);
+      status: 401,
+    });
 
     // Act
     const result = await fetchPrompts(mockToken);
 
     // Assert
     expect(result).toBeNull();
-    expect(getServiceURLModule.getServiceURL).toHaveBeenCalledWith('content-gen');
-    expect(global.fetch).toHaveBeenCalledWith(`${mockServiceURL}/api/v1/app_prompts`, {
-      headers: {
-        Authorization: `Bearer ${mockToken}`,
-      },
-    });
   });
 
-  it('should handle network errors', async () => {
+  it('should handle network errors gracefully', async () => {
     // Arrange
-    vi.mocked(global.fetch).mockRejectedValue(new Error('Network error'));
+    const mockToken = 'test-token-123';
+    const networkError = new Error('Network error');
+    (global.fetch as any).mockRejectedValue(networkError);
 
     // Act & Assert
     await expect(fetchPrompts(mockToken)).rejects.toThrow('Network error');
-    expect(getServiceURLModule.getServiceURL).toHaveBeenCalledWith('content-gen');
   });
 
-  it('should handle empty arrays in response', async () => {
+  it('should correctly construct the URL with the service URL', async () => {
     // Arrange
-    const emptyResponse = {
+    const mockToken = 'test-token-123';
+    const customServiceUrl = 'https://custom-api.example.com';
+    (getServiceURL as any).mockReturnValue(customServiceUrl);
+
+    (global.fetch as any).mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        content_generation: [],
+        scrape_website: [],
+      }),
+    });
+
+    // Act
+    await fetchPrompts(mockToken);
+
+    // Assert
+    expect(global.fetch).toHaveBeenCalledWith(
+      `${customServiceUrl}/api/v1/app_prompts`,
+      expect.any(Object)
+    );
+  });
+
+  it('should handle empty prompt arrays', async () => {
+    // Arrange
+    const mockToken = 'test-token-123';
+    const mockResponse = {
       content_generation: [],
       scrape_website: [],
     };
-    vi.mocked(global.fetch).mockResolvedValue({
+
+    (global.fetch as any).mockResolvedValue({
       ok: true,
-      json: () => Promise.resolve(emptyResponse),
-    } as Response);
+      json: async () => mockResponse,
+    });
 
     // Act
     const result = await fetchPrompts(mockToken);
@@ -110,22 +129,37 @@ describe('fetchPrompts', () => {
     });
   });
 
-  it('should construct correct API URL', async () => {
+  it('should maintain original data properties while sorting', async () => {
     // Arrange
-    const customServiceURL = 'https://custom.api.com';
-    vi.mocked(getServiceURLModule.getServiceURL).mockReturnValue(customServiceURL);
-    vi.mocked(global.fetch).mockResolvedValue({
+    const mockToken = 'test-token-123';
+    const mockResponse = {
+      content_generation: [
+        { version: 2, content: 'prompt2', extra: 'data' },
+        { version: 1, content: 'prompt1', meta: 'info' },
+      ],
+      scrape_website: [{ version: 1, content: 'scrape1', type: 'basic' }],
+      other_field: 'should be preserved',
+    };
+
+    (global.fetch as any).mockResolvedValue({
       ok: true,
-      json: () => Promise.resolve(mockResponse),
-    } as Response);
+      json: async () => mockResponse,
+    });
 
     // Act
-    await fetchPrompts(mockToken);
+    const result = await fetchPrompts(mockToken);
 
     // Assert
-    expect(global.fetch).toHaveBeenCalledWith(
-      `${customServiceURL}/api/v1/app_prompts`,
-      expect.any(Object)
-    );
+    expect(result.content_generation[0]).toEqual({
+      version: 1,
+      content: 'prompt1',
+      meta: 'info',
+    });
+    expect(result.content_generation[1]).toEqual({
+      version: 2,
+      content: 'prompt2',
+      extra: 'data',
+    });
+    expect(result.other_field).toBe('should be preserved');
   });
 });
