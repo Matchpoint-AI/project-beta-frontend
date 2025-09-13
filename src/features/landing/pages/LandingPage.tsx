@@ -1,10 +1,10 @@
 import React from 'react';
 import { Navbar } from '../../auth';
 import LandingFooter from '../components/LandingFooter';
-// import Contact from "../components/landing/Contact";
+// import Contact from "../components/Contact";
 import WhyBanner from '../components/WhyBanner';
 import HowBanner from '../components/HowBanner';
-// import Reviews from "../components/landing/Reviews";
+// import Reviews from "../components/Reviews";
 import HeroSection from '../components/HeroSection';
 import Features from '../components/Features';
 

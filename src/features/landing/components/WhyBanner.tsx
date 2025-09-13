@@ -1,5 +1,5 @@
 import React from 'react';
-import CardsSection from '../../../components/CardsSection';
+import CardsSection from '../../../shared/components/ui/CardsSection';
 
 const WhyBanner = () => {
   return (

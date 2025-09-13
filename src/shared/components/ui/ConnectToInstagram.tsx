@@ -1,6 +1,6 @@
 import { useLocation } from 'react-router-dom';
-import { getServiceURL } from '../shared/utils/getServiceURL';
-import InstagramIcon from '../shared/components/ui/InstagramIcon';
+import { getServiceURL } from '../../utils/getServiceURL';
+import InstagramIcon from './InstagramIcon';
 import React, { useEffect } from 'react';
 
 export function ConnectInstagram() {
