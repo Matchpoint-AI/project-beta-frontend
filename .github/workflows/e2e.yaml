@@ -56,11 +56,11 @@ jobs:
         with:
           script: |
             const runUrl = `${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}`;
-            
+
             // Get the specific artifact download URL
             let artifactDownloadUrl = `${runUrl}/artifacts`;
             let playwrightReportUrl = artifactDownloadUrl;
-            
+
             try {
               // Try to get the specific artifact ID for playwright-report
               const artifacts = await github.rest.actions.listWorkflowRunArtifacts({
@@ -119,7 +119,7 @@ jobs:
             - 📋 [**View GitHub Actions Run**](${runUrl}) - Full logs and workflow details
             - 🔧 [**Browse All Artifacts**](${artifactDownloadUrl}) - Complete test output
             - 📖 **Retention**: Artifacts available for **7 days** from run date
-            
+
             > **Note**: Direct artifact download requires GitHub authentication. If the link doesn't work, visit the Actions run page above and download from there.
 
             ---
