@@ -24,7 +24,7 @@ describe('brandV2Api', () => {
         website: 'https://test.com',
         maxPages: 50,
       };
-      
+
       const mockResponse = {
         id: 'brand-123',
         name: 'Test Brand',
@@ -42,17 +42,14 @@ describe('brandV2Api', () => {
       const result = await brandV2Api.createBrand(brandData, 'test-token');
 
       // Assert
-      expect(mockFetch).toHaveBeenCalledWith(
-        'http://localhost:8000/api/v2/brands',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: 'Bearer test-token',
-          },
-          body: JSON.stringify(brandData),
-        }
-      );
+      expect(mockFetch).toHaveBeenCalledWith('http://localhost:8000/api/v2/brands', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer test-token',
+        },
+        body: JSON.stringify(brandData),
+      });
       expect(result).toEqual(mockResponse);
     });
 
@@ -97,15 +94,12 @@ describe('brandV2Api', () => {
       const result = await brandV2Api.getBrand('brand-123', 'test-token');
 
       // Assert
-      expect(mockFetch).toHaveBeenCalledWith(
-        'http://localhost:8000/api/v2/brands/brand-123',
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: 'Bearer test-token',
-          },
-        }
-      );
+      expect(mockFetch).toHaveBeenCalledWith('http://localhost:8000/api/v2/brands/brand-123', {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer test-token',
+        },
+      });
       expect(result).toEqual(mockBrand);
     });
 
@@ -154,15 +148,12 @@ describe('brandV2Api', () => {
       const result = await brandV2Api.listBrands('test-token');
 
       // Assert
-      expect(mockFetch).toHaveBeenCalledWith(
-        'http://localhost:8000/api/v2/brands',
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: 'Bearer test-token',
-          },
-        }
-      );
+      expect(mockFetch).toHaveBeenCalledWith('http://localhost:8000/api/v2/brands', {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer test-token',
+        },
+      });
       expect(result).toEqual(mockBrands);
     });
   });
@@ -192,17 +183,14 @@ describe('brandV2Api', () => {
       const result = await brandV2Api.updateBrand('brand-123', updateData, 'test-token');
 
       // Assert
-      expect(mockFetch).toHaveBeenCalledWith(
-        'http://localhost:8000/api/v2/brands/brand-123',
-        {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: 'Bearer test-token',
-          },
-          body: JSON.stringify(updateData),
-        }
-      );
+      expect(mockFetch).toHaveBeenCalledWith('http://localhost:8000/api/v2/brands/brand-123', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer test-token',
+        },
+        body: JSON.stringify(updateData),
+      });
       expect(result).toEqual(mockResponse);
     });
   });
@@ -258,7 +246,7 @@ describe('brandV2Api', () => {
         sources: ['https://example.com'],
         maxPages: 50,
       };
-      
+
       const mockWorkflow = {
         workflowId: 'workflow-123',
         brandId: 'brand-123',
