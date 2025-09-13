@@ -4,7 +4,7 @@ import { saveAs } from 'file-saver';
 import { useAuth } from '../../../features/auth/context/AuthContext';
 import { useParams } from 'react-router-dom';
 import { getServiceURL } from '../../../shared/utils/getServiceURL';
-import LoadingModal from '../../../components/ExportLoading';
+import LoadingModal from '../../../shared/components/ui/ExportLoading';
 import {
   createImageThumbnailsPDF,
   createWordDocument,
