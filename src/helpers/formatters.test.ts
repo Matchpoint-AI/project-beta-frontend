@@ -79,6 +79,17 @@ describe('formatters', () => {
       // Assert
       expect(result).toBe('Test 123 Case');
     });
+
+    it('should handle single character words', () => {
+      // Arrange
+      const input = 'a b c d';
+
+      // Act
+      const result = capitalizeFirstLetterOfEachWord(input);
+
+      // Assert
+      expect(result).toBe('A B C D');
+    });
   });
 
   describe('structureData', () => {
