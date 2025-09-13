@@ -168,7 +168,7 @@ describe('costOptimizationApi', () => {
 
       try {
         await fetchCostOptimizationData('invalid-date');
-      } catch (error) {
+      } catch (error: any) {
         expect(error.status).toBe(400);
         expect(error.details).toBe(errorMessage);
         expect(error.message).toContain('Failed to fetch cost optimization data');
@@ -191,7 +191,7 @@ describe('costOptimizationApi', () => {
 
       try {
         await fetchCostOptimizationData();
-      } catch (error) {
+      } catch (error: any) {
         expect(error.message).toContain('Error fetching cost optimization data');
         expect(error.details).toBe(networkError);
       }
@@ -357,7 +357,7 @@ describe('costOptimizationApi', () => {
     });
 
     it('should fetch model comparison without date parameters', async () => {
-      const mockComparison = [];
+      const mockComparison: any[] = [];
 
       mockFetch.mockResolvedValueOnce({
         ok: true,
@@ -571,7 +571,7 @@ describe('costOptimizationApi', () => {
         json: async () => mockData,
       });
 
-      const result = await costOptimizationApi.getDashboardData(7);
+      await costOptimizationApi.getDashboardData(7);
 
       // Should calculate date range for 7 days
       expect(mockFetch).toHaveBeenCalledWith(
@@ -620,8 +620,8 @@ describe('costOptimizationApi', () => {
       const startDateStr = urlParams.get('start_date');
       const endDateStr = urlParams.get('end_date');
 
-      const startDate = new Date(startDateStr);
-      const endDate = new Date(endDateStr);
+      const startDate = new Date(startDateStr || '');
+      const endDate = new Date(endDateStr || '');
       const diffTime = Math.abs(endDate.getTime() - startDate.getTime());
       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 

@@ -1,5 +1,4 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { NavigateFunction } from 'react-router-dom';
 import handleNavigate from './handleNavigate';
 import posthog from './posthog';
 
@@ -12,8 +11,8 @@ vi.mock('./posthog', () => ({
 }));
 
 describe('handleNavigate', () => {
-  let mockNavigate: vi.Mock;
-  let mockPosthogCapture: ReturnType<typeof vi.fn>;
+  let mockNavigate: any;
+  let mockPosthogCapture: any;
 
   beforeEach(() => {
     mockNavigate = vi.fn();

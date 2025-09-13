@@ -380,7 +380,7 @@ describe('performanceApi', () => {
     });
 
     it('should fetch all active alerts when no severity specified', async () => {
-      const mockAlerts = [];
+      const mockAlerts: any[] = [];
 
       mockFetch.mockResolvedValueOnce({
         ok: true,
@@ -735,7 +735,7 @@ describe('performanceApi', () => {
         labels_filter: null,
       };
 
-      const mockAlerts = [];
+      const mockAlerts: any[] = [];
 
       // Mock all the API calls
       mockFetch

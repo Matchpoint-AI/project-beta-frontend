@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import {
+import useIntegrationApi, {
   integrationApi,
   authenticateApp,
   fetcheDataApp,
@@ -247,7 +247,7 @@ describe('api-integrations', () => {
 
       await expect(integrationApi(action, '')).rejects.toThrow('No authentication token available');
 
-      await expect(integrationApi(action, null)).rejects.toThrow(
+      await expect(integrationApi(action, undefined)).rejects.toThrow(
         'No authentication token available'
       );
     });
@@ -401,8 +401,8 @@ describe('api-integrations', () => {
 
   describe('useIntegrationApi hook integration', () => {
     it('should call useApi with integrationApi function', () => {
-      const mockUseIntegrationApi = require('./api-integrations').default;
-      const action = { type: 'AUTHORIZE', payload: 'instagram' };
+      const mockUseIntegrationApi = useIntegrationApi;
+      const action = { type: 'AUTHORIZE' as const, payload: 'instagram' as const };
       const manual = 'TRIGGER';
 
       mockUseIntegrationApi(action, manual);
@@ -411,8 +411,8 @@ describe('api-integrations', () => {
     });
 
     it('should call useApi without manual parameter', () => {
-      const mockUseIntegrationApi = require('./api-integrations').default;
-      const action = { type: 'FETCH_DATA', payload: 'facebook' };
+      const mockUseIntegrationApi = useIntegrationApi;
+      const action = { type: 'FETCH_DATA' as const, payload: 'facebook' as const };
 
       mockUseIntegrationApi(action);
 

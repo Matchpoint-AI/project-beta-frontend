@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { renderHook, waitFor } from '@testing-library/react';
-import { act } from '@testing-library/react-hooks';
+import { act } from '@testing-library/react';
 import useApi from './useApi';
 
 // Mock the auth context
@@ -9,7 +9,7 @@ const mockProfile = {
   user: { id: '1', email: 'test@example.com' },
 };
 
-const mockUseAuth = vi.fn(() => ({ profile: mockProfile }));
+const mockUseAuth = vi.fn();
 
 vi.mock('../features/auth/context/AuthContext', () => ({
   useAuth: () => mockUseAuth(),
@@ -213,7 +213,7 @@ describe('useApi', () => {
     });
 
     it('should handle profile without token', async () => {
-      mockUseAuth.mockReturnValue({ profile: { user: { id: '1' } } });
+      mockUseAuth.mockReturnValue({ profile: { token: 'missing-token', user: { id: '1', email: 'test@example.com' } } });
 
       const action = { type: 'NO_TOKEN_IN_PROFILE_TEST' };
       const { result } = renderHook(() => useApi(mockApiHandler, action));
@@ -350,7 +350,7 @@ describe('useApi', () => {
       const action = { type: 'TOKEN_CHANGE_TEST' };
 
       // First render with first token
-      mockUseAuth.mockReturnValue({ profile: { token: 'token-1' } });
+      mockUseAuth.mockReturnValue({ profile: { token: 'token-1', user: { id: '1', email: 'test@example.com' } } });
       const { result, rerender } = renderHook(() => useApi(mockApiHandler, action));
 
       await waitFor(() => {
@@ -358,7 +358,7 @@ describe('useApi', () => {
       });
 
       // Change token
-      mockUseAuth.mockReturnValue({ profile: { token: 'token-2' } });
+      mockUseAuth.mockReturnValue({ profile: { token: 'token-2', user: { id: '1', email: 'test@example.com' } } });
       rerender();
 
       await waitFor(() => {

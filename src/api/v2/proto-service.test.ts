@@ -94,9 +94,9 @@ describe('ProtoService', () => {
   describe('constructor', () => {
     it('should initialize with default configuration', () => {
       const service = new TestProtoService();
-      expect(service.baseUrl).toBe('https://test-api-v2.com');
-      expect(service.serviceName).toBe('Test Service');
-      expect(service.defaultTimeout).toBe(30000);
+      expect((service as any).baseUrl).toBe('https://test-api-v2.com');
+      expect((service as any).serviceName).toBe('Test Service');
+      expect((service as any).defaultTimeout).toBe(30000);
     });
 
     it('should initialize with custom configuration', () => {
@@ -106,9 +106,9 @@ describe('ProtoService', () => {
         timeout: 60000,
       });
 
-      expect(service.baseUrl).toBe('https://custom-api.com');
-      expect(service.serviceName).toBe('Custom Service');
-      expect(service.defaultTimeout).toBe(60000);
+      expect((service as any).baseUrl).toBe('https://custom-api.com');
+      expect((service as any).serviceName).toBe('Custom Service');
+      expect((service as any).defaultTimeout).toBe(60000);
     });
 
     it('should use defaults when configuration is partial', () => {
@@ -116,9 +116,9 @@ describe('ProtoService', () => {
         serviceName: 'Partial Service',
       });
 
-      expect(service.serviceName).toBe('Partial Service');
-      expect(service.baseUrl).toBe('https://test-api-v2.com');
-      expect(service.defaultTimeout).toBe(30000);
+      expect((service as any).serviceName).toBe('Partial Service');
+      expect((service as any).baseUrl).toBe('https://test-api-v2.com');
+      expect((service as any).defaultTimeout).toBe(30000);
     });
   });
 
@@ -250,8 +250,8 @@ describe('ProtoService', () => {
 
       const result = await service.testPost(
         '/empty-post',
-        null,
-        null,
+        {},
+        { package: 'test', message: 'EmptyRequest' },
         { package: 'test', message: 'EmptyResponse' },
         { token: 'test-token' }
       );
