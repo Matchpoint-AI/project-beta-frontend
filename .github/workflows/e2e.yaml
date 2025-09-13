@@ -56,7 +56,26 @@ jobs:
         with:
           script: |
             const runUrl = `${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}`;
-            const artifactUrl = `${runUrl}/artifacts`;
+            
+            // Get the specific artifact download URL
+            let artifactDownloadUrl = `${runUrl}/artifacts`;
+            let playwrightReportUrl = artifactDownloadUrl;
+            
+            try {
+              // Try to get the specific artifact ID for playwright-report
+              const artifacts = await github.rest.actions.listWorkflowRunArtifacts({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                run_id: ${{ github.run_id }}
+              });
+              
+              const playwrightArtifact = artifacts.data.artifacts.find(artifact => artifact.name === 'playwright-report');
+              if (playwrightArtifact) {
+                playwrightReportUrl = playwrightArtifact.archive_download_url;
+              }
+            } catch (error) {
+              console.log('Could not fetch specific artifact URL, using general artifacts page');
+            }
 
             const testStatus = '${{ job.status }}' === 'success' ? '✅ PASSED' : '❌ FAILED';
             const statusIcon = '${{ job.status }}' === 'success' ? '🎉' : '🚨';
@@ -73,7 +92,7 @@ jobs:
 
             ## 📊 **DOWNLOAD TEST ARTIFACTS**
 
-            ### 🎯 **[Click Here to Download Playwright Report](${artifactUrl})**
+            ### 🎯 **[Download Playwright Report](${playwrightReportUrl})**
 
             **What's included in the artifact:**
 
@@ -88,18 +107,20 @@ jobs:
 
             ## 🚀 **How to View Results**
 
-            1. **Download** the \`playwright-report\` artifact from the link above
-            2. **Extract** the ZIP file to your computer  
-            3. **Open** \`index.html\` in your browser
-            4. **Navigate** through videos and traces to see test execution
+            1. **Click** the "Download Playwright Report" link above (may require GitHub login)
+            2. **Extract** the downloaded ZIP file to your computer  
+            3. **Open** \`playwright-report/index.html\` in your browser
+            4. **Navigate** through the interactive report to see videos, traces, and failure details
 
             ---
 
             ## 🔗 **Additional Links**
 
             - 📋 [**View GitHub Actions Run**](${runUrl}) - Full logs and workflow details
-            - 🔧 [**Download All Artifacts**](${artifactUrl}) - Complete test output
+            - 🔧 [**Browse All Artifacts**](${artifactDownloadUrl}) - Complete test output
             - 📖 **Retention**: Artifacts available for **7 days** from run date
+            
+            > **Note**: Direct artifact download requires GitHub authentication. If the link doesn't work, visit the Actions run page above and download from there.
 
             ---
 
