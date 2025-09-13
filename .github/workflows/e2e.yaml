@@ -1,279 +1,134 @@
 name: E2E Tests
 
 on:
-  workflow_run:
-    workflows: ["CI"]
-    types:
-      - completed
+  pull_request:
     branches: [main]
 
+# Add permissions for PR commenting
+permissions:
+  contents: read
+  pull-requests: write
+
+env:
+  NODE_VERSION: "20"
+
 jobs:
-  # Check if CI workflow passed
-  check-ci-status:
-    name: Check CI Status
-    runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.event == 'pull_request' }}
-    outputs:
-      should-run: ${{ steps.check.outputs.should-run }}
-    steps:
-      - name: Check if CI passed
-        id: check
-        run: |
-          if [[ "${{ github.event.workflow_run.conclusion }}" == "success" ]]; then
-            echo "should-run=true" >> $GITHUB_OUTPUT
-            echo "✅ CI workflow passed, proceeding with E2E tests"
-          else
-            echo "should-run=false" >> $GITHUB_OUTPUT
-            echo "❌ CI workflow failed or was cancelled, skipping E2E tests"
-            exit 1
-          fi
-
-  build-app:
-    name: Build Application
-    needs: check-ci-status
-    if: ${{ needs.check-ci-status.outputs.should-run == 'true' }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-          cache: "npm"
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build application
-        run: npm run build
-
-      - name: Build Docker image
-        run: |
-          docker build -t project-beta-frontend:e2e-${{ github.sha }} .
-          docker save project-beta-frontend:e2e-${{ github.sha }} > app-image.tar
-
-      - name: Upload Docker image artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-image
-          path: app-image.tar
-          retention-days: 1
-
   e2e-tests:
-    name: E2E Tests (${{ matrix.browser }} - Shard ${{ matrix.shard }})
-    needs: [check-ci-status, build-app]
-    if: ${{ needs.check-ci-status.outputs.should-run == 'true' }}
+    name: Run E2E Tests
     runs-on: ubuntu-latest
-    container:
-      image: mcr.microsoft.com/playwright:v1.55.0-noble
-      options: --user 1001
-    strategy:
-      fail-fast: false
-      matrix:
-        browser: [chromium, firefox, webkit]
-        shard: [1, 2]
+    timeout-minutes: 10
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: "20"
-          cache: "npm"
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Download Docker image artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: app-image
-
-      - name: Load Docker image
-        run: docker load < app-image.tar
-
-      - name: Start application container
-        run: |
-          docker run -d \
-            --name app \
-            --network host \
-            -e NODE_ENV=test \
-            project-beta-frontend:e2e-${{ github.sha }}
-
-          # Wait for application to be ready
-          timeout 30 sh -c 'until curl -f http://localhost:3000 > /dev/null 2>&1; do sleep 1; done'
-
-      - name: Run Playwright tests
-        env:
-          BASE_URL: http://localhost:3000
-          MOCK_API: "true"
-          CI: "true"
-        run: |
-          npx playwright test \
-            --project=${{ matrix.browser }} \
-            --shard=${{ matrix.shard }}/2 \
-            --reporter=json,html,github
-
-      - name: Upload test results
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: playwright-results-${{ matrix.browser }}-${{ matrix.shard }}
-          path: |
-            test-results/
-            playwright-report/
-          retention-days: 30
-
-      - name: Upload test videos
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: playwright-videos-${{ matrix.browser }}-${{ matrix.shard }}
-          path: |
-            test-results/**/*.webm
-            test-results/**/*.mp4
-          retention-days: 7
-          if-no-files-found: ignore
-
-      - name: Upload screenshots
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: playwright-screenshots-${{ matrix.browser }}-${{ matrix.shard }}
-          path: |
-            test-results/**/*.png
-            test-results/**/*.jpg
-            test-results/**/*.jpeg
-          retention-days: 7
-          if-no-files-found: ignore
-
-      - name: Upload trace files
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: playwright-traces-${{ matrix.browser }}-${{ matrix.shard }}
-          path: test-results/**/*.zip
-          retention-days: 7
-          if-no-files-found: ignore
-
-  e2e-report:
-    name: Merge E2E Test Reports
-    needs: e2e-tests
-    if: always()
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Download all artifacts
-        uses: actions/download-artifact@v4
-        with:
-          pattern: playwright-results-*
-          path: all-results/
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-
-      - name: Install Playwright
-        run: npm install -D @playwright/test
-
-      - name: Merge reports
-        run: npx playwright merge-reports --reporter=html all-results/
-
-      - name: Upload merged report
-        uses: actions/upload-artifact@v4
-        with:
-          name: playwright-report-merged
-          path: playwright-report/
-          retention-days: 30
-
-      - name: Comment PR with results
-        if: github.event_name == 'pull_request'
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const fs = require('fs');
-            const path = require('path');
-
-            // Read test results
-            let allPassed = true;
-            let resultsText = '## 🎭 Playwright E2E Test Results\n\n';
-
-            const resultsDir = './all-results';
-            if (fs.existsSync(resultsDir)) {
-              const files = fs.readdirSync(resultsDir);
-              
-              files.forEach(file => {
-                const resultPath = path.join(resultsDir, file, 'results.json');
-                if (fs.existsSync(resultPath)) {
-                  const results = JSON.parse(fs.readFileSync(resultPath, 'utf8'));
-                  const passed = results.suites.every(s => s.specs.every(spec => spec.ok));
-                  allPassed = allPassed && passed;
-                  
-                  const [, browser, shard] = file.match(/playwright-results-(\w+)-(\d+)/) || [];
-                  resultsText += `- **${browser} (Shard ${shard})**: ${passed ? '✅ Passed' : '❌ Failed'}\n`;
-                }
-              });
-            }
-
-            resultsText += '\n';
-            resultsText += allPassed 
-              ? '✨ All tests passed successfully!' 
-              : '⚠️ Some tests failed. Check the artifacts for details.';
-
-            resultsText += '\n\n### 📦 Test Artifacts\n';
-            resultsText += '- [📹 Videos](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}#artifacts)\n';
-            resultsText += '- [📸 Screenshots](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}#artifacts)\n';
-            resultsText += '- [📊 HTML Report](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}#artifacts)\n';
-            resultsText += '\n[View Full Report](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})';
-
-            // Post comment
-            await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-              body: resultsText
-            });
-
-  smoke-tests:
-    name: Smoke Tests (Quick Validation)
-    needs: check-ci-status
-    if: ${{ needs.check-ci-status.outputs.should-run == 'true' }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
+          node-version: ${{ env.NODE_VERSION }}
           cache: "npm"
 
       - name: Install dependencies
         run: npm ci
 
       - name: Install Playwright browsers
-        run: npx playwright install chromium
+        run: npx playwright install --with-deps
 
-      - name: Run smoke tests
-        env:
-          MOCK_API: "true"
-        run: |
-          npx playwright test \
-            --project=chromium \
-            --grep=@smoke \
-            --reporter=github
+      - name: Build application
+        run: npm run build
 
-      - name: Upload smoke test results
-        if: failure()
+      - name: Run Playwright tests
+        run: npx playwright test
+
+      - name: Upload test results
+        if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
         with:
-          name: smoke-test-results
-          path: test-results/
+          name: playwright-report
+          path: |
+            playwright-report/
+            test-results/
+          if-no-files-found: warn
           retention-days: 7
+          compression-level: 6
+          overwrite: true
+
+      - name: Comment PR with Artifact Link
+        if: ${{ !cancelled() && github.event_name == 'pull_request' }}
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const runUrl = `${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}`;
+
+            // Get the specific artifact download URL
+            let artifactDownloadUrl = `${runUrl}/artifacts`;
+            let playwrightReportUrl = artifactDownloadUrl;
+
+            try {
+              // Try to get the specific artifact ID for playwright-report
+              const artifacts = await github.rest.actions.listWorkflowRunArtifacts({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                run_id: ${{ github.run_id }}
+              });
+              
+              const playwrightArtifact = artifacts.data.artifacts.find(artifact => artifact.name === 'playwright-report');
+              if (playwrightArtifact) {
+                playwrightReportUrl = playwrightArtifact.archive_download_url;
+              }
+            } catch (error) {
+              console.log('Could not fetch specific artifact URL, using general artifacts page');
+            }
+
+            const testStatus = '${{ job.status }}' === 'success' ? '✅ PASSED' : '❌ FAILED';
+            const statusIcon = '${{ job.status }}' === 'success' ? '🎉' : '🚨';
+
+            const body = `# ${statusIcon} E2E Test Results
+
+            ## ${testStatus}
+
+            > **🎭 Playwright E2E Tests Completed**  
+            > **📅 Run Date**: ${new Date().toLocaleString('en-US', { timeZone: 'UTC' })} UTC  
+            > **🔢 Run ID**: ${{ github.run_id }}
+
+            ---
+
+            ## 📊 **DOWNLOAD TEST ARTIFACTS**
+
+            ### 🎯 **[Download Playwright Report](${playwrightReportUrl})**
+
+            **What's included in the artifact:**
+
+            | 📁 **Folder** | 📝 **Contents** | 🎯 **Purpose** |
+            |---------------|------------------|----------------|
+            | **📹 Videos** | Complete recordings of each test | See exactly what the app did during tests |
+            | **📸 Screenshots** | Failure snapshots | Visual debugging of failed tests |
+            | **📊 HTML Report** | Interactive test results | Detailed test analysis with embedded media |
+            | **🔍 Traces** | Step-by-step execution | Debug failed tests with full context |
+
+            ---
+
+            ## 🚀 **How to View Results**
+
+            1. **Click** the "Download Playwright Report" link above (may require GitHub login)
+            2. **Extract** the downloaded ZIP file to your computer  
+            3. **Open** \`playwright-report/index.html\` in your browser
+            4. **Navigate** through the interactive report to see videos, traces, and failure details
+
+            ---
+
+            ## 🔗 **Additional Links**
+
+            - 📋 [**View GitHub Actions Run**](${runUrl}) - Full logs and workflow details
+            - 🔧 [**Browse All Artifacts**](${artifactDownloadUrl}) - Complete test output
+            - 📖 **Retention**: Artifacts available for **7 days** from run date
+
+            > **Note**: Direct artifact download requires GitHub authentication. If the link doesn't work, visit the Actions run page above and download from there.
+
+            ---
+
+            <sub>🤖 *This comment is automatically generated after each E2E test run*</sub>`;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
+            });

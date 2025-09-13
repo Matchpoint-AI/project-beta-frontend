@@ -13,6 +13,14 @@
 /test-results
 *.lcov
 
+# Playwright authentication state
+e2e/auth-state.json
+e2e/auth-setup-result.png
+e2e/auth-result.png
+e2e/auth-failed.png
+e2e/auth-success.png
+playwright/.auth/
+
 # production
 /build
 /dist
@@ -94,3 +102,6 @@ ehthumbs_vista.db
 .tmp/
 .temp/
 test-results/
+# TypeScript declaration files (auto-generated, but keep types folder)
+src/**/*.d.ts
+!src/types/**/*.d.ts
