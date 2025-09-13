@@ -21,6 +21,7 @@ describe('brandV2Api', () => {
       // Arrange
       const brandData: BrandCreate = {
         name: 'Test Brand',
+        website: 'https://test.com',
       };
 
       const mockResponse = {
@@ -55,6 +56,7 @@ describe('brandV2Api', () => {
       // Arrange
       const brandData: BrandCreate = {
         name: 'Test Brand',
+        website: 'https://test.com',
       };
 
       mockFetch.mockResolvedValueOnce({
