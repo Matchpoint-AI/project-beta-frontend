@@ -242,9 +242,9 @@ describe('makeAuthorizedPostRequest', () => {
       mockFetch.mockRejectedValueOnce(new Error('Network error'));
 
       // Act & Assert
-      await expect(
-        makeAuthorizedPostRequest(mockEndpoint, mockAudience, mockData)
-      ).rejects.toThrow('Network error');
+      await expect(makeAuthorizedPostRequest(mockEndpoint, mockAudience, mockData)).rejects.toThrow(
+        'Network error'
+      );
     });
 
     it('should handle fetch timeout errors', async () => {
@@ -252,9 +252,9 @@ describe('makeAuthorizedPostRequest', () => {
       mockFetch.mockRejectedValueOnce(new Error('Request timeout'));
 
       // Act & Assert
-      await expect(
-        makeAuthorizedPostRequest(mockEndpoint, mockAudience, mockData)
-      ).rejects.toThrow('Request timeout');
+      await expect(makeAuthorizedPostRequest(mockEndpoint, mockAudience, mockData)).rejects.toThrow(
+        'Request timeout'
+      );
     });
 
     it('should handle DNS resolution errors', async () => {
@@ -262,9 +262,9 @@ describe('makeAuthorizedPostRequest', () => {
       mockFetch.mockRejectedValueOnce(new Error('getaddrinfo ENOTFOUND'));
 
       // Act & Assert
-      await expect(
-        makeAuthorizedPostRequest(mockEndpoint, mockAudience, mockData)
-      ).rejects.toThrow('getaddrinfo ENOTFOUND');
+      await expect(makeAuthorizedPostRequest(mockEndpoint, mockAudience, mockData)).rejects.toThrow(
+        'getaddrinfo ENOTFOUND'
+      );
     });
 
     it('should handle CORS errors gracefully due to no-cors mode', async () => {
@@ -273,9 +273,9 @@ describe('makeAuthorizedPostRequest', () => {
       mockFetch.mockRejectedValueOnce(new TypeError('Failed to fetch'));
 
       // Act & Assert
-      await expect(
-        makeAuthorizedPostRequest(mockEndpoint, mockAudience, mockData)
-      ).rejects.toThrow('Failed to fetch');
+      await expect(makeAuthorizedPostRequest(mockEndpoint, mockAudience, mockData)).rejects.toThrow(
+        'Failed to fetch'
+      );
     });
   });
 

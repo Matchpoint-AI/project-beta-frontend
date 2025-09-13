@@ -45,21 +45,18 @@ describe('updateUserProfile', () => {
 
       // Assert
       expect(getServiceURL).toHaveBeenCalledWith('data');
-      expect(mockFetch).toHaveBeenCalledWith(
-        `${mockEndpoint}/api/v1/user/update`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${mockToken}`,
-          },
-          body: JSON.stringify({
-            name: mockName,
-            email: mockEmail,
-            password: mockPassword,
-          }),
-        }
-      );
+      expect(mockFetch).toHaveBeenCalledWith(`${mockEndpoint}/api/v1/user/update`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${mockToken}`,
+        },
+        body: JSON.stringify({
+          name: mockName,
+          email: mockEmail,
+          password: mockPassword,
+        }),
+      });
       expect(result).toEqual(mockResponse);
     });
 
@@ -161,9 +158,9 @@ describe('updateUserProfile', () => {
       });
 
       // Act & Assert
-      await expect(
-        updateUserProfile(mockToken, mockName, mockEmail, mockPassword)
-      ).rejects.toThrow(errorDetail);
+      await expect(updateUserProfile(mockToken, mockName, mockEmail, mockPassword)).rejects.toThrow(
+        errorDetail
+      );
     });
 
     it('should handle network errors', async () => {
@@ -171,9 +168,9 @@ describe('updateUserProfile', () => {
       mockFetch.mockRejectedValueOnce(new Error('Network error'));
 
       // Act & Assert
-      await expect(
-        updateUserProfile(mockToken, mockName, mockEmail, mockPassword)
-      ).rejects.toThrow('Network error');
+      await expect(updateUserProfile(mockToken, mockName, mockEmail, mockPassword)).rejects.toThrow(
+        'Network error'
+      );
     });
 
     it('should handle JSON parsing errors in error response', async () => {
@@ -184,9 +181,9 @@ describe('updateUserProfile', () => {
       });
 
       // Act & Assert
-      await expect(
-        updateUserProfile(mockToken, mockName, mockEmail, mockPassword)
-      ).rejects.toThrow('Invalid JSON');
+      await expect(updateUserProfile(mockToken, mockName, mockEmail, mockPassword)).rejects.toThrow(
+        'Invalid JSON'
+      );
     });
 
     it('should handle missing error detail in response', async () => {
@@ -279,7 +276,7 @@ describe('updateUserProfile', () => {
 
     it('should handle special characters in input', async () => {
       // Arrange
-      const specialName = 'João José O\'Connor';
+      const specialName = "João José O'Connor";
       const specialEmail = 'joão+test@example.com';
       const specialPassword = 'P@ssw0rd!@#$%^&*()';
       const mockResponse = { email: specialEmail, name: specialName };

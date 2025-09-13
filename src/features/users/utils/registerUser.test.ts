@@ -53,20 +53,17 @@ describe('registerUser', () => {
 
       // Assert
       expect(getServiceURL).toHaveBeenCalledWith('data');
-      expect(mockFetch).toHaveBeenCalledWith(
-        `${mockEndpoint}/api/v1/user/register`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            email: mockEmail,
-            name: mockName,
-            password: mockPassword,
-          }),
-        }
-      );
+      expect(mockFetch).toHaveBeenCalledWith(`${mockEndpoint}/api/v1/user/register`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: mockEmail,
+          name: mockName,
+          password: mockPassword,
+        }),
+      });
       expect(posthog.capture).toHaveBeenCalledWith('User Signed Up', {
         distinct_id: 'user-123',
         email: mockEmail,
@@ -173,7 +170,9 @@ describe('registerUser', () => {
       mockFetch.mockRejectedValueOnce(new Error('Network error'));
 
       // Act & Assert
-      await expect(registerUser(mockEmail, mockName, mockPassword)).rejects.toThrow('Network error');
+      await expect(registerUser(mockEmail, mockName, mockPassword)).rejects.toThrow(
+        'Network error'
+      );
       expect(posthog.capture).not.toHaveBeenCalled();
     });
 
@@ -293,7 +292,7 @@ describe('registerUser', () => {
     it('should handle special characters in input', async () => {
       // Arrange
       const specialEmail = 'joão+test@example.com';
-      const specialName = 'João José O\'Connor';
+      const specialName = "João José O'Connor";
       const specialPassword = 'P@ssw0rd!@#$%^&*()';
       const mockResponse = { id: 'user-123', email: specialEmail, name: specialName };
 
@@ -455,7 +454,9 @@ describe('registerUser', () => {
       });
 
       // Act & Assert - The function doesn't have try-catch around posthog, so it will throw
-      await expect(registerUser(mockEmail, mockName, mockPassword)).rejects.toThrow('PostHog error');
+      await expect(registerUser(mockEmail, mockName, mockPassword)).rejects.toThrow(
+        'PostHog error'
+      );
     });
   });
 

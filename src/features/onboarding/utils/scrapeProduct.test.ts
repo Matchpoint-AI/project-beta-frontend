@@ -45,19 +45,16 @@ describe('scrapeProduct', () => {
 
       // Assert
       expect(getServiceURL).toHaveBeenCalledWith('llm');
-      expect(mockFetch).toHaveBeenCalledWith(
-        `${mockEndpoint}/api/v1/llm/fetch-content`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            url: mockUrl,
-            subject: 'product',
-          }),
-        }
-      );
+      expect(mockFetch).toHaveBeenCalledWith(`${mockEndpoint}/api/v1/llm/fetch-content`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          url: mockUrl,
+          subject: 'product',
+        }),
+      });
       expect(result).toEqual(mockResponse);
     });
 
@@ -128,20 +125,17 @@ describe('scrapeProduct', () => {
       const result = await scrapeProduct(undefined, mockName, mockDescription);
 
       // Assert
-      expect(mockFetch).toHaveBeenCalledWith(
-        `${mockEndpoint}/api/v1/llm/fetch-content`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            name: mockName,
-            description: mockDescription,
-            subject: 'product',
-          }),
-        }
-      );
+      expect(mockFetch).toHaveBeenCalledWith(`${mockEndpoint}/api/v1/llm/fetch-content`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: mockName,
+          description: mockDescription,
+          subject: 'product',
+        }),
+      });
       expect(result).toEqual(mockResponse);
     });
 
@@ -162,20 +156,17 @@ describe('scrapeProduct', () => {
       const result = await scrapeProduct(undefined, mockName);
 
       // Assert
-      expect(mockFetch).toHaveBeenCalledWith(
-        `${mockEndpoint}/api/v1/llm/fetch-content`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            name: mockName,
-            description: undefined,
-            subject: 'product',
-          }),
-        }
-      );
+      expect(mockFetch).toHaveBeenCalledWith(`${mockEndpoint}/api/v1/llm/fetch-content`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: mockName,
+          description: undefined,
+          subject: 'product',
+        }),
+      });
       expect(result).toEqual(mockResponse);
     });
 
@@ -196,20 +187,17 @@ describe('scrapeProduct', () => {
       const result = await scrapeProduct(undefined, undefined, mockDescription);
 
       // Assert
-      expect(mockFetch).toHaveBeenCalledWith(
-        `${mockEndpoint}/api/v1/llm/fetch-content`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            name: undefined,
-            description: mockDescription,
-            subject: 'product',
-          }),
-        }
-      );
+      expect(mockFetch).toHaveBeenCalledWith(`${mockEndpoint}/api/v1/llm/fetch-content`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: undefined,
+          description: mockDescription,
+          subject: 'product',
+        }),
+      });
       expect(result).toEqual(mockResponse);
     });
   });
@@ -327,7 +315,9 @@ describe('scrapeProduct', () => {
 
     it('should throw error when all inputs are empty', async () => {
       // Act & Assert
-      await expect(scrapeProduct('', '', '')).rejects.toThrow('No product URL or name/description provided');
+      await expect(scrapeProduct('', '', '')).rejects.toThrow(
+        'No product URL or name/description provided'
+      );
       expect(mockFetch).not.toHaveBeenCalled();
     });
 
@@ -340,7 +330,9 @@ describe('scrapeProduct', () => {
       });
 
       // Act & Assert
-      await expect(scrapeProduct(mockUrl)).rejects.toThrow('HTTP error! status: 400, message: Bad Request Error');
+      await expect(scrapeProduct(mockUrl)).rejects.toThrow(
+        'HTTP error! status: 400, message: Bad Request Error'
+      );
     });
 
     it('should throw error when response is not ok with JSON error', async () => {
@@ -352,7 +344,9 @@ describe('scrapeProduct', () => {
       });
 
       // Act & Assert
-      await expect(scrapeProduct(mockUrl)).rejects.toThrow('HTTP error! status: 500, message: {"error": "Internal Server Error"}');
+      await expect(scrapeProduct(mockUrl)).rejects.toThrow(
+        'HTTP error! status: 500, message: {"error": "Internal Server Error"}'
+      );
     });
 
     it('should throw error when no data in response', async () => {

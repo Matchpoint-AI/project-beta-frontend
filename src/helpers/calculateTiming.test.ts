@@ -1,5 +1,10 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { displayPeriod, displayDuration, getPostingSchedule, getPostingScheduleArray } from './calculateTiming';
+import {
+  displayPeriod,
+  displayDuration,
+  getPostingSchedule,
+  getPostingScheduleArray,
+} from './calculateTiming';
 
 describe('calculateTiming utilities', () => {
   // Mock the current date to ensure consistent test results
@@ -266,7 +271,9 @@ describe('calculateTiming utilities', () => {
         const duration = '4 months';
 
         // Act & Assert
-        expect(() => displayDuration(startDate, duration)).toThrow('Unsupported duration unit: months');
+        expect(() => displayDuration(startDate, duration)).toThrow(
+          'Unsupported duration unit: months'
+        );
       });
     });
 
