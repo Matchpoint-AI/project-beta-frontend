@@ -261,7 +261,6 @@ export const brandV2Api = {
     name: string,
     website: string,
     token: string,
-    maxPages = 50,
     onProgress?: (step: string, progress?: number) => void
   ): Promise<{ brand: BrandResponse; knowledge: BrandKnowledge }> {
     try {
