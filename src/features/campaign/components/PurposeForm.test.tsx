@@ -2,12 +2,12 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { vi } from 'vitest';
 import PurposeForm from './PurposeForm';
-import { CampaignContext } from '../../features/campaign/context/CampaignContext';
-import { BrandContext } from '../../features/brand/context/BrandContext';
-import { AuthContext } from '../../features/auth/context/AuthContext';
+import { CampaignContext } from '../context/CampaignContext';
+import { BrandContext } from '../../brand/context/BrandContext';
+import { AuthContext } from '../../auth/context/AuthContext';
 
 // Mock dependencies
-vi.mock('../../shared/utils/posthog', () => ({
+vi.mock('../../../shared/utils/posthog', () => ({
   default: {
     __loaded: false,
     capture: vi.fn(),

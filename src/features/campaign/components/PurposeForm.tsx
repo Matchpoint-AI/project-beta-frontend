@@ -1,14 +1,14 @@
 import React, { FormEventHandler, useContext, useEffect, useRef, useState } from 'react';
-import { CampaignContext } from '../../features/campaign/context/CampaignContext';
-import FormsContainer from '../../shared/components/layout/FormsContainer';
-import NextButton from '../../shared/components/buttons/NextButton';
-import WebsiteOwnership from '../../features/brand/components/WebsiteOwnership';
-import CampaignFormInput from '../../shared/components/inputs/CampaignFormInput';
-import Dropdown from '../../features/campaign/components/CampaignDropdown';
-import LanguageSelector from '../../features/campaign/components/LanguageSelector';
-import { BrandContext } from '../../features/brand/context/BrandContext';
-import { useAuth } from '../../features/auth/context/AuthContext';
-import posthog from '../../shared/utils/posthog';
+import { CampaignContext } from '../context/CampaignContext';
+import FormsContainer from '../../../shared/components/layout/FormsContainer';
+import NextButton from '../../../shared/components/buttons/NextButton';
+import WebsiteOwnership from '../../brand/components/WebsiteOwnership';
+import CampaignFormInput from '../../../shared/components/inputs/CampaignFormInput';
+import Dropdown from './CampaignDropdown';
+import LanguageSelector from './LanguageSelector';
+import { BrandContext } from '../../brand/context/BrandContext';
+import { useAuth } from '../../auth/context/AuthContext';
+import posthog from '../../../shared/utils/posthog';
 
 interface PurposeFormProps {
   handleNext?: (step?: number) => void;
