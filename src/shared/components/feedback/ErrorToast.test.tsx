@@ -7,19 +7,25 @@ import ErrorToast from './ErrorToast';
 // Mock react-icons
 vi.mock('react-icons/fa', () => ({
   FaCheckCircle: vi.fn(({ className }) => (
-    <div data-testid="success-icon" className={className}>✓</div>
+    <div data-testid="success-icon" className={className}>
+      ✓
+    </div>
   )),
 }));
 
 vi.mock('react-icons/io5', () => ({
   IoAlertCircle: vi.fn(({ className }) => (
-    <div data-testid="error-icon" className={className}>!</div>
+    <div data-testid="error-icon" className={className}>
+      !
+    </div>
   )),
 }));
 
 vi.mock('react-icons/md', () => ({
   MdClose: vi.fn(({ size }) => (
-    <div data-testid="close-icon" data-size={size}>×</div>
+    <div data-testid="close-icon" data-size={size}>
+      ×
+    </div>
   )),
 }));
 
