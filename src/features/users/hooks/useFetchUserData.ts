@@ -44,21 +44,26 @@ export default function useFetchUserData() {
     const serviceUrl = getServiceURL('data');
     const endpointUrl = `${serviceUrl}/api/v1/users/${params.id}`;
 
-    const response = await fetch(endpointUrl, {
-      headers: {
-        Authorization: `Bearer ${profile?.token}`,
-      },
-    });
+    try {
+      const response = await fetch(endpointUrl, {
+        headers: {
+          Authorization: `Bearer ${profile?.token}`,
+        },
+      });
 
-    if (!response.ok) {
+      if (!response?.ok) {
+        setLoading(false);
+        setError('error fetching users');
+        return;
+      }
+
+      const data = await response.json();
+      setLoading(false);
+      setData(data);
+    } catch (error) {
       setLoading(false);
       setError('error fetching users');
-      return;
     }
-
-    const data = await response.json();
-    setLoading(false);
-    setData(data);
   };
 
   const handleRetry = () => {
