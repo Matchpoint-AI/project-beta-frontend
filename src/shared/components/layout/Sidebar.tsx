@@ -19,7 +19,7 @@ const Sidebar: React.FC<SidebarProps> = ({ currentStep = 1 }) => {
       </div>
 
       <div className="fixed top-0 left-0 w-screen h-20 md:hidden flex items-center xs:justify-center justify-between bg-white px-5 z-50">
-        <img src="/src/assets/icons/logo.svg" alt="logo" />
+        <img src="/src/assets/logos/logo.svg" alt="logo" />
         <SideNavBar
           className=" bg-white w-20 absolute top-0 transition-all"
           style={{ right: displaySidebar ? '0px' : '-80px' }}

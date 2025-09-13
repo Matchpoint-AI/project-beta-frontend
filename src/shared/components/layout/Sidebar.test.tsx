@@ -172,7 +172,7 @@ describe('Sidebar', () => {
 
       // Assert
       const logo = screen.getByAltText('logo');
-      expect(logo).toHaveAttribute('src', '/src/assets/icons/logo.svg');
+      expect(logo).toHaveAttribute('src', '/src/assets/logos/logo.svg');
     });
 
     it('should render burger menu icon with correct source', () => {

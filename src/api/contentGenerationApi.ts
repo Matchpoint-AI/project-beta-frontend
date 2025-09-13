@@ -1,6 +1,5 @@
-import { getServiceURL } from '../shared/utils/getServiceURL';
-
-const CONTENT_GEN_URL = getServiceURL('content-gen');
+// Use environment variable for content generation service URL
+const CONTENT_GEN_URL = import.meta.env.VITE_CONTENT_GEN_URL || 'https://localhost:7653';
 
 // Caption Generator API endpoints
 export const captionApi = {

@@ -1,11 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { captionApi, plannerApi, policyApi } from './contentGenerationApi';
 
-// Mock getServiceURL
-vi.mock('../shared/utils/getServiceURL', () => ({
-  getServiceURL: () => 'https://mock-service.com',
-}));
-
 describe('contentGenerationApi', () => {
   const mockFetch = vi.fn();
 
@@ -40,7 +35,7 @@ describe('contentGenerationApi', () => {
         );
 
         expect(mockFetch).toHaveBeenCalledWith(
-          'https://mock-service.com/api/v1/content/content-123/captions',
+          'https://localhost:7653/api/v1/content/content-123/captions',
           expect.objectContaining({
             method: 'POST',
             headers: {
@@ -314,7 +309,7 @@ describe('contentGenerationApi', () => {
 
         // Verify fetch was called with correct parameters
         expect(mockFetch).toHaveBeenCalledWith(
-          'https://mock-service.com/api/v1/campaigns/test-campaign/plan',
+          'https://localhost:7653/api/v1/campaigns/test-campaign/plan',
           {
             method: 'POST',
             headers: {
@@ -450,7 +445,7 @@ describe('contentGenerationApi', () => {
         const result = await plannerApi.getPlan('campaign-id', 'token');
 
         expect(mockFetch).toHaveBeenCalledWith(
-          'https://mock-service.com/api/v1/campaigns/campaign-id/plan',
+          'https://localhost:7653/api/v1/campaigns/campaign-id/plan',
           {
             headers: {
               Authorization: 'Bearer token',
@@ -473,7 +468,7 @@ describe('contentGenerationApi', () => {
 
         const result = await plannerApi.getUserPlans('token');
 
-        expect(mockFetch).toHaveBeenCalledWith('https://mock-service.com/api/v1/plans', {
+        expect(mockFetch).toHaveBeenCalledWith('https://localhost:7653/api/v1/plans', {
           headers: {
             Authorization: 'Bearer token',
           },
@@ -507,7 +502,7 @@ describe('contentGenerationApi', () => {
         const result = await policyApi.createPolicy('campaign-id', policyData, 'token');
 
         expect(mockFetch).toHaveBeenCalledWith(
-          'https://mock-service.com/api/v1/campaigns/campaign-id/policy',
+          'https://localhost:7653/api/v1/campaigns/campaign-id/policy',
           {
             method: 'POST',
             headers: {

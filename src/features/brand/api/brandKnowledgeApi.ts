@@ -1,4 +1,4 @@
-import { getServiceURL } from '../../../shared/utils/getServiceURL';
+// Removed getServiceURL import - using environment variables instead
 
 export interface BrandKnowledgeData {
   brand_id: string;
@@ -27,7 +27,8 @@ export interface BrandKnowledgeData {
   guardrails: Record<string, string | boolean | number>;
 }
 
-const CONTENT_GEN_URL = getServiceURL('content-gen');
+// Use environment variable for content generation service URL
+const CONTENT_GEN_URL = import.meta.env.VITE_CONTENT_GEN_URL || 'https://localhost:7653';
 
 /**
  * API client for brand knowledge operations

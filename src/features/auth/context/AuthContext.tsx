@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useEffect, useCallback } fr
 import { useLocation, useNavigate } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import { useAuthentication } from '../../../lib/firebase';
-import { getServiceURL } from '../../../shared/utils/getServiceURL';
+// Removed getServiceURL import - using environment variables instead
 
 interface Profile {
   id: string;
@@ -158,7 +158,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       // If we have a Firebase user, always use their token
       if (user) {
         const token = await user.getIdToken(true);
-        const response = await fetch(`${getServiceURL('data')}/api/v1/user`, {
+        const response = await fetch(`${import.meta.env.VITE_DATA_URL || 'https://localhost:7651'}/api/v1/user`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -197,7 +197,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         return;
       }
 
-      const response = await fetch(`${getServiceURL('data')}/api/v1/user`, {
+      const response = await fetch(`${import.meta.env.VITE_DATA_URL || 'https://localhost:7651'}/api/v1/user`, {
         headers: {
           Authorization: `Bearer ${storedToken}`,
         },
