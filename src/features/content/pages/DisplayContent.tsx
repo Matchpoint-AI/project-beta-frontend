@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import Sidebar from '../shared/components/layout/Sidebar';
+import Sidebar from '../../../shared/components/layout/Sidebar';
 import { useLocation } from 'react-router-dom';
-import { getServiceURL } from '../shared/utils/getServiceURL';
+import { getServiceURL } from '../../../shared/utils/getServiceURL';
 
 const DisplayContent = () => {
   const campaign = useLocation().search;

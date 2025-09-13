@@ -1,12 +1,12 @@
 import React from 'react';
-import { Navbar } from '../features/auth';
-import LandingFooter from '../components/landing/LandingFooter';
+import { Navbar } from '../../auth';
+import LandingFooter from '../components/LandingFooter';
 // import Contact from "../components/landing/Contact";
-import WhyBanner from '../components/landing/WhyBanner';
-import HowBanner from '../components/landing/HowBanner';
+import WhyBanner from '../components/WhyBanner';
+import HowBanner from '../components/HowBanner';
 // import Reviews from "../components/landing/Reviews";
-import HeroSection from '../components/landing/HeroSection';
-import Features from '../components/landing/Features';
+import HeroSection from '../components/HeroSection';
+import Features from '../components/Features';
 
 const LandingPage = () => {
   return (
