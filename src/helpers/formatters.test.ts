@@ -97,10 +97,10 @@ describe('formatters', () => {
               image_prompt: 'prompt1',
               platform: 'instagram',
               approved: true,
-              posted: false
-            }
-          }
-        }
+              posted: false,
+            },
+          },
+        },
       };
 
       // Act
@@ -121,9 +121,9 @@ describe('formatters', () => {
             platform: 'instagram',
             postIndex: 1,
             approved: true,
-            posted: false
-          })
-        ]
+            posted: false,
+          }),
+        ],
       });
     });
 
@@ -132,11 +132,11 @@ describe('formatters', () => {
       const input = {
         week_2: {
           day_2: { durationNum: 2, start_date: '2024-01-02', approved: false },
-          day_1: { durationNum: 1, start_date: '2024-01-01', approved: true }
+          day_1: { durationNum: 1, start_date: '2024-01-01', approved: true },
         },
         week_1: {
-          day_1: { durationNum: 1, start_date: '2023-12-31', approved: false }
-        }
+          day_1: { durationNum: 1, start_date: '2023-12-31', approved: false },
+        },
       };
 
       // Act
@@ -163,9 +163,9 @@ describe('formatters', () => {
             approved: true,
             post_3: { id: 'post3', text: 'Third post', approved: false, posted: true },
             post_1: { id: 'post1', text: 'First post', approved: true, posted: false },
-            post_2: { id: 'post2', text: 'Second post', approved: false, posted: false }
-          }
-        }
+            post_2: { id: 'post2', text: 'Second post', approved: false, posted: false },
+          },
+        },
       };
 
       // Act
@@ -178,21 +178,21 @@ describe('formatters', () => {
         text: 'First post',
         postIndex: 1,
         approved: true,
-        posted: false
+        posted: false,
       });
       expect(result[0][0].posts[1]).toMatchObject({
         id: 'post2',
         text: 'Second post',
         postIndex: 2,
         approved: false,
-        posted: false
+        posted: false,
       });
       expect(result[0][0].posts[2]).toMatchObject({
         id: 'post3',
         text: 'Third post',
         postIndex: 3,
         approved: false,
-        posted: true
+        posted: true,
       });
     });
 
@@ -202,8 +202,8 @@ describe('formatters', () => {
         week_1: {
           day_1: null,
           day_2: 'invalid string',
-          day_3: 123
-        }
+          day_3: 123,
+        },
       };
 
       // Act
@@ -216,21 +216,21 @@ describe('formatters', () => {
         start_date: '',
         approved: false,
         posts: [],
-        dayIndex: 1
+        dayIndex: 1,
       });
       expect(result[0][1]).toMatchObject({
         durationNum: 0,
         start_date: '',
         approved: false,
         posts: [],
-        dayIndex: 2
+        dayIndex: 2,
       });
       expect(result[0][2]).toMatchObject({
         durationNum: 0,
         start_date: '',
         approved: false,
         posts: [],
-        dayIndex: 3
+        dayIndex: 3,
       });
     });
 
@@ -238,8 +238,8 @@ describe('formatters', () => {
       // Arrange
       const input = {
         week_1: {
-          day_1: {}
-        }
+          day_1: {},
+        },
       };
 
       // Act
@@ -251,7 +251,7 @@ describe('formatters', () => {
         start_date: '',
         approved: false,
         posts: [],
-        dayIndex: 1
+        dayIndex: 1,
       });
     });
 
@@ -265,9 +265,9 @@ describe('formatters', () => {
             approved: true,
             post_1: { id: 'post1', text: 'Valid post' },
             not_a_post: { id: 'not_post', text: 'Should be ignored' },
-            random_key: 'random value'
-          }
-        }
+            random_key: 'random value',
+          },
+        },
       };
 
       // Act
@@ -278,7 +278,7 @@ describe('formatters', () => {
       expect(result[0][0].posts[0]).toMatchObject({
         id: 'post1',
         text: 'Valid post',
-        postIndex: 1
+        postIndex: 1,
       });
     });
 
@@ -292,9 +292,9 @@ describe('formatters', () => {
             approved: true,
             post_1: null,
             post_2: 'invalid',
-            post_3: { id: 'post3', text: 'Valid post' }
-          }
-        }
+            post_3: { id: 'post3', text: 'Valid post' },
+          },
+        },
       };
 
       // Act
@@ -305,19 +305,19 @@ describe('formatters', () => {
       expect(result[0][0].posts[0]).toMatchObject({
         postIndex: 1,
         approved: false,
-        posted: false
+        posted: false,
       });
       expect(result[0][0].posts[1]).toMatchObject({
         postIndex: 2,
         approved: false,
-        posted: false
+        posted: false,
       });
       expect(result[0][0].posts[2]).toMatchObject({
         id: 'post3',
         text: 'Valid post',
         postIndex: 3,
         approved: false,
-        posted: false
+        posted: false,
       });
     });
 

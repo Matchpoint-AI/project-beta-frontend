@@ -41,14 +41,11 @@ describe('fetchPrompts', () => {
 
     // Assert
     expect(getServiceURLModule.getServiceURL).toHaveBeenCalledWith('content-gen');
-    expect(global.fetch).toHaveBeenCalledWith(
-      `${mockServiceURL}/api/v1/app_prompts`,
-      {
-        headers: {
-          Authorization: `Bearer ${mockToken}`,
-        },
-      }
-    );
+    expect(global.fetch).toHaveBeenCalledWith(`${mockServiceURL}/api/v1/app_prompts`, {
+      headers: {
+        Authorization: `Bearer ${mockToken}`,
+      },
+    });
     expect(result).toEqual({
       content_generation: [
         { version: 1, id: 'cg-1' },
@@ -76,14 +73,11 @@ describe('fetchPrompts', () => {
     // Assert
     expect(result).toBeNull();
     expect(getServiceURLModule.getServiceURL).toHaveBeenCalledWith('content-gen');
-    expect(global.fetch).toHaveBeenCalledWith(
-      `${mockServiceURL}/api/v1/app_prompts`,
-      {
-        headers: {
-          Authorization: `Bearer ${mockToken}`,
-        },
-      }
-    );
+    expect(global.fetch).toHaveBeenCalledWith(`${mockServiceURL}/api/v1/app_prompts`, {
+      headers: {
+        Authorization: `Bearer ${mockToken}`,
+      },
+    });
   });
 
   it('should handle network errors', async () => {
