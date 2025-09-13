@@ -38,10 +38,10 @@ import {
 } from 'lucide-react';
 
 import { costOptimizationApi } from '../api/costOptimizationApi';
-import { LoadingSpinner } from '../../../components/ui/LoadingSpinner';
-import { Card } from '../../../components/ui/Card';
-import { Badge } from '../../../components/ui/Badge';
-import { Button } from '../../../components/ui/Button';
+import { LoadingSpinner } from '../../../shared/components/ui/LoadingSpinner';
+import { Card } from '../../../shared/components/ui/Card';
+import { Badge } from '../../../shared/components/ui/Badge';
+import { Button } from '../../../shared/components/ui/Button';
 
 // Register Chart.js components
 ChartJS.register(
