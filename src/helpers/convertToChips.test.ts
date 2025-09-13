@@ -183,7 +183,7 @@ describe('convertToChipsArray', () => {
           customProp: 'custom',
           extraData: { nested: 'value' },
         },
-      ] as Chip[];
+      ] as any[];
 
       // Act
       const result = convertToChipsArray(input);

@@ -12,7 +12,7 @@ vi.mock('./posthog', () => ({
 }));
 
 describe('handleNavigate', () => {
-  let mockNavigate: NavigateFunction;
+  let mockNavigate: vi.Mock;
   let mockPosthogCapture: ReturnType<typeof vi.fn>;
 
   beforeEach(() => {

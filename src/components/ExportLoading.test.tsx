@@ -148,8 +148,8 @@ describe('LoadingModal (ExportLoading)', () => {
 
       // Assert
       const checkPath = document.querySelector('svg.text-green-500 path');
-      expect(checkPath).toHaveAttribute('fillRule', 'evenodd');
-      expect(checkPath).toHaveAttribute('clipRule', 'evenodd');
+      expect(checkPath).toHaveAttribute('fill-rule', 'evenodd');
+      expect(checkPath).toHaveAttribute('clip-rule', 'evenodd');
       expect(checkPath).toHaveAttribute(
         'd',
         'M10 18a8 8 0 100-16 8 8 0 000 16zm-1.292-4.293a1 1 0 011.414 0l5-5a1 1 0 10-1.414-1.414l-4.293 4.293-1.293-1.293a1 1 0 00-1.414 1.414l2 2z'
@@ -228,7 +228,7 @@ describe('LoadingModal (ExportLoading)', () => {
       render(<LoadingModal steps={mockStepsWithComplete} isOpen={true} />);
 
       // Assert
-      const checkIcon = screen.getByRole('img', { hidden: true });
+      const checkIcon = document.querySelector('svg.text-green-500');
       expect(checkIcon).toBeInTheDocument();
     });
   });
