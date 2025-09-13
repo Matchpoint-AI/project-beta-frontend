@@ -48,20 +48,20 @@ vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
 # TypeScript compilation artifacts
-# Ignore all compiled JS files in src
+# Ignore ALL TypeScript declaration files - they are auto-generated
+*.d.ts
+**/*.d.ts
+
+# Ignore compiled JavaScript files and source maps in src
 src/**/*.js
 src/**/*.js.map
 
-# Ignore auto-generated declaration files
-src/**/*.d.ts
-
-# But keep these specific files
+# Keep only necessary config files
 !src/**/*.config.js
 !src/**/*.setup.js
-!src/setupTests.ts
-!src/setupTests.d.ts
-!src/reportWebVitals.ts
-!src/reportWebVitals.d.ts
+!vite.config.js
+!vitest.config.js
+!playwright.config.js
 
 # Editor directories and files
 .vscode/*

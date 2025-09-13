@@ -1,18 +1,20 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import scrapeBrandWebsite from './scrapeBrandWebsite';
-import type { BusinessInfo } from '../../brand/context/BrandContext';
+import type { BusinessInfo } from '../context/BrandContext';
 
-// Mock getServiceURL to avoid actual network calls
-vi.mock('./getServiceURL', () => ({
-  getServiceURL: () => 'http://mock-llm',
+// Mock the new brandV2Api
+vi.mock('../api/brandV2Api', () => ({
+  brandV2Api: {
+    completeBrandOnboarding: vi.fn(),
+  },
 }));
 
-// Mock convertToChipsArray to return the input array
-vi.mock('./convertToChips', () => ({
-  default: (arr: unknown[]) => arr,
+// Mock convertToChipsArray to return the input array as chips
+vi.mock('../../../helpers/convertToChips', () => ({
+  default: (arr: unknown[]) => arr?.map((item: any) => ({ selected: true, name: item })) || [],
 }));
 
-global.fetch = vi.fn();
+import { brandV2Api } from '../api/brandV2Api';
 
 describe('scrapeBrandWebsite', () => {
   const baseBusinessInfo: BusinessInfo = {
@@ -25,6 +27,7 @@ describe('scrapeBrandWebsite', () => {
     durationNum: 30,
   };
   const setBusinessInfo = vi.fn();
+  const mockToken = 'test-token';
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -34,119 +37,90 @@ describe('scrapeBrandWebsite', () => {
     vi.clearAllMocks();
   });
 
-  it('should set brandColors to [] if colors is undefined', async () => {
-    (fetch as unknown as jest.Mock).mockResolvedValueOnce({
-      json: async () => ({
-        Brand_mission: 'm',
-        Brand_vision: 'v',
-        Brand_values: ['v1'],
-        Brand_tone_and_voice: ['t1'],
-        Brand_persona: ['p1'],
-        Brand_style: 's',
-        Brand_products: 'p',
-        Industry: 'i',
-        Industry_Vertical: 'iv',
-        Suggested_locations_for_photography: 'l',
-        themes: 'th',
-        scenes: 'sc',
-        negative_prompts: 'np',
-        colors: undefined,
-      }),
-      ok: true,
-    });
-    await scrapeBrandWebsite(baseBusinessInfo, setBusinessInfo);
+  it('should successfully scrape and update business info with brand knowledge', async () => {
+    const mockBrand = { id: 'brand-123', name: 'Test Company' };
+    const mockKnowledge = {
+      brandId: 'brand-123',
+      personalityTraits: ['trait1', 'trait2'],
+      toneAttributes: { tone1: 'value1' },
+      colorPalette: ['#fff', '#000', '#ccc'],
+      products: [{ name: 'Product 1' }],
+      brandDescription: 'Test description',
+      valueProposition: 'Test value prop',
+      targetAudience: 'Test audience',
+    };
 
-    // Check that setBusinessInfo was called with a function
+    (brandV2Api.completeBrandOnboarding as any).mockResolvedValueOnce({
+      brand: mockBrand,
+      knowledge: mockKnowledge,
+    });
+
+    await scrapeBrandWebsite(baseBusinessInfo, setBusinessInfo, { token: mockToken });
+
+    // Verify API was called with correct parameters
+    expect(brandV2Api.completeBrandOnboarding).toHaveBeenCalledWith(
+      'Test Company',
+      'https://example.com',
+      mockToken,
+      50,
+      undefined
+    );
+
+    // Check that setBusinessInfo was called
     expect(setBusinessInfo).toHaveBeenCalledWith(expect.any(Function));
 
-    // Call the function with a mock previous state to see what it returns
+    // Call the function to see what it returns
     const updateFunction = setBusinessInfo.mock.calls[0][0];
     const result = updateFunction(baseBusinessInfo);
 
-    expect(result.brandColors).toEqual([]);
+    expect(result).toMatchObject({
+      id: 'brand-123',
+      mission: 'Test description',
+      vision: 'Test value prop',
+      target_audience: 'Test audience',
+      brandColors: ['#fff', '#000', '#ccc'],
+      isFetched: true,
+      isSaved: false,
+    });
   });
 
-  it('should set brandColors to [] if colors is null', async () => {
-    (fetch as unknown as jest.Mock).mockResolvedValueOnce({
-      json: async () => ({
-        Brand_mission: 'm',
-        Brand_vision: 'v',
-        Brand_values: ['v1'],
-        Brand_tone_and_voice: ['t1'],
-        Brand_persona: ['p1'],
-        Brand_style: 's',
-        Brand_products: 'p',
-        Industry: 'i',
-        Industry_Vertical: 'iv',
-        Suggested_locations_for_photography: 'l',
-        themes: 'th',
-        scenes: 'sc',
-        negative_prompts: 'np',
-        colors: null,
-      }),
-      ok: true,
-    });
-    await scrapeBrandWebsite(baseBusinessInfo, setBusinessInfo);
+  it('should handle API errors gracefully', async () => {
+    (brandV2Api.completeBrandOnboarding as any).mockRejectedValueOnce(new Error('API Error'));
 
-    const updateFunction = setBusinessInfo.mock.calls[0][0];
-    const result = updateFunction(baseBusinessInfo);
-
-    expect(result.brandColors).toEqual([]);
+    await expect(
+      scrapeBrandWebsite(baseBusinessInfo, setBusinessInfo, { token: mockToken })
+    ).rejects.toThrow('Failed to scrape brand website: API Error');
   });
 
-  it('should set brandColors to [] if colors is missing', async () => {
-    (fetch as unknown as jest.Mock).mockResolvedValueOnce({
-      json: async () => ({
-        Brand_mission: 'm',
-        Brand_vision: 'v',
-        Brand_values: ['v1'],
-        Brand_tone_and_voice: ['t1'],
-        Brand_persona: ['p1'],
-        Brand_style: 's',
-        Brand_products: 'p',
-        Industry: 'i',
-        Industry_Vertical: 'iv',
-        Suggested_locations_for_photography: 'l',
-        themes: 'th',
-        scenes: 'sc',
-        negative_prompts: 'np',
-        // colors property is missing entirely
-      }),
-      ok: true,
+  it('should require name and website', async () => {
+    const incompleteInfo = { ...baseBusinessInfo, name: '' };
+
+    await expect(
+      scrapeBrandWebsite(incompleteInfo, setBusinessInfo, { token: mockToken })
+    ).rejects.toThrow('Brand name and website are required');
+  });
+
+  it('should handle empty color palette gracefully', async () => {
+    const mockBrand = { id: 'brand-123', name: 'Test Company' };
+    const mockKnowledge = {
+      brandId: 'brand-123',
+      personalityTraits: [],
+      toneAttributes: {},
+      colorPalette: [], // Empty color palette
+      products: [],
+      brandDescription: 'Test description',
+    };
+
+    (brandV2Api.completeBrandOnboarding as any).mockResolvedValueOnce({
+      brand: mockBrand,
+      knowledge: mockKnowledge,
     });
-    await scrapeBrandWebsite(baseBusinessInfo, setBusinessInfo);
+
+    await scrapeBrandWebsite(baseBusinessInfo, setBusinessInfo, { token: mockToken });
 
     const updateFunction = setBusinessInfo.mock.calls[0][0];
     const result = updateFunction(baseBusinessInfo);
 
     expect(result.brandColors).toEqual([]);
-  });
-
-  it('should set brandColors to first three colors if present', async () => {
-    (fetch as unknown as jest.Mock).mockResolvedValueOnce({
-      json: async () => ({
-        Brand_mission: 'm',
-        Brand_vision: 'v',
-        Brand_values: ['v1'],
-        Brand_tone_and_voice: ['t1'],
-        Brand_persona: ['p1'],
-        Brand_style: 's',
-        Brand_products: 'p',
-        Industry: 'i',
-        Industry_Vertical: 'iv',
-        Suggested_locations_for_photography: 'l',
-        themes: 'th',
-        scenes: 'sc',
-        negative_prompts: 'np',
-        colors: ['#fff', '#000', '#ccc', '#ddd'],
-      }),
-      ok: true,
-    });
-    await scrapeBrandWebsite(baseBusinessInfo, setBusinessInfo);
-
-    const updateFunction = setBusinessInfo.mock.calls[0][0];
-    const result = updateFunction(baseBusinessInfo);
-
-    expect(result.brandColors).toEqual(['#fff', '#000', '#ccc']);
   });
 });

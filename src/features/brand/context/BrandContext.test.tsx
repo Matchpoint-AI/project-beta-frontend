@@ -69,6 +69,8 @@ describe('BrandContext', () => {
           value={{
             businessInfo: customBusinessInfo,
             setBusinessInfo: vi.fn(),
+            updateWorkflowState: vi.fn(),
+            clearWorkflow: vi.fn(),
           }}
         >
           <TestComponent />
@@ -117,6 +119,8 @@ describe('BrandContext', () => {
           value={{
             businessInfo: initialInfo,
             setBusinessInfo: mockSetBusinessInfo,
+            updateWorkflowState: vi.fn(),
+            clearWorkflow: vi.fn(),
           }}
         >
           <TestComponent />
@@ -177,6 +181,8 @@ describe('BrandContext', () => {
           value={{
             businessInfo,
             setBusinessInfo: vi.fn(),
+            updateWorkflowState: vi.fn(),
+            clearWorkflow: vi.fn(),
           }}
         >
           <TestComponent />
@@ -221,6 +227,8 @@ describe('BrandContext', () => {
           value={{
             businessInfo: minimalInfo,
             setBusinessInfo: vi.fn(),
+            updateWorkflowState: vi.fn(),
+            clearWorkflow: vi.fn(),
           }}
         >
           <TestComponent />
@@ -256,6 +264,8 @@ describe('BrandContext', () => {
             value={{
               businessInfo,
               setBusinessInfo: vi.fn(),
+              updateWorkflowState: vi.fn(),
+              clearWorkflow: vi.fn(),
             }}
           >
             <div>
@@ -318,6 +328,8 @@ describe('BrandContext', () => {
           value={{
             businessInfo,
             setBusinessInfo: vi.fn(),
+            updateWorkflowState: vi.fn(),
+            clearWorkflow: vi.fn(),
           }}
         >
           <Consumer1 />
@@ -333,6 +345,8 @@ describe('BrandContext', () => {
           value={{
             businessInfo,
             setBusinessInfo: vi.fn(),
+            updateWorkflowState: vi.fn(),
+            clearWorkflow: vi.fn(),
           }}
         >
           <Consumer1 />
@@ -378,6 +392,8 @@ describe('BrandContext', () => {
           value={{
             businessInfo: outerInfo,
             setBusinessInfo: vi.fn(),
+            updateWorkflowState: vi.fn(),
+            clearWorkflow: vi.fn(),
           }}
         >
           <div>
@@ -386,6 +402,8 @@ describe('BrandContext', () => {
               value={{
                 businessInfo: innerInfo,
                 setBusinessInfo: vi.fn(),
+                updateWorkflowState: vi.fn(),
+                clearWorkflow: vi.fn(),
               }}
             >
               <TestComponent />
@@ -428,6 +446,8 @@ describe('BrandContext', () => {
           value={{
             businessInfo,
             setBusinessInfo: vi.fn(),
+            updateWorkflowState: vi.fn(),
+            clearWorkflow: vi.fn(),
           }}
         >
           <TestComponent />
@@ -494,6 +514,8 @@ describe('BrandContext', () => {
           value={{
             businessInfo,
             setBusinessInfo: vi.fn(),
+            updateWorkflowState: vi.fn(),
+            clearWorkflow: vi.fn(),
           }}
         >
           <TestComponent />

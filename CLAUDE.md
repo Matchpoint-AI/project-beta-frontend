@@ -93,6 +93,34 @@ The semantic versioning workflow is defined in `.github/workflows/set-version.ya
 - **Versioning**: Automated semantic versioning on main branch
 - **Testing Framework**: Vitest (unit tests), Playwright (E2E tests)
 
+## Important: Files That Should NEVER Be Committed
+
+### TypeScript Declaration Files
+
+**Never commit `.d.ts` files** - these are auto-generated TypeScript declaration files that are compilation artifacts. They should not be tracked in version control.
+
+- ❌ **Do NOT commit**: `*.d.ts` files (e.g., `Component.d.ts`, `index.d.ts`)
+- ✅ **DO commit**: Source files (`*.ts`, `*.tsx`)
+- These files are already in `.gitignore` and are regenerated during the build process
+
+### Other Files to Exclude
+
+- Build artifacts (`dist/`, `build/`)
+- Dependency directories (`node_modules/`)
+- Environment files with secrets (`.env.local`, `.env.production`)
+- Editor/IDE configuration (`.vscode/`, `.idea/`)
+- OS-generated files (`.DS_Store`, `Thumbs.db`)
+
+If you see these files in `git status`, they should be removed from tracking:
+
+```bash
+# Remove all .d.ts files from git tracking
+git rm -r --cached **/*.d.ts
+
+# Remove other build artifacts
+git rm -r --cached dist/ build/
+```
+
 ## Code Quality Guidelines
 
 ### Pre-Pull Request Checklist

@@ -71,7 +71,14 @@ describe('CampaignSetupCompleteDialog - Default Values', () => {
     });
 
     render(
-      <BrandContext.Provider value={{ businessInfo, setBusinessInfo: vi.fn() }}>
+      <BrandContext.Provider
+        value={{
+          businessInfo,
+          setBusinessInfo: vi.fn(),
+          updateWorkflowState: vi.fn(),
+          clearWorkflow: vi.fn(),
+        }}
+      >
         <CampaignContext.Provider
           value={{
             campaignInfo: minimalCampaignInfo,
@@ -133,7 +140,14 @@ describe('CampaignSetupCompleteDialog - Default Values', () => {
     });
 
     render(
-      <BrandContext.Provider value={{ businessInfo, setBusinessInfo: vi.fn() }}>
+      <BrandContext.Provider
+        value={{
+          businessInfo,
+          setBusinessInfo: vi.fn(),
+          updateWorkflowState: vi.fn(),
+          clearWorkflow: vi.fn(),
+        }}
+      >
         <CampaignContext.Provider
           value={{
             campaignInfo: {},
@@ -230,7 +244,14 @@ describe('CampaignSetupCompleteDialog - Scene Mix Integration', () => {
     });
 
     const { container: _container, baseElement: _baseElement } = render(
-      <BrandContext.Provider value={{ businessInfo, setBusinessInfo: vi.fn() }}>
+      <BrandContext.Provider
+        value={{
+          businessInfo,
+          setBusinessInfo: vi.fn(),
+          updateWorkflowState: vi.fn(),
+          clearWorkflow: vi.fn(),
+        }}
+      >
         <CampaignContext.Provider
           value={{
             campaignInfo,
@@ -329,6 +350,8 @@ describe('CampaignSetupCompleteDialog - Scene Mix Integration', () => {
               brandColors: [],
             },
             setBusinessInfo: vi.fn(),
+            updateWorkflowState: vi.fn(),
+            clearWorkflow: vi.fn(),
           }}
         >
           <CampaignContext.Provider
@@ -397,6 +420,8 @@ describe('CampaignSetupCompleteDialog - Scene Mix Integration', () => {
             brandColors: [],
           },
           setBusinessInfo: vi.fn(),
+          updateWorkflowState: vi.fn(),
+          clearWorkflow: vi.fn(),
         }}
       >
         <CampaignContext.Provider
@@ -467,6 +492,8 @@ describe('CampaignSetupCompleteDialog - Scene Mix Integration', () => {
             brandColors: [],
           },
           setBusinessInfo: vi.fn(),
+          updateWorkflowState: vi.fn(),
+          clearWorkflow: vi.fn(),
         }}
       >
         <CampaignContext.Provider
@@ -541,6 +568,8 @@ describe('CampaignSetupCompleteDialog - Scene Mix Integration', () => {
             brandColors: [],
           },
           setBusinessInfo: vi.fn(),
+          updateWorkflowState: vi.fn(),
+          clearWorkflow: vi.fn(),
         }}
       >
         <CampaignContext.Provider
