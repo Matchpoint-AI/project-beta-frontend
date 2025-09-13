@@ -9,7 +9,7 @@ import PerformancePredictionDashboard from './PerformancePredictionDashboard';
 import { useAuth } from '../../auth/context/AuthContext';
 
 // Mock the dependencies
-vi.mock('../../api/performanceApi', () => ({
+vi.mock('../../../api/performanceApi', () => ({
   performanceApi: {
     recordMetric: vi.fn().mockResolvedValue({ success: true }),
     getMetricsSummary: vi.fn().mockResolvedValue({}),
