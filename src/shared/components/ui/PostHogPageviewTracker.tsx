@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import posthog from '../shared/utils/posthog';
+import posthog from '../../utils/posthog';
 
 export default function PostHogPageviewTracker() {
   const location = useLocation();
