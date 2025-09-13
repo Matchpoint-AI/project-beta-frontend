@@ -78,7 +78,9 @@ describe('getServiceURL', () => {
       expect(getServiceURL('data')).toBe('https://data.staging.example.com');
       expect(getServiceURL('llm')).toBe('https://llm.staging.example.com');
       expect(getServiceURL('content-gen')).toBe('https://content-gen.staging.example.com');
-      expect(getServiceURL('campaign-manager')).toBe('https://campaign-manager.staging.example.com');
+      expect(getServiceURL('campaign-manager')).toBe(
+        'https://campaign-manager.staging.example.com'
+      );
     });
   });
 
@@ -116,7 +118,9 @@ describe('getServiceURL', () => {
       expect(getServiceURL('data')).toBe('https://data.app.subdomain.example.com');
       expect(getServiceURL('llm')).toBe('https://llm.app.subdomain.example.com');
       expect(getServiceURL('content-gen')).toBe('https://content-gen.app.subdomain.example.com');
-      expect(getServiceURL('campaign-manager')).toBe('https://campaign-manager.app.subdomain.example.com');
+      expect(getServiceURL('campaign-manager')).toBe(
+        'https://campaign-manager.app.subdomain.example.com'
+      );
     });
 
     it('should handle IP address as hostname', async () => {

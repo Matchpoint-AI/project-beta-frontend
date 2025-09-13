@@ -41,14 +41,11 @@ describe('fetchPrompts', () => {
 
     // Assert
     expect(getServiceURL).toHaveBeenCalledWith('content-gen');
-    expect(global.fetch).toHaveBeenCalledWith(
-      'https://api.example.com/api/v1/app_prompts',
-      {
-        headers: {
-          Authorization: `Bearer ${mockToken}`,
-        },
-      }
-    );
+    expect(global.fetch).toHaveBeenCalledWith('https://api.example.com/api/v1/app_prompts', {
+      headers: {
+        Authorization: `Bearer ${mockToken}`,
+      },
+    });
     expect(result.content_generation).toEqual([
       { version: 1, content: 'prompt1' },
       { version: 2, content: 'prompt2' },
@@ -90,7 +87,7 @@ describe('fetchPrompts', () => {
     const mockToken = 'test-token-123';
     const customServiceUrl = 'https://custom-api.example.com';
     (getServiceURL as any).mockReturnValue(customServiceUrl);
-    
+
     (global.fetch as any).mockResolvedValue({
       ok: true,
       json: async () => ({
@@ -140,9 +137,7 @@ describe('fetchPrompts', () => {
         { version: 2, content: 'prompt2', extra: 'data' },
         { version: 1, content: 'prompt1', meta: 'info' },
       ],
-      scrape_website: [
-        { version: 1, content: 'scrape1', type: 'basic' },
-      ],
+      scrape_website: [{ version: 1, content: 'scrape1', type: 'basic' }],
       other_field: 'should be preserved',
     };
 
