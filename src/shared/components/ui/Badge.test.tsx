@@ -69,7 +69,15 @@ describe('Badge', () => {
       // Assert
       const badge = screen.getByText('Custom');
       expect(badge).toHaveClass('custom-class');
-      expect(badge).toHaveClass('inline-flex', 'items-center', 'px-2.5', 'py-0.5', 'rounded-full', 'text-xs', 'font-medium');
+      expect(badge).toHaveClass(
+        'inline-flex',
+        'items-center',
+        'px-2.5',
+        'py-0.5',
+        'rounded-full',
+        'text-xs',
+        'font-medium'
+      );
     });
 
     it('should maintain base styling classes for all variants', () => {
@@ -78,7 +86,15 @@ describe('Badge', () => {
 
       // Assert
       const badge = screen.getByText('Test');
-      expect(badge).toHaveClass('inline-flex', 'items-center', 'px-2.5', 'py-0.5', 'rounded-full', 'text-xs', 'font-medium');
+      expect(badge).toHaveClass(
+        'inline-flex',
+        'items-center',
+        'px-2.5',
+        'py-0.5',
+        'rounded-full',
+        'text-xs',
+        'font-medium'
+      );
     });
   });
 
