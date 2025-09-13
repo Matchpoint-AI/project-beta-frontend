@@ -6,12 +6,12 @@
  */
 import { useState, useEffect, useCallback } from 'react';
 import { getAuth } from 'firebase/auth';
-import { initializeV2Api, campaignApiV2, brandApiV2 } from '../api/v2';
+import { initializeV2Api, campaignApiV2, brandApiV2 } from '../../api/v2';
 import type {
   CreateBrandRequest,
   UpdateBrandRequest,
   CrawlWebsiteRequest,
-} from '../features/brand/api/brand-api';
+} from '../../features/brand/api/brand-api';
 
 /**
  * Hook state interface
