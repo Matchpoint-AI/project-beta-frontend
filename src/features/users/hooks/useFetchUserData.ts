@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../../auth/context/AuthContext';
-import { getServiceURL } from '../../../shared/utils/getServiceURL';
 import { useParams } from 'react-router-dom';
 
 export type BrandData = {
@@ -41,7 +40,7 @@ export default function useFetchUserData() {
   const fetchUserData = async () => {
     setLoading(true);
     setError('');
-    const serviceUrl = getServiceURL('data');
+    const serviceUrl = import.meta.env.VITE_DATA_URL || 'https://localhost:7651';
     const endpointUrl = `${serviceUrl}/api/v1/users/${params.id}`;
 
     const response = await fetch(endpointUrl, {

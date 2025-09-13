@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { getServiceURL } from '../../utils/getServiceURL';
 import { useAuth } from '../../../features/auth/context/AuthContext';
 import useAppContext from '../../context/appContext';
 import useIntegrationApi, {
@@ -63,7 +62,7 @@ const InstaConnect: React.FC<InstaConnectProps> = ({
       return;
     }
 
-    const endpointUrl = getServiceURL('data');
+    const endpointUrl = import.meta.env.VITE_DATA_URL || 'https://localhost:7651';
     const redirectURI = `${endpointUrl}/api/v1/instagram/callback`;
     const baseurl =
       window.location.hostname === 'www.matchpointai.com'
@@ -399,7 +398,7 @@ const PublishApproved: React.FC<PublishApprovedProps> = ({ stats, startDate, dur
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isDateOpen, setDateOpen] = useState(false);
   const [published, setPublished] = useState(false);
-  const endpointUrl = getServiceURL('content-gen');
+  const endpointUrl = import.meta.env.VITE_CONTENT_GEN_URL || 'https://localhost:7653';
   const { profile } = useAuth();
   const { id } = useParams();
   const [status, setStatus] = useState(false);
@@ -411,7 +410,7 @@ const PublishApproved: React.FC<PublishApprovedProps> = ({ stats, startDate, dur
   const navigate = useNavigate();
 
   const updatePostingDate = async (startDate: Dayjs) => {
-    const endpointUrl = getServiceURL('content-gen');
+    const endpointUrl = import.meta.env.VITE_CONTENT_GEN_URL || 'https://localhost:7653';
     // const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
     const formattedDate = dayjs(startDate).format('M/D/YYYY');

@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { CampaignContext } from '../../../features/campaign/context/CampaignContext';
-import { getServiceURL } from '../../../shared/utils/getServiceURL';
 import { useAuth } from '../../../features/auth/context/AuthContext';
 import { CircularProgress } from '@mui/material';
 import CampaignDetailsBlock from './CampaignDetailsBlock';
@@ -44,7 +43,7 @@ Here’s the information to use for generating this response:
 
 Use the information above to generate an accurate JSON response that includes concise descriptions for each property.
 `;
-    const endpointUrl = `${getServiceURL('llm')}/api/v1/llm/openai`;
+    const endpointUrl = `${import.meta.env.VITE_LLM_URL || 'https://localhost:7652'}/api/v1/llm/openai`;
     fetch(endpointUrl, {
       method: 'POST',
       headers: {

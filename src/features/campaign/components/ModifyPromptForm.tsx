@@ -2,7 +2,6 @@ import React, { FormEventHandler, useEffect, useState } from 'react';
 import { useAuth } from '../../../features/auth/context/AuthContext';
 import { CircularProgress, Dialog, DialogContent } from '@mui/material';
 import PurpleButton from '../../../shared/components/buttons/PurpleButton';
-import { getServiceURL } from '../../../shared/utils/getServiceURL';
 
 interface ModifyPromptFormProps {
   week: number;
@@ -20,7 +19,7 @@ export default function ModifyPromptForm(props: ModifyPromptFormProps) {
 
   const handleSavePrompt: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    const endpointUrl = getServiceURL('content-gen');
+    const endpointUrl = import.meta.env.VITE_CONTENT_GEN_URL || 'https://localhost:7653';
 
     try {
       setSubmited(true);
@@ -45,7 +44,7 @@ export default function ModifyPromptForm(props: ModifyPromptFormProps) {
   };
 
   const getImagePrompt = async () => {
-    const endpointUrl = getServiceURL('content-gen');
+    const endpointUrl = import.meta.env.VITE_CONTENT_GEN_URL || 'https://localhost:7653';
     const params = new URLSearchParams({
       week_num: props?.week.toString(),
       day_num: props?.day.toString(),

@@ -4,7 +4,6 @@ import { FaRegEdit } from 'react-icons/fa';
 import { LuFileMinus } from 'react-icons/lu';
 import { useAuth } from '../../auth/context/AuthContext';
 import { BrandContext } from '../context/BrandContext';
-import { getServiceURL } from '../../../shared/utils/getServiceURL';
 import PurpleButton from '../../../shared/components/buttons/PurpleButton';
 import BrandDetailsInput from '../../../shared/components/inputs/BrandDetailsInput';
 import Sidebar from '../../../shared/components/layout/Sidebar';
@@ -55,7 +54,7 @@ export default function BrandProfileEdit({ hasBrand: _hasBrand }: BrandProfileEd
   const [pSummary, setSummary] = useState(businessInfo.summary || '');
   const [isSaving, setIsSaving] = useState(false);
 
-  const endpointUrl = getServiceURL('data');
+  const endpointUrl = import.meta.env.VITE_DATA_URL || 'https://localhost:7651';
   const { profile } = useAuth();
 
   const handleSave = async () => {

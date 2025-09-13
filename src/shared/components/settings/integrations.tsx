@@ -7,7 +7,6 @@ import useIntegrationApi, {
 } from '../../../api/api-integrations';
 import React, { useEffect, useState } from 'react';
 import useAppContext from '../../context/appContext';
-import { getServiceURL } from '../../utils/getServiceURL';
 import { useAuth } from '../../../features/auth/context/AuthContext';
 
 const PLATFORMS = ['INSTAGRAM'];
@@ -21,7 +20,7 @@ export default function Integrations() {
 
   useEffect(() => {
     if (profile?.token === '') return;
-    const endpointUrl = getServiceURL('data');
+    const endpointUrl = import.meta.env.VITE_DATA_URL || 'https://localhost:7651';
     const redirectURI = `${endpointUrl}/api/v1/instagram/callback`;
     const baseurl =
       window.location.hostname === 'www.matchpointai.com'

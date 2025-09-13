@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { getServiceURL } from '../../../shared/utils/getServiceURL';
 import { useAuth } from '../../auth/context/AuthContext';
 import { BrandContext } from '../context/BrandContext';
 // import { useNavigate } from "react-router-dom";
@@ -20,7 +19,7 @@ export default function BrandDataLoader({ children }: { children: React.ReactNod
     const fetchBrandData = async () => {
       setLoading(true);
       setError(false);
-      const endpointUrl = getServiceURL('data');
+      const endpointUrl = import.meta.env.VITE_DATA_URL || 'https://localhost:7651';
       const response = await fetch(endpointUrl + '/api/v1/data/get/complex?query_kind=brand_data', {
         method: 'GET',
         headers: {

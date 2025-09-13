@@ -1,7 +1,6 @@
 import { CircularProgress } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react';
 import SocialMediaPost from './SocialMediaPost';
-import { getServiceURL } from '../../../shared/utils/getServiceURL';
 import moment from 'moment-timezone';
 import { getPostingScheduleArray } from '../../../shared/utils/calculateTiming';
 import { useAuth } from '../../../features/auth/context/AuthContext';
@@ -141,7 +140,7 @@ const DayBanner = ({
     day: number,
     content: { posts: Array<{ image_url: string[]; text: string }> }
   ) => {
-    const endpointUrl = getServiceURL('content-gen');
+    const endpointUrl = import.meta.env.VITE_CONTENT_GEN_URL || 'https://localhost:7653';
     const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const validTimezone = validateTimezone(userTimezone) ? userTimezone : 'UTC';
     setFullLoading(true);

@@ -10,7 +10,6 @@ import { useAuth } from '../../../features/auth/context/AuthContext';
 import ContentOverlay from './ContentOverlay';
 import Pagination from './Pagination';
 // import SocialMediaPost from "./SocialMediaPost";
-import { getServiceURL } from '../../../shared/utils/getServiceURL';
 import SkeletonSocialMediaPost from './SkeletonSocialMediaPost';
 // import { CampaignContext } from "../../../context/CampaignContext";
 import { structureData } from '../../../shared/utils/formatters';
@@ -50,7 +49,7 @@ const ContentLibrary = ({
 
   const { profile } = useAuth();
   const { id } = useParams();
-  const endpointUrl = getServiceURL('content-gen');
+  const endpointUrl = import.meta.env.VITE_CONTENT_GEN_URL || 'https://localhost:7653';
 
   useEffect(() => {
     if (!campaign) return;

@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Sidebar from '../../../shared/components/layout/Sidebar';
 import { useAuth } from '../../auth/context/AuthContext';
-import { getServiceURL } from '../../../shared/utils/getServiceURL';
 import { useNavigate, useParams } from 'react-router-dom';
 import { displayDuration, getPostingSchedule } from '../../../shared/utils/calculateTiming';
 import { CampaignHeader, ButtonGroup, ApprovePopup, TabWrapper } from '../../../features/campaign';
@@ -49,7 +48,7 @@ const CampaignContent = () => {
   const [error, setError] = useState<string | null>(null);
   const [retryTrigger, setRetryTrigger] = useState(0);
 
-  const endpointUrl = getServiceURL('data');
+  const endpointUrl = import.meta.env.VITE_DATA_URL || 'https://localhost:7651';
 
   // Wait for authentication to be ready
   useEffect(() => {

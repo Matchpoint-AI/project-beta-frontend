@@ -8,7 +8,6 @@ import ModifyPromptForm from './ModifyPromptForm';
 import { TiArrowMaximise } from 'react-icons/ti';
 import AutoAwesomeOutlinedIcon from '@mui/icons-material/AutoAwesomeOutlined';
 import { useAuth } from '../../../features/auth/context/AuthContext';
-import { getServiceURL } from '../../../shared/utils/getServiceURL';
 import { CircularProgress, Select, MenuItem, FormControl, InputLabel, Chip } from '@mui/material';
 import { FaInstagram, FaTwitter, FaFacebook, FaLinkedin, FaTiktok } from 'react-icons/fa';
 import { FaCheck } from 'react-icons/fa';
@@ -104,7 +103,7 @@ const PostPreview = ({
 
   const regenerateImage = async () => {
     try {
-      const endpointUrl = getServiceURL('content-gen');
+      const endpointUrl = import.meta.env.VITE_CONTENT_GEN_URL || 'https://localhost:7653';
       const response = await fetch(`${endpointUrl}/api/v1/contentgen/regenerate`, {
         method: 'POST',
         headers: {

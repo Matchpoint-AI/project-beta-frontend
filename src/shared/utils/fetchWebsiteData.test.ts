@@ -1,6 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { fetchWebsiteData } from './fetchWebsiteData';
-import { getServiceURL } from './getServiceURL';
 
 // Mock the getServiceURL helper
 vi.mock('./getServiceURL', () => ({

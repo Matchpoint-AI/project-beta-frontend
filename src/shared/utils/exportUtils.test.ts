@@ -1,6 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { fetchAndCreatePDF } from './exportUtils';
-import { getServiceURL } from './getServiceURL';
 
 // Mock dependencies
 vi.mock('./getServiceURL');

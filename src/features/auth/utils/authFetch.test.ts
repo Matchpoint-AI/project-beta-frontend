@@ -1,6 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { authFetch, getAuthToken, authApi } from './authFetch';
-import { getServiceURL } from '../../../shared/utils/getServiceURL';
 
 // Mock dependencies
 vi.mock('../../../shared/utils/getServiceURL', () => ({
@@ -399,7 +398,7 @@ describe('authFetch', () => {
       (getServiceURL as any).mockReturnValue('http://data-service.local');
 
       // Act
-      const serviceUrl = getServiceURL('data');
+      const serviceUrl = import.meta.env.VITE_DATA_URL || 'https://localhost:7651';
       await authFetch(`${serviceUrl}/api/endpoint`);
 
       // Assert

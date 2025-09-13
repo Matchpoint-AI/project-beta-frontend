@@ -3,7 +3,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PaginationImage from './PaginationImage';
 import { useAuth } from '../../../features/auth/context/AuthContext';
-import { getServiceURL } from '../../../shared/utils/getServiceURL';
 import { CircularProgress, Dialog, DialogContent, Menu, MenuItem } from '@mui/material';
 import ErrorToast from '../../../shared/components/feedback/ErrorToast';
 import moment from 'moment-timezone';
@@ -75,7 +74,7 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
   const [loadingRegen, setLoadingRegen] = useState(false); // Loading state
   const pRef = useRef(null);
   const { profile } = useAuth();
-  const endpointUrl = getServiceURL('content-gen');
+  const endpointUrl = import.meta.env.VITE_CONTENT_GEN_URL || 'https://localhost:7653';
   const [imageLoading, setImageLoading] = useState(true); // Track loading state
   const [errorSaving, setErrorSaving] = useState(false); // Track loading state
   const [errorText, setErrorText] = useState(''); // Track loading state
@@ -181,7 +180,7 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
 
   const fetchRemainingGenerations = async () => {
     try {
-      const endpointUrl = getServiceURL('content-gen');
+      const endpointUrl = import.meta.env.VITE_CONTENT_GEN_URL || 'https://localhost:7653';
       const params = new URLSearchParams();
 
       params.append('week_num', week.toString());
@@ -221,7 +220,7 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
 
     try {
       setLoadingRegen(true);
-      const endpointUrl = getServiceURL('content-gen');
+      const endpointUrl = import.meta.env.VITE_CONTENT_GEN_URL || 'https://localhost:7653';
       // Use promptOverride if provided, otherwise use currentPost.image_prompt
       const promptToUse = promptOverride ?? currentPost.image_prompt;
       const response = await fetch(`${endpointUrl}/api/v1/contentgen/regenerate`, {
@@ -259,7 +258,7 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
 
   // Handler for the refresh button to always use the latest prompt from the backend
   const handleRegenerateClick = async () => {
-    const endpointUrl = getServiceURL('content-gen');
+    const endpointUrl = import.meta.env.VITE_CONTENT_GEN_URL || 'https://localhost:7653';
     const params = new URLSearchParams();
     params.append('week_num', week.toString());
     params.append('day_num', (day + 1).toString());
@@ -288,7 +287,7 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
     if (edit) {
       try {
         setIsLoadingText(true);
-        const endpointUrl = getServiceURL('content-gen');
+        const endpointUrl = import.meta.env.VITE_CONTENT_GEN_URL || 'https://localhost:7653';
         const selectedImageIndex = selectedImages[postIndex - 1] - 1;
 
         // Create updated text versions array
@@ -336,7 +335,7 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
   const handleReselectText = async (index: number) => {
     try {
       setIsLoadingText(true);
-      const endpointUrl = getServiceURL('content-gen');
+      const endpointUrl = import.meta.env.VITE_CONTENT_GEN_URL || 'https://localhost:7653';
       const response = await fetch(`${endpointUrl}/api/v1/contentgen/reselect-text`, {
         method: 'POST',
         headers: {
@@ -405,7 +404,7 @@ const SocialMediaPost: React.FC<SocialMediaPostProps> = (props) => {
         setText(bestCaption.text);
 
         // Save the new caption to backend
-        const endpointUrl = getServiceURL('content-gen');
+        const endpointUrl = import.meta.env.VITE_CONTENT_GEN_URL || 'https://localhost:7653';
         const selectedImageIndex = selectedImages[postIndex - 1] - 1;
 
         const updatedTextVersions = [...((currentPost.text_versions as any) || ([] as string[]))];

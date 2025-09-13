@@ -11,7 +11,6 @@ import posthog from '../../../shared/utils/posthog';
 import { useAuth } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
 import Cookies from 'universal-cookie';
-import { getServiceURL } from '../../../shared/utils/getServiceURL';
 import { FirebaseError } from 'firebase/app';
 import registerUser from '../../users/utils/registerUser';
 import { CircularProgress } from '@mui/material';
@@ -33,7 +32,7 @@ export default function AuthForm({ login = false, setAuthError }: AuthFormProps)
   const [loading, setLoading] = useState(false); // Loading state
   // const navigate = useNavigate(); // Removed unused variable
   const cookies = new Cookies();
-  const data_url = getServiceURL('data');
+  const data_url = import.meta.env.VITE_DATA_URL || 'https://localhost:7651';
 
   const handleResendEmail = async () => {
     setLoading(true);

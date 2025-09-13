@@ -8,7 +8,6 @@ import Dropdown from '../../../shared/components/ui/Dropdown';
 import FormsContainer from '../../../shared/components/layout/FormsContainer';
 import BackButton from '../../../shared/components/buttons/BackButton';
 import NextButton from '../../../shared/components/buttons/NextButton';
-import { getServiceURL } from '../../../shared/utils/getServiceURL';
 import AudienceDetails from '../../../components/AudienceDetails';
 import posthog from '../../../shared/utils/posthog';
 import { useAuth } from '../../auth/context/AuthContext';
@@ -55,7 +54,7 @@ const AudienceForm = ({ handleNext, handleBack, review = false }: AudienceFormPr
   useEffect(() => {
     if (campaignInfo.campaign_id !== undefined) return;
     if (audienceEmotion.length !== 0 && audienceInterests.length !== 0) return;
-    const endpointUrl = `${getServiceURL('llm')}/api/v1/llm/openai`;
+    const endpointUrl = `${import.meta.env.VITE_LLM_URL || 'https://localhost:7652'}/api/v1/llm/openai`;
     fetch(endpointUrl, {
       method: 'POST',
       headers: {

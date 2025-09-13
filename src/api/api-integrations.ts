@@ -1,8 +1,7 @@
-import { getServiceURL } from '../shared/utils/getServiceURL';
 import axios from 'axios';
 import useApi from './useApi';
 
-const API_URL = getServiceURL('data');
+const API_URL = import.meta.env.VITE_DATA_URL || 'https://localhost:7651';
 const _axios = axios.create({
   baseURL: `${API_URL}/api/v1`,
 });

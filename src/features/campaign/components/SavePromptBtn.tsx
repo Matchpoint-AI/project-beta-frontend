@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import PurpleButton from '../../../shared/components/buttons/PurpleButton';
 import { CircularProgress } from '@mui/material';
 import ErrorToast from '../../../shared/components/feedback/ErrorToast';
-import { getServiceURL } from '../../../shared/utils/getServiceURL';
 import { useAuth } from '../../../features/auth/context/AuthContext';
 
 interface SavePromptBtnProps {
@@ -23,7 +22,7 @@ export default function SavePromptBtn({
   const { profile } = useAuth();
 
   const submitHandler = async () => {
-    const endpointUrl = getServiceURL('content-gen');
+    const endpointUrl = import.meta.env.VITE_CONTENT_GEN_URL || 'https://localhost:7653';
 
     setError(false);
     setLoading(true);

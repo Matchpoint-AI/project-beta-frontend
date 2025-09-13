@@ -1,11 +1,10 @@
-import { getServiceURL } from './getServiceURL';
 
 // /api/v1/fetchContent
 export const fetchWebsiteData = async (
   url: string,
   setProgressDescription: (description: string) => void
 ) => {
-  const llm_url = getServiceURL('llm');
+  const llm_url = import.meta.env.VITE_LLM_URL || 'https://localhost:7652';
   const response = await fetch(`${llm_url}/api/v1/llm/fetch-content`, {
     method: 'POST',
     headers: {

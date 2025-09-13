@@ -1,7 +1,6 @@
-import { getServiceURL } from './getServiceURL';
 
 export default async function fetchPrompts(token: string) {
-  const url = `${getServiceURL('content-gen')}/api/v1/app_prompts`;
+  const url = `${import.meta.env.VITE_CONTENT_GEN_URL || 'https://localhost:7653'}/api/v1/app_prompts`;
   const response = await fetch(url, {
     headers: {
       Authorization: `Bearer ${token}`,

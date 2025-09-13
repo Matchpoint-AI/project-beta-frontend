@@ -4,7 +4,6 @@ import useFetchUserData from '../hooks/useFetchUserData';
 import UserDataBlocks from '../components/UserDataBlocks';
 import { CircularProgress } from '@mui/material';
 import { RiErrorWarningLine } from 'react-icons/ri';
-import { getServiceURL } from '../../../shared/utils/getServiceURL';
 import { CampaignContentWin, CampaignThreadWin } from '../../campaign';
 import { useAuth } from '../../auth/context/AuthContext';
 import useFetchThreadMessages from '../../../shared/hooks/useFetchThreadMessages';
@@ -31,7 +30,7 @@ export default function UserDataPage() {
     useFetchThreadMessages();
 
   const handleOpenWindow = async (id: string) => {
-    const endpointUrl = getServiceURL('data');
+    const endpointUrl = import.meta.env.VITE_DATA_URL || 'https://localhost:7651';
     const response = await fetch(`${endpointUrl}/api/v1/users/campaign/${id}`, {
       headers: {
         Authorization: `Bearer ${profile?.token}`,

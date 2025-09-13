@@ -6,7 +6,6 @@ import { IoMdCheckmarkCircleOutline } from 'react-icons/io';
 import { RiErrorWarningLine } from 'react-icons/ri';
 import { useAuthentication } from '../../../lib/firebase';
 import { CircularProgress } from '@mui/material';
-import { getServiceURL } from '../../../shared/utils/getServiceURL';
 import Cookies from 'universal-cookie';
 
 interface VerifyEmailProps {
@@ -35,7 +34,7 @@ export default function VerifyEmail({ setOpen }: VerifyEmailProps) {
   };
 
   const resendVerification = async () => {
-    const endpointUrl = getServiceURL('data');
+    const endpointUrl = import.meta.env.VITE_DATA_URL || 'https://localhost:7651';
     const email = cookies.get('email');
     const name = cookies.get('name');
     setResendLoading(true);

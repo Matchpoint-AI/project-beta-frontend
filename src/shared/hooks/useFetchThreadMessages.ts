@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { getServiceURL } from '../utils/getServiceURL';
 import { useAuth } from '../../features/auth/context/AuthContext';
 export type Messages = {
   thread_id: string;
@@ -14,7 +13,7 @@ export default function useFetchThreadMessages() {
   const fetchMessages = async (thread_id: string) => {
     if (!profile?.token) return;
 
-    const endpointUrl = getServiceURL('llm');
+    const endpointUrl = import.meta.env.VITE_LLM_URL || 'https://localhost:7652';
     const response = await fetch(`${endpointUrl}/api/v1/threads/${thread_id}`, {
       headers: {
         Authorization: `Bearer ${profile.token}`,

@@ -1,6 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import fetchPrompts from './fetchPrompts';
-import { getServiceURL } from './getServiceURL';
 
 // Mock getServiceURL
 vi.mock('./getServiceURL', () => ({

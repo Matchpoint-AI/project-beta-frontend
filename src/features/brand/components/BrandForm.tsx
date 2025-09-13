@@ -10,7 +10,6 @@ import pdfWorker from 'pdfjs-dist/build/pdf.worker.mjs?worker&url';
 import CircularProgress from '@mui/material/CircularProgress';
 import BackButton from '../../../shared/components/buttons/BackButton';
 import NextButton from '../../../shared/components/buttons/NextButton';
-import { getServiceURL } from '../../../shared/utils/getServiceURL';
 import { LuPlus } from 'react-icons/lu';
 import { trackBrandGuideUpload } from '../../../shared/utils/analytics';
 
@@ -54,7 +53,7 @@ const BrandForm = ({ handleBack, handleNext }: BrandFormProps) => {
   };
 
   const extractBrandInfo = async (guideLines: string) => {
-    const endpointUrl = `${getServiceURL('llm')}/api/v1/llm/openai`;
+    const endpointUrl = `${import.meta.env.VITE_LLM_URL || 'https://localhost:7652'}/api/v1/llm/openai`;
     const res = await fetch(endpointUrl, {
       method: 'POST',
       headers: {

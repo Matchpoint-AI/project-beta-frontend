@@ -12,7 +12,6 @@ import Sidebar from '../../../shared/components/layout/Sidebar';
 import { useAuth } from '../../auth/context/AuthContext';
 import { BrandContext } from '../../brand/context/BrandContext';
 import { CampaignContext } from '../context/CampaignContext';
-import { getServiceURL } from '../../../shared/utils/getServiceURL';
 import { displayPeriod } from '../../../shared/utils/calculateTiming';
 import handleNavigate from '../../../shared/utils/handleNavigate';
 import { trackCampaignBriefCreation, trackFeatureUsage } from '../../../shared/utils/analytics';
@@ -57,7 +56,7 @@ const Campaign = () => {
   const [timing, setTiming] = useState('Timing not selected');
   const [service, setService] = useState(' not selected');
   const { profile } = useAuth();
-  const endpointUrl = getServiceURL('data');
+  const endpointUrl = import.meta.env.VITE_DATA_URL || 'https://localhost:7651';
   const [error, setError] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();

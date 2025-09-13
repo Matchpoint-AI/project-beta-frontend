@@ -10,7 +10,6 @@ import FormsContainer from '../../../shared/components/layout/FormsContainer';
 import BackButton from '../../../shared/components/buttons/BackButton';
 import ApproveButton from '../../../shared/components/buttons/ApproveButton';
 import CampaignSetupCompleteDialog from './CampaignSetupCompleteDialog';
-import { getServiceURL } from '../../../shared/utils/getServiceURL';
 import { SparklesMessage } from '../../../shared/components/ui/SparklesMessage';
 import CampaignBriefTimingBlock from './CampaignBriefTimingBlock';
 import dayjs from 'dayjs';
@@ -91,7 +90,7 @@ Get ${campaignInfo?.audienceGender} who are interested in ${
       setCampaignSummary(campaignInfo?.summary);
       return;
     }
-    const endpointUrl = `${getServiceURL('llm')}/api/v1/llm/openai`;
+    const endpointUrl = `${import.meta.env.VITE_LLM_URL || 'https://localhost:7652'}/api/v1/llm/openai`;
     fetch(endpointUrl, {
       method: 'POST',
       headers: {

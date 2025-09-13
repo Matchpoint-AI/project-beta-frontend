@@ -8,7 +8,6 @@ import ReviewForm from './ReviewForm';
 import { CampaignContext } from '../../campaign/context/CampaignContext';
 import OnboardStepsBar from './OnboardStepsBar';
 import { useAuth } from '../../auth/context/AuthContext';
-import { getServiceURL } from '../../../shared/utils/getServiceURL';
 import BusinessForm from './BusinessForm';
 import ErrorToast from '../../../shared/components/feedback/ErrorToast';
 import StepContainer from './StepContainer';
@@ -21,7 +20,7 @@ const Onboard = ({ edit = false }: any) => {
   const [currentStep, setCurrentStep] = useState(1);
   const [businessInfo, setBusinessInfo] = useState<any>({});
   const [errorSaving, setErrorSaving] = useState(false);
-  const endpointUrl = getServiceURL('data');
+  const endpointUrl = import.meta.env.VITE_DATA_URL || 'https://localhost:7651';
 
   const navigate = useNavigate();
 

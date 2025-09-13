@@ -1,7 +1,6 @@
 import React, { FormEventHandler, useEffect, useState } from 'react';
 import { useAuth } from '../../../features/auth/context/AuthContext';
 import { Button, Dialog, DialogContent, TextField } from '@mui/material';
-import { getServiceURL } from '../../../shared/utils/getServiceURL';
 import Cookies from 'universal-cookie';
 import { PiArrowsClockwiseBold } from 'react-icons/pi';
 import styled from '@emotion/styled';
@@ -136,7 +135,7 @@ export default function ModifyPrompt({
 
           if (imageData.image_url) {
             // Update the prompt in backend for consistency
-            const endpointUrl = getServiceURL('content-gen');
+            const endpointUrl = import.meta.env.VITE_CONTENT_GEN_URL || 'https://localhost:7653';
             await fetch(`${endpointUrl}/api/v1/image_prompt`, {
               method: 'POST',
               headers: {
@@ -164,7 +163,7 @@ export default function ModifyPrompt({
       }
 
       // Fallback to legacy image generation
-      const endpointUrl = getServiceURL('content-gen');
+      const endpointUrl = import.meta.env.VITE_CONTENT_GEN_URL || 'https://localhost:7653';
       const response = await fetch(`${endpointUrl}/api/v1/image_prompt`, {
         method: 'POST',
         headers: {
@@ -202,7 +201,7 @@ export default function ModifyPrompt({
       return;
     }
 
-    const endpointUrl = getServiceURL('content-gen');
+    const endpointUrl = import.meta.env.VITE_CONTENT_GEN_URL || 'https://localhost:7653';
     const params = new URLSearchParams();
     params.append('week_num', week.toString());
     params.append('day_num', day.toString());
@@ -241,7 +240,7 @@ export default function ModifyPrompt({
 
   const fetchRemainingGenerations = async () => {
     try {
-      const endpointUrl = getServiceURL('content-gen');
+      const endpointUrl = import.meta.env.VITE_CONTENT_GEN_URL || 'https://localhost:7653';
       const params = new URLSearchParams();
 
       params.append('week_num', week.toString());

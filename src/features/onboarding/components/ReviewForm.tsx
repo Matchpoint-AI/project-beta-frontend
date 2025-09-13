@@ -1,7 +1,6 @@
 import React, { FormEventHandler, useContext, useEffect, useState } from 'react';
 import { BrandContext } from '../../brand/context/BrandContext';
 import BackButton from '../../../shared/components/buttons/BackButton';
-import { getServiceURL } from '../../../shared/utils/getServiceURL';
 import { CircularProgress } from '@mui/material';
 import FormsContainer from '../../../shared/components/layout/FormsContainer';
 import BrandDetailsReview from '../../brand/components/BrandDetailsReview';
@@ -22,7 +21,7 @@ const ReviewForm = ({ setFormStep, handleBack, handleSave, saving }: ReviewFormP
   const [, setRunValidation] = useState(0);
 
   const getSummary = async () => {
-    const url = `${getServiceURL('llm')}/api/v1/llm/openai`;
+    const url = `${import.meta.env.VITE_LLM_URL || 'https://localhost:7652'}/api/v1/llm/openai`;
     if (businessInfo?.summary !== undefined) {
       setSummary(businessInfo?.summary);
       return;

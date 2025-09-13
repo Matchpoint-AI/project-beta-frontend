@@ -8,7 +8,6 @@ import Dialog from '@mui/material/Dialog';
 import { useAuth } from '../../../features/auth/context/AuthContext';
 import { BrandContext } from '../../brand/context/BrandContext';
 import { CampaignContext } from '../../../features/campaign/context/CampaignContext';
-import { getServiceURL } from '../../../shared/utils/getServiceURL';
 import handleNavigate from '../../../shared/utils/handleNavigate';
 import posthog from '../../../shared/utils/posthog';
 import { plannerApi, policyApi } from '../../../api/contentGenerationApi';
@@ -27,7 +26,7 @@ const CampaignSetupCompleteDialog: React.FC<Props> = ({ setCurrentStep, open }) 
   // const [progress, setProgress] = useState(0);
 
   // Endpoint URL
-  const endpointUrl = getServiceURL('data');
+  const endpointUrl = import.meta.env.VITE_DATA_URL || 'https://localhost:7651';
   const navigate = useNavigate();
 
   const updateStatus = (startDate: any) => {
@@ -285,7 +284,7 @@ const CampaignSetupCompleteDialog: React.FC<Props> = ({ setCurrentStep, open }) 
         }
 
         const params = new URLSearchParams(baseParams);
-        const generateUrl = `${getServiceURL('content-gen')}/api/v1/contentgen/generate?${params.toString()}`;
+        const generateUrl = `${import.meta.env.VITE_CONTENT_GEN_URL || 'https://localhost:7653'}/api/v1/contentgen/generate?${params.toString()}`;
 
         // Always include auth headers for content-gen service
         const response = await fetch(generateUrl, {

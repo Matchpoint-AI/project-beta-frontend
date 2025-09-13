@@ -1,8 +1,7 @@
-import { getServiceURL } from '../../../shared/utils/getServiceURL';
 import posthog from '../../../shared/utils/posthog';
 
 export default async function registerUser(email: string, name: string, password: string) {
-  const endpointUrl = getServiceURL('data');
+  const endpointUrl = import.meta.env.VITE_DATA_URL || 'https://localhost:7651';
   const url = `${endpointUrl}/api/v1/user/register`;
   const user_profile = {
     email,

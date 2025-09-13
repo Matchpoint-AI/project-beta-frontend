@@ -23,7 +23,6 @@ import FormsContainer from '../../../shared/components/layout/FormsContainer';
 import NextButton from '../../../shared/components/buttons/NextButton';
 import BackButton from '../../../shared/components/buttons/BackButton';
 // import ColorPicker from '../../../shared/components/ui/ColorPicker';
-import { getServiceURL } from '../../../shared/utils/getServiceURL';
 
 // Types matching backend brand_knowledge.py models
 interface BrandPersonality {
@@ -194,7 +193,7 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
     try {
       setLoading(true);
       const response = await fetch(
-        `${getServiceURL('content-gen')}/api/v1/brand-knowledge/by-brand/${businessInfo.id}`,
+        `${import.meta.env.VITE_CONTENT_GEN_URL || 'https://localhost:7653'}/api/v1/brand-knowledge/by-brand/${businessInfo.id}`,
         {
           headers: {
             Authorization: `Bearer ${authState?.token}`,
@@ -350,7 +349,7 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
 
       const campaignIds = businessInfo.campaigns.map((c) => c.campaign_id);
       const response = await fetch(
-        `${getServiceURL('content-gen')}/api/v1/brand-knowledge/extract-from-campaigns`,
+        `${import.meta.env.VITE_CONTENT_GEN_URL || 'https://localhost:7653'}/api/v1/brand-knowledge/extract-from-campaigns`,
         {
           method: 'POST',
           headers: {
@@ -398,8 +397,8 @@ const BrandKnowledgeForm: React.FC<BrandKnowledgeFormProps> = ({
       }
 
       const endpoint = existingData
-        ? `${getServiceURL('content-gen')}/api/v1/brand-knowledge/${existingData.brand_id}`
-        : `${getServiceURL('content-gen')}/api/v1/brand-knowledge`;
+        ? `${import.meta.env.VITE_CONTENT_GEN_URL || 'https://localhost:7653'}/api/v1/brand-knowledge/${existingData.brand_id}`
+        : `${import.meta.env.VITE_CONTENT_GEN_URL || 'https://localhost:7653'}/api/v1/brand-knowledge`;
 
       const response = await fetch(endpoint, {
         method: existingData ? 'PUT' : 'POST',

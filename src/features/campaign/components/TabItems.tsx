@@ -1,7 +1,6 @@
 // TabItems.tsx
 
 import React from 'react';
-import { getServiceURL } from '../../../shared/utils/getServiceURL';
 import { useParams } from 'react-router-dom';
 import { useAuth } from '../../../features/auth/context/AuthContext';
 import { MdCalendarToday } from 'react-icons/md';
@@ -25,7 +24,7 @@ const TabItems: React.FC<TabItemsProps> = ({
   const { profile } = useAuth();
 
   const handleExportChange = async () => {
-    const endpointUrl = getServiceURL('data');
+    const endpointUrl = import.meta.env.VITE_DATA_URL || 'https://localhost:7651';
     try {
       const params = new URLSearchParams({
         campaign_id: id as string,

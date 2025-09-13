@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Sidebar from '../../../shared/components/layout/Sidebar';
 import { useAuth } from '../../auth/context/AuthContext';
-import { getServiceURL } from '../../../shared/utils/getServiceURL';
 import { BrandContext } from '../../brand/context/BrandContext';
 import { CircularProgress } from '@mui/material';
 import { RiErrorWarningLine } from 'react-icons/ri';
@@ -19,7 +18,7 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(!businessInfo?.campaigns);
   const [error, setError] = useState(false);
   const { profile, isAuthenticated } = useAuth();
-  const endpointUrl = getServiceURL('data');
+  const endpointUrl = import.meta.env.VITE_DATA_URL || 'https://localhost:7651';
 
   const navigate = useNavigate();
 

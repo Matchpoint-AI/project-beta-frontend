@@ -9,7 +9,6 @@ import MonthHeader from './MonthHeader';
 import EventWrapper from './EventWrapper';
 import { useAuth } from '../../../features/auth/context/AuthContext';
 import { useParams } from 'react-router-dom';
-import { getServiceURL } from '../../../shared/utils/getServiceURL';
 
 interface Campaign {
   campaign_id: string;
@@ -109,7 +108,7 @@ const CalendarCampaign: React.FC<CalendarCampaignProps> = ({ campaign }) => {
     };
   }, []);
 
-  const endpointUrl = getServiceURL('data');
+  const endpointUrl = import.meta.env.VITE_DATA_URL || 'https://localhost:7651';
   useEffect(() => {
     if (profile?.token === '') return;
     const params = new URLSearchParams({

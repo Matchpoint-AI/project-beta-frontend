@@ -2,7 +2,6 @@ import JSZip from 'jszip';
 import { jsPDF } from 'jspdf';
 import { Document, HeadingLevel, Packer, Paragraph } from 'docx';
 import emojiRegex from 'emoji-regex';
-import { getServiceURL } from './getServiceURL';
 
 // Helper function to safely access nested object properties
 const safeProp = (obj: Record<string, unknown>, path: string): string => {
@@ -553,7 +552,7 @@ export const organizeAndSavePosts = async (
 
 const convertColors = async (colors: string[]): Promise<Array<{ name?: string }>> => {
   // Define the request body
-  const url = getServiceURL('llm');
+  const url = import.meta.env.VITE_LLM_URL || 'https://localhost:7652';
   const requestBody = {
     hex_codes: colors, // Hex codes to send
   };

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { getServiceURL } from '../../../shared/utils/getServiceURL';
 import ErrorToast from '../../../shared/components/feedback/ErrorToast';
 import { CircularProgress } from '@mui/material';
 
@@ -20,7 +19,7 @@ export default function ResetPromptBtn({
   const onPromptReset = async () => {
     setError('');
     setLoading(true);
-    const endpointUrl = `${getServiceURL('content-gen')}/api/v1/app_prompts`;
+    const endpointUrl = `${import.meta.env.VITE_CONTENT_GEN_URL || 'https://localhost:7653'}/api/v1/app_prompts`;
     const response = await fetch(endpointUrl, {
       method: 'PUT',
       headers: {

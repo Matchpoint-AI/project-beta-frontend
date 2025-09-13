@@ -1,4 +1,4 @@
-import { getServiceURL } from '../../../shared/utils/getServiceURL';
+// Removed getServiceURL import - using environment variables instead
 
 // Types for the new API
 export interface BrandCreate {
@@ -72,7 +72,8 @@ export interface BrandKnowledge {
   targetAudience?: string;
 }
 
-const API_BASE_URL = getServiceURL('content-gen'); // Use content-gen service for now
+// Use environment variable for content generation service URL
+const API_BASE_URL = import.meta.env.VITE_CONTENT_GEN_URL || 'https://localhost:7653';
 
 class BrandV2ApiError extends Error {
   constructor(

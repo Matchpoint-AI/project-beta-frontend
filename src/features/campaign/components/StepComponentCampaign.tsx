@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 // import { getAuth } from "firebase/auth";
 // import { useAuthentication } from "../firebase";
 import { useAuth } from '../../auth/context/AuthContext';
-import { getServiceURL } from '../../../shared/utils/getServiceURL';
 import { CircularProgress } from '@mui/material';
 import handleNavigate from '../../../shared/utils/handleNavigate';
 import scrapeProduct from '../../onboarding/utils/scrapeProduct';
@@ -61,7 +60,7 @@ const StepCampaignComponent: React.FC<StepCampaignProps> = ({
   const navigate = useNavigate();
   const { profile } = useAuth();
 
-  const endpointUrl = getServiceURL('data');
+  const endpointUrl = import.meta.env.VITE_DATA_URL || 'https://localhost:7651';
   // const endpointUrl = "http://localhost:5000";
 
   const handleSave = async () => {

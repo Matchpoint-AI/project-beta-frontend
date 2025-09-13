@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useAuth } from '../../auth/context/AuthContext';
-import { getServiceURL } from '../../../shared/utils/getServiceURL';
 
 type User = {
   id: string;
@@ -37,7 +36,7 @@ export function UsersContextProvider({ children }: { children: React.ReactNode }
         setError('Admin access required');
         return;
       }
-      const serviceUrl = getServiceURL('data');
+      const serviceUrl = import.meta.env.VITE_DATA_URL || 'https://localhost:7651';
       let endpointUrl = `${serviceUrl}/api/v1/users`;
 
       if (offset) endpointUrl += `?offset=${offset}`;

@@ -1,4 +1,3 @@
-import { getServiceURL } from '../../../shared/utils/getServiceURL';
 
 type ProfileUpdate = {
   email: string;
@@ -11,7 +10,7 @@ export default async function updateUserProfile(
   email: string,
   password: string
 ) {
-  const endpointUrl = `${getServiceURL('data')}/api/v1/user/update`;
+  const endpointUrl = `${import.meta.env.VITE_DATA_URL || 'https://localhost:7651'}/api/v1/user/update`;
   const response = await fetch(endpointUrl, {
     method: 'POST',
     headers: {

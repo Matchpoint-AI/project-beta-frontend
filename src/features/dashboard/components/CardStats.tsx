@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../auth/context/AuthContext';
-import { getServiceURL } from '../../../shared/utils/getServiceURL';
 
 const CardStats = ({ id }: { id: string }) => {
   const { profile } = useAuth();
@@ -8,7 +7,7 @@ const CardStats = ({ id }: { id: string }) => {
   const [approved, setApproved] = useState(0);
   const [readyForReview, setReadyForReview] = useState(0);
   const [generating, setGenerating] = useState(0);
-  const endpointUrl = getServiceURL('data');
+  const endpointUrl = import.meta.env.VITE_DATA_URL || 'https://localhost:7651';
   useEffect(() => {
     if (profile?.token === '' || id === undefined) return;
     const params = new URLSearchParams({

@@ -5,7 +5,6 @@ import { TransitionProps } from '@mui/material/transitions';
 import { CircularProgress } from '@mui/material';
 import { Messages } from '../../users/pages/UserDataPage';
 import { ClearIcon } from '@mui/x-date-pickers/icons';
-import { getServiceURL } from '../../../shared/utils/getServiceURL';
 import { useAuth } from '../../auth/context/AuthContext';
 
 const Transition = React.forwardRef(function Transition(
@@ -40,7 +39,7 @@ export default function CampaignThreadWin({
 
   const handleKeyDown: KeyboardEventHandler = async (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
-      const endpointUrl = getServiceURL('llm');
+      const endpointUrl = import.meta.env.VITE_LLM_URL || 'https://localhost:7652';
       setLoading(true);
       addMessage(prompt);
       setPrompt('');

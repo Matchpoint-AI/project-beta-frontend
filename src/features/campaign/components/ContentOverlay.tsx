@@ -4,7 +4,6 @@ import PostPreview from './PostPreview';
 import { useAuth } from '../../../features/auth/context/AuthContext';
 import { IoIosArrowBack } from 'react-icons/io';
 import { IoIosArrowForward } from 'react-icons/io';
-import { getServiceURL } from '../../../shared/utils/getServiceURL';
 import { CircularProgress, Dialog, DialogContent } from '@mui/material';
 import ErrorToast from '../../../shared/components/feedback/ErrorToast';
 import moment from 'moment-timezone';
@@ -50,7 +49,7 @@ const ContentOverlay = ({
   approved,
   onApprovalUpdate,
 }: ContentOverlayProps) => {
-  const endpointUrl = getServiceURL('content-gen');
+  const endpointUrl = import.meta.env.VITE_CONTENT_GEN_URL || 'https://localhost:7653';
   const imageIndex = [1, 1, 1];
   const { profile } = useAuth();
   const [loading, setLoading] = useState(false); // Loading state

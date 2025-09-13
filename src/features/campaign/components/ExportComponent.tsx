@@ -3,7 +3,6 @@ import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
 import { useAuth } from '../../../features/auth/context/AuthContext';
 import { useParams } from 'react-router-dom';
-import { getServiceURL } from '../../../shared/utils/getServiceURL';
 import LoadingModal from '../../../components/ExportLoading';
 import {
   createImageThumbnailsPDF,
@@ -55,7 +54,7 @@ const ExportComponent = ({ campaign }: { campaign: CampaignInfoType }) => {
 
   const { profile } = useAuth();
   const { id } = useParams();
-  const endpointUrl = getServiceURL('content-gen');
+  const endpointUrl = import.meta.env.VITE_CONTENT_GEN_URL || 'https://localhost:7653';
 
   useEffect(() => {
     if (!campaign) return;
@@ -171,7 +170,7 @@ const ExportComponent = ({ campaign }: { campaign: CampaignInfoType }) => {
       updateStep(0, { loading: true });
       const brandProfilePDF = await fetchAndCreatePDF(
         id as string,
-        getServiceURL('data'),
+        import.meta.env.VITE_DATA_URL || 'https://localhost:7651',
         profile?.token || ''
       );
       if (brandProfilePDF) bigFolder?.file('BrandProfile_CampaignBrief.pdf', brandProfilePDF);
@@ -198,7 +197,7 @@ const ExportComponent = ({ campaign }: { campaign: CampaignInfoType }) => {
       emptyLoading();
 
       try {
-        const endpointUrl = getServiceURL('content-gen');
+        const endpointUrl = import.meta.env.VITE_CONTENT_GEN_URL || 'https://localhost:7653';
         const response = await fetch(`${endpointUrl}/api/v1/contentgen/track-export`, {
           method: 'POST',
           headers: {
@@ -252,7 +251,7 @@ const ExportComponent = ({ campaign }: { campaign: CampaignInfoType }) => {
     }
     const transformedWeeks = currentValues.map((week) => week.toLowerCase().replace(' ', '_'));
     _setLoading(true);
-    const endpointUrl = getServiceURL('data');
+    const endpointUrl = import.meta.env.VITE_DATA_URL || 'https://localhost:7651';
     try {
       const response = await fetch(`${endpointUrl}/api/v1/approve-all`, {
         method: 'POST',

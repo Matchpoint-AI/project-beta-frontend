@@ -1,4 +1,3 @@
-import { getServiceURL } from '../../../shared/utils/getServiceURL';
 
 interface ScrapedProduct {
   name: string;
@@ -11,12 +10,12 @@ const scrapeProduct = async (
   name?: string,
   description?: string
 ): Promise<ScrapedProduct> => {
-  let endpointUrl = `${getServiceURL('llm')}/api/v1/llm/fetch-content`;
+  let endpointUrl = `${import.meta.env.VITE_LLM_URL || 'https://localhost:7652'}/api/v1/llm/fetch-content`;
   let body: Record<string, unknown> = {};
   if (url) {
     body = { url, subject: 'product' };
   } else if (name || description) {
-    endpointUrl = `${getServiceURL('llm')}/api/v1/llm/fetch-content`;
+    endpointUrl = `${import.meta.env.VITE_LLM_URL || 'https://localhost:7652'}/api/v1/llm/fetch-content`;
     body = { name, description, subject: 'product' };
   } else {
     throw new Error('No product URL or name/description provided');

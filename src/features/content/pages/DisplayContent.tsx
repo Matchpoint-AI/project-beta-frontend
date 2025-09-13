@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../../../shared/components/layout/Sidebar';
 import { useLocation } from 'react-router-dom';
-import { getServiceURL } from '../../../shared/utils/getServiceURL';
 
 const DisplayContent = () => {
   const campaign = useLocation().search;
   const campaign_id = campaign.split('=', 2)[1]; // Access campaignId
 
-  const endpointUrl = getServiceURL('data');
+  const endpointUrl = import.meta.env.VITE_DATA_URL || 'https://localhost:7651';
 
   const getUpscaledUrls = async () => {
     const response = await fetch(
